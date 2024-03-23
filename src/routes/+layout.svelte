@@ -32,7 +32,7 @@
 </style>
 
 <svelte:head>
-	<title>{$page.data.title||"Gallery Sonder"}</title>
+	<title>Gallery Sonder</title>
 	<link rel="stylesheet" href="https://use.typekit.net/oqt1xky.css">
 	{#if $page.data.meta_description}
 		<meta name="description" content={$page.data.meta_description} />
