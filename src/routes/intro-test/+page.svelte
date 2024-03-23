@@ -1,121 +1,71 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-    import image1 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece1.jpg"
-    import image2 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece2.png"
-    import image3 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece4.jpg"
-    import image4 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece5.jpg"
-    import image5 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece6.jpg"
-    import image6 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece7.png"
-    import image7 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece8.jpg"
-    import image8 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg"
+    import { onMount } from 'svelte'
+    import { tweened } from "svelte/motion";
+    import { cubicOut } from 'svelte/easing';
+    import { interpolateString as interpolate } from 'd3-interpolate';
+  
+    const TRANSITION_DURATION = 100;
+  
+    let currentPathIndex = 0;
+  
+    const O_paths = [
+      "M0,47.5C0,18.49,19.84,0,51.01,0s51.01,18.49,51.01,47.5-19.84,47.5-51.01,47.5S0,76.51,0,47.5ZM70.98,47.5c0-12.95-7.83-21.32-19.97-21.32s-19.97,8.37-19.97,21.32,7.83,21.32,19.97,21.32,19.97-8.37,19.97-21.32Z",
+      "M145.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h94.95Z",
+      "M973.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h922.95Z",
+      "M2895.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h2844.95Z"
+    ];
+  
+    let tweenedPath = tweened(O_paths[0], {
+      duration: TRANSITION_DURATION,
+      easing: cubicOut,
+      interpolate: interpolate,
+      
+    });
+  
+    onMount(() => {
+        console.log(currentPathIndex)
+      const ticker = setInterval(() => {
+        currentPathIndex = (currentPathIndex + 1) % O_paths.length;
+        tweenedPath.set(O_paths[currentPathIndex]);
+        console.log(currentPathIndex)
+      }, TRANSITION_DURATION);
+  
+      return () => {
+        clearInterval(ticker);
+      };
+    });
+  </script>
+  
+  <style>
+    .clip-by-logo {
+    clip-path: url(#oClipPath);
+  }
 
-    import S from "$lib/assets/sonderAlphabet/normal/S.svg"
-    import O from "$lib/assets/sonderAlphabet/normal/O.svg"
-    import N from "$lib/assets/sonderAlphabet/normal/N.svg"
-    import D from "$lib/assets/sonderAlphabet/extended/D.svg"
-    import E from "$lib/assets/sonderAlphabet/normal/E.svg"
-    import R from "$lib/assets/sonderAlphabet/normal/R.svg"
+  .gradient-logo {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
 
-    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
-    import { faFacebookF, faXTwitter, faInstagram, faLinkedinIn} from '@fortawesome/free-brands-svg-icons'
-
-
-const TICK_LENGTH_IN_MS = 100;
-
-let animationPercent = 0;
-
-let ticker:NodeJS.Timeout;
-let sonderContainer:HTMLElement;
-
-let sonderOffsetLeft=0;
-let sonderOffsetTop=0;
-
-onMount(()=>{
-    let ticker = setInterval(()=>{
-        animationPercent++;
-    }, TICK_LENGTH_IN_MS)
-
-    if(sonderContainer){
-        sonderOffsetLeft=sonderContainer.offsetLeft;
-        sonderOffsetTop=sonderContainer.offsetTop;
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
     }
-});
-
-$:{
-    if(animationPercent==100)
-        clearInterval(ticker)
-}
-
-
-
-let innerWidth:number;
-let innerHeight:number;
-</script>
-
-<svelte:head>
-	<link rel="stylesheet" href="https://use.typekit.net/oqt1xky.css">
-    <title>Sonder Intro Sequence</title>
-</svelte:head>
-
-<svelte:window bind:innerWidth bind:innerHeight></svelte:window>
-
-
-<style>
-    .clip-by-logo{
-        clip-path: url(#sonderClipPath);
+    50% {
+      background-position: 100% 50%;
     }
-
-     .gradient-logo{
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-
-}
-
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-
-
-
-</style>
-
-<svg id="sonderLogo" width="0" height="0" viewBox="0 0 383 49" xmlns="http://www.w3.org/2000/svg">
-    <clipPath id="sonderClipPath">
-        <path d="M302.026 13.1236V18.7285H321.051V29.3915H302.026V34.9964H325.493V47.2998H225.973V0.820227H325.493V13.1236H302.026ZM0 41.8316L4.78466 30.8269C9.91108 34.4495 16.4045 36.2951 23.9916 36.2951C29.3231 36.2951 31.7155 35.4065 31.7155 33.4243C31.7155 31.6471 30.4851 31.1686 23.3765 30.4851C7.10864 28.913 2.11892 25.222 2.11892 15.2426C2.11892 5.26312 10.2528 0 24.1967 0C32.4673 0 39.6443 1.91386 45.1125 5.53653L40.3962 16.0628C36.2267 13.2603 31.1686 11.8249 25.4954 11.8249C19.8222 11.8249 17.7032 12.7135 17.7032 14.7641C17.7032 16.5413 18.8652 17.0197 25.9055 17.7032C42.1734 19.2753 47.2998 22.9664 47.2998 32.9458C47.2998 42.9252 39.576 48.12 24.5385 48.12C14.2856 48.12 5.67324 45.9327 0 41.8316ZM52.973 24.06C52.973 9.36426 63.0208 0 78.8102 0C94.5995 0 104.647 9.36426 104.647 24.06C104.647 38.7557 94.5995 48.12 78.8102 48.12C63.0208 48.12 52.973 38.7557 52.973 24.06ZM88.9263 24.06C88.9263 17.4982 84.9619 13.2603 78.8102 13.2603C72.6585 13.2603 68.694 17.4982 68.694 24.06C68.694 30.6218 72.6585 34.8597 78.8102 34.8597C84.9619 34.8597 88.9263 30.6218 88.9263 24.06ZM160.149 0.820227V47.2998H146.137L127.682 20.9158V47.2998H112.986V0.820227H130.006L145.454 22.9664V0.820227H160.149ZM217.839 24.06C217.839 38.4823 208.611 47.2998 193.505 47.2998H170.881V0.820227H193.505C208.611 0.820227 217.839 9.63767 217.839 24.06ZM202.118 24.06C202.118 17.2931 198.632 13.8072 191.865 13.8072H186.328V34.3128H191.865C198.632 34.3128 202.118 30.8269 202.118 24.06ZM364.523 47.2998L354.953 32.2623H349.622V47.2998H334.174V0.820227H361.857C373.819 0.820227 379.97 6.1517 379.97 16.5413C379.97 23.5815 377.099 28.3662 371.563 30.6218L382.226 47.2998H364.523ZM349.622 20.0956H359.533C362.814 20.0956 364.249 19.0019 364.249 16.5413C364.249 14.0806 362.814 12.9869 359.533 12.9869H349.622V20.0956Z" fill="#231F20"/>
-   </clipPath>
-</svg>
-
-<div class="w-screen h-screen absolute flex justify-center items-center">
-
-		<div class="h-12 w-[382px] gradient-logo clip-by-logo -translate-y-12"/>
-           
-      <div class="h-6 text-white gap-4 absolute bottom-32 flex flex-row">
-        <a href="https://twitter.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
-            <FontAwesomeIcon icon={faXTwitter} class="h-full" />
-        </a>
-        <a href="https://facebook.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
-            <FontAwesomeIcon icon={faFacebookF} class="h-full" />
-        </a>
-        <a href="https://www.instagram.com/gallerysonder/?hl=en" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
-            <FontAwesomeIcon icon={faInstagram} class="h-full" />
-        </a>
-        <a href="https://linkedin.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
-            <FontAwesomeIcon icon={faLinkedinIn} class="h-full" />
-        </a>
-      </div>
-
-</div>
-
-
-
-    
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  </style>
+  
+  <svg id="sonderLogo" width="0" height="0" viewBox="0 0 383 49" xmlns="http://www.w3.org/2000/svg">
+    <clipPath id="oClipPath">
+      <path d={$tweenedPath} />
+    </clipPath>
+  </svg>
+  
+  <div class="w-screen h-screen absolute flex justify-center items-center">
+    <div class="h-24 w-full gradient-logo clip-by-logo -translate-y-12" />
+  </div>
