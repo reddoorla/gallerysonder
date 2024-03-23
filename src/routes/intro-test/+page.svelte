@@ -1,76 +1,18 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-    import image1 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece1.jpg"
-    import image2 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece2.png"
-    import image3 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece4.jpg"
-    import image4 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece5.jpg"
-    import image5 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece6.jpg"
-    import image6 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece7.png"
-    import image7 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece8.jpg"
-    import image8 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg"
-
-    import S from "$lib/assets/sonderAlphabet/normal/S.svg"
-    import O from "$lib/assets/sonderAlphabet/normal/O.svg"
-    import N from "$lib/assets/sonderAlphabet/normal/N.svg"
-    import D from "$lib/assets/sonderAlphabet/extended/D.svg"
-    import E from "$lib/assets/sonderAlphabet/normal/E.svg"
-    import R from "$lib/assets/sonderAlphabet/normal/R.svg"
-
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import { faFacebookF, faXTwitter, faInstagram, faLinkedinIn} from '@fortawesome/free-brands-svg-icons'
-
-
-const TICK_LENGTH_IN_MS = 100;
-
-let animationPercent = 0;
-
-let ticker:NodeJS.Timeout;
-let sonderContainer:HTMLElement;
-
-let sonderOffsetLeft=0;
-let sonderOffsetTop=0;
-
-onMount(()=>{
-    let ticker = setInterval(()=>{
-        animationPercent++;
-    }, TICK_LENGTH_IN_MS)
-
-    if(sonderContainer){
-        sonderOffsetLeft=sonderContainer.offsetLeft;
-        sonderOffsetTop=sonderContainer.offsetTop;
-    }
-});
-
-$:{
-    if(animationPercent==100)
-        clearInterval(ticker)
-}
-
-
-
-let innerWidth:number;
-let innerHeight:number;
 </script>
-
-<svelte:head>
-	<link rel="stylesheet" href="https://use.typekit.net/oqt1xky.css">
-    <title>Sonder Intro Sequence</title>
-</svelte:head>
-
-<svelte:window bind:innerWidth bind:innerHeight></svelte:window>
-
 
 <style>
     .clip-by-logo{
         clip-path: url(#sonderClipPath);
     }
 
-     .gradient-logo{
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-
-}
+    .gradient-logo{
+	    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	    background-size: 400% 400%;
+	    animation: gradient 15s ease infinite;
+    }
 
 @keyframes gradient {
 	0% {
@@ -83,10 +25,6 @@ let innerHeight:number;
 		background-position: 0% 50%;
 	}
 }
-
-
-
-
 </style>
 
 <svg id="sonderLogo" width="0" height="0" viewBox="0 0 383 49" xmlns="http://www.w3.org/2000/svg">

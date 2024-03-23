@@ -4,6 +4,81 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+type LandingPageDocumentDataSlicesSlice = never;
+
+/**
+ * Content for Landing Page documents
+ */
+interface LandingPageDocumentData {
+	/**
+	 * Title field in *Landing Page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: landing_page.title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * Slice Zone field in *Landing Page*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: landing_page.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	slices: prismic.SliceZone<LandingPageDocumentDataSlicesSlice> /**
+	 * Meta Description field in *Landing Page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: landing_page.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */;
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *Landing Page*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: landing_page.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	meta_image: prismic.ImageField<never>;
+
+	/**
+	 * Meta Title field in *Landing Page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: landing_page.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	meta_title: prismic.KeyTextField;
+}
+
+/**
+ * Landing Page document from Prismic
+ *
+ * - **API ID**: `landing_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type LandingPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<LandingPageDocumentData>,
+	'landing_page',
+	Lang
+>;
+
 type PageDocumentDataSlicesSlice = RichTextSlice;
 
 /**
@@ -30,8 +105,7 @@ interface PageDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#slices
 	 */
-	slices: prismic.SliceZone<PageDocumentDataSlicesSlice>;
-	/**
+	slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
 	 * Meta Title field in *Page*
 	 *
 	 * - **Field Type**: Text
@@ -39,7 +113,7 @@ interface PageDocumentData {
 	 * - **API ID Path**: page.meta_title
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
+	 */;
 	meta_title: prismic.KeyTextField;
 
 	/**
@@ -80,7 +154,7 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 	Lang
 >;
 
-export type AllDocumentTypes = PageDocument;
+export type AllDocumentTypes = LandingPageDocument | PageDocument;
 
 /**
  * Primary content in *RichText → Primary*
@@ -134,6 +208,9 @@ declare module '@prismicio/client' {
 
 	namespace Content {
 		export type {
+			LandingPageDocument,
+			LandingPageDocumentData,
+			LandingPageDocumentDataSlicesSlice,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
