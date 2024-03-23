@@ -3,16 +3,18 @@
     import { tweened } from "svelte/motion";
     import { cubicOut } from 'svelte/easing';
     import { interpolateString as interpolate } from 'd3-interpolate';
+
+    import image1 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece1.jpg'
   
-    const TRANSITION_DURATION = 100;
+    const TRANSITION_DURATION = 3000;
   
     let currentPathIndex = 0;
   
     const O_paths = [
-      "M0,47.5C0,18.49,19.84,0,51.01,0s51.01,18.49,51.01,47.5-19.84,47.5-51.01,47.5S0,76.51,0,47.5ZM70.98,47.5c0-12.95-7.83-21.32-19.97-21.32s-19.97,8.37-19.97,21.32,7.83,21.32,19.97,21.32,19.97-8.37,19.97-21.32Z",
-      "M145.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h94.95Z",
-      "M973.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h922.95Z",
-      "M2895.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h2844.95Z"
+        "M52.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52h-1.95C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h1.95Z",
+        "M145.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h94.95Z",
+        "M973.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h922.95Z",
+        "M2895.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h2844.95Z"
     ];
   
     let tweenedPath = tweened(O_paths[0], {
@@ -67,5 +69,5 @@
   </svg>
   
   <div class="w-screen h-screen absolute flex justify-center items-center">
-    <div class="h-24 w-full gradient-logo clip-by-logo -translate-y-12" />
+    <div class="h-24 w-full gradient-logo clip-by-logo -translate-y-12" style="background-image: url({image1})" />
   </div>
