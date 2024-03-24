@@ -25,26 +25,20 @@
     let animatedO:HTMLElement;
   
     let animatedOffsetX = 0
+    let originalSOffsetLeft=0;
 
 
     
        
 
     //hide tail by transitioning to the image with a black in between
-    let O_paths:string[] = [
-        //"M70.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h70.95Z",
-        //"M145.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h94.95Z",
-
-        //"M973.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h922.95Z",
-        //"M2895.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h2844.95Z"
-    ];
+    let O_paths:string[]=[];
 
     const basePath =  ".44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h";
        
 
     for( let i = 1 ; i<20 ; i++){
         O_paths.push("M"+i*70+basePath+i*70+".95Z");
-        console.log(i);
     }
   
     let tweenedPath = tweened(O_paths, {
@@ -72,31 +66,18 @@
 
   $: {
     pathWidth = calculatePathWidth($tweenedPath);
+    if(originalO)
+      animatedOffsetX=originalO.offsetLeft;    
   }
 
-  onMount(()=>{
-    
-  })
-  const getSMarginLeft = () =>{
-    if(browser&&originalS){
-        if(originalS.offsetLeft>pathWidth)
-            return pathWidth;
-    }
-    return 0;
-  }
-
-  let sMarginLeft = 0;
-
-  $:{
-    sMarginLeft = getSMarginLeft();
-  }
   
     onMount(() => {
-        console.log(currentPathIndex)
+
+      originalSOffsetLeft = originalS.offsetLeft;
+      
       const ticker = setInterval(() => {
         currentPathIndex = (currentPathIndex + 1) % O_paths.length;
         tweenedPath.set(O_paths[currentPathIndex]);
-        console.log(currentPathIndex)
       }, TRANSITION_DURATION);
   
       if(originalO)
@@ -128,8 +109,8 @@
         style="background-image: url({image1}); background-width: 100vw; background-position: -50vw -50vh; left: {animatedOffsetX}px" 
         />
     <div class="h-24 w-full absolute top-[30vh] flex flex-row items-center gap-4 justify-center">
-        <img src={S} alt="s" style="margin-left:{sMarginLeft}px" bind:this={originalS}>
-        <img src={O} bind:this={originalO} alt="s" class="opacity-0" style="width: {pathWidth}px" />
+        <img src={S} alt="s"  bind:this={originalS} style="margin-left: {pathWidth > originalSOffsetLeft/2 ?  (originalSOffsetLeft*2 - pathWidth)/2 : pathWidth}px">
+        <img src={O} bind:this={originalO} alt="s" class="opacity-15" style="width: {pathWidth}px" />
         <img src={N} alt="s" />
         <img src={D} alt="s" />
         <img src={E} alt="s" />
