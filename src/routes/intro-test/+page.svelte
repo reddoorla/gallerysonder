@@ -4,14 +4,35 @@
     import { cubicOut } from 'svelte/easing';
     import { interpolateString as interpolate } from 'd3-interpolate';
 
+    import S from "$lib/assets/sonderAlphabet/normal/S.svg"
+    import O from "$lib/assets/sonderAlphabet/normal/O.svg"
+    import N from "$lib/assets/sonderAlphabet/normal/N.svg"
+    import D from "$lib/assets/sonderAlphabet/normal/D.svg"
+    import E from "$lib/assets/sonderAlphabet/normal/E.svg"
+    import R from "$lib/assets/sonderAlphabet/normal/R.svg"
+
+
     import image1 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece1.jpg'
+	import { browser } from '$app/environment';
   
     const TRANSITION_DURATION = 3000;
   
     let currentPathIndex = 0;
+
+    let originalS:HTMLElement;
+    let originalO:HTMLElement;
+    let originalR:HTMLElement;
+    let animatedO:HTMLElement;
   
+    let animatedOffsetX = 0
+
+
+    
+       
+
+    //hide tail by transitioning to the image with a black in between
     const O_paths = [
-        "M52.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52h-1.95C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h1.95Z",
+        "M70.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h70.95Z",
         "M145.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h94.95Z",
         "M973.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h922.95Z",
         "M2895.44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h2844.95Z"
@@ -23,6 +44,36 @@
       interpolate: interpolate,
       
     });
+
+    function calculatePathWidth(path: string) {
+        if(browser){
+    const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    pathElement.setAttribute('d', path);
+    svgElement.appendChild(pathElement);
+    document.body.appendChild(svgElement);
+    const bbox = pathElement.getBBox();
+    document.body.removeChild(svgElement);
+    return bbox.width;
+        }
+        return 0;
+  }
+
+  let pathWidth=48;
+
+  $: {
+    pathWidth = calculatePathWidth($tweenedPath);
+  }
+
+  const sMarginLeft = () =>{
+    if(browser&&originalS){
+        if(originalS.offsetLeft>pathWidth)
+            return pathWidth;
+    }
+    return 0;
+  }
+
+  
   
     onMount(() => {
         console.log(currentPathIndex)
@@ -32,6 +83,9 @@
         console.log(currentPathIndex)
       }, TRANSITION_DURATION);
   
+      if(originalO)
+            animatedOffsetX=originalO.offsetLeft;
+
       return () => {
         clearInterval(ticker);
       };
@@ -43,23 +97,6 @@
     clip-path: url(#oClipPath);
   }
 
-  .gradient-logo {
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-  }
-
-  @keyframes gradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
   </style>
   
   <svg id="sonderLogo" width="0" height="0" viewBox="0 0 383 49" xmlns="http://www.w3.org/2000/svg">
@@ -69,5 +106,17 @@
   </svg>
   
   <div class="w-screen h-screen absolute flex justify-center items-center">
-    <div class="h-24 w-full gradient-logo clip-by-logo -translate-y-12" style="background-image: url({image1})" />
+    <div 
+        bind:this={animatedO}
+        class="h-24 w-full clip-by-logo absolute top-[30vh]" 
+        style="background-image: url({image1}); background-width: 100vw; background-position: -50vw -50vh; left: {animatedOffsetX}px" 
+        />
+    <div class="h-24 w-full absolute top-[30vh] flex flex-row items-center gap-4 justify-center">
+        <img src={S} alt="s" style="margin-left:{pathWidth}px" bind:this={originalS}>
+        <img src={O} bind:this={originalO} alt="s" class="opacity-0" style="width: {pathWidth}px" />
+        <img src={N} alt="s" />
+        <img src={D} alt="s" />
+        <img src={E} alt="s" />
+        <img src={R} alt="s" bind:this={originalR} />
+    </div>
   </div>
