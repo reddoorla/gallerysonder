@@ -60,19 +60,19 @@
 	
 			<div class="h-12 w-[382px] gradient-logo clip-by-logo -translate-y-12"/>
 			   
-		  <div class="h-6 text-white gap-4 absolute bottom-32 flex flex-row">
-			<a href="https://twitter.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
+		  <div class="h-6 text-white gap-4 absolute bottom-32 flex flex-row justify-center">
+			<!-- <a href="https://twitter.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
 				<FontAwesomeIcon icon={faXTwitter} class="h-full" />
 			</a>
 			<a href="https://facebook.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
 				<FontAwesomeIcon icon={faFacebookF} class="h-full" />
-			</a>
+			</a> -->
 			<a href="https://www.instagram.com/gallerysonder/?hl=en" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
 				<FontAwesomeIcon icon={faInstagram} class="h-full" />
 			</a>
-			<a href="https://linkedin.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
+			<!-- <a href="https://linkedin.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
 				<FontAwesomeIcon icon={faLinkedinIn} class="h-full" />
-			</a>
+			</a> -->
 		  </div>
 	
 	</div>
