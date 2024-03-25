@@ -27,7 +27,7 @@
     
   
     const TRANSITION_DURATION = 500;
-
+    const IMAGE_TRANSITION_THRESHOLD = 0.9;
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [
       {
         image:image1,
@@ -92,6 +92,9 @@
     let animatedOWidth:number;
     let isOCentered = false;
     let bgPosition = '0px 0px';
+    let hideO = false;
+
+    let isVerticalOpenPhase = false;
 
 
     
@@ -103,7 +106,7 @@
     const basePath =  ".44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h";
        
 
-    for( let i = 1 ; i<35 ; i++){
+    for( let i = 1 ; i<50 ; i++){
         O_paths.push("M"+i*70+basePath+i*70+".95Z");
     }
   
@@ -134,9 +137,9 @@
     pathWidth = calculatePathWidth($tweenedPath);
     if(originalO){
       const rect = originalO.getBoundingClientRect();
-    animatedOOffestLeft = rect.left;
-    animatedOWidth = rect.width;
-}
+      animatedOOffestLeft = rect.left;
+      animatedOWidth = rect.width;
+    }
 
       // console.log("animatedOOffsetLeft: "+animatedOOffestLeft +" | innerWidth: "+innerWidth+" | animatedOWidth: "+animatedOWidth)
      if( originalO && animatedOOffestLeft > (innerWidth - animatedOWidth)/2 )
@@ -145,6 +148,17 @@
        bgPosition = `${-animatedOOffestLeft}px 50%`;
       
        currentImageIndex = Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*currentPathIndex/O_paths.length);
+
+       if(Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*currentPathIndex/O_paths.length)!=Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*(currentPathIndex+1)/O_paths.length)){
+        hideO = true;
+       }  else{
+        hideO = false;
+       }
+
+       if(pathWidth > innerWidth)
+        isVerticalOpenPhase=true;
+
+       
   }
 
   
@@ -188,10 +202,17 @@
   
   <div class="w-screen h-screen absolute flex justify-center items-center">
     <div 
+      
+      class="h-24 w-[120%] clip-by-logo absolute top-[30vh] bg-light" 
+      style="left: {animatedOOffestLeft}px" 
+    />
+   
+    <div 
         bind:this={animatedO}
-        class="h-24 w-[120%] clip-by-logo absolute top-[30vh]" 
+        class="h-24 w-[120%] clip-by-logo absolute top-[30vh] transition-opacity duration-500 {hideO ? "opacity-0":""}" 
         style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].image}); background-size: cover; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
- />
+    />
+ 
     <div class="h-24 w-[120%] absolute top-[30vh] flex flex-row items-center gap-4 justify-center">
         <img src={S} alt="s"  
           bind:this={originalS} 
