@@ -145,7 +145,7 @@
      if( originalO && animatedOOffestLeft > (innerWidth - animatedOWidth)/2 )
        isOCentered=true;
 
-       bgPosition = `${-animatedOOffestLeft}px 50%`;
+       bgPosition = `calc(${-animatedOOffestLeft}px + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].left}%) calc(50% + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].top}%)`;
       
        currentImageIndex = Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*currentPathIndex/O_paths.length);
 
@@ -216,7 +216,7 @@
     <div class="h-24 w-[120%] absolute top-[30vh] flex flex-row items-center gap-4 justify-center">
         <img src={S} alt="s"  
           bind:this={originalS} 
-          style="margin-left: calc( {isOCentered ? Math.max(0, ( originalSOffsetLeft - pathWidth/2 - NDERwidth))  : pathWidth - NDERwidth}px - 10%)"
+          style="margin-left: calc( {isOCentered ?  originalSOffsetLeft - pathWidth/2 - NDERwidth  : pathWidth - NDERwidth}px - 10%)"
           class={isOCentered ? "transition-all duration-[5000ms]":""}
           />
         <img src={O} bind:this={originalO} alt="s" class="opacity-0 max-h-screen" style="width: {pathWidth}px" />
