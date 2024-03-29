@@ -99,3 +99,31 @@ font-weight: 400;
 line-height: 20px; /* 142.857% */
 letter-spacing: 0.07px;
 }
+
+button{
+    color: #000;
+text-align: center;
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* Button - all caps */
+font-family: "Commuters Sans";
+font-size: 12px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+a{
+    color: #000;
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* Link */
+font-family: "Rig Sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-decoration-line: underline;
+}
