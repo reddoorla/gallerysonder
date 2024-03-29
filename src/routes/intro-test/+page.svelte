@@ -203,13 +203,13 @@
   <div class="w-screen h-screen absolute flex justify-center items-center">
     <div 
       
-      class="h-24 w-[120%] clip-by-logo absolute top-[30vh] bg-light" 
+      class="h-24 w-[120%] clip-by-logo absolute top-[30vh] bg-subtle-primary" 
       style="left: {animatedOOffestLeft}px" 
     />
    
     <div 
         bind:this={animatedO}
-        class="h-24 w-[120%] clip-by-logo absolute top-[30vh] transition-opacity duration-500 {hideO ? "opacity-0":""}" 
+        class="h-24 w-[120%] clip-by-logo absolute top-[30vh] transition-opacity duration-500 {hideO ? "opacity-1":""}" 
         style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].image}); background-size: cover; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
     />
  

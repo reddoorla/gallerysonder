@@ -6,3 +6,96 @@ body{
     background-color: black;
 }
   
+
+h1{
+    color: #000;
+    font-feature-settings: 'clig' off, 'liga' off;
+
+/* H1 */
+font-family: "Commuters Sans";
+font-size: 66px;
+font-style: normal;
+font-weight: 600;
+line-height: 80px; /* 121.212% */
+}
+
+h2{
+    color: #000;
+
+    font-feature-settings: 'clig' off, 'liga' off;
+
+/* H2 - Bold */
+    font-family: "Commuters Sans";
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 64px; /* 128% */
+    text-transform: uppercase;
+}
+
+h3{
+    color: #000;
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* H3 - Bold */
+font-family: "Commuters Sans";
+font-size: 38px;
+font-style: normal;
+font-weight: 700;
+line-height: 48px; /* 126.316% */
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+h4{
+    color: #000;
+leading-trim: both;
+text-edge: cap;
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* H4 - Bold */
+font-family: "Commuters Sans";
+font-size: 28px;
+font-style: normal;
+font-weight: 800;
+line-height: 38px; /* 135.714% */
+}
+
+h5{
+    color: #000;
+
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* H6 - Bold */
+font-family: "Commuters Sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px; /* 171.429% */
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+p{
+    color: #000;
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* Paragraph */
+font-family: "Rig Sans";
+font-size: 21px;
+font-style: normal;
+font-weight: 400;
+line-height: 30px; /* 142.857% */
+}
+
+div{
+    color: #000;
+
+/* Paragraph 2 */
+font-family: "Rig Sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 142.857% */
+letter-spacing: 0.07px;
+}
