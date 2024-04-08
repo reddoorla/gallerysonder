@@ -25,9 +25,8 @@
 
 
     
-  
-    const TRANSITION_DURATION = 500;
-    const IMAGE_TRANSITION_THRESHOLD = 0.9;
+    const SCALE_UP_PHASE_DURATION_IN_MS = 1000;
+    const TICK_DURATION = 25;
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [
       {
         image:image1,
@@ -85,6 +84,7 @@
     let originalO:HTMLElement;
     let originalR:HTMLElement;
     let animatedO:HTMLElement;
+    let verticalOpenWindow:HTMLElement;
   
     let animatedOOffestLeft = 0
     let originalSOffsetLeft=0;
@@ -94,6 +94,9 @@
     let bgPosition = '0px 0px';
     let hideO = false;
 
+    let isMounted = false;
+    let isGrowPhase = false;
+    let isHorizontalOpenPhase = false;
     let isVerticalOpenPhase = false;
 
 
@@ -106,12 +109,12 @@
     const basePath =  ".44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h";
        
 
-    for( let i = 1 ; i<50 ; i++){
-        O_paths.push("M"+i*70+basePath+i*70+".95Z");
+    for( let i = 1 ; i<200 ; i++){
+        O_paths.push("M"+(70+i*15)+basePath+(70+i*15)+".95Z");
     }
   
     let tweenedPath = tweened(O_paths, {
-      duration: TRANSITION_DURATION,
+      duration: TICK_DURATION,
       easing: linear,
       interpolate: interpolate,
       
@@ -155,8 +158,10 @@
         hideO = false;
        }
 
-       if(pathWidth > innerWidth)
+       if(pathWidth > innerWidth){
         isVerticalOpenPhase=true;
+        isHorizontalOpenPhase = false;
+      }
 
        
   }
@@ -164,15 +169,27 @@
   
     onMount(() => {
 
+      isMounted = true;
+      isGrowPhase = true;
+
       originalSOffsetLeft = originalS.offsetLeft;
 
+      let ticker:NodeJS.Timeout;
+      setTimeout(()=>{
+        
+        isGrowPhase = false;
+        isHorizontalOpenPhase = true;
       
-      const ticker = setInterval(() => {
+        ticker = setInterval(() => {
 
-        currentPathIndex = (currentPathIndex + 1) % O_paths.length;
-        tweenedPath.set(O_paths[currentPathIndex]);
+          currentPathIndex++;
+          tweenedPath.set(O_paths[currentPathIndex]);
+          if(currentImageIndex==O_paths.length-1)
+            clearInterval(ticker);
 
-      }, TRANSITION_DURATION);
+        }, TICK_DURATION);
+
+    },SCALE_UP_PHASE_DURATION_IN_MS);
   
       if(originalO)
             animatedOOffestLeft=originalO.offsetLeft;
@@ -200,29 +217,35 @@
     </clipPath>
   </svg>
   
-  <div class="w-screen h-screen absolute flex justify-center items-center">
+  <div class="w-screen h-screen bg-black">
     <div 
       
-      class="h-24 w-[120%] clip-by-logo absolute top-[30vh] bg-subtle-primary" 
+      class="h-24 w-[120%] clip-by-logo absolute top-[40vh] bg-subtle-primary {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
       style="left: {animatedOOffestLeft}px" 
     />
    
-    <div 
+    <div
         bind:this={animatedO}
-        class="h-24 w-[120%] clip-by-logo absolute top-[30vh] transition-opacity duration-500 {hideO ? "opacity-1":""}" 
+        class="h-24 scale-y-110 w-[120%] clip-by-logo absolute top-[40vh] transition-opacity {hideO ? "opacity-0 duration-1000":"duration-50"} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
         style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].image}); background-size: cover; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
     />
+
+    <div 
+        bind:this={verticalOpenWindow}
+        class=" absolute w-[120%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
+        style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].image}); background-size: cover; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
+    />
  
-    <div class="h-24 w-[120%] absolute top-[30vh] flex flex-row items-center gap-4 justify-center">
+    <div class="h-24 w-[120%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted ? "scale-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">
         <img src={S} alt="s"  
           bind:this={originalS} 
-          style="margin-left: calc( {isOCentered ?  originalSOffsetLeft - pathWidth/2 - NDERwidth  : pathWidth - NDERwidth}px - 10%)"
+          style="margin-left: calc(  { pathWidth/2 - NDERwidth  }px - 10%)"
           class={isOCentered ? "transition-all duration-[5000ms]":""}
           />
-        <img src={O} bind:this={originalO} alt="s" class="opacity-0 max-h-screen" style="width: {pathWidth}px" />
-        <img src={N} alt="s" />
-        <img src={D} alt="s" />
-        <img src={E} alt="s" />
-        <img src={R} alt="s" bind:this={originalR} style="margin-right:-{NDERwidth}px;"/>
+        <img src={O} bind:this={originalO} alt="s" class="{isGrowPhase||!isMounted ? '' : 'opacity-0'} max-h-screen transition-opacity" style="width: {pathWidth}px" />
+        <img src={N} alt="n" />
+        <img src={D} alt="d" />
+        <img src={E} alt="e" />
+        <img src={R} alt="r" bind:this={originalR} style="margin-right:-{NDERwidth}px;"/>
     </div>
   </div>
