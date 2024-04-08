@@ -31,7 +31,8 @@
       {
         image:image1,
         left:0,
-        top:0
+        top:0,
+        scale:100
       },
       {
         image:image2,
@@ -41,37 +42,44 @@
       {
         image:image3,
         left:0,
-        top:0
+        top:0,
+        scale:100
       },
       {
         image:image4,
         left:0,
-        top:0
+        top:0,
+        scale:100
       },
       {
         image:image5,
         left:0,
-        top:0
+        top:0,
+        scale:100
       },
       {
         image:image6,
         left:0,
-        top:0
+        top:0,
+        scale:100
       },
       {
         image:image7,
         left:0,
-        top:0
+        top:0,
+        scale:100
       },
       {
         image:image8,
         left:0,
-        top:0
+        top:0,
+        scale:100
       },
       {
         image:image9,
         left:0,
-        top:0
+        top:0,
+        scale:100
       }
     ];
 
@@ -148,8 +156,7 @@
      if( originalO && animatedOOffestLeft > (innerWidth - animatedOWidth)/2 )
        isOCentered=true;
 
-       bgPosition = `calc(${-animatedOOffestLeft}px + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].left}%) calc(50% + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].top}%)`;
-      
+       bgPosition = `calc(${-animatedOOffestLeft}px + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].left}vw) calc(50% + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].top}vh)`;
        currentImageIndex = Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*currentPathIndex/O_paths.length);
 
        if(Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*currentPathIndex/O_paths.length)!=Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*(currentPathIndex+1)/O_paths.length)){
@@ -227,13 +234,13 @@
     <div
         bind:this={animatedO}
         class="h-24 scale-y-110 w-[120%] clip-by-logo absolute top-[40vh] transition-opacity {hideO ? "opacity-0 duration-1000":"duration-50"} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
-        style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].image}); background-size: cover; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
+        style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].image}); background-size: {IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
     />
 
     <div 
         bind:this={verticalOpenWindow}
         class=" absolute w-[120%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
-        style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].image}); background-size: cover; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
+        style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].image}); background-size: {IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
     />
  
     <div class="h-24 w-[120%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted ? "scale-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">

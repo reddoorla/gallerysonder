@@ -4,6 +4,10 @@
 
 body{
     background-color: black;
+
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.5,0,0,1);
+    transition-duration: 500ms;
 }
   
 
@@ -12,7 +16,7 @@ h1{
     font-feature-settings: 'clig' off, 'liga' off;
 
 /* H1 */
-font-family: "Commuters Sans";
+font-family: "commuters-sans";
 font-size: 66px;
 font-style: normal;
 font-weight: 600;
@@ -25,7 +29,7 @@ h2{
     font-feature-settings: 'clig' off, 'liga' off;
 
 /* H2 - Bold */
-    font-family: "Commuters Sans";
+    font-family: "commuters-sans";
     font-size: 50px;
     font-style: normal;
     font-weight: 700;
@@ -38,7 +42,7 @@ h3{
 font-feature-settings: 'clig' off, 'liga' off;
 
 /* H3 - Bold */
-font-family: "Commuters Sans";
+font-family: "commuters-sans";
 font-size: 38px;
 font-style: normal;
 font-weight: 700;
@@ -54,7 +58,7 @@ text-edge: cap;
 font-feature-settings: 'clig' off, 'liga' off;
 
 /* H4 - Bold */
-font-family: "Commuters Sans";
+font-family: "commuters-sans";
 font-size: 28px;
 font-style: normal;
 font-weight: 800;
@@ -67,10 +71,26 @@ h5{
 font-feature-settings: 'clig' off, 'liga' off;
 
 /* H6 - Bold */
-font-family: "Commuters Sans";
+font-family: "commuters-sans";
 font-size: 14px;
 font-style: normal;
 font-weight: 700;
+line-height: 24px; /* 171.429% */
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+h6{
+    color: var(--Black, #000);
+leading-trim: both;
+
+text-edge: cap;
+font-feature-settings: 'clig' off, 'liga' off;
+/* H6 - reg */
+font-family: "commuters-sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
 line-height: 24px; /* 171.429% */
 letter-spacing: 1.5px;
 text-transform: uppercase;
@@ -81,7 +101,7 @@ p{
 font-feature-settings: 'clig' off, 'liga' off;
 
 /* Paragraph */
-font-family: "Rig Sans";
+font-family: "rig-sans";
 font-size: 21px;
 font-style: normal;
 font-weight: 400;
@@ -92,7 +112,7 @@ div{
     color: #000;
 
 /* Paragraph 2 */
-font-family: "Rig Sans";
+font-family: "rig-sans";
 font-size: 14px;
 font-style: normal;
 font-weight: 400;
@@ -106,7 +126,7 @@ text-align: center;
 font-feature-settings: 'clig' off, 'liga' off;
 
 /* Button - all caps */
-font-family: "Commuters Sans";
+font-family: "commuters-sans";
 font-size: 12px;
 font-style: normal;
 font-weight: 600;
@@ -120,10 +140,34 @@ a{
 font-feature-settings: 'clig' off, 'liga' off;
 
 /* Link */
-font-family: "Rig Sans";
+font-family: "rig-sans";
 font-size: 14px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
 text-decoration-line: underline;
+
+transition: opacity 500ms ease-out;
+}
+
+a{
+    transition: color 600ms;
+    cursor: pointer;
+}
+
+
+.filter-to-accent-pink{
+    filter: brightness(0) invert(52%) sepia(51%) saturate(3738%) hue-rotate(314deg) brightness(97%) contrast(86%);
+}
+
+.filter-to-accent-pink-on-hover:hover{
+    filter: brightness(0) invert(52%) sepia(51%) saturate(3738%) hue-rotate(314deg) brightness(97%) contrast(86%);
+}
+
+.bump{
+    transition: transform 300ms ease-out;
+}
+
+.bump:active{
+    transform: translateY(-8px);
 }
