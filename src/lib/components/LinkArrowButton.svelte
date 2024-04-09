@@ -2,18 +2,36 @@
     import linkArrow from "$lib/assets/icons/sonderArrowRight.svg"
     export let text = "";
     export let href ="#"
-    export let twProps = "";
+
 
     let isLinkArrowActive=false;
 
 </script>
 
+<style>
+    span{
+        color: var(--Black, #000);
+leading-trim: both;
+text-edge: cap;
+font-feature-settings: 'clig' off, 'liga' off;
+
+/* Button - all caps */
+font-family: "commuters-sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 150%; /* 21px */
+letter-spacing: 1.5px;
+text-transform: uppercase;
+    }
+</style>
+
 <a 
 on:mouseenter={()=>isLinkArrowActive=true} 
 on:mouseleave={()=>isLinkArrowActive=false}
 on:click= {()=>isLinkArrowActive=false}
-class="flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {twProps}" 
+class="flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {$$props.class || ''}" 
 {href}>
-    <span class="h-5 uppercase no-underline translate-y-[3.5px]">{text}</span>
+    <span class="h-5 uppercase no-underline">{text}</span>
     <img src={linkArrow} alt="link arrow" class="h-5 w-5 ml-[10px] transition-transform duration-300 {isLinkArrowActive ? "translate-x-2":""}">
 </a>

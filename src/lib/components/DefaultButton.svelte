@@ -1,7 +1,8 @@
 <script lang="ts">
     export let text = "BUTTON";
     export let click = ()=>{};
-    export let twProps = ""
+    let twProps = "";
+    export {twProps as class}
     export let filled = true;
 </script>
 
