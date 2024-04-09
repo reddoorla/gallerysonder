@@ -1,28 +1,37 @@
 <script lang="ts">
     import { FontAwesomeIcon} from '@fortawesome/svelte-fontawesome'
     import { faBars, faPlayCircle, faQuoteLeft, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
-    import ContentWidth from "$lib/components/ContentWidth.svelte";
-    import LinkArrowButton from '$lib/components/LinkArrowButton.svelte';
-
+	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+    
     import backgroundImage from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg";
     import logo from "$lib/assets/icons/sonderBaseLogo.svg"
+    import logoExtendedE from "$lib/assets/icons/sonderLogosExtended/SONDER_E.svg"
     
     import onViewTopShape from "$lib/assets/shapes/homePageOnViewTop.svg"
     import onViewBottomShape from "$lib/assets/shapes/homePageOnViewBottom.svg"
     import forthcomingTopShape from "$lib/assets/shapes/homePageForthcomingTop.svg"
+    import exploreBottomShape from "$lib/assets/shapes/homePageExploreBottom.svg"
     
     import videoPLaceholderImage from "$lib/assets/images/homeImages/galleryImage.jpg"
+    
     import onShowOne from '$lib/assets/images/homeImages/onShow/sonderOnShow1.jpg'
     import onShowTwo from '$lib/assets/images/homeImages/onShow/sonderOnShow2.jpg'
     import onShowThree from '$lib/assets/images/homeImages/onShow/sonderOnShow3.jpg'
     import onShowFour from '$lib/assets/images/homeImages/onShow/sonderOnShow4.jpg'
     import devonSignature from '$lib/assets/signatures/devon-signature.png'
 
-	import { onMount } from 'svelte';
+    import forthcomingOne from '$lib/assets/images/homeImages/forthcoming/deniereOne.jpg'
+    import forthcomingTwo from '$lib/assets/images/homeImages/forthcoming/deniereTwo.jpg'
+    import forthcomingThree from '$lib/assets/images/homeImages/forthcoming/deniereThree.jpg'
+    import forthcomingFour from '$lib/assets/images/homeImages/forthcoming/deniereFour.jpg'
+
 	import GridImage from '$lib/components/GridImage.svelte';
-	import { text } from '@sveltejs/kit';
-	import { dev } from '$app/environment';
-  
+    import ContentWidth from "$lib/components/ContentWidth.svelte";
+    import LinkArrowButton from '$lib/components/LinkArrowButton.svelte';
+
+ 
+
+
     const backgroundScaleInVW = 120;
     const backgroundLeft = -8;
     const backgroundTop = -30;
@@ -96,8 +105,7 @@ text-transform: uppercase;
 
     h1{
         color: var(--ffffff, #FFF);
-leading-trim: both;
-text-edge: cap;
+
 font-family: "commuters-sans";
 font-size: 160px;
 font-style: normal;
@@ -181,7 +189,7 @@ text-transform: uppercase;
             </ContentWidth>
         </div>
         <div class="w-full bg-subtle-primary pb-16">
-            <ContentWidth class="pl-12">
+            <ContentWidth class="pl-20">
                 <h5>Selected Works</h5>
                 <div class="w-full flex flex-row flex-wrap">
                     <div class="w-1/2 aspect-square flex justify-start items-center">
@@ -203,10 +211,10 @@ text-transform: uppercase;
         </div>
     </div>
     <img bind:this={sectionOnViewBottom} src={onViewBottomShape} aria-hidden alt='non-semantic shape' class="w-full z-0 bg-black bg-opacity-45" />
-    <div class="bg-black bg-opacity-45 w-full">
-        <ContentWidth>
+    <div class="bg-black bg-opacity-45 w-full py-12">
+        <ContentWidth class="pl-20 flex flex-col justify-center items-center">
             <div class="text-subtle-primary mb-16 mx-16">
-                <FontAwesomeIcon icon={faQuoteLeft} size="4x"/>
+                <FontAwesomeIcon icon={faQuoteLeft} size="2x"/>
             </div>
             <div class="mx-16 quote">
                 There is something beyond what we see in the human realm in these little windows
@@ -217,9 +225,70 @@ text-transform: uppercase;
     </div>
     <img bind:this={sectionForthcomingHat} src={forthcomingTopShape} aria-hidden alt='non-semantic shape' class="w-full z-0 bg-black bg-opacity-45" />
     <div class="w-full bg-subtle-primary py-8">
-        <ContentWidth class="pl-10">
-            <h5>Forthcoming</h5>
+        <ContentWidth class="pl-20">
+            <h5 class="mb-8">Forthcoming</h5>
+            <div class="w-full flex flex-row flex-wrap">
+                <div class="w-1/2 aspect-square flex justify-start items-center">
+                    <GridImage class="" src={forthcomingOne} alt="The fall of adam and eve" text="The fall of adam and eve" subtitle="Julia Gould / Opening 08.23.24"/>
+                </div>
+                <div class="w-1/2 aspect-square flex justify-end items-center">
+                    <GridImage src={forthcomingTwo} alt="take it easy" text="take it easy" subtitle="Alex Cutler / Opening 08.23.24"/>
+                </div>
+                <div class="w-1/2 aspect-square flex justify-start items-center">
+                    <GridImage src={forthcomingThree} alt="earthly delights" text="earthly delights" subtitle="Dylan Gebbia-Richards / Opening 08.23.24"/>
+                </div>
+                <div class="w-1/2 aspect-square flex justify-end items-center">
+                    <GridImage src={forthcomingFour} alt="morte ecranique" text="morte ecranique" subtitle="maude corriveau / Opening 08.23.24" class=""/>
+                </div>
+            </div>
+
+        
+            <LinkArrowButton text="all exhibitions" class="mt-16"/>
+            <h2 class="font-normal mt-8">Celebrating the Diverse <br /> Stories that Define Us</h2>
         </ContentWidth>
     </div>
 
+    <div bind:this={sectionExploreHat} class="w-full bg-subtle-tan">
+        <ContentWidth class="pl-20">
+            <div class="flex flex-col gap-16 my-16">
+                <h2>CORRIVEAU</h2>
+                <h2>CUTLER</h2>
+                <h2>DEJARDIN</h2>
+                <h2>GEBBIA-RICHARDS</h2>
+                <h2>JAMES</h2>
+            </div>
+            <LinkArrowButton text="artists" class="mt-16"/>
+        </ContentWidth>
+    </div>
+    
+    <img bind:this={sectionExploreBottom} src={exploreBottomShape} aria-hidden alt='non-semantic shape' class="w-full -z-10 bg-black bg-opacity-45 -mt-[40vw]" />
+
+    <div class="w-full bg-black bg-opacity-45 h-30vw">
+        <ContentWidth class="h-full flex flex-col justify-between">
+            <div class="pl-20 -mt-[20vw] relative">
+                <h2 class="text-white w-2/3">Weaving Together the Stories that Shape Us</h2>
+                <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-2 mt-10" />
+                <div class="absolute -left-3 top-3 flex flex-col justify-center items-center gap-3">
+                    <a href="#" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                        <FontAwesomeIcon icon={faInstagram} size='2x'/>
+                    </a>
+                    <a href="#" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                        <FontAwesomeIcon icon={faLinkedinIn} size='2x'/>
+                    </a>
+                    <a href="#" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                        <FontAwesomeIcon icon={faXTwitter} size='2x'/>
+                    </a>
+                    <a href="#" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump translate-x-1">
+                        <FontAwesomeIcon icon={faFacebookF} size='2x'/>
+                    </a>
+                </div>
+            </div>
+            <div class="pl-20 flex flex-row justify-between w-full mt-">
+                <a href="/" class="h-3 ml-2">
+                    <img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert"/>
+                </a>
+                <span class="text-white">©2024  |   All Rights Reserved</span>
+            </div>
+        </ContentWidth>
+    </div>
   </div>

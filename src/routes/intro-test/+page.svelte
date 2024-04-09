@@ -5,12 +5,12 @@
     import { cubicOut, linear } from 'svelte/easing';
     import { interpolateString as interpolate } from 'd3-interpolate';
 
-    import S from "$lib/assets/sonderAlphabet/normal/S.svg"
-    import O from "$lib/assets/sonderAlphabet/normal/O.svg"
-    import N from "$lib/assets/sonderAlphabet/normal/N.svg"
-    import D from "$lib/assets/sonderAlphabet/normal/D.svg"
-    import E from "$lib/assets/sonderAlphabet/normal/E.svg"
-    import R from "$lib/assets/sonderAlphabet/normal/R.svg"
+    import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
+    import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
+    import N from "$lib/assets/icons/sonderAlphabet/normal/N.svg"
+    import D from "$lib/assets/icons/sonderAlphabet/normal/D.svg"
+    import E from "$lib/assets/icons/sonderAlphabet/normal/E.svg"
+    import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
 
 
     import image1 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece1.jpg'

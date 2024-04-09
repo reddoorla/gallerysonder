@@ -17,7 +17,7 @@ export default {
         'accent-purple' : '#C28BE8',
         'subtle-blue' : '#AACDEC',
         'subtle-mauve' : '#DDB8CA',
-        'subtle-tan' : '#DCCDB9',
+        'subtle-tan' : '#F2E8D9',
         'dark-grey' : '#ABABAB',
         'cold-grey' : '#E7E8EB',
         'warm-grey' : '#F3F3F3'
