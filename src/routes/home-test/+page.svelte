@@ -183,7 +183,7 @@ text-transform: uppercase;
   <div class="fixed w-screen h-screen z-30 pointer-events-none">
     <ContentWidth class='h-full relative'>
   
-    <div class="absolute top-1/2 -left-8 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
+    <div class="absolute top-1/2 -left-2 xl:-left-8 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
         <a class="floating-links no-underline" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
         <a class="floating-links no-underline" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
         <a class="floating-links no-underline" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
@@ -316,7 +316,7 @@ text-transform: uppercase;
                     </a>
                 </div>
             </div>
-            <div class="pl-20 flex flex-row justify-between w-full mt-">
+            <div class="pl-20 flex flex-row justify-between w-full mb-12">
                 <a href="/" class="h-3 ml-2">
                     <img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert"/>
                 </a>
