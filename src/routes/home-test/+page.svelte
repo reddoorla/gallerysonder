@@ -197,7 +197,7 @@ text-transform: uppercase;
 
     <div class="h-screen" />
 
-    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full" style="margin-bottom:-40vw" id="onView"/>
+    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full" style="margin-bottom:-40vw" id="onview"/>
     <div id="on-view-start" class="w-full" >
         <ContentWidth class='h-full flex flex-col items-left pl-12'>
             <h5>Devon Desjardin</h5>
