@@ -13,15 +13,25 @@
     import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
 
 
-    import image1 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece1.jpg'
-    import image2 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece2.jpg'
-    import image3 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece3.png'
-    import image4 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece4.jpg'
-    import image5 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece5.jpg'
-    import image6 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece6.jpg'
-    import image7 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece7.png'
-    import image8 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece8.jpg'
-    import image9 from '$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg'
+  import image1 from "$lib/assets/images/introImages/intro-1.jpg"
+  import image2 from "$lib/assets/images/introImages/intro-2.jpg"
+  import image3 from "$lib/assets/images/introImages/intro-3.jpg"
+  import image4 from "$lib/assets/images/introImages/intro-4.jpg"
+  import image5 from "$lib/assets/images/introImages/intro-5.jpg"
+  import image6 from "$lib/assets/images/introImages/intro-6.jpg"
+  import image7 from "$lib/assets/images/introImages/intro-7.jpg"
+  import image8 from "$lib/assets/images/introImages/intro-8.jpg"
+  import image9 from "$lib/assets/images/introImages/intro-9.jpg"
+  import image10 from "$lib/assets/images/introImages/intro-10.jpg"
+  import image11 from "$lib/assets/images/introImages/intro-11.jpg"
+  import image12 from "$lib/assets/images/introImages/intro-12.jpg"
+  import image13 from "$lib/assets/images/introImages/intro-13.jpg"
+  import image14 from "$lib/assets/images/introImages/intro-14.jpg"
+  import image15 from "$lib/assets/images/introImages/intro-15.jpg"
+  import image16 from "$lib/assets/images/introImages/intro-16.jpg"
+  import image17 from "$lib/assets/images/introImages/intro-17.jpg"
+  import image18 from "$lib/assets/images/introImages/intro-18.jpg"
+  import image19 from "$lib/assets/images/introImages/intro-19.jpg"
 
 
     
@@ -46,7 +56,7 @@
         scale:100
       },
       {
-        image:image4,
+        image:image19,
         left:0,
         top:0,
         scale:100
@@ -77,6 +87,66 @@
       },
       {
         image:image9,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image10,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image11,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image12,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image13,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image14,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image15,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image16,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image17,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image18,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image4,
         left:0,
         top:0,
         scale:100
