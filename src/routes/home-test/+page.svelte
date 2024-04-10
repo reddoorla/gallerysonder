@@ -281,7 +281,7 @@ text-transform: uppercase;
         </ContentWidth>
     </div>
 
-    <div bind:this={sectionExplore} class="w-full bg-subtle-tan" id="#explore">
+    <div bind:this={sectionExplore} class="w-full bg-subtle-tan" id="explore">
         <ContentWidth class="pl-20">
             <div class="flex flex-col gap-16 my-16">
                 <h2>CORRIVEAU</h2>
