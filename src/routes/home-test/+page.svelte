@@ -2,6 +2,8 @@
     import { FontAwesomeIcon} from '@fortawesome/svelte-fontawesome'
     import { faBars, faPlayCircle, faQuoteLeft, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+
+    import { onMount } from 'svelte';
     
     import backgroundImage from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg";
     import logo from "$lib/assets/icons/sonderBaseLogo.svg"
@@ -28,6 +30,8 @@
 	import GridImage from '$lib/components/GridImage.svelte';
     import ContentWidth from "$lib/components/ContentWidth.svelte";
     import LinkArrowButton from '$lib/components/LinkArrowButton.svelte';
+	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
+
 
  
 
@@ -41,14 +45,43 @@
     let isSectionOnView = false;
     let isSectionForthcoming = false;
     let isSectionExplore =  false;
+    let isNavShown = false;
+    let isLogoBlack = false;
 
     let sectionOnViewHat:HTMLElement;
     let sectionOnViewBottom:HTMLElement;
     let sectionForthcomingHat:HTMLElement;
     let sectionForthcomingBottom:HTMLElement;
-    let sectionExploreHat:HTMLElement;
-    let sectionExploreBottom:HTMLElement;
+    let sectionExplore:HTMLElement;
     
+
+   
+const checkPosition = () => {
+  const onViewHatTop = sectionOnViewHat?.getBoundingClientRect().top;
+  const onViewBottomBottom = sectionOnViewBottom?.getBoundingClientRect().bottom;
+  const forthcomingHatTop = sectionForthcomingHat?.getBoundingClientRect().top;
+  const forthcomingBottomBottom = sectionForthcomingBottom?.getBoundingClientRect().bottom;
+  const exploreHatTop = sectionExplore?.getBoundingClientRect().top;
+  const exploreBottomBottom = sectionExplore.getBoundingClientRect().bottom;
+
+  const viewportHeight = window.innerHeight;
+
+  isSectionTop = onViewHatTop > 0;
+  isSectionOnView = onViewHatTop < viewportHeight && onViewBottomBottom > 0;
+  isSectionForthcoming = forthcomingHatTop < viewportHeight && forthcomingBottomBottom > viewportHeight;
+  isSectionExplore = forthcomingBottomBottom < viewportHeight ;
+  isNavShown = (onViewHatTop < 0 && onViewBottomBottom > viewportHeight) || (forthcomingHatTop < 0 && exploreBottomBottom > viewportHeight - 120)
+  isLogoBlack = isNavShown;
+
+  console.log(forthcomingBottomBottom);
+
+
+}
+    
+onMount(() => {
+    window.addEventListener('scroll', checkPosition);
+    checkPosition();
+  });
 
 
   </script>
@@ -129,7 +162,7 @@ text-transform: uppercase;
   </div>
 
   <div class="fixed w-screen h-screen-50 bottom-0">
-    <ContentWidth class="h-full flex flex-col justify-center items-start">
+    <ContentWidth class="h-full flex flex-col justify-center items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
         <h1>Devin</h1>
         <h1 class="mb-16">Dejardin</h1>
 
@@ -139,32 +172,32 @@ text-transform: uppercase;
 
   <div class="w-screen fixed h-24 top-0 py-8 z-30">
         <ContentWidth class="flex flex-row justify-between items-center">
-            <button class="scale-105 text-white hover:text-accent-pink active:text-black transition-colors">
+            <button class="scale-105 text-white hover:text-accent-pink filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
                 <FontAwesomeIcon icon={faBars} size="2x"/>
             </button>
-            <a href="/" class="filter-to-accent-pink-on-hover">
-                <img src={logo} alt="sonder logo"  class="h-6"/>
+            <a href="/" class="filter-to-accent-pink-on-hover transition-all bump brightness-0 {isLogoBlack ? "" : "invert"}">
+                <RotatingLogo class="h-6" />
             </a>
         </ContentWidth>
   </div>
   <div class="fixed w-screen h-screen z-30 pointer-events-none">
     <ContentWidth class='h-full relative'>
   
-    <div class="absolute top-1/2 left-2 -translate-x-1/2 rotate-90 flex flex-row transition-opacity ease-fast-slow gap-4 pointer-events-auto {isSectionExplore||isSectionForthcoming||isSectionOnView?'':'hidden opacity-0'}">
-        <a class="floating-links no-underline" href="#onview">ON VIEW</a>
-        <a class="floating-links no-underline" href="#forthcoming">FORTHCOMING</a>
-        <a class="floating-links active no-underline" href="#explore">EXPLORE</a>
+    <div class="absolute top-1/2 -left-8 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
+        <a class="floating-links no-underline" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
+        <a class="floating-links no-underline" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
+        <a class="floating-links no-underline" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
     </div> 
     </ContentWidth>
     </div>
 
 
   
-  <div class="content-container flex flex-col">
+  <div class="content-container flex flex-col" on:scroll={checkPosition}>
 
     <div class="h-screen" />
 
-    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full" style="margin-bottom:-40vw"/>
+    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full" style="margin-bottom:-40vw" id="onView"/>
     <div id="on-view-start" class="w-full" >
         <ContentWidth class='h-full flex flex-col items-left pl-12'>
             <h5>Devon Desjardin</h5>
@@ -223,8 +256,8 @@ text-transform: uppercase;
             <img src={devonSignature} alt="devon signature" class="h-8 mt-16"/>
         </ContentWidth>
     </div>
-    <img bind:this={sectionForthcomingHat} src={forthcomingTopShape} aria-hidden alt='non-semantic shape' class="w-full z-0 bg-black bg-opacity-45" />
-    <div class="w-full bg-subtle-primary py-8">
+    <img bind:this={sectionForthcomingHat} src={forthcomingTopShape} aria-hidden alt='non-semantic shape' class="w-full z-0 bg-black bg-opacity-45" id="forthcoming" />
+    <div bind:this={sectionForthcomingBottom} class="w-full bg-subtle-primary py-8">
         <ContentWidth class="pl-20">
             <h5 class="mb-8">Forthcoming</h5>
             <div class="w-full flex flex-row flex-wrap">
@@ -248,7 +281,7 @@ text-transform: uppercase;
         </ContentWidth>
     </div>
 
-    <div bind:this={sectionExploreHat} class="w-full bg-subtle-tan">
+    <div bind:this={sectionExplore} class="w-full bg-subtle-tan" id="#explore">
         <ContentWidth class="pl-20">
             <div class="flex flex-col gap-16 my-16">
                 <h2>CORRIVEAU</h2>
@@ -261,7 +294,7 @@ text-transform: uppercase;
         </ContentWidth>
     </div>
     
-    <img bind:this={sectionExploreBottom} src={exploreBottomShape} aria-hidden alt='non-semantic shape' class="w-full -z-10 bg-black bg-opacity-45 -mt-[40vw]" />
+    <img  src={exploreBottomShape} aria-hidden alt='non-semantic shape' class="w-full -z-10 bg-black bg-opacity-45 -mt-[40vw]" />
 
     <div class="w-full bg-black bg-opacity-45 h-30vw">
         <ContentWidth class="h-full flex flex-col justify-between">
