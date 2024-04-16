@@ -53,7 +53,7 @@
     import ImageInterFadeToImage from '$lib/components/ImageInterFadeToImage.svelte';
 
 
- 
+    //TODO: lock it to the top
 
 
     const backgroundScaleInVW = 120;
@@ -227,9 +227,9 @@ text-transform: uppercase;
   </div>
 
   <div class="fixed w-screen h-screen-50 bottom-0">
-    <ContentWidth class="h-full flex flex-col justify-center items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
+    <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
         <h1>Devin</h1>
-        <h1 class="mb-16">Dejardin</h1>
+        <h1 class="mb-0">Dejardin</h1>
 
     </ContentWidth>
 
@@ -248,7 +248,7 @@ text-transform: uppercase;
   <div class="fixed w-screen h-screen z-30 pointer-events-none">
     <ContentWidth class='h-full relative'>
   
-    <div class="absolute top-1/2 -left-2 xl:-left-8 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
+    <div class="absolute top-1/2 -translate-y-4 left-2 xl:-left-8 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
         <a class="floating-links no-underline" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
         <a class="floating-links no-underline" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
         <a class="floating-links no-underline" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>

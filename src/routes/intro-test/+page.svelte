@@ -9,7 +9,7 @@
 
     //TODO: fix the flicker
 
-    //TODO: 
+    //TODO: added a 100ms crossfade
 
     import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
     import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
