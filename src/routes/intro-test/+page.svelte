@@ -42,7 +42,7 @@
 
     
     const SCALE_UP_PHASE_DURATION_IN_MS = 1000;
-    const TICK_DURATION = 15;
+    const TICK_DURATION = 10;
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [
       {
         image:image1,
@@ -193,7 +193,7 @@
     const basePath =  ".44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h";
        
 
-    for( let i = 1 ; i<200 ; i++){
+    for( let i = 1 ; i<400 ; i++){
         O_paths.push("M"+(70+i*15)+basePath+(70+i*15)+".95Z");
     }
   
