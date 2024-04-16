@@ -122,18 +122,6 @@
         scale:100
       },
       {
-        image:image14,
-        left:0,
-        top:0,
-        scale:100
-      },
-      {
-        image:image16,
-        left:0,
-        top:0,
-        scale:100
-      },
-      {
         image:image18,
         left:0,
         top:0,
