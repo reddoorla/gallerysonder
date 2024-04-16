@@ -5,6 +5,12 @@
     import { cubicOut, linear } from 'svelte/easing';
     import { interpolateString as interpolate } from 'd3-interpolate';
 
+    //TODO: center sonder not the O, just let  it open
+
+    //TODO: fix the flicker
+
+    //TODO: 
+
     import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
     import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
     import N from "$lib/assets/icons/sonderAlphabet/normal/N.svg"
