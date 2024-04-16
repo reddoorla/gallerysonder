@@ -42,7 +42,7 @@
 
     
     const SCALE_UP_PHASE_DURATION_IN_MS = 1000;
-    const TICK_DURATION = 25;
+    const TICK_DURATION = 15;
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [
       {
         image:image1,
