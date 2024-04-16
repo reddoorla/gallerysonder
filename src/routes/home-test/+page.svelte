@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { FontAwesomeIcon} from '@fortawesome/svelte-fontawesome'
+    import  FontAwesomeIcon from 'svelte-fa'
     import { faBars, faPlayCircle, faQuoteLeft, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
@@ -27,10 +27,30 @@
     import forthcomingThree from '$lib/assets/images/homeImages/forthcoming/deniereThree.jpg'
     import forthcomingFour from '$lib/assets/images/homeImages/forthcoming/deniereFour.jpg'
 
+    import corriveauStart from '$lib/assets/icons/names/corriveau.svg'
+    import cutlerStart from '$lib/assets/icons/names/cutler.svg'
+    import dejardinStart from '$lib/assets/icons/names/dejardin.svg'
+    import gebbiaStart from '$lib/assets/icons/names/gebbia.svg'
+    import jamesStart from '$lib/assets/icons/names/james.svg'
+
+    import corriveauInter from '$lib/assets/icons/names/corriveau_inter.svg'
+    import cutlerInter from '$lib/assets/icons/names/cutler_inter.svg'
+    import dejardinInter from '$lib/assets/icons/names/dejardin_inter.svg'
+    import gebbiaInter from '$lib/assets/icons/names/gebbia-richards_inter.svg'
+    import jamesInter from '$lib/assets/icons/names/james_inter.svg'
+
+    import corriveauActive from '$lib/assets/icons/names/corriveau_clippath.png'
+    import cutlerActive from '$lib/assets/icons/names/cutler_clippath.png'
+    import dejardinActive from '$lib/assets/icons/names/dejardin_clippath.png'
+    import gebbiaActive from '$lib/assets/icons/names/gebbia-richards_clippath.png'
+    import jamesActive from '$lib/assets/icons/names/james_clippath.png'
+
+
 	import GridImage from '$lib/components/GridImage.svelte';
     import ContentWidth from "$lib/components/ContentWidth.svelte";
     import LinkArrowButton from '$lib/components/LinkArrowButton.svelte';
 	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
+    import ImageInterFadeToImage from '$lib/components/ImageInterFadeToImage.svelte';
 
 
  
@@ -53,6 +73,52 @@
     let sectionForthcomingHat:HTMLElement;
     let sectionForthcomingBottom:HTMLElement;
     let sectionExplore:HTMLElement;
+
+    let corriveauBG="inherit";
+    let cutlerBG="inherit";
+    let dejardinBG="inherit";
+    let gebbiaBG="inherit";
+    let jamesBG="inherit";
+    let exploreActiveBackgroundColor = "#F2E8D9"
+
+    const checkExploreColor = () => {
+
+        console.log(exploreActiveBackgroundColor)
+
+        if(corriveauBG!="inherit"){
+            exploreActiveBackgroundColor=corriveauBG;
+        }else if(cutlerBG!="inherit"){
+            exploreActiveBackgroundColor=cutlerBG;
+        }else if(dejardinBG!="inherit"){
+            exploreActiveBackgroundColor=dejardinBG;
+        }else if(gebbiaBG!="inherit"){
+            exploreActiveBackgroundColor=gebbiaBG;
+        }else if(jamesBG!="inherit"){
+            exploreActiveBackgroundColor=jamesBG;
+        } else{
+            exploreActiveBackgroundColor="#F2E8D9";
+        }
+
+        
+    }
+
+    $: {
+  console.log("Updating exploreActiveBackgroundColor:", exploreActiveBackgroundColor);
+  if (corriveauBG != "inherit") {
+    exploreActiveBackgroundColor = corriveauBG;
+  } else if (cutlerBG != "inherit") {
+    exploreActiveBackgroundColor = cutlerBG;
+  } else if (dejardinBG != "inherit") {
+    exploreActiveBackgroundColor = dejardinBG;
+  } else if (gebbiaBG != "inherit") {
+    exploreActiveBackgroundColor = gebbiaBG;
+  } else if (jamesBG != "inherit") {
+    exploreActiveBackgroundColor = jamesBG;
+  } else {
+    exploreActiveBackgroundColor = "#F2E8D9";
+  }
+}
+
     
 
    
@@ -62,7 +128,7 @@ const checkPosition = () => {
   const forthcomingHatTop = sectionForthcomingHat?.getBoundingClientRect().top;
   const forthcomingBottomBottom = sectionForthcomingBottom?.getBoundingClientRect().bottom;
   const exploreHatTop = sectionExplore?.getBoundingClientRect().top;
-  const exploreBottomBottom = sectionExplore.getBoundingClientRect().bottom;
+  const exploreBottomBottom = sectionExplore?.getBoundingClientRect().bottom;
 
   const viewportHeight = window.innerHeight;
 
@@ -73,7 +139,6 @@ const checkPosition = () => {
   isNavShown = (onViewHatTop < 0 && onViewBottomBottom > viewportHeight) || (forthcomingHatTop < 0 && exploreBottomBottom > viewportHeight - 120)
   isLogoBlack = isNavShown;
 
-  console.log(forthcomingBottomBottom);
 
 
 }
@@ -281,20 +346,84 @@ text-transform: uppercase;
         </ContentWidth>
     </div>
 
-    <div bind:this={sectionExplore} class="w-full bg-subtle-tan" id="explore">
+    <div bind:this={sectionExplore} class="w-full transition-all duration-1000 ease-fast-slow" id="explore" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="pl-20">
             <div class="flex flex-col gap-16 my-16">
-                <h2>CORRIVEAU</h2>
-                <h2>CUTLER</h2>
-                <h2>DEJARDIN</h2>
-                <h2>GEBBIA-RICHARDS</h2>
-                <h2>JAMES</h2>
+                <ImageInterFadeToImage 
+                    inactiveImage={corriveauStart} 
+                    intermediateImage={corriveauInter} 
+                    activeImage={corriveauActive} 
+                    setBackgroundColor="#C1E2FC" 
+                    bind:activeBackgroundColor={corriveauBG}
+                    on:mouseover={checkExploreColor}
+                    on:mouseout={checkExploreColor}   
+                    href="#" 
+                    class="h-10"
+                />
+                <ImageInterFadeToImage 
+                    inactiveImage={cutlerStart} 
+                    intermediateImage={cutlerInter} 
+                    activeImage={cutlerActive} 
+                    setBackgroundColor="#E8E9E9" 
+                    bind:activeBackgroundColor={cutlerBG}
+                    on:mouseover={checkExploreColor}
+                    on:mouseout={checkExploreColor}   
+                    href="#" 
+                    class="h-10"
+                />
+                <ImageInterFadeToImage 
+                    inactiveImage={dejardinStart} 
+                    intermediateImage={dejardinInter} 
+                    activeImage={dejardinActive} 
+                    setBackgroundColor="#B5D8E2" 
+                    bind:activeBackgroundColor={dejardinBG}
+                    on:mouseover={checkExploreColor}
+                    on:mouseout={checkExploreColor}   
+                    href="#" 
+                    class="h-10"
+                />
+                <ImageInterFadeToImage 
+                    inactiveImage={gebbiaStart} 
+                    intermediateImage={gebbiaInter} 
+                    activeImage={gebbiaActive} 
+                    setBackgroundColor="#FEF8EC" 
+                    bind:activeBackgroundColor={gebbiaBG}
+                    on:mouseover={checkExploreColor}
+                    on:mouseout={checkExploreColor}   
+                    href="#" 
+                    class="h-10"
+                />
+                <ImageInterFadeToImage 
+                    inactiveImage={jamesStart} 
+                    intermediateImage={jamesInter} 
+                    activeImage={jamesActive} 
+                    setBackgroundColor="#E6CCDC" 
+                    bind:activeBackgroundColor={jamesBG}
+                    on:mouseover={checkExploreColor}
+                    on:mouseout={checkExploreColor}  
+                    href="#" 
+                    class="h-10"
+                />
+                
+                
             </div>
             <LinkArrowButton text="artists" class="mt-16"/>
         </ContentWidth>
     </div>
     
-    <img  src={exploreBottomShape} aria-hidden alt='non-semantic shape' class="w-full -z-10 bg-black bg-opacity-45 -mt-[40vw]" />
+
+
+    <div aria-hidden class="w-full -z-10 bg-black bg-opacity-45 -mt-[40vw] object-cover" >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1081" >
+            <path d="M-8.40312e-05 645.743L-2.76537e-05 0.859371L1440 0.859497L1440 1080.86C1294.79 870.352 987.176 769.073 431.897 716.51C212.097 696.382 78.5734 676.511 -8.40312e-05 645.743Z" fill="url(#paint0_linear_5406_2772)"/>
+            <defs>
+              <linearGradient id="paint0_linear_5406_2772" x1="720" y1="1080.86" x2="720" y2="0.859434" gradientUnits="userSpaceOnUse">
+                <stop class="transition-all duration-1000 ease-fast-slow" stop-color={exploreActiveBackgroundColor}/>
+                <stop class="transition-all duration-1000 ease-fast-slow" offset="0.579268" stop-color={exploreActiveBackgroundColor}/>
+              </linearGradient>
+            </defs>
+          </svg>
+    </div>
 
     <div class="w-full bg-black bg-opacity-45 h-30vw">
         <ContentWidth class="h-full flex flex-col justify-between">
@@ -302,16 +431,16 @@ text-transform: uppercase;
                 <h2 class="text-white w-2/3">Weaving Together the Stories that Shape Us</h2>
                 <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-2 mt-10" />
                 <div class="absolute -left-3 top-3 flex flex-col justify-center items-center gap-3">
-                    <a href="#" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                    <a href="https://www.instagram.com" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
                         <FontAwesomeIcon icon={faInstagram} size='2x'/>
                     </a>
-                    <a href="#" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                    <a href="https://www.linkedin.com" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
                         <FontAwesomeIcon icon={faLinkedinIn} size='2x'/>
                     </a>
-                    <a href="#" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                    <a href="https://www.twitter.com" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
                         <FontAwesomeIcon icon={faXTwitter} size='2x'/>
                     </a>
-                    <a href="#" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump translate-x-1">
+                    <a href="https://www.facebook.com/" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump translate-x-1">
                         <FontAwesomeIcon icon={faFacebookF} size='2x'/>
                     </a>
                 </div>

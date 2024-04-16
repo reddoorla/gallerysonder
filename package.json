@@ -44,6 +44,7 @@
 		"@prismicio/client": "^7.3.1",
 		"@prismicio/svelte": "^1.0.3",
 		"d3-interpolate": "^3.0.1",
-		"snapsvg": "^0.5.1"
+		"snapsvg": "^0.5.1",
+		"svelte-fa": "^4.0.2"
 	}
 }
