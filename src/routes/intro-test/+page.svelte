@@ -68,18 +68,6 @@
         scale:100
       },
       {
-        image:image5,
-        left:0,
-        top:0,
-        scale:100
-      },
-      {
-        image:image6,
-        left:0,
-        top:0,
-        scale:100
-      },
-      {
         image:image7,
         left:0,
         top:0,
@@ -99,6 +87,18 @@
       },
       {
         image:image18,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image5,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image6,
         left:0,
         top:0,
         scale:100
