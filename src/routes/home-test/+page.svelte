@@ -5,6 +5,7 @@
 
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
+    import { fade } from 'svelte/transition';
 
     
     import backgroundImage from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg";
@@ -47,6 +48,87 @@
 	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
     import NameToClipPath from '$lib/components/NameToClipPath.svelte';
 
+    import image1 from "$lib/assets/images/introImages/intro-1.jpg"
+    import image2 from "$lib/assets/images/introImages/intro-2.jpg"
+    import image3 from "$lib/assets/images/introImages/intro-3.jpg"
+    import image4 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg"
+    import image5 from "$lib/assets/images/introImages/intro-5.jpg"
+    import image6 from "$lib/assets/images/introImages/intro-6.jpg"
+    import image7 from "$lib/assets/images/introImages/intro-7.jpg"
+    import image8 from "$lib/assets/images/introImages/intro-8.jpg"
+    import image9 from "$lib/assets/images/introImages/intro-9.jpg"
+    import image18 from "$lib/assets/images/introImages/intro-18.jpg"
+    import image19 from "$lib/assets/images/introImages/intro-19.jpg"
+	import Intro from '$lib/components/Home/Intro.svelte';
+
+    const IMAGE_ARRAY_WITH_BG_SHIFTS = [
+      {
+        image:image1,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image2,
+        left:0,
+        top:0
+      },
+      {
+        image:image3,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image19,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image7,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image8,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image9,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image18,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image5,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image6,
+        left:0,
+        top:0,
+        scale:100
+      },
+      {
+        image:image4,
+        left:-8,
+        top:-30,
+        scale:120
+      }
+    ];
+
 
 
     const preloadImage = (src: string) => {
@@ -60,11 +142,15 @@
     let coverImagesPromises: Promise<void>[] = [];
     let imagesToPreload: string[] = [onShowOne, onShowTwo, onShowThree, onShowFour, backgroundImage];
 
+    IMAGE_ARRAY_WITH_BG_SHIFTS.forEach((item)=>imagesToPreload.push(item.image));
+
     const createAndResolvePromises = async () => {
         coverImagesPromises = imagesToPreload.map((image) => preloadImage(image));
         return await Promise.all(coverImagesPromises);
     };
 
+    let isIntroComplete = false;
+    let showContent = false;
 
     const backgroundScaleInVW = 120;
     const backgroundLeft = -8;
@@ -142,7 +228,7 @@ const checkPosition = () => {
 
   const viewportHeight = window.innerHeight;
 
-  isSectionTop = onViewHatTop > 0;
+  isSectionTop = onViewHatTop >= 0;
   isSectionOnView = onViewHatTop < viewportHeight && onViewBottomBottom > 0;
   isSectionForthcoming = forthcomingHatTop < viewportHeight && forthcomingBottomBottom > viewportHeight;
   isSectionExplore = forthcomingBottomBottom < viewportHeight ;
@@ -152,7 +238,14 @@ const checkPosition = () => {
 
 
 }
+
+const handleIntroComplete = () => {
+    isIntroComplete=true;
+    checkPosition();
     
+    setTimeout(()=>showContent=true, 2000);
+
+    }
 onMount(() => {
     window.addEventListener('scroll', checkPosition);
     checkPosition();
@@ -233,9 +326,13 @@ text-transform: uppercase;
         </h1>
     </div>
   {:then} 
+  {#if !isIntroComplete}
+  <Intro on:complete={handleIntroComplete}/>
     
+  {:else}
 
-  <div class="background-container">
+  {#key isIntroComplete}
+  <div class="background-container" transition:fade={{ duration: 500 }}>
     <img
       src={backgroundImage}
       class="absolute"
@@ -244,7 +341,7 @@ text-transform: uppercase;
     />
   </div>
 
-  <div class="fixed w-screen h-screen-50 bottom-0">
+  <div class="fixed w-screen h-screen-50 bottom-0" transition:fade={{ duration: 500 }}>
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
         <h1 class="mb-0 pb-0 translate-y-10">Devin</h1>
         <h1 class="mb-0 pb-0 translate-y-10">Dejardin</h1>
@@ -253,7 +350,7 @@ text-transform: uppercase;
 
   </div>
 
-  <div class="w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none">
+  <div class="w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 500 }}>
         <ContentWidth class="flex flex-row justify-between items-center">
             <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
                 <FontAwesomeIcon icon={faBars} size="2x"/>
@@ -279,8 +376,9 @@ text-transform: uppercase;
   <div class="content-container flex flex-col" on:scroll={checkPosition}>
 
     <div class="h-screen" />
+    <div class="h-1" />
 
-    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full" style="margin-bottom:-40vw" id="onview"/>
+    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full {showContent ? "":"hidden"}" style="margin-bottom:-40vw" id="onview"/>
     <div id="on-view-start" class="w-full" >
         <ContentWidth class='h-full flex flex-col items-left pl-20'>
             <h5>Devon Desjardin</h5>
@@ -462,4 +560,6 @@ text-transform: uppercase;
         </ContentWidth>
     </div>
   </div>
+  {/key}
+  {/if}
   {/await}
