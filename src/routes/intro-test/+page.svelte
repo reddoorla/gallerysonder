@@ -22,7 +22,7 @@
   import image1 from "$lib/assets/images/introImages/intro-1.jpg"
   import image2 from "$lib/assets/images/introImages/intro-2.jpg"
   import image3 from "$lib/assets/images/introImages/intro-3.jpg"
-  import image4 from "$lib/assets/images/introImages/intro-4.jpg"
+  import image4 from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg"
   import image5 from "$lib/assets/images/introImages/intro-5.jpg"
   import image6 from "$lib/assets/images/introImages/intro-6.jpg"
   import image7 from "$lib/assets/images/introImages/intro-7.jpg"
@@ -105,9 +105,9 @@
       },
       {
         image:image4,
-        left:0,
-        top:0,
-        scale:100
+        left:-8,
+        top:-30,
+        scale:120
       }
     ];
 
@@ -184,7 +184,7 @@
      if( originalO && animatedOOffestLeft > (innerWidth - animatedOWidth)/2 )
        isOCentered=true;
 
-       bgPosition = `calc(${-animatedOOffestLeft}px + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].left}vw) calc(50% + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].top}vh)`;
+       bgPosition = `calc(${-animatedOOffestLeft}px + ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].left}vw) calc( ${IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex].top}vh)`;
        currentImageIndex = Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*currentPathIndex/O_paths.length);
 
        if(Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*currentPathIndex/O_paths.length)!=Math.floor(IMAGE_ARRAY_WITH_BG_SHIFTS.length*(currentPathIndex+1)/O_paths.length)){

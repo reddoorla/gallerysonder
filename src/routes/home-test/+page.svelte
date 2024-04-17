@@ -4,9 +4,10 @@
 	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
     import { onMount } from 'svelte';
+    import { writable } from 'svelte/store';
+
     
     import backgroundImage from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg";
-    import logo from "$lib/assets/icons/sonderBaseLogo.svg"
     import logoExtendedE from "$lib/assets/icons/sonderLogosExtended/SONDER_E.svg"
     
     import onViewTopShape from "$lib/assets/shapes/homePageOnViewTop.svg"
@@ -27,17 +28,11 @@
     import forthcomingThree from '$lib/assets/images/homeImages/forthcoming/deniereThree.jpg'
     import forthcomingFour from '$lib/assets/images/homeImages/forthcoming/deniereFour.jpg'
 
-    import corriveauStart from '$lib/assets/icons/names/corriveau.svg'
-    import cutlerStart from '$lib/assets/icons/names/cutler.svg'
-    import dejardinStart from '$lib/assets/icons/names/dejardin.svg'
-    import gebbiaStart from '$lib/assets/icons/names/gebbia.svg'
-    import jamesStart from '$lib/assets/icons/names/james.svg'
-
-    import corriveauInter from '$lib/assets/icons/names/corriveau_inter.svg'
-    import cutlerInter from '$lib/assets/icons/names/cutler_inter.svg'
-    import dejardinInter from '$lib/assets/icons/names/dejardin_inter.svg'
-    import gebbiaInter from '$lib/assets/icons/names/gebbia-richards_inter.svg'
-    import jamesInter from '$lib/assets/icons/names/james_inter.svg'
+    import corriveauStart from '$lib/assets/icons/names/corriveau_inter.svg'
+    import cutlerStart from '$lib/assets/icons/names/cutler_inter.svg'
+    import dejardinStart from '$lib/assets/icons/names/dejardin_inter.svg'
+    import gebbiaStart from '$lib/assets/icons/names/gebbia-richards_inter.svg'
+    import jamesStart from '$lib/assets/icons/names/james_inter.svg'
 
     import corriveauActive from '$lib/assets/icons/names/corriveau_clippath.png'
     import cutlerActive from '$lib/assets/icons/names/cutler_clippath.png'
@@ -50,10 +45,25 @@
     import ContentWidth from "$lib/components/ContentWidth.svelte";
     import LinkArrowButton from '$lib/components/LinkArrowButton.svelte';
 	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
-    import ImageInterFadeToImage from '$lib/components/ImageInterFadeToImage.svelte';
+    import NameToClipPath from '$lib/components/NameToClipPath.svelte';
 
 
-    //TODO: lock it to the top
+
+    const preloadImage = (src: string) => {
+        return new Promise<void>((resolve) => {
+            let img = new Image();
+            img.onload = () => resolve();
+            img.src = src;
+        });
+    };
+
+    let coverImagesPromises: Promise<void>[] = [];
+    let imagesToPreload: string[] = [onShowOne, onShowTwo, onShowThree, onShowFour, backgroundImage];
+
+    const createAndResolvePromises = async () => {
+        coverImagesPromises = imagesToPreload.map((image) => preloadImage(image));
+        return await Promise.all(coverImagesPromises);
+    };
 
 
     const backgroundScaleInVW = 120;
@@ -177,14 +187,14 @@ onMount(() => {
 
         font-feature-settings: 'clig' off, 'liga' off;
 
-/* Button - all caps */
-font-family: "commuters-sans";
-font-size: 14px;
-font-style: normal;
-font-weight: 700;
-line-height: 150%; /* 21px */
-letter-spacing: 1.5px;
-text-transform: uppercase;
+        /* Button - all caps */
+        font-family: "commuters-sans";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%; /* 21px */
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
     }
 
     .floating-links.active{
@@ -216,7 +226,15 @@ text-transform: uppercase;
   <svelte:head>
     <title>Home Test</title>
   </svelte:head>
-  
+  {#await createAndResolvePromises()}
+    <div class="w-screen h-screen flex justify-center items-center">
+        <h1>
+            loading
+        </h1>
+    </div>
+  {:then} 
+    
+
   <div class="background-container">
     <img
       src={backgroundImage}
@@ -228,19 +246,19 @@ text-transform: uppercase;
 
   <div class="fixed w-screen h-screen-50 bottom-0">
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
-        <h1>Devin</h1>
-        <h1 class="mb-0">Dejardin</h1>
+        <h1 class="mb-0 pb-0 translate-y-10">Devin</h1>
+        <h1 class="mb-0 pb-0 translate-y-10">Dejardin</h1>
 
     </ContentWidth>
 
   </div>
 
-  <div class="w-screen fixed h-24 top-0 py-8 z-30">
+  <div class="w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none">
         <ContentWidth class="flex flex-row justify-between items-center">
-            <button class="scale-105 text-white hover:text-accent-pink filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
+            <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
                 <FontAwesomeIcon icon={faBars} size="2x"/>
             </button>
-            <a href="/" class="filter-to-accent-pink-on-hover transition-all bump brightness-0 {isLogoBlack ? "" : "invert"}">
+            <a href="/" class="filter-to-accent-pink-on-hover transition-all pointer-events-auto bump brightness-0 {isLogoBlack ? "" : "invert"}">
                 <RotatingLogo class="h-6" />
             </a>
         </ContentWidth>
@@ -248,7 +266,7 @@ text-transform: uppercase;
   <div class="fixed w-screen h-screen z-30 pointer-events-none">
     <ContentWidth class='h-full relative'>
   
-    <div class="absolute top-1/2 -translate-y-4 left-2 xl:-left-8 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
+    <div class="absolute top-1/2 -translate-y-4 left-2 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
         <a class="floating-links no-underline" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
         <a class="floating-links no-underline" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
         <a class="floating-links no-underline" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
@@ -264,7 +282,7 @@ text-transform: uppercase;
 
     <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full" style="margin-bottom:-40vw" id="onview"/>
     <div id="on-view-start" class="w-full" >
-        <ContentWidth class='h-full flex flex-col items-left pl-12'>
+        <ContentWidth class='h-full flex flex-col items-left pl-20'>
             <h5>Devon Desjardin</h5>
             <h3 class='mt-6'>To the garden</h3>
             <h3 class="mb-6">we return</h3>
@@ -272,7 +290,7 @@ text-transform: uppercase;
             <LinkArrowButton text="EXPLORE"/>
         </ContentWidth>
         <div class='w-full bg-subtle-primary py-16'>
-            <ContentWidth class="pl-12">
+            <ContentWidth class="pl-20">
                 <div class="w-full aspect-video relative pt-16">
                     <img src={videoPLaceholderImage} alt='gallery' class="w-full h-full object-cover"/>
                     <div class="bottom-8 left-8 absolute flex flex-row justify-between gap-8">
@@ -349,9 +367,8 @@ text-transform: uppercase;
     <div bind:this={sectionExplore} class="w-full transition-all duration-1000 ease-fast-slow" id="explore" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="pl-20">
             <div class="flex flex-col gap-16 my-16">
-                <ImageInterFadeToImage 
+                <NameToClipPath 
                     inactiveImage={corriveauStart} 
-                    intermediateImage={corriveauInter} 
                     activeImage={corriveauActive} 
                     setBackgroundColor="#C1E2FC" 
                     bind:activeBackgroundColor={corriveauBG}
@@ -360,9 +377,8 @@ text-transform: uppercase;
                     href="#" 
                     class="h-10"
                 />
-                <ImageInterFadeToImage 
+                <NameToClipPath 
                     inactiveImage={cutlerStart} 
-                    intermediateImage={cutlerInter} 
                     activeImage={cutlerActive} 
                     setBackgroundColor="#E8E9E9" 
                     bind:activeBackgroundColor={cutlerBG}
@@ -371,9 +387,8 @@ text-transform: uppercase;
                     href="#" 
                     class="h-10"
                 />
-                <ImageInterFadeToImage 
+                <NameToClipPath 
                     inactiveImage={dejardinStart} 
-                    intermediateImage={dejardinInter} 
                     activeImage={dejardinActive} 
                     setBackgroundColor="#B5D8E2" 
                     bind:activeBackgroundColor={dejardinBG}
@@ -382,9 +397,8 @@ text-transform: uppercase;
                     href="#" 
                     class="h-10"
                 />
-                <ImageInterFadeToImage 
+                <NameToClipPath 
                     inactiveImage={gebbiaStart} 
-                    intermediateImage={gebbiaInter} 
                     activeImage={gebbiaActive} 
                     setBackgroundColor="#FEF8EC" 
                     bind:activeBackgroundColor={gebbiaBG}
@@ -393,9 +407,8 @@ text-transform: uppercase;
                     href="#" 
                     class="h-10"
                 />
-                <ImageInterFadeToImage 
+                <NameToClipPath 
                     inactiveImage={jamesStart} 
-                    intermediateImage={jamesInter} 
                     activeImage={jamesActive} 
                     setBackgroundColor="#E6CCDC" 
                     bind:activeBackgroundColor={jamesBG}
@@ -415,13 +428,8 @@ text-transform: uppercase;
 
     <div aria-hidden class="w-full -z-10 bg-black bg-opacity-45 -mt-[40vw] object-cover" >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1081" >
-            <path d="M-8.40312e-05 645.743L-2.76537e-05 0.859371L1440 0.859497L1440 1080.86C1294.79 870.352 987.176 769.073 431.897 716.51C212.097 696.382 78.5734 676.511 -8.40312e-05 645.743Z" fill="url(#paint0_linear_5406_2772)"/>
-            <defs>
-              <linearGradient id="paint0_linear_5406_2772" x1="720" y1="1080.86" x2="720" y2="0.859434" gradientUnits="userSpaceOnUse">
-                <stop class="transition-all duration-1000 ease-fast-slow" stop-color={exploreActiveBackgroundColor}/>
-                <stop class="transition-all duration-1000 ease-fast-slow" offset="0.579268" stop-color={exploreActiveBackgroundColor}/>
-              </linearGradient>
-            </defs>
+            <path class="transition-all duration-1000 ease-fast-slow" d="M-8.40312e-05 645.743L-2.76537e-05 0.859371L1440 0.859497L1440 1080.86C1294.79 870.352 987.176 769.073 431.897 716.51C212.097 696.382 78.5734 676.511 -8.40312e-05 645.743Z" fill={exploreActiveBackgroundColor}/>
+
           </svg>
     </div>
 
@@ -454,3 +462,4 @@ text-transform: uppercase;
         </ContentWidth>
     </div>
   </div>
+  {/await}
