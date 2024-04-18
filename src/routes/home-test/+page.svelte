@@ -73,7 +73,7 @@
         image:image1,
         left:0,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image2,
@@ -82,51 +82,51 @@
       },
       {
         image:image3,
-        left:0,
+        left:100,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image19,
         left:0,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image7,
         left:0,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image8,
         left:0,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image9,
         left:0,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image18,
         left:0,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image5,
         left:0,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image6,
         left:0,
         top:0,
-        scale:100
+        scale:150
       },
       {
         image:image4,
@@ -135,6 +135,10 @@
         scale:120
       }
     ];
+
+    const backgroundScaleInVW = 120;
+    const backgroundLeft = -8;
+    const backgroundTop = -30;
 
 
 
@@ -159,9 +163,7 @@
     let isIntroComplete = false;
     let showContent = false;
 
-    const backgroundScaleInVW = 120;
-    const backgroundLeft = -8;
-    const backgroundTop = -30;
+
 
 
     let isSectionTop=true;
@@ -230,8 +232,9 @@ const checkPosition = () => {
   const onViewBottomBottom = sectionOnViewBottom?.getBoundingClientRect().bottom;
   const forthcomingHatTop = sectionForthcomingHat?.getBoundingClientRect().top;
   const forthcomingBottomBottom = sectionForthcomingBottom?.getBoundingClientRect().bottom;
-  const exploreHatTop = sectionExplore?.getBoundingClientRect().top;
-  const exploreBottomBottom = sectionExplore?.getBoundingClientRect().bottom;
+  const exploreTop = sectionExplore?.getBoundingClientRect().top;
+  const exploreBottom = sectionExplore?.getBoundingClientRect().bottom;
+
 
   const viewportHeight = window.innerHeight;
 
@@ -239,8 +242,8 @@ const checkPosition = () => {
   isSectionOnView = onViewHatTop < viewportHeight && onViewBottomBottom > 0;
   isSectionForthcoming = forthcomingHatTop < viewportHeight && forthcomingBottomBottom > viewportHeight;
   isSectionExplore = forthcomingBottomBottom < viewportHeight ;
-  isNavShown = (onViewHatTop < 0 && onViewBottomBottom > viewportHeight) || (forthcomingHatTop < 0 && exploreBottomBottom > viewportHeight - 120)
-  isLogoBlack = isNavShown;
+  isNavShown = (onViewHatTop < 0 && onViewBottomBottom > viewportHeight) || (forthcomingHatTop < 200 && exploreBottom > viewportHeight - 200 )
+  isLogoBlack = (onViewHatTop < 0 && onViewBottomBottom > 60) || (forthcomingHatTop < 0 && exploreTop > 60)
 
 
 
@@ -321,6 +324,19 @@ font-weight: 700;
 line-height: 180px; /* 112.5% */
 text-transform: uppercase;
     }
+
+
+@media screen and ( max-width: 1024px ) {
+    h1{
+        color: var(--ffffff, #FFF);
+        font-family: "commuters-sans";
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 125%; /* 60px */
+        text-transform: uppercase;
+    }
+}
   </style>
   
   <svelte:head>
@@ -328,7 +344,7 @@ text-transform: uppercase;
   </svelte:head>
   {#await createAndResolvePromises()}
 
-        <div class="h-24 w-[120%] -left-[10%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] scale-50">
+        <div class="h-24 w-[200%] -left-[50%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] scale-50">
             <img src={S} alt="s" />
             <img src={O} alt="o" />
             <img src={N} alt="n" />
@@ -340,7 +356,7 @@ text-transform: uppercase;
   {:then} 
   {#if !isIntroComplete}
   <div transition:fade>
-  <Intro on:complete={handleIntroComplete}/>
+  <Intro on:complete={handleIntroComplete} imageAndPositionArray={IMAGE_ARRAY_WITH_BG_SHIFTS}/>
   </div>
     
   {:else}
@@ -357,14 +373,14 @@ text-transform: uppercase;
 
   <div class="fixed w-screen h-screen-50 bottom-0" transition:fade={{ duration: 300 }}>
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
-        <h1 class="mb-0 pb-0 translate-y-10">Devin</h1>
-        <h1 class="mb-0 pb-0 translate-y-10">Dejardin</h1>
+        <h1 class="mb-0 pb-0 lg:translate-y-10">Devin</h1>
+        <h1 class="mb-0 pb-0 lg:translate-y-10">Dejardin</h1>
 
     </ContentWidth>
 
   </div>
 
-  <div class="w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 300 }}>
+  <div class=" w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 300 }}>
         <ContentWidth class="flex flex-row justify-between items-center">
             <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
                 <FontAwesomeIcon icon={faBars} size="2x"/>
@@ -374,7 +390,7 @@ text-transform: uppercase;
             </a>
         </ContentWidth>
   </div>
-  <div class="fixed w-screen h-screen z-30 pointer-events-none">
+  <div class="fixed w-screen h-screen z-30 pointer-events-none hidden lg:block">
     <ContentWidth class='h-full relative'>
   
     <div class="absolute top-1/2 -translate-y-4 left-2 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
@@ -394,13 +410,18 @@ text-transform: uppercase;
 
     <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full {showContent ? "":"hidden"}" style="margin-bottom:-40vw" id="onview"/>
     <div id="on-view-start" class="w-full" >
-        <ContentWidth class='h-full flex flex-col items-left pl-20'>
+        <ContentWidth class='h-full flex flex-col items-left lg:pl-20'>
             <h5>Devon Desjardin</h5>
             <h3 class='mt-6'>To the garden</h3>
-            <h3 class="mb-6">we return</h3>
-            <h6 class='mb-6'>03.15 to 05.06.24</h6>
-            <LinkArrowButton text="EXPLORE"/>
         </ContentWidth>
+        <div class="w-full bg-subtle-primary lg:bg-transparent -mt-2">
+                <ContentWidth class='h-full flex flex-col items-left lg:pl-20'>
+            <h3 class="mb-6">we return</h3>
+        
+                <h6 class='mb-6'>03.15 to 05.06.24</h6>
+                <LinkArrowButton text="EXPLORE"/>
+            </ContentWidth>
+        </div>
         <div class='w-full bg-subtle-primary py-16'>
             <ContentWidth class="pl-20">
                 <div class="w-full aspect-video relative pt-16">
@@ -417,20 +438,37 @@ text-transform: uppercase;
             </ContentWidth>
         </div>
         <div class="w-full bg-subtle-primary pb-16">
-            <ContentWidth class="pl-20">
+            <ContentWidth class="lg:pl-20">
                 <h5>Selected Works</h5>
                 <div class="w-full flex flex-row flex-wrap">
-                    <div class="w-1/2 aspect-square flex justify-start items-center">
-                        <GridImage class="ml-10" src={onShowOne} alt="awaiting the return"/>
+                    <div class="w-full md:w-1/2 aspect-square flex justify-start items-center">
+                        <GridImage 
+                            class="ml-10" 
+                            src={onShowOne} 
+                            alt="awaiting the return"
+                        />
                     </div>
-                    <div class="w-1/2 aspect-square flex justify-end items-center">
-                        <GridImage src={onShowTwo} alt="mind body and spirit" text="MIND BODY AND SPIRIT"/>
+                    <div class="w-full md:w-1/2 aspect-square flex justify-end items-center">
+                        <GridImage 
+                            src={onShowTwo} 
+                            alt="mind body and spirit" 
+                            text="MIND BODY AND SPIRIT"
+                        />
                     </div>
-                    <div class="w-1/2 aspect-square flex justify-start items-center">
-                        <GridImage src={onShowThree} alt="in the shadows" text="IN THE SHADOWS"/>
+                    <div class="w-full md:w-1/2 aspect-square flex justify-start items-center">
+                        <GridImage 
+                            src={onShowThree} 
+                            alt="in the shadows" 
+                            text="IN THE SHADOWS"
+                        />
                     </div>
-                    <div class="w-1/2 aspect-square flex justify-end items-center">
-                        <GridImage src={onShowFour} alt="before the fall" text="BEFORE THE FALL" class="mr-10"/>
+                    <div class="w-full md:w-1/2 aspect-square flex justify-end items-center">
+                        <GridImage 
+                            src={onShowFour} 
+                            alt="before the fall" 
+                            text="BEFORE THE FALL" 
+                            class="mr-10"
+                        />
                     </div>
                 </div>
                 <LinkArrowButton text="show more" class="mt-16"/>
@@ -453,20 +491,42 @@ text-transform: uppercase;
     </div>
     <img bind:this={sectionForthcomingHat} src={forthcomingTopShape} aria-hidden alt='non-semantic shape' class="w-full z-0 bg-black bg-opacity-45" id="forthcoming" />
     <div bind:this={sectionForthcomingBottom} class="w-full bg-subtle-primary py-8">
-        <ContentWidth class="pl-20">
+        <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
             <div class="w-full flex flex-row flex-wrap">
-                <div class="w-1/2 aspect-square flex justify-start items-center">
-                    <GridImage class="" src={forthcomingOne} alt="The fall of adam and eve" text="The fall of adam and eve" subtitle="Julia Gould / Opening 08.23.24"/>
+                <div class="w-full md:w-1/2 aspect-square flex justify-start items-center">
+                    <GridImage 
+                        class=""
+                        src={forthcomingOne} 
+                        alt="The fall of adam and eve" 
+                        text="The fall of adam and eve" 
+                        subtitle="Julia Gould / Opening 08.23.24"
+                    />
                 </div>
-                <div class="w-1/2 aspect-square flex justify-end items-center">
-                    <GridImage src={forthcomingTwo} alt="take it easy" text="take it easy" subtitle="Alex Cutler / Opening 08.23.24"/>
+                <div class="w-full md:w-1/2 aspect-square flex justify-end items-center">
+                    <GridImage 
+                        src={forthcomingTwo}
+                        alt="take it easy" 
+                        text="take it easy" 
+                        subtitle="Alex Cutler / Opening 08.23.24"
+                    />
                 </div>
-                <div class="w-1/2 aspect-square flex justify-start items-center">
-                    <GridImage src={forthcomingThree} alt="earthly delights" text="earthly delights" subtitle="Dylan Gebbia-Richards / Opening 08.23.24"/>
+                <div class="w-full md:w-1/2 aspect-square flex justify-start items-center">
+                    <GridImage 
+                        src={forthcomingThree} 
+                        alt="earthly delights" 
+                        text="earthly delights" 
+                        subtitle="Dylan Gebbia-Richards / Opening 08.23.24"
+                    />
                 </div>
-                <div class="w-1/2 aspect-square flex justify-end items-center">
-                    <GridImage src={forthcomingFour} alt="morte ecranique" text="morte ecranique" subtitle="maude corriveau / Opening 08.23.24" class=""/>
+                <div class="w-full md:w-1/2 aspect-square flex justify-end items-center">
+                    <GridImage 
+                        src={forthcomingFour} 
+                        alt="morte ecranique" 
+                        text="morte ecranique" 
+                        subtitle="maude corriveau / Opening 08.23.24" 
+                        class=""
+                    />
                 </div>
             </div>
 

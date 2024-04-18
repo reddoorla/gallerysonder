@@ -6,9 +6,6 @@
     import { cubicOut, linear } from 'svelte/easing';
     import { interpolateString as interpolate } from 'd3-interpolate';
 
-    //TODO: center sonder not the O, just let  it open
-
-
     //TODO: added a 100ms crossfade
 
     import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
@@ -272,7 +269,7 @@
   <div class="w-screen h-screen bg-black">
     <div 
       
-      class="h-24 w-[120%] clip-by-logo absolute top-[40vh] bg-subtle-primary {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
+      class="h-24 w-[200%] clip-by-logo absolute top-[40vh] bg-subtle-primary {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
       style="left: {animatedOOffestLeft}px" 
     />
    
@@ -285,12 +282,12 @@
 
     <div 
         bind:this={verticalOpenWindow}
-        class=" absolute w-[120%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
+        class=" absolute w-[200%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
         style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
 
     />
  
-    <div class="h-24 w-[120%] -left-[10%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted ? "scale-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">
+    <div class="h-24 w-[200%] -left-[50%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted ? "scale-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">
         <img src={S} alt="s"  
           bind:this={originalS} 
           style="margin-left: calc(  { pathWidth*0 - NDERwidth  }px - 20% )"
