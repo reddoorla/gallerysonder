@@ -329,12 +329,12 @@ text-transform: uppercase;
   {#await createAndResolvePromises()}
 
         <div class="h-24 w-[120%] -left-[10%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] scale-50">
-            <img src={S} alt="s"  style="margin-left:-20%; " />
+            <img src={S} alt="s" />
             <img src={O} alt="o" />
             <img src={N} alt="n" />
             <img src={D} alt="d" />
             <img src={E} alt="e" />
-            <img src={R} alt="r" style="margin-right:-20%; "/>
+            <img src={R} alt="r" />
         </div>
     
   {:then} 
@@ -346,7 +346,7 @@ text-transform: uppercase;
   {:else}
 
   {#key isIntroComplete}
-  <div class="background-container" transition:fade={{ duration: 500 }}>
+  <div class="background-container" transition:fade={{ duration: 300 }}>
     <img
       src={backgroundImage}
       class="absolute"
@@ -355,7 +355,7 @@ text-transform: uppercase;
     />
   </div>
 
-  <div class="fixed w-screen h-screen-50 bottom-0" transition:fade={{ duration: 500 }}>
+  <div class="fixed w-screen h-screen-50 bottom-0" transition:fade={{ duration: 300 }}>
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
         <h1 class="mb-0 pb-0 translate-y-10">Devin</h1>
         <h1 class="mb-0 pb-0 translate-y-10">Dejardin</h1>
@@ -364,7 +364,7 @@ text-transform: uppercase;
 
   </div>
 
-  <div class="w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 500 }}>
+  <div class="w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 300 }}>
         <ContentWidth class="flex flex-row justify-between items-center">
             <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
                 <FontAwesomeIcon icon={faBars} size="2x"/>

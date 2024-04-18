@@ -246,7 +246,7 @@
       setTimeout(() => {
         isComplete = true;
         dispatch('complete');
-      }, 1000);
+      }, 500);
     }
 
     currentImageIndex; 
