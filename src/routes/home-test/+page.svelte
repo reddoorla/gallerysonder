@@ -391,12 +391,12 @@ text-transform: uppercase;
         </ContentWidth>
   </div>
   <div class="fixed w-screen h-screen z-30 pointer-events-none hidden lg:block">
-    <ContentWidth class='h-full relative'>
+    <ContentWidth class='h-full relative pointer-events-none'>
   
-    <div class="absolute top-1/2 -translate-y-4 left-2 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4 pointer-events-auto {isNavShown?'':'pointer-events-none opacity-0'}">
-        <a class="floating-links no-underline" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
-        <a class="floating-links no-underline" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
-        <a class="floating-links no-underline" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
+    <div class="absolute top-1/2 -translate-y-4 left-2 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4  {isNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
+        <a class="floating-links no-underline {isNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
+        <a class="floating-links no-underline {isNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
+        <a class="floating-links no-underline {isNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
     </div> 
     </ContentWidth>
     </div>
@@ -610,7 +610,7 @@ text-transform: uppercase;
             <div class="pl-20 -mt-[20vw] relative">
                 <h2 class="text-white w-2/3">Weaving Together the Stories that Shape Us</h2>
                 <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-2 mt-10" />
-                <div class="absolute -left-3 top-3 flex flex-col justify-center items-center gap-3">
+                <div class="absolute -left-3 top-3 flex flex-col justify-center items-center gap-3 z-40">
                     <a href="https://www.instagram.com" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
                         <FontAwesomeIcon icon={faInstagram} size='2x'/>
                     </a>
