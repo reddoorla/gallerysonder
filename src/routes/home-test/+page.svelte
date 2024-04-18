@@ -48,6 +48,13 @@
 	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
     import NameToClipPath from '$lib/components/NameToClipPath.svelte';
 
+    import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
+    import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
+    import N from "$lib/assets/icons/sonderAlphabet/normal/N.svg"
+    import D from "$lib/assets/icons/sonderAlphabet/normal/D.svg"
+    import E from "$lib/assets/icons/sonderAlphabet/normal/E.svg"
+    import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
+
     import image1 from "$lib/assets/images/introImages/intro-1.jpg"
     import image2 from "$lib/assets/images/introImages/intro-2.jpg"
     import image3 from "$lib/assets/images/introImages/intro-3.jpg"
@@ -243,7 +250,7 @@ const handleIntroComplete = () => {
     isIntroComplete=true;
     checkPosition();
     
-    setTimeout(()=>showContent=true, 2000);
+    setTimeout(()=>showContent=true, 500);
 
     }
 onMount(() => {
@@ -320,14 +327,21 @@ text-transform: uppercase;
     <title>Home Test</title>
   </svelte:head>
   {#await createAndResolvePromises()}
-    <div class="w-screen h-screen flex justify-center items-center">
-        <h1>
-            loading
-        </h1>
-    </div>
+
+        <div class="h-24 w-[120%] -left-[10%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] scale-50">
+            <img src={S} alt="s"  style="margin-left:-20%; " />
+            <img src={O} alt="o" />
+            <img src={N} alt="n" />
+            <img src={D} alt="d" />
+            <img src={E} alt="e" />
+            <img src={R} alt="r" style="margin-right:-20%; "/>
+        </div>
+    
   {:then} 
   {#if !isIntroComplete}
+  <div transition:fade>
   <Intro on:complete={handleIntroComplete}/>
+  </div>
     
   {:else}
 

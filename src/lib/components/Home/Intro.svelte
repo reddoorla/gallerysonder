@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount, createEventDispatcher } from 'svelte'
+    import { fade } from 'svelte/transition';
     import { browser } from '$app/environment';
     import { tweened } from "svelte/motion";
     import { cubicOut, linear } from 'svelte/easing';
@@ -7,7 +8,6 @@
 
     //TODO: center sonder not the O, just let  it open
 
-    //TODO: fix the flicker
 
     //TODO: added a 100ms crossfade
 
@@ -140,7 +140,7 @@
     const basePath =  ".44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h";
        
 
-    for( let i = 1 ; i<400 ; i++){
+    for( let i = 0 ; i<400 ; i++){
         O_paths.push("M"+(70+i*15)+basePath+(70+i*15)+".95Z");
     }
   
@@ -192,7 +192,7 @@
         hideO = false;
        }
 
-       if(pathWidth > innerWidth){
+       if(pathWidth > (innerWidth+NDERwidth)){
         isVerticalOpenPhase=true;
         isHorizontalOpenPhase = false;
       }
@@ -248,6 +248,8 @@
         dispatch('complete');
       }, 1000);
     }
+
+    currentImageIndex; 
   }
   </script>
   
@@ -276,27 +278,29 @@
    
     <div
         bind:this={animatedO}
-        class="h-24 scale-y-110 w-[120%] clip-by-logo absolute top-[40vh] transition-opacity {hideO ? "opacity-0 duration-1000":"duration-50"} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
+        class="h-24 w-[120%] clip-by-logo absolute top-[40vh] transition-opacity {hideO ? "opacity-0 duration-1000":"duration-50"} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
         style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
-    />
+        
+        />
 
     <div 
         bind:this={verticalOpenWindow}
         class=" absolute w-[120%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
         style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
+
     />
  
-    <div class="h-24 w-[120%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted ? "scale-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">
+    <div class="h-24 w-[120%] -left-[10%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted ? "scale-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">
         <img src={S} alt="s"  
           bind:this={originalS} 
-          style="margin-left: calc(  { pathWidth/2 - NDERwidth  }px - 10%)"
+          style="margin-left: calc(  { pathWidth*0 - NDERwidth  }px - 20% )"
           class={isOCentered ? "transition-all duration-[5000ms]":""}
           />
         <img src={O} bind:this={originalO} alt="s" class="{isGrowPhase||!isMounted ? '' : 'opacity-0'} max-h-screen transition-opacity" style="width: {pathWidth}px" />
         <img src={N} alt="n" />
         <img src={D} alt="d" />
         <img src={E} alt="e" />
-        <img src={R} alt="r" bind:this={originalR} style="margin-right:-{NDERwidth}px;"/>
+        <img src={R} alt="r" bind:this={originalR} style="margin-right: calc(  { pathWidth*0 - NDERwidth  }px - 20% );"/>
     </div>
   </div>
 
