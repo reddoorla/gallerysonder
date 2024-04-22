@@ -1,5 +1,5 @@
 <script lang="ts">
-    import LinkArrowButton from "./LinkArrowButton.svelte";
+    import LinkArrowButton from "./Buttons/LinkArrowButton.svelte";
     import onShowOne from "$lib/assets/images/homeImages/onShow/sonderOnShow1.jpg"
 
     export let src = onShowOne;

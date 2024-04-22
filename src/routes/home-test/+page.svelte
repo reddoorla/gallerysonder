@@ -4,7 +4,6 @@
 	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
     import { onMount } from 'svelte';
-    import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
 
     
@@ -13,8 +12,6 @@
     
     import onViewTopShape from "$lib/assets/shapes/homePageOnViewTop.svg"
     import onViewBottomShape from "$lib/assets/shapes/homePageOnViewBottom.svg"
-    import forthcomingTopShape from "$lib/assets/shapes/homePageForthcomingTop.svg"
-    import exploreBottomShape from "$lib/assets/shapes/homePageExploreBottom.svg"
     
     import videoPLaceholderImage from "$lib/assets/images/homeImages/galleryImage.jpg"
     
@@ -44,7 +41,7 @@
 
 	import GridImage from '$lib/components/GridImage.svelte';
     import ContentWidth from "$lib/components/ContentWidth.svelte";
-    import LinkArrowButton from '$lib/components/LinkArrowButton.svelte';
+    import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
     import NameToClipPath from '$lib/components/NameToClipPath.svelte';
 
@@ -69,7 +66,7 @@
 	
     import Intro from '$lib/components/Home/Intro.svelte';
     import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
-	import Index from '$lib/slices/RichText/index.svelte';
+
 
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [
       {
@@ -173,15 +170,19 @@
     let isSectionOnView = false;
     let isSectionForthcoming = false;
     let isSectionExplore =  false;
-    let isNavShown = false;
+    let isFixedNavShown = false;
     let isLogoBlack = false;
     let isBackgroundDark = false;
 
     let sectionOnViewHat:HTMLElement;
     let sectionOnViewBottom:HTMLElement;
-    let sectionForthcomingHat:HTMLElement;
     let sectionForthcomingBottom:HTMLElement;
+    let sectionForthcomingHat:HTMLElement;
     let sectionExplore:HTMLElement;
+    let fixedNav:HTMLElement;
+    let firstContent:HTMLElement;
+
+    let firstContentOffsetTop:number;
 
     let corriveauBG="inherit";
     let cutlerBG="inherit";
@@ -215,8 +216,7 @@
         
     }
 
-    $: {
-  
+$: {
   if (corriveauBG != "inherit") {
     exploreActiveBackgroundColor = corriveauBG;
   } else if (cutlerBG != "inherit") {
@@ -240,6 +240,7 @@
 
    
 const checkPosition = () => {
+    sectionForthcomingHat = sectionForthcomingBottom;
   const onViewHatTop = sectionOnViewHat?.getBoundingClientRect().top;
   const onViewBottomBottom = sectionOnViewBottom?.getBoundingClientRect().bottom;
   const forthcomingHatTop = sectionForthcomingHat?.getBoundingClientRect().top;
@@ -250,13 +251,15 @@ const checkPosition = () => {
 
   const viewportHeight = window.innerHeight;
 
+  firstContentOffsetTop=firstContent?.getBoundingClientRect().top;
+
   isSectionTop = onViewHatTop >= 0;
-  isSectionOnView = onViewHatTop < viewportHeight && onViewBottomBottom > 0;
-  isSectionForthcoming = forthcomingHatTop < viewportHeight && forthcomingBottomBottom > viewportHeight;
+  isSectionOnView = onViewHatTop < viewportHeight && onViewBottomBottom > viewportHeight*0.1 ;
+  isSectionForthcoming = forthcomingHatTop < viewportHeight*0.8 && forthcomingBottomBottom > viewportHeight;
   isSectionExplore = forthcomingBottomBottom < viewportHeight ;
-  isNavShown = (onViewHatTop < 0 && onViewBottomBottom > viewportHeight) || (forthcomingHatTop < 200 && exploreBottom > viewportHeight - 200 )
+  isFixedNavShown = (fixedNav?.getBoundingClientRect().top >= firstContentOffsetTop && exploreBottom > fixedNav?.getBoundingClientRect().bottom)
   isLogoBlack = (onViewHatTop < 0 && onViewBottomBottom > 60) || (forthcomingHatTop < 0 && exploreTop > 60);
-  isBackgroundDark = onViewBottomBottom < viewportHeight + 60
+  isBackgroundDark = onViewBottomBottom < viewportHeight + 60;
 
 
 
@@ -265,7 +268,6 @@ const checkPosition = () => {
 const handleIntroComplete = () => {
     isIntroComplete=true;
     checkPosition();
-    
     setTimeout(()=>showContent=true, 500);
 
     }
@@ -350,6 +352,11 @@ text-transform: uppercase;
         text-transform: uppercase;
     }
 }
+
+.bg-subtle-primary-bottom{
+    background-image: linear-gradient(to bottom, transparent 0%, transparent 70%, #E4EEEA 70%, #E4EEEA 100%);
+    background-image: -webkit-linear-gradient(top, transparent 0%, transparent 70%, #E4EEEA 70%, #E4EEEA 100%);
+}
   </style>
   
   <svelte:head>
@@ -391,18 +398,13 @@ text-transform: uppercase;
             <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit">Devin</h1>
             <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit">Dejardin</h1>
         </ScaleTextToContainer>
-
     </ContentWidth>
-
   </div>
-
   <div class=" w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 300 }}>
         <ContentWidth class="flex flex-row justify-between items-center">
             <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20 18C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H4C3.44772 16 3 16.4477 3 17C3 17.5523 3.44772 18 4 18H20ZM20 13C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H4C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H20ZM3 7C3 7.55228 3.44772 8 4 8H20C20.5523 8 21 7.55228 21 7C21 6.44772 20.5523 6 20 6H4C3.44772 6 3 6.44772 3 7Z" fill="white"/>
-                        
-                        
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20 18C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H4C3.44772 16 3 16.4477 3 17C3 17.5523 3.44772 18 4 18H20ZM20 13C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H4C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H20ZM3 7C3 7.55228 3.44772 8 4 8H20C20.5523 8 21 7.55228 21 7C21 6.44772 20.5523 6 20 6H4C3.44772 6 3 6.44772 3 7Z" fill="white"/>                        
                 </svg>
             </button>
             <a href="/" class="filter-to-accent-pink-on-hover transition-all pointer-events-auto bump brightness-0 {isLogoBlack ? "" : "invert"}">
@@ -412,12 +414,11 @@ text-transform: uppercase;
   </div>
   <div class="fixed w-screen h-screen z-30 pointer-events-none hidden lg:block">
     <ContentWidth class='h-full relative pointer-events-none'>
-  
-    <div class="absolute top-1/2 -translate-y-4 left-2 -translate-x-1/2 rotate-90 flex flex-row transition-opacity duration-700 ease-fast-slow gap-4  {isNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
-        <a class="floating-links no-underline {isNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
-        <a class="floating-links no-underline {isNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
-        <a class="floating-links no-underline {isNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
-    </div> 
+        <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
+            <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
+            <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
+            <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
+        </div> 
     </ContentWidth>
     </div>
 
@@ -430,18 +431,24 @@ text-transform: uppercase;
 
     <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full {showContent ? "":"hidden"}" style="margin-bottom:-45vw" id="onview"/>
     <div id="on-view-start" class="w-full" >
-        <ContentWidth class='h-full flex flex-col items-left lg:pl-20'>
-            <h5>Devon Dejardin</h5>
+        <ContentWidth class='h-full flex flex-col items-left lg:pl-20 relative' >
+            <h5 bind:this={firstContent}>Devon Dejardin</h5>
             <h3 class='mt-6'>To the garden</h3>
-        </ContentWidth>
-        <div class="w-full -mt-2">
-            <ContentWidth class='h-full flex flex-col items-left lg:pl-20'>
+
+        
+        
                 <h3 class="mb-6">we return</h3>
                 <h6 class='mb-6'>03.15 to 05.06.24</h6>
                 <LinkArrowButton text="EXPLORE"/>
+
+                <div class="absolute top-0 translate-y-[172px] left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
+                    <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
+                    <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
+                    <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
+                </div> 
             </ContentWidth>
-        </div>
-        <div class='w-full py-16 bg-subtle-primary'>
+       
+        <div class='w-full py-16 bg-subtle-primary xl:bg-transparent xl:-mb-[540px]'>
             <ContentWidth class="lg:pl-20">
                 <div class="w-full aspect-video relative pt-16">
                     <img src={videoPLaceholderImage} alt='gallery' class="w-full h-full object-cover"/>
@@ -456,7 +463,7 @@ text-transform: uppercase;
                 </div>
             </ContentWidth>
         </div>
-        <div class="w-full bg-subtle-primary pb-16">
+        <div class="w-full bg-subtle-primary pb-16 xl:pt-[540px]"  bind:this={sectionOnViewBottom}>
             <ContentWidth class="lg:pl-20">
                 <h5>Selected Works</h5>
                 <div class="w-full flex flex-row flex-wrap">
@@ -495,7 +502,7 @@ text-transform: uppercase;
 
         </div>
     </div>
-    <img bind:this={sectionOnViewBottom} src={onViewBottomShape} aria-hidden alt='non-semantic shape' class="w-full z-0 " />
+    <img src={onViewBottomShape} aria-hidden alt='non-semantic shape' class="w-full z-0 " />
     <div class="w-full py-12">
         <ContentWidth class="pl-20 flex flex-col justify-center items-center">
             <div class="text-subtle-primary mb-16 mx-16">
@@ -508,9 +515,12 @@ text-transform: uppercase;
             <img src={devonSignature} alt="devon signature" class="h-8 mt-16"/>
         </ContentWidth>
     </div>
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-full transition-all duration-1000 ease-fast-slow">
-        <path d="M1450 143.557V714.277H-518V174.008C-320.779 59.0298 -5.64624 0.277344 422.66 0.277344C821.314 0.277344 1165.05 49.1745 1450 143.557Z" fill="{exploreActiveBackgroundColor}"/>
-      </svg>
+    <div class="w-screen">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-screen transition-all duration-1000 ease-fast-slow" viewBox="-518 0 1968 714" style="margin-bottom:-26vw">
+            <path d="M1450 143.557V714.277H-518V174.008C-320.779 59.0298 -5.64624 0.277344 422.66 0.277344C821.314 0.277344 1165.05 49.1745 1450 143.557Z" fill="{exploreActiveBackgroundColor}"/>
+          </svg>
+    </div>
+      
     <div bind:this={sectionForthcomingBottom} class="w-full py-8 transition-all duration-1000 ease-fast-slow" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
@@ -558,7 +568,7 @@ text-transform: uppercase;
     </div>
 
     <div bind:this={sectionExplore} class="w-full transition-all duration-1000 ease-fast-slow" id="explore" style="background-color:{exploreActiveBackgroundColor};">
-        <ContentWidth class="lg:pl-20">
+        <ContentWidth class="lg:pl-20 relative">
             <div class="flex flex-col gap-16 my-16">
                 <NameToClipPath 
                     inactiveImage={corriveauStart} 
@@ -614,7 +624,13 @@ text-transform: uppercase;
                 
             </div>
             <LinkArrowButton text="artists" class="mt-16"/>
+            <div class="absolute bottom-0 -translate-y-[172px] left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
+                <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
+                <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
+                <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
+            </div> 
         </ContentWidth>
+       
     </div>
     
 
