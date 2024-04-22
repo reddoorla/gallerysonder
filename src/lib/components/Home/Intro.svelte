@@ -114,7 +114,9 @@
     let verticalOpenWindow:HTMLElement;
   
     let animatedOOffestLeft = 0
-    let originalSOffsetLeft=0;
+    let verticalOpenRectOffsetTop=0;
+    let originalSOffsetLeft;
+    let verticalOpenRectHeight = 0;
     let NDERwidth = 720;
     let animatedOWidth:number;
     let isOCentered = false;
@@ -167,17 +169,23 @@
   $: {
     pathWidth = calculatePathWidth($tweenedPath);
     if(originalO){
-      const rect = originalO.getBoundingClientRect();
-      animatedOOffestLeft = rect.left;
-      animatedOWidth = rect.width;
+      const animatedORect = originalO.getBoundingClientRect();
+      animatedOOffestLeft = animatedORect.left;
+      animatedOWidth = animatedORect.width;
     }
 
-      // console.log("animatedOOffsetLeft: "+animatedOOffestLeft +" | innerWidth: "+innerWidth+" | animatedOWidth: "+animatedOWidth)
+    if(verticalOpenWindow){
+      const verticalOpenRect = verticalOpenWindow.getBoundingClientRect();
+      verticalOpenRectOffsetTop = verticalOpenRect.top;
+      verticalOpenRectHeight = verticalOpenRect.height;
+    }
+
+
      if( originalO && animatedOOffestLeft > (innerWidth - animatedOWidth)/2 )
        isOCentered=true;
        
        if (currentImageIndex < imageAndPositionArray.length)
-        bgPosition = `calc(${-animatedOOffestLeft}px + ${imageAndPositionArray[currentImageIndex].left}vw) calc( ${imageAndPositionArray[currentImageIndex].top}vh)`;
+        bgPosition = `calc(${-animatedOOffestLeft}px + ${imageAndPositionArray[currentImageIndex].left}vw) calc(${-verticalOpenRectOffsetTop}px + ${imageAndPositionArray[currentImageIndex].top}vh)`;
        
         currentImageIndex = Math.floor(imageAndPositionArray.length*currentPathIndex/O_paths.length);
         if(currentImageIndex>=imageAndPositionArray.length)

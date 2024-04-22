@@ -1,6 +1,6 @@
 <script lang="ts">
     import  FontAwesomeIcon from 'svelte-fa'
-    import { faBars, faPlayCircle, faQuoteLeft, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
+    import { faPlayCircle, faQuoteLeft, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
     import { onMount } from 'svelte';
@@ -66,7 +66,10 @@
     import image9 from "$lib/assets/images/introImages/intro-9.jpg"
     import image18 from "$lib/assets/images/introImages/intro-18.jpg"
     import image19 from "$lib/assets/images/introImages/intro-19.jpg"
-	import Intro from '$lib/components/Home/Intro.svelte';
+	
+    import Intro from '$lib/components/Home/Intro.svelte';
+    import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
+	import Index from '$lib/slices/RichText/index.svelte';
 
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [
       {
@@ -136,9 +139,9 @@
       }
     ];
 
-    const backgroundScaleInVW = 120;
-    const backgroundLeft = -8;
-    const backgroundTop = -30;
+    const backgroundScaleInVW = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].scale;
+    const backgroundLeft = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].left;
+    const backgroundTop = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].top;
 
 
 
@@ -172,6 +175,7 @@
     let isSectionExplore =  false;
     let isNavShown = false;
     let isLogoBlack = false;
+    let isBackgroundDark = false;
 
     let sectionOnViewHat:HTMLElement;
     let sectionOnViewBottom:HTMLElement;
@@ -188,7 +192,7 @@
 
     const checkExploreColor = () => {
 
-        console.log(exploreActiveBackgroundColor)
+      
 
         if(corriveauBG!="inherit"){
             exploreActiveBackgroundColor=corriveauBG;
@@ -201,14 +205,18 @@
         }else if(jamesBG!="inherit"){
             exploreActiveBackgroundColor=jamesBG;
         } else{
-            exploreActiveBackgroundColor="#F2E8D9";
+            if(isSectionExplore){
+                exploreActiveBackgroundColor="#F2E8D9";
+            } else{
+                exploreActiveBackgroundColor="#E4EEEA";
+            }
         }
 
         
     }
 
     $: {
-  console.log("Updating exploreActiveBackgroundColor:", exploreActiveBackgroundColor);
+  
   if (corriveauBG != "inherit") {
     exploreActiveBackgroundColor = corriveauBG;
   } else if (cutlerBG != "inherit") {
@@ -220,7 +228,11 @@
   } else if (jamesBG != "inherit") {
     exploreActiveBackgroundColor = jamesBG;
   } else {
-    exploreActiveBackgroundColor = "#F2E8D9";
+    if(isSectionExplore){
+                exploreActiveBackgroundColor="#F2E8D9";
+            } else{
+                exploreActiveBackgroundColor="#E4EEEA";
+            }
   }
 }
 
@@ -243,7 +255,8 @@ const checkPosition = () => {
   isSectionForthcoming = forthcomingHatTop < viewportHeight && forthcomingBottomBottom > viewportHeight;
   isSectionExplore = forthcomingBottomBottom < viewportHeight ;
   isNavShown = (onViewHatTop < 0 && onViewBottomBottom > viewportHeight) || (forthcomingHatTop < 200 && exploreBottom > viewportHeight - 200 )
-  isLogoBlack = (onViewHatTop < 0 && onViewBottomBottom > 60) || (forthcomingHatTop < 0 && exploreTop > 60)
+  isLogoBlack = (onViewHatTop < 0 && onViewBottomBottom > 60) || (forthcomingHatTop < 0 && exploreTop > 60);
+  isBackgroundDark = onViewBottomBottom < viewportHeight + 60
 
 
 
@@ -369,12 +382,15 @@ text-transform: uppercase;
       style="width: {backgroundScaleInVW}%; max-width: {backgroundScaleInVW}%; left: {backgroundLeft}vw; top:{backgroundTop}vh"
       alt="background"
     />
+    <div class="absolute w-screen h-screen {isBackgroundDark?"bg-black":""} opacity-45"/>
   </div>
 
   <div class="fixed w-screen h-screen-50 bottom-0" transition:fade={{ duration: 300 }}>
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
-        <h1 class="mb-0 pb-0 lg:translate-y-10">Devin</h1>
-        <h1 class="mb-0 pb-0 lg:translate-y-10">Dejardin</h1>
+        <ScaleTextToContainer>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit">Devin</h1>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit">Dejardin</h1>
+        </ScaleTextToContainer>
 
     </ContentWidth>
 
@@ -383,7 +399,11 @@ text-transform: uppercase;
   <div class=" w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 300 }}>
         <ContentWidth class="flex flex-row justify-between items-center">
             <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
-                <FontAwesomeIcon icon={faBars} size="2x"/>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20 18C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H4C3.44772 16 3 16.4477 3 17C3 17.5523 3.44772 18 4 18H20ZM20 13C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H4C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H20ZM3 7C3 7.55228 3.44772 8 4 8H20C20.5523 8 21 7.55228 21 7C21 6.44772 20.5523 6 20 6H4C3.44772 6 3 6.44772 3 7Z" fill="white"/>
+                        
+                        
+                </svg>
             </button>
             <a href="/" class="filter-to-accent-pink-on-hover transition-all pointer-events-auto bump brightness-0 {isLogoBlack ? "" : "invert"}">
                 <RotatingLogo class="h-6" />
@@ -408,22 +428,21 @@ text-transform: uppercase;
     <div class="h-screen" />
     <div class="h-1" />
 
-    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full {showContent ? "":"hidden"}" style="margin-bottom:-40vw" id="onview"/>
+    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full {showContent ? "":"hidden"}" style="margin-bottom:-45vw" id="onview"/>
     <div id="on-view-start" class="w-full" >
         <ContentWidth class='h-full flex flex-col items-left lg:pl-20'>
-            <h5>Devon Desjardin</h5>
+            <h5>Devon Dejardin</h5>
             <h3 class='mt-6'>To the garden</h3>
         </ContentWidth>
-        <div class="w-full bg-subtle-primary lg:bg-transparent -mt-2">
-                <ContentWidth class='h-full flex flex-col items-left lg:pl-20'>
-            <h3 class="mb-6">we return</h3>
-        
+        <div class="w-full -mt-2">
+            <ContentWidth class='h-full flex flex-col items-left lg:pl-20'>
+                <h3 class="mb-6">we return</h3>
                 <h6 class='mb-6'>03.15 to 05.06.24</h6>
                 <LinkArrowButton text="EXPLORE"/>
             </ContentWidth>
         </div>
-        <div class='w-full bg-subtle-primary py-16'>
-            <ContentWidth class="pl-20">
+        <div class='w-full py-16 bg-subtle-primary'>
+            <ContentWidth class="lg:pl-20">
                 <div class="w-full aspect-video relative pt-16">
                     <img src={videoPLaceholderImage} alt='gallery' class="w-full h-full object-cover"/>
                     <div class="bottom-8 left-8 absolute flex flex-row justify-between gap-8">
@@ -476,8 +495,8 @@ text-transform: uppercase;
 
         </div>
     </div>
-    <img bind:this={sectionOnViewBottom} src={onViewBottomShape} aria-hidden alt='non-semantic shape' class="w-full z-0 bg-black bg-opacity-45" />
-    <div class="bg-black bg-opacity-45 w-full py-12">
+    <img bind:this={sectionOnViewBottom} src={onViewBottomShape} aria-hidden alt='non-semantic shape' class="w-full z-0 " />
+    <div class="w-full py-12">
         <ContentWidth class="pl-20 flex flex-col justify-center items-center">
             <div class="text-subtle-primary mb-16 mx-16">
                 <FontAwesomeIcon icon={faQuoteLeft} size="2x"/>
@@ -489,8 +508,10 @@ text-transform: uppercase;
             <img src={devonSignature} alt="devon signature" class="h-8 mt-16"/>
         </ContentWidth>
     </div>
-    <img bind:this={sectionForthcomingHat} src={forthcomingTopShape} aria-hidden alt='non-semantic shape' class="w-full z-0 bg-black bg-opacity-45" id="forthcoming" />
-    <div bind:this={sectionForthcomingBottom} class="w-full bg-subtle-primary py-8">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-full transition-all duration-1000 ease-fast-slow">
+        <path d="M1450 143.557V714.277H-518V174.008C-320.779 59.0298 -5.64624 0.277344 422.66 0.277344C821.314 0.277344 1165.05 49.1745 1450 143.557Z" fill="{exploreActiveBackgroundColor}"/>
+      </svg>
+    <div bind:this={sectionForthcomingBottom} class="w-full py-8 transition-all duration-1000 ease-fast-slow" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
             <div class="w-full flex flex-row flex-wrap">
@@ -537,7 +558,7 @@ text-transform: uppercase;
     </div>
 
     <div bind:this={sectionExplore} class="w-full transition-all duration-1000 ease-fast-slow" id="explore" style="background-color:{exploreActiveBackgroundColor};">
-        <ContentWidth class="pl-20">
+        <ContentWidth class="lg:pl-20">
             <div class="flex flex-col gap-16 my-16">
                 <NameToClipPath 
                     inactiveImage={corriveauStart} 
@@ -547,7 +568,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-10"
+                    class="h-6 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={cutlerStart} 
@@ -557,7 +578,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-10"
+                    class=" h-6 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={dejardinStart} 
@@ -567,7 +588,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-10"
+                    class="h-6 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={gebbiaStart} 
@@ -577,7 +598,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-10"
+                    class="h-6 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={jamesStart} 
@@ -587,7 +608,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}  
                     href="#" 
-                    class="h-10"
+                    class="h-6 md:h-10 lg:h-16"
                 />
                 
                 
@@ -598,29 +619,28 @@ text-transform: uppercase;
     
 
 
-    <div aria-hidden class="w-full -z-10 bg-black bg-opacity-45 -mt-[40vw] object-cover" >
+    <div aria-hidden class="w-full -z-10 -mt-[40vw] object-cover" >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1081" >
             <path class="transition-all duration-1000 ease-fast-slow" d="M-8.40312e-05 645.743L-2.76537e-05 0.859371L1440 0.859497L1440 1080.86C1294.79 870.352 987.176 769.073 431.897 716.51C212.097 696.382 78.5734 676.511 -8.40312e-05 645.743Z" fill={exploreActiveBackgroundColor}/>
-
-          </svg>
+        </svg>
     </div>
 
-    <div class="w-full bg-black bg-opacity-45 h-30vw">
+    <div class="w-full h-30vw">
         <ContentWidth class="h-full flex flex-col justify-between">
             <div class="pl-20 -mt-[20vw] relative">
                 <h2 class="text-white w-2/3">Weaving Together the Stories that Shape Us</h2>
                 <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-2 mt-10" />
-                <div class="absolute -left-3 top-3 flex flex-col justify-center items-center gap-3 z-40">
-                    <a href="https://www.instagram.com" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                <div class="absolute -left-3 top-3 flex flex-col justify-center items-center gap-4 z-40">
+                    <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
                         <FontAwesomeIcon icon={faInstagram} size='2x'/>
                     </a>
-                    <a href="https://www.linkedin.com" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                    <a href="https://www.linkedin.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
                         <FontAwesomeIcon icon={faLinkedinIn} size='2x'/>
                     </a>
-                    <a href="https://www.twitter.com" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump">
+                    <a href="https://www.twitter.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
                         <FontAwesomeIcon icon={faXTwitter} size='2x'/>
                     </a>
-                    <a href="https://www.facebook.com/" class="w-6 text-subtle-blue hover:text-accent-pink active:text-black transition-colors bump translate-x-1">
+                    <a href="https://www.facebook.com/" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump translate-x-1 scale-75">
                         <FontAwesomeIcon icon={faFacebookF} size='2x'/>
                     </a>
                 </div>

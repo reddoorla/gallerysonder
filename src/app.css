@@ -67,17 +67,16 @@ line-height: 38px; /* 135.714% */
 
 h5{
     color: #000;
-
-font-feature-settings: 'clig' off, 'liga' off;
-
-/* H6 - Bold */
-font-family: "commuters-sans";
-font-size: 14px;
-font-style: normal;
-font-weight: 700;
-line-height: 24px; /* 171.429% */
-letter-spacing: 1.5px;
-text-transform: uppercase;
+    font-feature-settings: 'clig' off, 'liga' off;
+    
+    /* H5 - bold */
+    font-family: "commuters-sans";
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px; /* 142.857% */
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 h6{
