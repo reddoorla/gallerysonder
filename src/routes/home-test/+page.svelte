@@ -518,7 +518,7 @@ text-transform: uppercase;
         </div>
     </div>
     <img src={onViewBottomShape} aria-hidden alt='non-semantic shape' class="w-full z-0 " />
-    <div class="w-full py-12">
+    <div class="w-full py-64">
         <ContentWidth class="pl-20 flex flex-col justify-center items-center">
             <div class="text-subtle-primary mb-16 mx-16">
                 <FontAwesomeIcon icon={faQuoteLeft} size="2x"/>
