@@ -540,15 +540,13 @@ text-transform: uppercase;
         <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
             <Gallery isRegular={true} items={FORTHCOMING_GALLERY}/>
-               
-
-        
-            <LinkArrowButton text="all exhibitions" class="mt-16"/>
+       
+            <LinkArrowButton text="all exhibitions" class="mt-4"/>
             <h2 class="font-normal mt-8">Celebrating the Diverse <br /> Stories that Define Us</h2>
         </ContentWidth>
     </div>
 
-    <div bind:this={sectionExplore} class="w-full transition-all duration-1000 ease-fast-slow" id="explore" style="background-color:{exploreActiveBackgroundColor};">
+    <div bind:this={sectionExplore} class="w-full transition-all duration-1000 ease-fast-slow pt-16" id="explore" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20 relative">
             <div class="flex flex-col gap-16 my-16">
                 <NameToClipPath 
