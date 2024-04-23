@@ -7,8 +7,7 @@
     export let text = "AWAITING THE RETURN"
     export let alt = "gallery image"
     export let subtitle = ""
-   
-    let isHover = false;
+    export let isHover = false;
     
 
 </script>
