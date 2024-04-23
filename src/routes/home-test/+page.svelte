@@ -381,7 +381,7 @@ font-family: "commuters-sans";
 font-size: 160px;
 font-style: normal;
 font-weight: 700;
-line-height: 180px; /* 112.5% */
+line-height: 1.125em; /* 112.5% */
 text-transform: uppercase;
     }
 
