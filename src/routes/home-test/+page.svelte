@@ -542,7 +542,7 @@ text-transform: uppercase;
             <Gallery isRegular={true} items={FORTHCOMING_GALLERY}/>
        
             <LinkArrowButton text="all exhibitions" class="mt-4"/>
-            <h2 class="font-normal mt-8">Celebrating the Diverse <br /> Stories that Define Us</h2>
+            <h2 class="font-normal mt-16">Celebrating the Diverse <br /> Stories that Define Us</h2>
         </ContentWidth>
     </div>
 
@@ -621,7 +621,7 @@ text-transform: uppercase;
     </div>
 
     <div class="w-full h-30vw">
-        <ContentWidth class="h-full flex flex-col justify-between">
+        <ContentWidth class="h-full flex flex-col justify-between pt-32">
             <div class="pl-20 -mt-[20vw] relative">
                 <h2 class="text-white w-2/3">Weaving Together the Stories that Shape Us</h2>
                 <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-2 mt-10" />
