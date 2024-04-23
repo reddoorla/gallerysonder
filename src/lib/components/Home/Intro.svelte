@@ -283,7 +283,7 @@
    
     <div
         bind:this={animatedO}
-        class="h-24 w-[200%] clip-by-logo absolute top-[40vh] transition-opacity {hideO ? "opacity-0 duration-1000":"duration-50"} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
+        class="h-24 w-[200%] clip-by-logo absolute top-[40vh] transition-opacity duration-300 {hideO ? "opacity-0 ":""} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
         style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
         
         />
@@ -301,7 +301,7 @@
 
           class={isOCentered ? "transition-all duration-[5000ms]":""}
           />
-        <img src={O} bind:this={originalO} alt="s" class="{isGrowPhase||!isMounted ? '' : 'opacity-0'} max-h-screen transition-opacity" style="width: {pathWidth}px" />
+        <img src={O} bind:this={originalO} alt="s" class="{isGrowPhase||!isMounted ? '' : 'opacity-0'} max-h-32 " style="width: {pathWidth}px" />
         <img src={N} alt="n" />
         <img src={D} alt="d" />
         <img src={E} alt="e" />
