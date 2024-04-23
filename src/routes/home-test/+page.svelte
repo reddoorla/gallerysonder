@@ -206,6 +206,8 @@
 
     let isIntroComplete = false;
     let showContent = false;
+    let showPresentedArtist = false;
+    let showSonderPresents=false;
 
 
 
@@ -313,6 +315,8 @@ const handleIntroComplete = () => {
     isIntroComplete=true;
     checkPosition();
     setTimeout(()=>showContent=true, 500);
+    setTimeout(()=>showPresentedArtist=true, 800);
+    setTimeout(()=>showSonderPresents=true, 1800);
 
     }
 onMount(() => {
@@ -423,7 +427,7 @@ text-transform: uppercase;
   {:else}
 
   {#key isIntroComplete}
-  <div class="background-container" transition:fade={{ duration: 300 }}>
+  <div class="background-container">
     <img
       src={backgroundImage}
       class="absolute"
@@ -433,11 +437,12 @@ text-transform: uppercase;
     <div class="absolute w-screen h-screen {isBackgroundDark?"bg-black":""} opacity-45"/>
   </div>
 
-  <div class="fixed w-screen h-screen-50 bottom-0" transition:fade={{ duration: 300 }}>
+  <div class="fixed w-screen h-screen-50 bottom-0" >
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
-        <ScaleTextToContainer>
-            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit">Devin</h1>
-            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit">Dejardin</h1>
+        <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-2 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents ? "" : "opacity-0"}">SONDER PRESENTS</h5>
+        <ScaleTextToContainer class="transition-opacity duration-500 ease-fast-slow {showPresentedArtist ? "":"opacity-0"}">
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Devin</h1>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Dejardin</h1>
         </ScaleTextToContainer>
     </ContentWidth>
   </div>
