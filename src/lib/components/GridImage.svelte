@@ -17,7 +17,7 @@
     const checkPosition = () =>{
         const linkHeight = linkRef?.getBoundingClientRect().top;
 
-        if(linkRef&&linkHeight<=window.innerHeight)
+        if(linkRef&&linkHeight<=window.innerHeight&&insetPercent!=5)
             insetPercent = 25 - 20 * ((window.innerHeight-linkHeight)/(window.innerHeight/2));
 
         if(insetPercent<5)

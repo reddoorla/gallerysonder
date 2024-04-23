@@ -38,8 +38,6 @@
     import gebbiaActive from '$lib/assets/icons/names/gebbia-richards_clippath.png'
     import jamesActive from '$lib/assets/icons/names/james_clippath.png'
 
-
-	import GridImage from '$lib/components/GridImage.svelte';
     import ContentWidth from "$lib/components/ContentWidth.svelte";
     import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
@@ -382,7 +380,7 @@ font-family: "commuters-sans";
 font-size: 160px;
 font-style: normal;
 font-weight: 700;
-line-height: 1em; /* 112.5% */
+line-height: 1em; /* 100% */
 text-transform: uppercase;
     }
 
@@ -624,7 +622,7 @@ text-transform: uppercase;
     <div class="w-full h-30vw">
         <ContentWidth class="h-full flex flex-col justify-between pt-32">
             <div class="pl-20 -mt-[20vw] relative">
-                <h2 class="text-white w-2/3">Weaving Together the Stories that Shape Us</h2>
+                <h2 class="text-white font-normal w-2/3">Weaving Together the Stories that Shape Us</h2>
                 <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-2 mt-10" />
                 <div class="absolute -left-3 top-3 flex flex-col justify-center items-center gap-4 z-40">
                     <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
