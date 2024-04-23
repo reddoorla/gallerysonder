@@ -66,6 +66,7 @@
 	
     import Intro from '$lib/components/Home/Intro.svelte';
     import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
+    import Gallery from '$lib/components/Gallery.svelte';
 
 
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [
@@ -141,6 +142,50 @@
     const backgroundTop = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].top;
 
 
+    const ON_VIEW_GALLERY = [
+        {
+            image: onShowOne,
+            title: "awaiting the return",
+            subtitle: ""
+        },
+        {
+            image: onShowTwo,
+            title: "mind body and spirit",
+            subtitle: ""
+        },
+        {
+            image: onShowThree,
+            title: "in the shadows",
+            subtitle: ""
+        },
+        {
+            image: onShowFour,
+            title: "before the fall",
+        }
+    ];
+
+    const FORTHCOMING_GALLERY = [
+        {
+            image: forthcomingOne,
+            title: "The Fall of Adam and Eve",
+            subtitle: "Julia Gould / Opening 08.23.24"
+        },
+        {
+            image: forthcomingTwo,
+            title: "Take it Easy",
+            subtitle: "Alex Cutler / Opening 08.23.24"
+        },
+        {
+            image: forthcomingThree,
+            title: "Earthly Delights",
+            subtitle: "Dylan Gebbia-Richards / Opening 08.23.24"
+        },
+        {
+            image: forthcomingFour,
+            title: "Morte Ecranique",
+            subtitle: "Maude Corriveau / Opening 08.23.24"
+        }
+    ];
 
     const preloadImage = (src: string) => {
         return new Promise<void>((resolve) => {
@@ -466,37 +511,7 @@ text-transform: uppercase;
         <div class="w-full bg-subtle-primary pb-16 xl:pt-[540px]"  bind:this={sectionOnViewBottom}>
             <ContentWidth class="lg:pl-20">
                 <h5>Selected Works</h5>
-                <div class="w-full flex flex-row flex-wrap">
-                    <div class="w-full md:w-1/2 aspect-square flex justify-start items-center">
-                        <GridImage 
-                            class="ml-10" 
-                            src={onShowOne} 
-                            alt="awaiting the return"
-                        />
-                    </div>
-                    <div class="w-full md:w-1/2 aspect-square flex justify-end items-center">
-                        <GridImage 
-                            src={onShowTwo} 
-                            alt="mind body and spirit" 
-                            text="MIND BODY AND SPIRIT"
-                        />
-                    </div>
-                    <div class="w-full md:w-1/2 aspect-square flex justify-start items-center">
-                        <GridImage 
-                            src={onShowThree} 
-                            alt="in the shadows" 
-                            text="IN THE SHADOWS"
-                        />
-                    </div>
-                    <div class="w-full md:w-1/2 aspect-square flex justify-end items-center">
-                        <GridImage 
-                            src={onShowFour} 
-                            alt="before the fall" 
-                            text="BEFORE THE FALL" 
-                            class="mr-10"
-                        />
-                    </div>
-                </div>
+                <Gallery willBlur={true} items={ON_VIEW_GALLERY}/>
                 <LinkArrowButton text="show more" class="mt-16"/>
             </ContentWidth>
 
@@ -524,42 +539,8 @@ text-transform: uppercase;
     <div bind:this={sectionForthcomingBottom} class="w-full py-8 transition-all duration-1000 ease-fast-slow" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
-            <div class="w-full flex flex-row flex-wrap">
-                <div class="w-full md:w-1/2 aspect-square flex justify-start items-center">
-                    <GridImage 
-                        class=""
-                        src={forthcomingOne} 
-                        alt="The fall of adam and eve" 
-                        text="The fall of adam and eve" 
-                        subtitle="Julia Gould / Opening 08.23.24"
-                    />
-                </div>
-                <div class="w-full md:w-1/2 aspect-square flex justify-end items-center">
-                    <GridImage 
-                        src={forthcomingTwo}
-                        alt="take it easy" 
-                        text="take it easy" 
-                        subtitle="Alex Cutler / Opening 08.23.24"
-                    />
-                </div>
-                <div class="w-full md:w-1/2 aspect-square flex justify-start items-center">
-                    <GridImage 
-                        src={forthcomingThree} 
-                        alt="earthly delights" 
-                        text="earthly delights" 
-                        subtitle="Dylan Gebbia-Richards / Opening 08.23.24"
-                    />
-                </div>
-                <div class="w-full md:w-1/2 aspect-square flex justify-end items-center">
-                    <GridImage 
-                        src={forthcomingFour} 
-                        alt="morte ecranique" 
-                        text="morte ecranique" 
-                        subtitle="maude corriveau / Opening 08.23.24" 
-                        class=""
-                    />
-                </div>
-            </div>
+            <Gallery isRegular={true} items={FORTHCOMING_GALLERY}/>
+               
 
         
             <LinkArrowButton text="all exhibitions" class="mt-16"/>

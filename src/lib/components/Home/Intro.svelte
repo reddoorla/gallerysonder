@@ -275,15 +275,15 @@
   </svg>
   
   <div class="w-screen h-screen bg-black">
-    <div 
+    <!-- <div 
       
       class="h-24 w-[200%] clip-by-logo absolute top-[40vh] bg-subtle-primary {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
       style="left: {animatedOOffestLeft}px" 
-    />
+    /> -->
    
     <div
         bind:this={animatedO}
-        class="h-24 w-[120%] clip-by-logo absolute top-[40vh] transition-opacity {hideO ? "opacity-0 duration-1000":"duration-50"} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
+        class="h-24 w-[200%] clip-by-logo absolute top-[40vh] transition-opacity {hideO ? "opacity-0 duration-1000":"duration-50"} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
         style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
         
         />
@@ -298,14 +298,14 @@
     <div class="h-24 w-[200%] -left-[50%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted ? "scale-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">
         <img src={S} alt="s"  
           bind:this={originalS} 
-          style="margin-left: calc(  { pathWidth*0 - NDERwidth  }px - 20% )"
+
           class={isOCentered ? "transition-all duration-[5000ms]":""}
           />
         <img src={O} bind:this={originalO} alt="s" class="{isGrowPhase||!isMounted ? '' : 'opacity-0'} max-h-screen transition-opacity" style="width: {pathWidth}px" />
         <img src={N} alt="n" />
         <img src={D} alt="d" />
         <img src={E} alt="e" />
-        <img src={R} alt="r" bind:this={originalR} style="margin-right: calc(  { pathWidth*0 - NDERwidth  }px - 20% );"/>
+        <img src={R} alt="r" bind:this={originalR} />
     </div>
   </div>
 
