@@ -345,7 +345,7 @@ onMount(() => {
     }
 
     .floating-links{
-        color: var(--9-cc-0-bc, #9CC0BC);
+        color: #00000015;
 
         font-feature-settings: 'clig' off, 'liga' off;
 

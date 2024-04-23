@@ -45,11 +45,13 @@
 <style>
     .clipOpen{
         clip-path: inset(0 0 0 0);
+        -webkit-clip-path: inset(0 0 0 0);
         
     }
     
     .clipClose{
         clip-path: inset(0 5% 0 5%);
+        -webkit-clip-path: inset(0 0 0 0);
     }
 
     .clip-transition{
