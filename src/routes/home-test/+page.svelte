@@ -146,21 +146,22 @@
         {
             image: onShowOne,
             title: "awaiting the return",
-            subtitle: ""
+            subtitle: "2023, Oil on canvas"
         },
         {
             image: onShowTwo,
             title: "mind body and spirit",
-            subtitle: ""
+            subtitle: "2023, Oil on canvas"
         },
         {
             image: onShowThree,
             title: "in the shadows",
-            subtitle: ""
+            subtitle: "2023, Oil on canvas"
         },
         {
             image: onShowFour,
             title: "before the fall",
+            subtitle: "2023, Oil on canvas"
         }
     ];
 

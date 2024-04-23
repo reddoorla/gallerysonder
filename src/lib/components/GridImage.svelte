@@ -63,7 +63,7 @@
     on:mouseleave={() => onHover(false)}
 >
     <img {src} {alt} class="clip-transition"  style="{isHover ? "clip-path: inset(0 0 0 0);": "clip-path: inset(0 "+insetPercent+"% 0 "+insetPercent+"%);"}"/>
-    <h5 class="mt-3 ml-[5%] text-nowrap transition-opacity duration-500 {insetPercent<9 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{text}</h5>
+    <h6 class="mt-3 ml-[5%] text-nowrap transition-opacity duration-500 {insetPercent<9 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{text}</h6>
     <span class="mt-2 ml-[5%] text-nowrap transition-opacity duration-500 {insetPercent<9 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{subtitle}</span>
     <LinkArrowButton text="EXPLORE" class="mt-4 ml-[5%] translate-x-[1px] transition-opacity duration-500 {isHover ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}"/>
     
