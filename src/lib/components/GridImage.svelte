@@ -55,7 +55,10 @@
     }
 
     .clip-transition{
-        transition: clip-path 0.75s ease-in, -webkit-clip-path 0.75s ease-in, ;
+        transition: clip-path 0.75s ease-in, -webkit-clip-path 0.75s ease-in;
+        -webkit-transition: -webkit-clip-path 0.75s ease-in;
+        transform: translateZ(1px);
+        -webkit-transform: translateZ(1px);
     }
 </style>
 
@@ -64,9 +67,9 @@
     on:mouseenter={() => onHover(true)}
     on:mouseleave={() => onHover(false)}
 >
-    <img {src} {alt} class="clip-transition"  style="{isHover ? "clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);": "clip-path: inset(0 "+insetPercent+"% 0 "+insetPercent+"%);-webkit-clip-path: inset(0 "+insetPercent+"% 0 "+insetPercent+"%);"}"/>
-    <h6 class="mt-3 ml-[5%] text-nowrap transition-opacity duration-500 {insetPercent<9 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{text}</h6>
-    <span class="mt-2 ml-[5%] text-nowrap transition-opacity duration-500 {insetPercent<9 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{subtitle}</span>
+    <img {src} {alt} class="clip-transition use-gpu"  style="{isHover ? "clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);": "clip-path: inset(0 "+insetPercent+"% 0 "+insetPercent+"%); -webkit-clip-path: inset(0 "+insetPercent+"% 0 "+insetPercent+"%);"}"/>
+    <h6 class="mt-3 ml-[5%] text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{text}</h6>
+    <span class="mt-2 ml-[5%] text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{subtitle}</span>
     <LinkArrowButton text="EXPLORE" class="mt-4 ml-[5%] translate-x-[1px] transition-opacity duration-500 {isHover ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}"/>
     
 </a>

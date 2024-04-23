@@ -42,7 +42,7 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
 
 <div class="w-full flex flex-row flex-wrap {$$props.class || ""}">
     {#each items as item, i (i)} 
-        <div class="w-full md:w-1/2 aspect-square flex items-center transition-all duration-700 delay-700 justify-{i%2 == 0 ? "start":"end"} {isHoverArray.some(Boolean) && !isHoverArray[i] && willBlur ? "blur" : ""}">
+        <div class="w-full md:w-1/2 aspect-square use-gpu flex items-center transition duration-700 delay-700 justify-{i%2 == 0 ? "start":"end"} {isHoverArray.some(Boolean) && !isHoverArray[i] && willBlur ? "blur" : ""}">
             <GridImage 
                 class="{i%4==0 && !isRegular  ? "ml-10" : ""} {i%3==0 && !isRegular ? "mr-10" : ""}" 
                 src={item.image} 

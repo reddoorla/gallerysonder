@@ -137,6 +137,9 @@
     let O_paths:string[]=[];
 
     const basePath =  ".44,0c30.24,0,50.49,19.03,50.49,47.52s-20.25,47.52-50.49,47.52H50.49C20.25,95.04,0,76,0,47.52S20.25,0,50.49,0h";
+
+    const easeOutQuint = (x:number) => 1 - Math.pow(1 - x, 5);
+
        
 
     //TODO: add easing

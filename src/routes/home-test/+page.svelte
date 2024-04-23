@@ -397,10 +397,7 @@ text-transform: uppercase;
     }
 }
 
-.bg-subtle-primary-bottom{
-    background-image: linear-gradient(to bottom, transparent 0%, transparent 70%, #E4EEEA 70%, #E4EEEA 100%);
-    background-image: -webkit-linear-gradient(top, transparent 0%, transparent 70%, #E4EEEA 70%, #E4EEEA 100%);
-}
+
   </style>
   
   <svelte:head>
@@ -451,7 +448,7 @@ text-transform: uppercase;
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M20 18C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H4C3.44772 16 3 16.4477 3 17C3 17.5523 3.44772 18 4 18H20ZM20 13C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H4C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H20ZM3 7C3 7.55228 3.44772 8 4 8H20C20.5523 8 21 7.55228 21 7C21 6.44772 20.5523 6 20 6H4C3.44772 6 3 6.44772 3 7Z" fill="white"/>                        
                 </svg>
             </button>
-            <a href="/" class="filter-to-accent-pink-on-hover transition-all pointer-events-auto bump brightness-0 {isLogoBlack ? "" : "invert"}">
+            <a href="/" class="filter-to-accent-pink-on-hover transition-colors pointer-events-auto bump brightness-0 {isLogoBlack ? "" : "invert"}">
                 <RotatingLogo class="h-6" />
             </a>
         </ContentWidth>
@@ -529,13 +526,13 @@ text-transform: uppercase;
             <img src={devonSignature} alt="devon signature" class="h-8 mt-16"/>
         </ContentWidth>
     </div>
-    <div class="w-screen">
+    <div class="w-screen use-gpu">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-screen transition-all duration-1000 ease-fast-slow" viewBox="-518 0 1968 714" style="margin-bottom:-26vw">
             <path d="M1450 143.557V714.277H-518V174.008C-320.779 59.0298 -5.64624 0.277344 422.66 0.277344C821.314 0.277344 1165.05 49.1745 1450 143.557Z" fill="{exploreActiveBackgroundColor}"/>
           </svg>
     </div>
       
-    <div bind:this={sectionForthcomingBottom} class="w-full py-8 transition-all duration-1000 ease-fast-slow" style="background-color:{exploreActiveBackgroundColor};">
+    <div bind:this={sectionForthcomingBottom} class="w-full py-8 transition-all duration-1000 use-gpu ease-fast-slow" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
             <Gallery isRegular={true} items={FORTHCOMING_GALLERY}/>
@@ -545,7 +542,7 @@ text-transform: uppercase;
         </ContentWidth>
     </div>
 
-    <div bind:this={sectionExplore} class="w-full transition-all duration-1000 ease-fast-slow pt-16" id="explore" style="background-color:{exploreActiveBackgroundColor};">
+    <div bind:this={sectionExplore} class="w-full use-gpu transition-all duration-1000 ease-fast-slow pt-16" id="explore" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20 relative">
             <div class="flex flex-col gap-16 my-16">
                 <NameToClipPath 
@@ -613,7 +610,7 @@ text-transform: uppercase;
     
 
 
-    <div aria-hidden class="w-full -z-10 -mt-[40vw] object-cover" >
+    <div aria-hidden class="w-full -z-10 -mt-[40vw] object-cover use-gpu" >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1081" >
             <path class="transition-all duration-1000 ease-fast-slow" d="M-8.40312e-05 645.743L-2.76537e-05 0.859371L1440 0.859497L1440 1080.86C1294.79 870.352 987.176 769.073 431.897 716.51C212.097 696.382 78.5734 676.511 -8.40312e-05 645.743Z" fill={exploreActiveBackgroundColor}/>
         </svg>
