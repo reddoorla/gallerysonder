@@ -1,6 +1,6 @@
 {
 	"id": "page",
-	"label": "Page",
+	"label": "page",
 	"format": "page",
 	"repeatable": true,
 	"status": true,
@@ -27,6 +27,21 @@
 				"fieldset": "Slice Zone",
 				"config": {
 					"choices": {
+						"quote_block": {
+							"type": "SharedSlice"
+						},
+						"video_block": {
+							"type": "SharedSlice"
+						},
+						"image_gallery": {
+							"type": "SharedSlice"
+						},
+						"title_block": {
+							"type": "SharedSlice"
+						},
+						"name_list": {
+							"type": "SharedSlice"
+						},
 						"rich_text": {
 							"type": "SharedSlice"
 						}

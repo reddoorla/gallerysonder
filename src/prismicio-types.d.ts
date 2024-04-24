@@ -208,14 +208,20 @@ export type IntroImagesDocument<Lang extends string = string> = prismic.PrismicD
 	Lang
 >;
 
-type PageDocumentDataSlicesSlice = RichTextSlice;
+type PageDocumentDataSlicesSlice =
+	| QuoteBlockSlice
+	| VideoBlockSlice
+	| ImageGallerySlice
+	| TitleBlockSlice
+	| NameListSlice
+	| RichTextSlice;
 
 /**
- * Content for Page documents
+ * Content for page documents
  */
 interface PageDocumentData {
 	/**
-	 * Title field in *Page*
+	 * Title field in *page*
 	 *
 	 * - **Field Type**: Title
 	 * - **Placeholder**: *None*
@@ -226,7 +232,7 @@ interface PageDocumentData {
 	title: prismic.TitleField;
 
 	/**
-	 * Slice Zone field in *Page*
+	 * Slice Zone field in *page*
 	 *
 	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
@@ -235,7 +241,7 @@ interface PageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#slices
 	 */
 	slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
-	 * Meta Title field in *Page*
+	 * Meta Title field in *page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A title of the page used for social media and search engines
@@ -246,7 +252,7 @@ interface PageDocumentData {
 	meta_title: prismic.KeyTextField;
 
 	/**
-	 * Meta Description field in *Page*
+	 * Meta Description field in *page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A brief summary of the page
@@ -257,7 +263,7 @@ interface PageDocumentData {
 	meta_description: prismic.KeyTextField;
 
 	/**
-	 * Meta Image field in *Page*
+	 * Meta Image field in *page*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -269,7 +275,7 @@ interface PageDocumentData {
 }
 
 /**
- * Page document from Prismic
+ * page document from Prismic
  *
  * - **API ID**: `page`
  * - **Repeatable**: `true`
