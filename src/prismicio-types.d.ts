@@ -4,6 +4,210 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+type ArtistDocumentDataSlicesSlice = never;
+
+/**
+ * Content for artist documents
+ */
+interface ArtistDocumentData {
+	/**
+	 * Slice Zone field in *artist*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	slices: prismic.SliceZone<ArtistDocumentDataSlicesSlice> /**
+	 * Meta Description field in *artist*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: artist.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */;
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *artist*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	meta_image: prismic.ImageField<never>;
+
+	/**
+	 * Meta Title field in *artist*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: artist.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	meta_title: prismic.KeyTextField;
+}
+
+/**
+ * artist document from Prismic
+ *
+ * - **API ID**: `artist`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ArtistDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<ArtistDocumentData>,
+	'artist',
+	Lang
+>;
+
+type ExhibitDocumentDataSlicesSlice = never;
+
+/**
+ * Content for exhibit documents
+ */
+interface ExhibitDocumentData {
+	/**
+	 * Slice Zone field in *exhibit*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	slices: prismic.SliceZone<ExhibitDocumentDataSlicesSlice> /**
+	 * Meta Description field in *exhibit*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: exhibit.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */;
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *exhibit*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	meta_image: prismic.ImageField<never>;
+
+	/**
+	 * Meta Title field in *exhibit*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: exhibit.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	meta_title: prismic.KeyTextField;
+}
+
+/**
+ * exhibit document from Prismic
+ *
+ * - **API ID**: `exhibit`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ExhibitDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<ExhibitDocumentData>,
+	'exhibit',
+	Lang
+>;
+
+/**
+ * Item in *intro images → images*
+ */
+export interface IntroImagesDocumentDataImagesItem {
+	/**
+	 * image field in *intro images → images*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: intro_images.images[].image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+
+	/**
+	 * scale (%) field in *intro images → images*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: 100
+	 * - **API ID Path**: intro_images.images[].scale
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	scale: prismic.NumberField;
+
+	/**
+	 * left field in *intro images → images*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: 0
+	 * - **API ID Path**: intro_images.images[].left
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	left: prismic.NumberField;
+
+	/**
+	 * top field in *intro images → images*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: 0
+	 * - **API ID Path**: intro_images.images[].top
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	top: prismic.NumberField;
+}
+
+/**
+ * Content for intro images documents
+ */
+interface IntroImagesDocumentData {
+	/**
+	 * images field in *intro images*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: intro_images.images[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	images: prismic.GroupField<Simplify<IntroImagesDocumentDataImagesItem>>;
+}
+
+/**
+ * intro images document from Prismic
+ *
+ * - **API ID**: `intro_images`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type IntroImagesDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+	Simplify<IntroImagesDocumentData>,
+	'intro_images',
+	Lang
+>;
+
 type PageDocumentDataSlicesSlice = RichTextSlice;
 
 /**
@@ -30,8 +234,7 @@ interface PageDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#slices
 	 */
-	slices: prismic.SliceZone<PageDocumentDataSlicesSlice>;
-	/**
+	slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
 	 * Meta Title field in *Page*
 	 *
 	 * - **Field Type**: Text
@@ -39,7 +242,7 @@ interface PageDocumentData {
 	 * - **API ID Path**: page.meta_title
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
+	 */;
 	meta_title: prismic.KeyTextField;
 
 	/**
@@ -80,7 +283,92 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 	Lang
 >;
 
-export type AllDocumentTypes = PageDocument;
+export type AllDocumentTypes =
+	| ArtistDocument
+	| ExhibitDocument
+	| IntroImagesDocument
+	| PageDocument;
+
+/**
+ * Default variation for ImageGallery Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ImageGallerySliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Record<string, never>,
+	never
+>;
+
+/**
+ * Slice variation for *ImageGallery*
+ */
+type ImageGallerySliceVariation = ImageGallerySliceDefault;
+
+/**
+ * ImageGallery Shared Slice
+ *
+ * - **API ID**: `image_gallery`
+ * - **Description**: ImageGallery
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ImageGallerySlice = prismic.SharedSlice<'image_gallery', ImageGallerySliceVariation>;
+
+/**
+ * Default variation for NameList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type NameListSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Record<string, never>,
+	never
+>;
+
+/**
+ * Slice variation for *NameList*
+ */
+type NameListSliceVariation = NameListSliceDefault;
+
+/**
+ * NameList Shared Slice
+ *
+ * - **API ID**: `name_list`
+ * - **Description**: NameList
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type NameListSlice = prismic.SharedSlice<'name_list', NameListSliceVariation>;
+
+/**
+ * Default variation for QuoteBlock Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type QuoteBlockSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Record<string, never>,
+	never
+>;
+
+/**
+ * Slice variation for *QuoteBlock*
+ */
+type QuoteBlockSliceVariation = QuoteBlockSliceDefault;
+
+/**
+ * QuoteBlock Shared Slice
+ *
+ * - **API ID**: `quote_block`
+ * - **Description**: QuoteBlock
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type QuoteBlockSlice = prismic.SharedSlice<'quote_block', QuoteBlockSliceVariation>;
 
 /**
  * Primary content in *RichText → Primary*
@@ -124,6 +412,60 @@ type RichTextSliceVariation = RichTextSliceDefault;
  */
 export type RichTextSlice = prismic.SharedSlice<'rich_text', RichTextSliceVariation>;
 
+/**
+ * Default variation for TitleBlock Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TitleBlockSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Record<string, never>,
+	never
+>;
+
+/**
+ * Slice variation for *TitleBlock*
+ */
+type TitleBlockSliceVariation = TitleBlockSliceDefault;
+
+/**
+ * TitleBlock Shared Slice
+ *
+ * - **API ID**: `title_block`
+ * - **Description**: TitleBlock
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TitleBlockSlice = prismic.SharedSlice<'title_block', TitleBlockSliceVariation>;
+
+/**
+ * Default variation for VideoBlock Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type VideoBlockSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Record<string, never>,
+	never
+>;
+
+/**
+ * Slice variation for *VideoBlock*
+ */
+type VideoBlockSliceVariation = VideoBlockSliceDefault;
+
+/**
+ * VideoBlock Shared Slice
+ *
+ * - **API ID**: `video_block`
+ * - **Description**: VideoBlock
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type VideoBlockSlice = prismic.SharedSlice<'video_block', VideoBlockSliceVariation>;
+
 declare module '@prismicio/client' {
 	interface CreateClient {
 		(
@@ -134,14 +476,38 @@ declare module '@prismicio/client' {
 
 	namespace Content {
 		export type {
+			ArtistDocument,
+			ArtistDocumentData,
+			ArtistDocumentDataSlicesSlice,
+			ExhibitDocument,
+			ExhibitDocumentData,
+			ExhibitDocumentDataSlicesSlice,
+			IntroImagesDocument,
+			IntroImagesDocumentData,
+			IntroImagesDocumentDataImagesItem,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
 			AllDocumentTypes,
+			ImageGallerySlice,
+			ImageGallerySliceVariation,
+			ImageGallerySliceDefault,
+			NameListSlice,
+			NameListSliceVariation,
+			NameListSliceDefault,
+			QuoteBlockSlice,
+			QuoteBlockSliceVariation,
+			QuoteBlockSliceDefault,
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
-			RichTextSliceDefault
+			RichTextSliceDefault,
+			TitleBlockSlice,
+			TitleBlockSliceVariation,
+			TitleBlockSliceDefault,
+			VideoBlockSlice,
+			VideoBlockSliceVariation,
+			VideoBlockSliceDefault
 		};
 	}
 }

@@ -1,0 +1,49 @@
+{
+	"format": "custom",
+	"id": "intro_images",
+	"label": "intro images",
+	"repeatable": false,
+	"status": true,
+	"json": {
+		"Main": {
+			"images": {
+				"type": "Group",
+				"config": {
+					"label": "images",
+					"repeat": true,
+					"fields": {
+						"image": {
+							"type": "Image",
+							"config": {
+								"label": "image",
+								"constraint": {},
+								"thumbnails": []
+							}
+						},
+						"scale": {
+							"type": "Number",
+							"config": {
+								"label": "scale (%)",
+								"placeholder": "100"
+							}
+						},
+						"left": {
+							"type": "Number",
+							"config": {
+								"label": "left",
+								"placeholder": "0"
+							}
+						},
+						"top": {
+							"type": "Number",
+							"config": {
+								"label": "top",
+								"placeholder": "0"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"id": "name_list",
+	"type": "SharedSlice",
+	"name": "NameList",
+	"description": "NameList",
+	"variations": [
+		{
+			"id": "default",
+			"name": "Default",
+			"docURL": "...",
+			"version": "initial",
+			"description": "Default",
+			"imageUrl": ""
+		}
+	]
+}
