@@ -459,6 +459,11 @@ text-transform: uppercase;
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M20 18C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H4C3.44772 16 3 16.4477 3 17C3 17.5523 3.44772 18 4 18H20ZM20 13C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H4C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H20ZM3 7C3 7.55228 3.44772 8 4 8H20C20.5523 8 21 7.55228 21 7C21 6.44772 20.5523 6 20 6H4C3.44772 6 3 6.44772 3 7Z" fill="white"/>                        
                 </svg>
             </button>
+            <div>
+                <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionOnView ? "active":"hidden opacity-0"}" transition:fade href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
+                <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionForthcoming? "active":"hidden opacity-0"}" transition:fade href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
+                <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionExplore? "active":"hidden opacity-0"}" transition:fade href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
+            </div>
             <a href="/" class="filter-to-accent-pink-on-hover transition-colors pointer-events-auto bump brightness-0 {isLogoBlack ? "" : "invert"}">
                 <RotatingLogo class="h-6" />
             </a>
@@ -581,7 +586,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-4 md:h-10 lg:h-16"
+                    class="h-4 sm:h-6 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={gebbiaStart} 
@@ -624,10 +629,10 @@ text-transform: uppercase;
         </svg>
     </div>
 
-    <div class="w-full h-[80vh] md:h-30vw">
+    <div class="w-full h-[80vh] sm:h-[30vw] xl:h-[20vw]">
         <ContentWidth class="h-full flex flex-col justify-between md:pt-32">
-            <div class="md:pl-20 -mt-[20vw] relative">
-                <h2 class="text-white font-normal mt-32 md:mt-16 md:w-2/3">Weaving Together the Stories that Shape Us</h2>
+            <div class="sm:pl-20 -mt-[20vw] relative">
+                <h2 class="text-white font-normal mt-32 md:mt-16 sm:w-2/3">Weaving Together the Stories that Shape Us</h2>
                 <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-0 md:ml-2 mt-4 text-left md:mt-10" />
                 <div class="absolute md:-left-3 top-0 md:top-3 flex md:flex-col justify-center items-center gap-4">
                     <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
@@ -644,7 +649,7 @@ text-transform: uppercase;
                     </a>
                 </div>
             </div>
-            <div class="md:pl-20 flex flex-row justify-between w-full mb-12">
+            <div class="sm:pl-20 flex flex-row justify-between w-full mb-12">
                 <a href="/" class="h-3 ml-2">
                     <img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert"/>
                 </a>
