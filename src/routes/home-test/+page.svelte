@@ -302,8 +302,8 @@ const checkPosition = () => {
   firstContentOffsetTop=firstContent?.getBoundingClientRect().top;
 
   isSectionTop = onViewHatTop >= 0;
-  isSectionOnView = onViewHatTop < viewportHeight && onViewBottomBottom > viewportHeight*0.1 ;
-  isSectionForthcoming = forthcomingHatTop < viewportHeight*0.8 && forthcomingBottomBottom > viewportHeight;
+  isSectionOnView = onViewHatTop < 60 && onViewBottomBottom > viewportHeight*0.1 ;
+  isSectionForthcoming = forthcomingHatTop < 60 && forthcomingBottomBottom > viewportHeight;
   isSectionExplore = forthcomingBottomBottom < viewportHeight ;
   isFixedNavShown = (fixedNav?.getBoundingClientRect().top >= firstContentOffsetTop && exploreBottom > fixedNav?.getBoundingClientRect().bottom)
   isLogoBlack = (onViewHatTop < 0 && onViewBottomBottom > 60) || (forthcomingHatTop < 0 && exploreTop > 60);
