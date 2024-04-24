@@ -469,7 +469,7 @@ text-transform: uppercase;
                 </svg>
             </button>
             <div>
-                <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionOnView ? "active":"hidden opacity-0"}" transition:fade href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
+                <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionOnView&&!isSectionTop ? "active":"hidden opacity-0"}" transition:fade href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
                 <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionForthcoming? "active":"hidden opacity-0"}" transition:fade href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
                 <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionExplore? "active":"hidden opacity-0"}" transition:fade href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
             </div>
