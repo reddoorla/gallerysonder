@@ -530,7 +530,8 @@ text-transform: uppercase;
             <ContentWidth class="lg:pl-20">
                 <h5>Selected Works</h5>
                 <Gallery willBlur={true} items={ON_VIEW_GALLERY}/>
-                <LinkArrowButton text="show more" class="mt-16"/>
+                <LinkArrowButton text="view more" class="mt-16"/>
+                <h2 class="font-normal mt-16">The Complete Catalogue of <br /> To the Garden We Return</h2>
             </ContentWidth>
 
         </div>
@@ -560,7 +561,7 @@ text-transform: uppercase;
             <Gallery isRegular={true} items={FORTHCOMING_GALLERY}/>
        
             <LinkArrowButton text="all exhibitions" class="mt-4"/>
-            <h2 class="font-normal mt-16">Celebrating the Diverse <br /> Stories that Define Us</h2>
+            <h2 class="font-normal mt-16">Celebrating the Diverse Stories that Define Us</h2>
         </ContentWidth>
     </div>
 
