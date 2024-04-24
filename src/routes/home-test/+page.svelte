@@ -3,10 +3,11 @@
     import { faPlayCircle, faQuoteLeft, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
+
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
 
-    
+ 
     import backgroundImage from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg";
     import logoExtendedE from "$lib/assets/icons/sonderLogosExtended/SONDER_E.svg"
     
@@ -205,6 +206,14 @@
         return await Promise.all(coverImagesPromises);
     };
 
+    const debounce = (func: Function, delay: number) => {
+        let timeoutId: ReturnType<typeof setTimeout>;
+        return (...args: any[]) => {
+        clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func(...args), delay);
+        };
+    };
+
     let isIntroComplete = false;
     let showContent = false;
     let showPresentedArtist = false;
@@ -288,7 +297,7 @@ $: {
 
    
 const checkPosition = () => {
-    sectionForthcomingHat = sectionForthcomingBottom;
+
   const onViewHatTop = sectionOnViewHat?.getBoundingClientRect().top;
   const onViewBottomBottom = sectionOnViewBottom?.getBoundingClientRect().bottom;
   const forthcomingHatTop = sectionForthcomingHat?.getBoundingClientRect().top;
@@ -303,7 +312,7 @@ const checkPosition = () => {
 
   isSectionTop = onViewHatTop >= 0;
   isSectionOnView = onViewHatTop < 60 && onViewBottomBottom > viewportHeight*0.1 ;
-  isSectionForthcoming = forthcomingHatTop < 60 && forthcomingBottomBottom > viewportHeight;
+  isSectionForthcoming = forthcomingHatTop < 180 && forthcomingBottomBottom > viewportHeight;
   isSectionExplore = forthcomingBottomBottom < viewportHeight ;
   isFixedNavShown = (fixedNav?.getBoundingClientRect().top >= firstContentOffsetTop && exploreBottom > fixedNav?.getBoundingClientRect().bottom)
   isLogoBlack = (onViewHatTop < 0 && onViewBottomBottom > 60) || (forthcomingHatTop < 0 && exploreTop > 60);
@@ -322,10 +331,10 @@ const handleIntroComplete = () => {
 
     }
 onMount(() => {
+    
     window.addEventListener('scroll', checkPosition);
-    checkPosition();
-  });
 
+});
 
   </script>
   
@@ -539,7 +548,7 @@ text-transform: uppercase;
             <img src={devonSignature} alt="devon signature" class="h-8 mt-16"/>
         </ContentWidth>
     </div>
-    <div class="w-screen use-gpu">
+    <div bind:this={sectionForthcomingHat} class="w-screen use-gpu">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-screen transition-all duration-1000 ease-fast-slow" viewBox="-518 0 1968 714" style="margin-bottom:-26vw">
             <path d="M1450 143.557V714.277H-518V174.008C-320.779 59.0298 -5.64624 0.277344 422.66 0.277344C821.314 0.277344 1165.05 49.1745 1450 143.557Z" fill="{exploreActiveBackgroundColor}"/>
           </svg>
