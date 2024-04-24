@@ -77,7 +77,8 @@
       {
         image:image2,
         left:0,
-        top:0
+        top:0,
+        scale:100
       },
       {
         image:image3,
@@ -131,7 +132,7 @@
         image:image4,
         left:-8,
         top:-30,
-        scale:120
+        scale:140
       }
     ];
 
@@ -210,6 +211,7 @@
     let showSonderPresents=false;
 
 
+    let innerWidth:number;
 
 
     let isSectionTop=true;
@@ -399,6 +401,8 @@ text-transform: uppercase;
         line-height: 125%; /* 60px */
         text-transform: uppercase;
     }
+
+
 }
 
 
@@ -407,6 +411,8 @@ text-transform: uppercase;
   <svelte:head>
     <title>Home Test</title>
   </svelte:head>
+
+  <svelte:window bind:innerWidth={innerWidth} />
   {#await createAndResolvePromises()}
 
         <div class="h-24 w-[200%] -left-[50%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] scale-50">
@@ -430,16 +436,16 @@ text-transform: uppercase;
   <div class="background-container">
     <img
       src={backgroundImage}
-      class="absolute"
-      style="width: {backgroundScaleInVW}%; max-width: {backgroundScaleInVW}%; left: {backgroundLeft}vw; top:{backgroundTop}vh"
+      class="absolute object-cover {isBackgroundDark ? "blur-sm md:blur-none":""}"
+      style={innerWidth > 768 ? "width: "+backgroundScaleInVW+"%; max-width: "+backgroundScaleInVW+"%; left: "+backgroundLeft+"vw; top:"+backgroundTop+"vh" : "height:"+backgroundScaleInVW+"vh; top: -"+((backgroundScaleInVW-100)/2||0)+"%;"}
       alt="background"
     />
-    <div class="absolute w-screen h-screen {isBackgroundDark?"bg-black":""} opacity-45"/>
+    <div class="absolute w-screen h-screen backdrop-blur md:backdrop-blur-none {isBackgroundDark?"bg-black opacity-45":"opacity-0"} "/>
   </div>
 
   <div class="fixed w-screen h-screen-50 bottom-0" >
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
-        <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-2 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents ? "" : "opacity-0"}">SONDER PRESENTS</h5>
+        <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents ? "" : "opacity-0"}">SONDER PRESENTS</h5>
         <ScaleTextToContainer class="transition-opacity duration-500 ease-fast-slow {showPresentedArtist ? "":"opacity-0"}">
             <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Devin</h1>
             <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Dejardin</h1>
@@ -475,19 +481,16 @@ text-transform: uppercase;
     <div class="h-screen" />
     <div class="h-1" />
 
-    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full {showContent ? "":"hidden"}" style="margin-bottom:-45vw" id="onview"/>
-    <div id="on-view-start" class="w-full" >
+    <img bind:this={sectionOnViewHat} src={onViewTopShape} aria-hidden alt='non-semantic shape' class="w-full {showContent ? "":"hidden"}" style={innerWidth>768 ? "margin-bottom:-45vw":"margin-bottom:-25vw"} id="onview"/>
+    <div id="on-view-start" class="w-full bg-subtle-primary md:bg-transparent" >
         <ContentWidth class='h-full flex flex-col items-left lg:pl-20 relative' >
             <h5 bind:this={firstContent}>Devon Dejardin</h5>
             <h3 class='mt-6'>To the garden</h3>
-
-        
-        
                 <h3 class="mb-6">we return</h3>
                 <h6 class='mb-6'>03.15 to 05.06.24</h6>
                 <LinkArrowButton text="EXPLORE"/>
 
-                <div class="absolute top-0 translate-y-[172px] left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
+                <div class="absolute top-0 translate-y-[172px] left-2 -translate-x-1/2 rotate-90  flex-row gap-4 hidden lg:flex  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
@@ -496,9 +499,9 @@ text-transform: uppercase;
        
         <div class='w-full py-16 bg-subtle-primary xl:bg-transparent xl:-mb-[540px]'>
             <ContentWidth class="lg:pl-20">
-                <div class="w-full aspect-video relative pt-16">
+                <div class="w-full aspect-video relative mt-16">
                     <img src={videoPLaceholderImage} alt='gallery' class="w-full h-full object-cover"/>
-                    <div class="bottom-8 left-8 absolute flex flex-row justify-between gap-8">
+                    <div class="bottom-4 md:bottom-8 left-4 md:left-8 absolute flex flex-row justify-between gap-8">
                     <button class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump">
                         <FontAwesomeIcon icon={faPlayCircle} size="2x"/>
                     </button>
@@ -520,11 +523,11 @@ text-transform: uppercase;
     </div>
     <img src={onViewBottomShape} aria-hidden alt='non-semantic shape' class="w-full z-0 " />
     <div class="w-full py-64">
-        <ContentWidth class="pl-20 flex flex-col justify-center items-center">
+        <ContentWidth class="md:pl-20 flex flex-col justify-center items-center">
             <div class="text-subtle-primary mb-16 mx-16">
                 <FontAwesomeIcon icon={faQuoteLeft} size="2x"/>
             </div>
-            <div class="mx-16 quote">
+            <div class="md:mx-16 quote">
                 There is something beyond what we see in the human realm in these little windows
             </div>
 
@@ -558,7 +561,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-6 md:h-10 lg:h-16"
+                    class="h-4 sm:h-6 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={cutlerStart} 
@@ -568,7 +571,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class=" h-6 md:h-10 lg:h-16"
+                    class=" h-4 sm:h-6 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={dejardinStart} 
@@ -578,7 +581,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-6 md:h-10 lg:h-16"
+                    class="h-4 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={gebbiaStart} 
@@ -588,7 +591,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-6 md:h-10 lg:h-16"
+                    class="h-4 sm:h-6 md:h-10 lg:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={jamesStart} 
@@ -598,7 +601,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}  
                     href="#" 
-                    class="h-6 md:h-10 lg:h-16"
+                    class="h-4 sm:h-6 md:h-10 lg:h-16"
                 />
                 
                 
@@ -621,12 +624,12 @@ text-transform: uppercase;
         </svg>
     </div>
 
-    <div class="w-full h-30vw">
-        <ContentWidth class="h-full flex flex-col justify-between pt-32">
-            <div class="pl-20 -mt-[20vw] relative">
-                <h2 class="text-white font-normal w-2/3">Weaving Together the Stories that Shape Us</h2>
-                <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-2 mt-10" />
-                <div class="absolute -left-3 top-3 flex flex-col justify-center items-center gap-4 z-40">
+    <div class="w-full h-[80vh] md:h-30vw">
+        <ContentWidth class="h-full flex flex-col justify-between md:pt-32">
+            <div class="md:pl-20 -mt-[20vw] relative">
+                <h2 class="text-white font-normal mt-32 md:mt-16 md:w-2/3">Weaving Together the Stories that Shape Us</h2>
+                <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-0 md:ml-2 mt-4 text-left md:mt-10" />
+                <div class="absolute md:-left-3 top-0 md:top-3 flex md:flex-col justify-center items-center gap-4">
                     <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
                         <FontAwesomeIcon icon={faInstagram} size='2x'/>
                     </a>
@@ -641,7 +644,7 @@ text-transform: uppercase;
                     </a>
                 </div>
             </div>
-            <div class="pl-20 flex flex-row justify-between w-full mb-12">
+            <div class="md:pl-20 flex flex-row justify-between w-full mb-12">
                 <a href="/" class="h-3 ml-2">
                     <img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert"/>
                 </a>

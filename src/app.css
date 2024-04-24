@@ -34,7 +34,7 @@ h2{
     font-style: normal;
     font-weight: 700;
     line-height: 64px; /* 128% */
-    text-transform: uppercase;
+
 }
 
 h3{
@@ -147,7 +147,7 @@ font-weight: 400;
 line-height: 80px; /* 121.212% */
 }
 
-@media screen and ( max-width: 1024 ) {
+@media screen and ( max-width: 1024px ) {
     h1{
         color: var(--ffffff, #FFF);
         font-family: "commuters-sans";
@@ -156,6 +156,28 @@ line-height: 80px; /* 121.212% */
         font-weight: 700;
         line-height: 125%; /* 60px */
         text-transform: uppercase;
+    }
+
+    h2{
+        color: var(--Black, #000);
+leading-trim: both;
+text-edge: cap;
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: "commuters-sans";
+font-size: 28px;
+font-style: normal;
+font-weight: 400;
+line-height: 38px; /* 135.714% */
+    }
+
+    .quote{
+        color: var(--e-4-eeea, #E4EEEA);
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: "commuters-sans";
+font-size: 32px;
+font-style: normal;
+font-weight: 400;
+line-height: 125%; /* 40px */
     }
 }
 

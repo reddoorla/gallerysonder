@@ -288,18 +288,18 @@
     <div
         bind:this={animatedO}
         class="h-24 w-[200%] clip-by-logo absolute top-[40vh] transition-opacity duration-300 {hideO ? "opacity-0 ":""} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
-        style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
+        style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}{window.innerWidth>768?"vw":"vh"}; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
         
         />
 
     <div 
         bind:this={verticalOpenWindow}
         class=" absolute w-[200%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
-        style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
+        style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}{window.innerWidth>768?"vw":"vh"}; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
 
     />
  
-    <div class="h-24 w-[200%] -left-[50%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted ? "scale-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">
+    <div class="h-24 w-[200%] -left-[50%] flex absolute top-[40vh] flex-row items-center gap-4 justify-center transition duration-[750ms] {isMounted ? "scale-100 opacity-0 md:opacity-100" : "scale-50"} {isVerticalOpenPhase ? "hidden" : ""}">
         <img src={S} alt="s"  
           bind:this={originalS} 
 
