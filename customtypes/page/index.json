@@ -13,6 +13,15 @@
 					"placeholder": ""
 				}
 			},
+			"sonder_presents": {
+				"type": "Boolean",
+				"config": {
+					"label": "sonder presents",
+					"default_value": false,
+					"placeholder_true": "true",
+					"placeholder_false": "false"
+				}
+			},
 			"title": {
 				"type": "StructuredText",
 				"config": {
@@ -20,6 +29,30 @@
 					"placeholder": "",
 					"allowTargetBlank": true,
 					"single": "heading1"
+				}
+			},
+			"background_image": {
+				"type": "Image",
+				"config": {
+					"label": "background image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"sections": {
+				"type": "Group",
+				"config": {
+					"label": "sections",
+					"repeat": true,
+					"fields": {
+						"section": {
+							"type": "Text",
+							"config": {
+								"label": "section",
+								"placeholder": ""
+							}
+						}
+					}
 				}
 			},
 			"slices": {

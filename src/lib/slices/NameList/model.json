@@ -1,16 +1,82 @@
 {
-	"id": "name_list",
-	"type": "SharedSlice",
-	"name": "NameList",
-	"description": "NameList",
-	"variations": [
-		{
-			"id": "default",
-			"name": "Default",
-			"docURL": "...",
-			"version": "initial",
-			"description": "Default",
-			"imageUrl": ""
-		}
-	]
+  "id": "name_list",
+  "type": "SharedSlice",
+  "name": "NameList",
+  "description": "NameList",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape top",
+            "placeholder": "",
+            "options": [
+              "1",
+              "2"
+            ]
+          }
+        },
+        "button_bottom_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "button bottom text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "button_bottom_link": {
+          "type": "Link",
+          "config": {
+            "label": "button bottom link",
+            "placeholder": "",
+            "select": null
+          }
+        },
+        "shape_bottom": {
+          "type": "Select",
+          "config": {
+            "label": "shape bottom",
+            "placeholder": "",
+            "options": [
+              "1",
+              "2"
+            ]
+          }
+        }
+      },
+      "items": {
+        "name_inactive": {
+          "type": "Image",
+          "config": {
+            "label": "name_inactive",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "name_active": {
+          "type": "Image",
+          "config": {
+            "label": "name active (must be the same size)",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "active_color": {
+          "type": "Color",
+          "config": {
+            "label": "active color",
+            "placeholder": ""
+          }
+        }
+      }
+    }
+  ]
 }

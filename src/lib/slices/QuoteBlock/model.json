@@ -1,16 +1,36 @@
 {
-	"id": "quote_block",
-	"type": "SharedSlice",
-	"name": "QuoteBlock",
-	"description": "QuoteBlock",
-	"variations": [
-		{
-			"id": "default",
-			"name": "Default",
-			"docURL": "...",
-			"version": "initial",
-			"description": "Default",
-			"imageUrl": ""
-		}
-	]
+  "id": "quote_block",
+  "type": "SharedSlice",
+  "name": "QuoteBlock",
+  "description": "QuoteBlock",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "quotation": {
+          "type": "StructuredText",
+          "config": {
+            "label": "quotation",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "signature": {
+          "type": "Image",
+          "config": {
+            "label": "signature",
+            "constraint": {},
+            "thumbnails": []
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
 }

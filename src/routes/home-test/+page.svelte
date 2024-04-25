@@ -456,7 +456,7 @@ text-transform: uppercase;
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
         <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents ? "" : "opacity-0"}">SONDER PRESENTS</h5>
         <ScaleTextToContainer class="transition-opacity duration-500 ease-fast-slow {showPresentedArtist ? "":"opacity-0"}">
-            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Devin</h1>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Devon</h1>
             <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Dejardin</h1>
         </ScaleTextToContainer>
     </ContentWidth>
