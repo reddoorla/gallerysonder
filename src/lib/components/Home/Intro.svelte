@@ -198,7 +198,7 @@
         nextBgPosition = `calc(${-animatedOOffestLeft}px + ${imageAndPositionArray[currentImageIndex+1].left}vw) calc(${-verticalOpenRectOffsetTop}px + ${imageAndPositionArray[currentImageIndex+1].top}vh)`;
        
 
-        currentImageIndex = Math.floor(imageAndPositionArray.length*currentPathIndex/O_paths.length);
+        currentImageIndex = Math.min(Math.floor(imageAndPositionArray.length*currentPathIndex/O_paths.length), imageAndPositionArray.length);
         fadeToImageIndex = currentImageIndex+2<imageAndPositionArray.length && currentImageIndex === Math.floor(imageAndPositionArray.length*(currentPathIndex-50)/O_paths.length) ? currentImageIndex+1 : currentImageIndex;
   
 
