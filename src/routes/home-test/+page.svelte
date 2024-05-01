@@ -325,9 +325,9 @@ const checkPosition = () => {
 const handleIntroComplete = () => {
     isIntroComplete=true;
     checkPosition();
-    setTimeout(()=>showContent=true, 500);
-    setTimeout(()=>showPresentedArtist=true, 800);
-    setTimeout(()=>showSonderPresents=true, 1800);
+    setTimeout(()=>showContent=true, 20);
+    setTimeout(()=>showPresentedArtist=true, 500);
+    setTimeout(()=>showSonderPresents=true, 1000);
 
     }
 onMount(() => {

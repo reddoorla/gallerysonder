@@ -31,7 +31,7 @@
 
     
     const SCALE_UP_PHASE_DURATION_IN_MS = 1000;
-    const TICK_DURATION = 10;
+    const TICK_DURATION = 3;
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [
       {
         image:image1,
@@ -121,6 +121,7 @@
     let animatedOWidth:number;
     let isOCentered = false;
     let bgPosition = '0px 0px';
+    let nextBgPosition = '0px 0px';
     let hideO = false;
 
     let isMounted = false;
@@ -143,8 +144,8 @@
        
 
     //TODO: add easing
-    for( let i = 0 ; i<400 ; i++){
-        O_paths.push("M"+(70+i*15)+basePath+(70+i*15)+".95Z");
+    for( let i = 0 ; i<1200 ; i++){
+        O_paths.push("M"+(70+i*5)+basePath+(70+i*5)+".95Z");
     }
   
     let tweenedPath = tweened(O_paths, {
@@ -178,6 +179,8 @@
       animatedOWidth = animatedORect.width;
     }
 
+    fadeToImageIndex = currentImageIndex+2<imageAndPositionArray.length && currentImageIndex > Math.floor(imageAndPositionArray.length*(currentPathIndex-1)/O_paths.length) ? currentImageIndex+1 : currentImageIndex;
+  
     if(verticalOpenWindow){
       const verticalOpenRect = verticalOpenWindow.getBoundingClientRect();
       verticalOpenRectOffsetTop = verticalOpenRect.top;
@@ -191,11 +194,18 @@
        if (currentImageIndex < imageAndPositionArray.length)
         bgPosition = `calc(${-animatedOOffestLeft}px + ${imageAndPositionArray[currentImageIndex].left}vw) calc(${-verticalOpenRectOffsetTop}px + ${imageAndPositionArray[currentImageIndex].top}vh)`;
        
+        if (currentImageIndex < imageAndPositionArray.length-1)
+        nextBgPosition = `calc(${-animatedOOffestLeft}px + ${imageAndPositionArray[currentImageIndex+1].left}vw) calc(${-verticalOpenRectOffsetTop}px + ${imageAndPositionArray[currentImageIndex+1].top}vh)`;
+       
+
         currentImageIndex = Math.floor(imageAndPositionArray.length*currentPathIndex/O_paths.length);
+        fadeToImageIndex = currentImageIndex+2<imageAndPositionArray.length && currentImageIndex === Math.floor(imageAndPositionArray.length*(currentPathIndex-50)/O_paths.length) ? currentImageIndex+1 : currentImageIndex;
+  
+
         if(currentImageIndex>=imageAndPositionArray.length)
             currentImageIndex=imageAndPositionArray.length-1
 
-       if(Math.floor(imageAndPositionArray.length*currentPathIndex/O_paths.length)!=Math.floor(imageAndPositionArray.length*(currentPathIndex+1)/O_paths.length)){
+       if(Math.floor(imageAndPositionArray.length*currentPathIndex/O_paths.length)!=Math.floor(imageAndPositionArray.length*(currentPathIndex+1)/O_paths.length)||currentImageIndex < Math.floor(imageAndPositionArray.length*(currentPathIndex+28)/O_paths.length) || currentImageIndex==imageAndPositionArray.length-1){
         hideO = true;
        }  else{
         hideO = false;
@@ -214,6 +224,8 @@
 
        
   }
+
+  let fadeToImageIndex =  0;
 
   
     onMount(() => {
@@ -279,23 +291,34 @@
   </svg>
   
   <div class="w-screen h-screen bg-black">
-    <!-- <div 
+    <div 
       
-      class="h-24 w-[200%] clip-by-logo absolute top-[40vh] bg-subtle-primary {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
-      style="left: {animatedOOffestLeft}px" 
-    /> -->
+      class="h-24 w-[200%] clip-by-logo absolute top-[40vh] bg-subtle-primary  {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
+      style="background-image: url({imageAndPositionArray[fadeToImageIndex].image}); background-size: {imageAndPositionArray[fadeToImageIndex].scale}{window.innerWidth>768?"vw":"vh"}; background-position: {fadeToImageIndex===currentImageIndex ? bgPosition:nextBgPosition}; left: {animatedOOffestLeft}px"   
+      
+    />
    
     <div
         bind:this={animatedO}
         class="h-24 w-[200%] clip-by-logo absolute top-[40vh] transition-opacity duration-300 {hideO ? "opacity-0 ":""} {isGrowPhase||!isMounted ? 'opacity-0' : ''}" 
-        style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}{window.innerWidth>768?"vw":"vh"}; background-position: {bgPosition}; left: {animatedOOffestLeft}px" 
-        
-        />
+        style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}{window.innerWidth>768?"vw":"vh"}; background-position: {bgPosition}; left: {animatedOOffestLeft}px"   
+      />
+
+    <div
+      class=" -z-30 absolute w-[200%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
+      style="background-image: url({imageAndPositionArray[imageAndPositionArray.length-1].image}); background-size: {imageAndPositionArray[imageAndPositionArray.length-1].scale}{window.innerWidth>768?"vw":"vh"}; background-position: {fadeToImageIndex===currentImageIndex ? bgPosition:nextBgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out, opacity 100ms ease-out; "
+    />
+
+    <div
+      class="absolute w-[200%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
+      style="background-image: url({imageAndPositionArray[fadeToImageIndex].image}); background-size: {imageAndPositionArray[fadeToImageIndex].scale}{window.innerWidth>768?"vw":"vh"}; background-position: { bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out, opacity 100ms ease-out; "
+    />
+
 
     <div 
         bind:this={verticalOpenWindow}
-        class=" absolute w-[200%] bg-black transition-opacity h-full {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
-        style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}{window.innerWidth>768?"vw":"vh"}; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
+        class=" absolute w-[200%] bg-black transition-opacity h-full {hideO ? "opacity-0 ":""} {isVerticalOpenPhase ? "max-h-full":"opacity-0 max-h-24 translate-y-[40vh]"}"
+        style="background-image: url({imageAndPositionArray[currentImageIndex].image}); background-size: {imageAndPositionArray[currentImageIndex].scale}{window.innerWidth>768?"vw":"vh"}; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out, opacity 100ms ease-out; "
 
     />
  
