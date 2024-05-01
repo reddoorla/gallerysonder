@@ -156,7 +156,7 @@
     });
 
     function calculatePathWidth(path: string) {
-        if(browser){
+        if(browser&&currentImageIndex!=imageAndPositionArray.length-1){
     const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     pathElement.setAttribute('d', path);
@@ -179,8 +179,7 @@
       animatedOWidth = animatedORect.width;
     }
 
-    fadeToImageIndex = currentImageIndex+2<imageAndPositionArray.length && currentImageIndex > Math.floor(imageAndPositionArray.length*(currentPathIndex-1)/O_paths.length) ? currentImageIndex+1 : currentImageIndex;
-  
+    
     if(verticalOpenWindow){
       const verticalOpenRect = verticalOpenWindow.getBoundingClientRect();
       verticalOpenRectOffsetTop = verticalOpenRect.top;
@@ -199,7 +198,7 @@
        
 
         currentImageIndex = Math.min(Math.floor(imageAndPositionArray.length*currentPathIndex/O_paths.length), imageAndPositionArray.length);
-        fadeToImageIndex = currentImageIndex+2<imageAndPositionArray.length && currentImageIndex === Math.floor(imageAndPositionArray.length*(currentPathIndex-50)/O_paths.length) ? currentImageIndex+1 : currentImageIndex;
+        fadeToImageIndex = Math.min(currentImageIndex+2<imageAndPositionArray.length && currentImageIndex === Math.floor(imageAndPositionArray.length*(currentPathIndex-50)/O_paths.length) ? currentImageIndex+1 : currentImageIndex, imageAndPositionArray.length-1);
   
 
         if(currentImageIndex>=imageAndPositionArray.length)
