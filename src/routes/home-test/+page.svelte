@@ -471,7 +471,7 @@ text-transform: uppercase;
         </ScaleTextToContainer>
     </ContentWidth>
   </div>
-  <div class=" w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 300 }}>
+  <div class=" w-screen fixed h-24 top-0 py-8 z-50 pointer-events-none" transition:fade={{ duration: 300 }}>
         <ContentWidth class="flex flex-row justify-between items-center">
             <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack||showNav ? "brightness-0" : ""}" on:click={()=>showNav = !showNav}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -489,7 +489,7 @@ text-transform: uppercase;
         </ContentWidth>
   </div>
   {#if showNav}
-  <div class="h-screen w-screen fixed top-0 left-0 z-20 transition ease-fast-slow" style="background-color: {exploreActiveBackgroundColor}" transition:slide>
+  <div class="h-screen w-screen fixed top-0 left-0 z-40 transition ease-fast-slow" style="background-color: {exploreActiveBackgroundColor}" transition:slide>
     <ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 justify-end h-full relative">
 
         <div class="absolute -left-24 top-1/4 md:flex-col justify-center items-center gap-4 hidden xl:flex">
@@ -513,7 +513,7 @@ text-transform: uppercase;
         on:mouseover={checkExploreColor}
         on:mouseout={checkExploreColor}   
         href="#" 
-        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+        class="h-4 sm:h-6 md:h-10 lg:h-12"
     />
     <NameRevealOnHover 
         activeImage={artistsActive} 
@@ -522,7 +522,7 @@ text-transform: uppercase;
         on:mouseover={checkExploreColor}
         on:mouseout={checkExploreColor}   
         href="#" 
-        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+        class="h-4 sm:h-6 md:h-10 lg:h-12"
     />
     
     <NameRevealOnHover 
@@ -532,7 +532,7 @@ text-transform: uppercase;
         on:mouseover={checkExploreColor}
         on:mouseout={checkExploreColor}   
         href="#" 
-        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+        class="h-4 sm:h-6 md:h-10 lg:h-12"
     />
 
     <NameRevealOnHover 
@@ -542,7 +542,7 @@ text-transform: uppercase;
         on:mouseover={checkExploreColor}
         on:mouseout={checkExploreColor}   
         href="#" 
-        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+        class="h-4 sm:h-6 md:h-10 lg:h-12"
     />
 
     <NameRevealOnHover 
@@ -552,7 +552,7 @@ text-transform: uppercase;
         on:mouseover={checkExploreColor}
         on:mouseout={checkExploreColor}   
         href="#" 
-        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+        class="h-4 sm:h-6 md:h-10 lg:h-12"
     />
   
     <LinkArrowButton href="" text="Subscribe to our newsletter"/>
