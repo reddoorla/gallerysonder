@@ -562,7 +562,7 @@ text-transform: uppercase;
   {/if}
   <div class="fixed w-screen h-screen z-30 pointer-events-none hidden lg:block">
     <ContentWidth class='h-full relative pointer-events-none'>
-        <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
+        <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 -left-3 -translate-x-1/2 rotate-90 flex flex-row gap-4  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
@@ -705,7 +705,7 @@ text-transform: uppercase;
                 
             </div>
             <LinkArrowButton text="artists" class="mt-16"/>
-            <div class="absolute bottom-0 -translate-y-[172px] left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
+            <div class="absolute bottom-0 -translate-y-[172px] left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {!isFixedNavShown||!showNav?'pointer-events-auto':'pointer-events-none opacity-0'}">
                 <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
                 <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
                 <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
