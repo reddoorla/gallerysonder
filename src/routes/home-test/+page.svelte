@@ -489,7 +489,7 @@ text-transform: uppercase;
         </ContentWidth>
   </div>
   {#if showNav}
-  <div class="use-gpu h-screen w-screen fixed top-0 left-0 z-20 transition ease-fast-slow" style="background-color: {exploreActiveBackgroundColor}" transition:slide>
+  <div class="h-screen w-screen fixed top-0 left-0 z-20 transition ease-fast-slow" style="background-color: {exploreActiveBackgroundColor}" transition:slide>
     <ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 justify-end h-full relative">
 
         <div class="absolute -left-24 top-1/4 md:flex-col justify-center items-center gap-4 hidden xl:flex">
@@ -586,7 +586,7 @@ text-transform: uppercase;
                 <h6 class='mb-6'>03.15 to 05.06.24</h6>
                 <LinkArrowButton text="EXPLORE"/>
 
-                <div class="absolute top-0 translate-y-[172px] left-2 -translate-x-1/2 rotate-90  flex-row gap-4 hidden lg:flex  {!isFixedNavShown && !showNav  ?'pointer-events-auto':'pointer-events-none opacity-0'}">
+                <div class="absolute top-0 translate-y-[172px] left-2 -translate-x-1/2 rotate-90  flex-row gap-4 hidden lg:flex  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
