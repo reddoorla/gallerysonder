@@ -5,7 +5,7 @@
 
 
     import { onMount } from 'svelte';
-    import { fade } from 'svelte/transition';
+    import { fade, slide } from 'svelte/transition';
 
  
     import backgroundImage from "$lib/assets/images/sonderIntroArt/sonderIntroPiece9.jpg";
@@ -39,10 +39,23 @@
     import gebbiaActive from '$lib/assets/icons/names/gebbia-richards_clippath.png'
     import jamesActive from '$lib/assets/icons/names/james_clippath.png'
 
+    import exhibitionsActive from '$lib/assets/icons/nav_images/exhibitions_active.png'
+    import newsActive from "$lib/assets/icons/nav_images/news_active.png"
+    import artistsActive from "$lib/assets/icons/nav_images/artists_active.png"
+    import aboutActive from "$lib/assets/icons/nav_images/about_active.png"
+    import contactActive from "$lib/assets/icons/nav_images/contact_active.png"
+
+    import exhibitionsInactive from '$lib/assets/icons/nav_images/exhibitions_inactive.png'
+    import newsInactive from "$lib/assets/icons/nav_images/news_inactive.png"
+    import artistsInactive from "$lib/assets/icons/nav_images/artists_inactive.png"
+    import aboutInactive from "$lib/assets/icons/nav_images/about_inactive.png"
+    import contactInactive from "$lib/assets/icons/nav_images/contact_inactive.png"
+
     import ContentWidth from "$lib/components/ContentWidth.svelte";
     import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
     import NameToClipPath from '$lib/components/NameToClipPath.svelte';
+    import NameRevealOnHover from '$lib/components/NameRevealOnHover.svelte';
 
     import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
     import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
@@ -219,6 +232,7 @@
     let showPresentedArtist = false;
     let showSonderPresents=false;
 
+    let showNav = false;
 
     let innerWidth:number;
 
@@ -410,11 +424,7 @@ text-transform: uppercase;
         line-height: 125%; /* 60px */
         text-transform: uppercase;
     }
-
-
 }
-
-
   </style>
   
   <svelte:head>
@@ -463,7 +473,7 @@ text-transform: uppercase;
   </div>
   <div class=" w-screen fixed h-24 top-0 py-8 z-30 pointer-events-none" transition:fade={{ duration: 300 }}>
         <ContentWidth class="flex flex-row justify-between items-center">
-            <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ? "brightness-0" : ""}">
+            <button class="scale-105 text-white hover:text-accent-pink pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack||showNav ? "brightness-0" : ""}" on:click={()=>showNav = !showNav}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M20 18C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H4C3.44772 16 3 16.4477 3 17C3 17.5523 3.44772 18 4 18H20ZM20 13C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H4C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H20ZM3 7C3 7.55228 3.44772 8 4 8H20C20.5523 8 21 7.55228 21 7C21 6.44772 20.5523 6 20 6H4C3.44772 6 3 6.44772 3 7Z" fill="white"/>                        
                 </svg>
@@ -473,11 +483,83 @@ text-transform: uppercase;
                 <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionForthcoming? "active":"hidden opacity-0"}" transition:fade href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
                 <a class="floating-links no-underline md:hidden pointer-events-auto transition-opacity duration-200 {isSectionExplore? "active":"hidden opacity-0"}" transition:fade href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
             </div>
-            <a href="/" class="filter-to-accent-pink-on-hover transition-colors pointer-events-auto bump brightness-0 {isLogoBlack ? "" : "invert"}">
+            <a href="/" class="filter-to-accent-pink-on-hover transition-colors pointer-events-auto bump brightness-0 {isLogoBlack||showNav ? "" : "invert"}">
                 <RotatingLogo class="h-6" />
             </a>
         </ContentWidth>
   </div>
+  {#if showNav}
+  <div class="h-screen w-screen fixed top-0 left-0 z-20 transition ease-fast-slow" style="background-color: {exploreActiveBackgroundColor}" transition:slide>
+    <ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 justify-end h-full relative">
+
+        <div class="absolute -left-24 top-1/4 md:flex-col justify-center items-center gap-4 hidden xl:flex">
+            <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
+                <FontAwesomeIcon icon={faInstagram} size='2x'/>
+            </a>
+            <a href="https://www.linkedin.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
+                <FontAwesomeIcon icon={faLinkedinIn} size='2x'/>
+            </a>
+            <a href="https://www.twitter.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
+                <FontAwesomeIcon icon={faXTwitter} size='2x'/>
+            </a>
+            <a href="https://www.facebook.com/" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump translate-x-1 scale-75">
+                <FontAwesomeIcon icon={faFacebookF} size='2x'/>
+            </a>
+        </div>
+    <NameRevealOnHover 
+        activeImage={exhibitionsActive} 
+        setBackgroundColor="#D4D0DD" 
+        bind:activeBackgroundColor={corriveauBG}
+        on:mouseover={checkExploreColor}
+        on:mouseout={checkExploreColor}   
+        href="#" 
+        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+    />
+    <NameRevealOnHover 
+        activeImage={artistsActive} 
+        setBackgroundColor="#B4C6E1" 
+        bind:activeBackgroundColor={corriveauBG}
+        on:mouseover={checkExploreColor}
+        on:mouseout={checkExploreColor}   
+        href="#" 
+        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+    />
+    
+    <NameRevealOnHover 
+        activeImage={aboutActive} 
+        setBackgroundColor="#D6B6CA" 
+        bind:activeBackgroundColor={corriveauBG}
+        on:mouseover={checkExploreColor}
+        on:mouseout={checkExploreColor}   
+        href="#" 
+        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+    />
+
+    <NameRevealOnHover 
+        activeImage={newsActive} 
+        setBackgroundColor="#9ED2D1" 
+        bind:activeBackgroundColor={corriveauBG}
+        on:mouseover={checkExploreColor}
+        on:mouseout={checkExploreColor}   
+        href="#" 
+        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+    />
+
+    <NameRevealOnHover 
+        activeImage={contactActive} 
+        setBackgroundColor="#FBF0C3" 
+        bind:activeBackgroundColor={corriveauBG}
+        on:mouseover={checkExploreColor}
+        on:mouseout={checkExploreColor}   
+        href="#" 
+        class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
+    />
+  
+    <LinkArrowButton href="" text="Subscribe to our newsletter"/>
+    
+    </ContentWidth>
+  </div>
+  {/if}
   <div class="fixed w-screen h-screen z-30 pointer-events-none hidden lg:block">
     <ContentWidth class='h-full relative pointer-events-none'>
         <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
@@ -530,8 +612,9 @@ text-transform: uppercase;
             <ContentWidth class="lg:pl-20">
                 <h5>Selected Works</h5>
                 <Gallery willBlur={true} items={ON_VIEW_GALLERY}/>
-                <LinkArrowButton text="view more" class="mt-16"/>
+                
                 <h2 class="font-normal mt-16">The Complete Catalogue of <br /> To the Garden We Return</h2>
+                <LinkArrowButton text="explore" class="mt-16"/>
             </ContentWidth>
 
         </div>
@@ -576,7 +659,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-4 sm:h-6 md:h-10 lg:h-16"
+                    class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={cutlerStart} 
@@ -586,7 +669,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class=" h-4 sm:h-6 md:h-10 lg:h-16"
+                    class=" h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={dejardinStart} 
@@ -596,7 +679,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-4 sm:h-6 md:h-10 lg:h-16"
+                    class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={gebbiaStart} 
@@ -606,7 +689,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}   
                     href="#" 
-                    class="h-4 sm:h-6 md:h-10 lg:h-16"
+                    class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
                 />
                 <NameToClipPath 
                     inactiveImage={jamesStart} 
@@ -616,7 +699,7 @@ text-transform: uppercase;
                     on:mouseover={checkExploreColor}
                     on:mouseout={checkExploreColor}  
                     href="#" 
-                    class="h-4 sm:h-6 md:h-10 lg:h-16"
+                    class="h-4 sm:h-6 md:h-10 lg:h-12 xl:h-16"
                 />
                 
                 
