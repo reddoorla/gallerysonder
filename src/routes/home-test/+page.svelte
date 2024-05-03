@@ -581,8 +581,7 @@ text-transform: uppercase;
     <div id="on-view-start" class="w-full bg-subtle-primary md:bg-transparent" >
         <ContentWidth class='h-full flex flex-col items-left lg:pl-20 relative' >
             <h5 bind:this={firstContent}>Devon Dejardin</h5>
-            <h3 class='mt-6'>To the garden</h3>
-                <h3 class="mb-6">we return</h3>
+            <h3 class='mt-6'>To the garden we return</h3>
                 <h6 class='mb-6'>03.15 to 05.06.24</h6>
                 <LinkArrowButton text="EXPLORE"/>
 
@@ -613,7 +612,7 @@ text-transform: uppercase;
                 <h5>Selected Works</h5>
                 <Gallery willBlur={true} items={ON_VIEW_GALLERY}/>
                 
-                <h2 class="font-normal mt-16">The Complete Catalogue of <br /> To the Garden We Return</h2>
+                <h2 class="font-normal mt-16">The Complete Catalogue of To the Garden We Return</h2>
                 <LinkArrowButton text="explore" class="mt-16"/>
             </ContentWidth>
 
