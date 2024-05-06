@@ -337,7 +337,7 @@ const checkPosition = () => {
   isSectionForthcoming = forthcomingHatTop < 180 && forthcomingBottomBottom > viewportHeight;
   isSectionExplore = forthcomingBottomBottom < viewportHeight ;
   isFixedNavShown = (fixedNav?.getBoundingClientRect().top >= firstContentOffsetTop && exploreBottom > fixedNav?.getBoundingClientRect().bottom)
-  isLogoBlack = (onViewHatTop < 0 && onViewBottomBottom > 60) || (forthcomingHatTop < 0 && exploreTop > 60);
+  isLogoBlack = (onViewHatTop < 0 && onViewBottomBottom > 60) || (forthcomingHatTop < 0);
   isBackgroundDark = onViewBottomBottom < viewportHeight + 60;
 
 
@@ -653,7 +653,7 @@ text-transform: uppercase;
             <h5 class="mb-8">Forthcoming</h5>
             <Gallery isList items={FORTHCOMING_GALLERY}/>
        
-            <LinkArrowButton text="all exhibitions" class="mt-4"/>
+            <LinkArrowButton text="all exhibitions" class="mt-16"/>
             <h2 class="font-normal mt-16 lg:w-2/3">Celebrating the Diverse Stories that Define Us</h2>
         </ContentWidth>
     </div>
