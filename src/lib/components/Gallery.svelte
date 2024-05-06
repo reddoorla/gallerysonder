@@ -36,6 +36,7 @@
     export let isList = false;
 
     let isHoverArray= new Array(items.length).fill(false);
+    let viewportWidth=1024;
     
 
 function handleHover(event: CustomEvent<boolean>, index: number) {
@@ -43,8 +44,9 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
 }
 
 </script>
+<svelte:window bind:innerWidth={viewportWidth} />
 
-{#if isList}
+{#if isList&& viewportWidth>768}
 <div class="w-full flex flex-col gap-16 mb-8">
     {#each items as item, i (i)}
         <div class="flex flex-row no-underline">

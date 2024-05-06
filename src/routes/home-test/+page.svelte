@@ -604,7 +604,7 @@ text-transform: uppercase;
             <ContentWidth class="lg:pl-20">
                 <div class="w-full aspect-video relative mt-16">
                     <img src={videoPLaceholderImage} alt='gallery' class="w-full h-full object-cover"/>
-                    <div class="bottom-4 md:bottom-8 left-4 md:left-8 absolute flex flex-row justify-between gap-8">
+                    <div class="bottom-4 md:bottom-8 left-4 md:left-8 absolute flex flex-row justify-between gap-4">
                     <button class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump">
                         <FontAwesomeIcon icon={faPlayCircle} size="2x"/>
                     </button>
@@ -733,11 +733,11 @@ text-transform: uppercase;
     </div>
 
     <div class="w-full h-[80vh] sm:h-[30vw] xl:h-[20vw]">
-        <ContentWidth class="h-full flex flex-col justify-between md:pt-32">
+        <ContentWidth class="h-full flex flex-col justify-between pt:16 md:pt-32">
             <div class="sm:pl-20 -mt-[20vw] relative">
-                <h2 class="text-white font-normal mt-32 md:mt-16 sm:w-2/3">Weaving Together the Stories that Shape Us</h2>
+                <h2 class="text-white font-normal mt-64 md:mt-16 sm:w-2/3">Weaving Together the Stories that Shape Us</h2>
                 <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-0 md:ml-2 mt-4 text-left md:mt-10" />
-                <div class="absolute md:-left-3 top-0 md:top-3 flex md:flex-col justify-center items-center gap-4">
+                <div class="absolute md:-left-3 top-32 md:top-3 flex md:flex-col justify-center items-center gap-4">
                     <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
                         <FontAwesomeIcon icon={faInstagram} size='2x'/>
                     </a>
