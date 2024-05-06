@@ -182,22 +182,30 @@
         {
             image: forthcomingOne,
             title: "The Fall of Adam and Eve",
-            subtitle: "Julia Gould / Opening 08.23.24"
+            subtitle: "08.23.24",
+            artist: "Julia Gould",
+            link:"#"
         },
         {
             image: forthcomingTwo,
             title: "Take it Easy",
-            subtitle: "Alex Cutler / Opening 08.23.24"
+            subtitle: "08.23.24",
+            artist:"Alex Cutler",
+            link:"#"
         },
         {
             image: forthcomingThree,
             title: "Earthly Delights",
-            subtitle: "Dylan Gebbia-Richards / Opening 08.23.24"
+            subtitle: "08.23.24",
+            artist: "Dylan Gebbia-Richards",
+            link:"#"
         },
         {
             image: forthcomingFour,
             title: "Morte Ecranique",
-            subtitle: "Maude Corriveau / Opening 08.23.24"
+            subtitle: "08.23.24",
+            artist: "Maude Corriveau",
+            link:"#"
         }
     ];
 
@@ -562,7 +570,7 @@ text-transform: uppercase;
   {/if}
   <div class="fixed w-screen h-screen z-30 pointer-events-none hidden lg:block">
     <ContentWidth class='h-full relative pointer-events-none'>
-        <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 -left-3 -translate-x-1/2 rotate-90 flex flex-row gap-4  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
+        <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 -lef-0 -translate-x-1/2 rotate-90 flex flex-row gap-4  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
@@ -585,7 +593,7 @@ text-transform: uppercase;
                 <h6 class='mb-6'>03.15 to 05.06.24</h6>
                 <LinkArrowButton text="EXPLORE"/>
 
-                <div class="absolute top-0 translate-y-[172px] left-2 -translate-x-1/2 rotate-90  flex-row gap-4 hidden lg:flex  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
+                <div class="absolute top-0 translate-y-[172px] left-0 -translate-x-1/2 rotate-90  flex-row gap-4 hidden lg:flex  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
@@ -610,9 +618,9 @@ text-transform: uppercase;
         <div class="w-full bg-subtle-primary pb-16 xl:pt-[540px]"  bind:this={sectionOnViewBottom}>
             <ContentWidth class="lg:pl-20">
                 <h5>Selected Works</h5>
-                <Gallery willBlur={true} items={ON_VIEW_GALLERY}/>
+                <Gallery items={ON_VIEW_GALLERY}/>
                 
-                <h2 class="font-normal mt-16">The Complete Catalogue of To the Garden We Return</h2>
+                <h2 class="font-normal mt-16 sm:w-2/3">The Complete Catalogue of <span class="font-bold">To the Garden We Return</span></h2>
                 <LinkArrowButton text="explore" class="mt-16"/>
             </ContentWidth>
 
@@ -622,7 +630,10 @@ text-transform: uppercase;
     <div class="w-full py-64">
         <ContentWidth class="md:pl-20 flex flex-col justify-center items-center">
             <div class="text-subtle-primary mb-16 mx-16">
-                <FontAwesomeIcon icon={faQuoteLeft} size="2x"/>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.5915 8.41463C9.57247 8.89024 8.15915 10.2073 7.83611 11.8171C9.73397 11.8537 11.1473 13.1707 11.1473 14.8902C11.1473 16.6463 9.69361 18 7.75537 18C5.37294 18 4 16.5 4 13.9024C4 9.95122 6.66508 6.80488 10.7031 6L11.5915 8.41463ZM17.2447 11.8171C19.1425 11.8537 20.5558 13.1707 20.5558 14.8902C20.5558 16.6463 19.1021 18 17.1639 18C14.7815 18 13.4086 16.5 13.4086 13.9024C13.4086 9.95122 16.0737 6.80488 20.1117 6L21 8.41463C18.981 8.89024 17.5677 10.2073 17.2447 11.8171Z" fill={exploreActiveBackgroundColor}/>
+                    </svg>
+                    
             </div>
             <div class="md:mx-16 quote">
                 There is something beyond what we see in the human realm in these little windows
@@ -640,7 +651,7 @@ text-transform: uppercase;
     <div bind:this={sectionForthcomingBottom} class="w-full py-8 transition-all duration-1000 use-gpu ease-fast-slow" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
-            <Gallery isRegular={true} items={FORTHCOMING_GALLERY}/>
+            <Gallery isList items={FORTHCOMING_GALLERY}/>
        
             <LinkArrowButton text="all exhibitions" class="mt-4"/>
             <h2 class="font-normal mt-16 lg:w-2/3">Celebrating the Diverse Stories that Define Us</h2>
@@ -704,7 +715,7 @@ text-transform: uppercase;
                 
             </div>
             <LinkArrowButton text="artists" class="mt-16"/>
-            <div class="absolute bottom-0 -translate-y-[172px] left-2 -translate-x-1/2 rotate-90 flex flex-row gap-4  {!isFixedNavShown||!showNav?'pointer-events-auto':'pointer-events-none opacity-0'}">
+            <div class="absolute bottom-0 -translate-y-[172px] left-0 -translate-x-1/2 rotate-90 flex flex-row gap-4  {!isFixedNavShown&&!showNav?'pointer-events-auto':'pointer-events-none opacity-0'}">
                 <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
                 <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
                 <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>

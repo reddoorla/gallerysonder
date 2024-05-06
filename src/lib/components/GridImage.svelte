@@ -20,10 +20,10 @@
         const linkTop = linkRef?.getBoundingClientRect().top;
 
         if(linkRef&&linkTop<=innerHeight&&insetPercent!=5)
-            insetPercent = 25 - 20 * ((innerHeight-linkTop)/(innerHeight/2));
+            insetPercent = 25 - 25 * ((innerHeight-linkTop)/(innerHeight/2));
 
         if(insetPercent<5)
-            insetPercent=5;
+            insetPercent=0;
 
         if(linkRef&&linkTop<=innerHeight&&innerWidth<769){
             insetPercent = 20 * (1-(innerHeight-linkTop)/(innerHeight/2));
@@ -75,9 +75,9 @@
 >
     <img {src} {alt} class="clip-transition use-gpu"  style="{isHover ? "clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);": "clip-path: inset(0 "+insetPercent+"% 0 "+insetPercent+"%); -webkit-clip-path: inset(0 "+insetPercent+"% 0 "+insetPercent+"%);"}"/>
     {#if innerWidth>768}
-    <h6 class="mt-3 ml-[5%] text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{text}</h6>
-    <span class="mt-2 ml-[5%] text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{subtitle}</span>
-    <LinkArrowButton text="EXPLORE" class="mt-4 ml-[5%] translate-x-[1px] transition-opacity duration-500 {isHover ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}"/>
+    <h6 class="mt-3 text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{text}</h6>
+    <span class="mt-2 text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{subtitle}</span>
+    <LinkArrowButton text="EXPLORE" class="mt-4 translate-x-[1px] transition-opacity duration-500 {isHover ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}"/>
     {:else}
     <LinkArrowButton {text} class="mt-4 translate-x-[1px] transition-opacity duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}"/>
     <span class="mt-2 mb-16 text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{subtitle}</span>
