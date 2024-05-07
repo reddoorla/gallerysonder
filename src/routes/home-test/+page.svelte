@@ -45,12 +45,6 @@
     import aboutActive from "$lib/assets/icons/nav_images/about_active.png"
     import contactActive from "$lib/assets/icons/nav_images/contact_active.png"
 
-    import exhibitionsInactive from '$lib/assets/icons/nav_images/exhibitions_inactive.png'
-    import newsInactive from "$lib/assets/icons/nav_images/news_inactive.png"
-    import artistsInactive from "$lib/assets/icons/nav_images/artists_inactive.png"
-    import aboutInactive from "$lib/assets/icons/nav_images/about_inactive.png"
-    import contactInactive from "$lib/assets/icons/nav_images/contact_inactive.png"
-
     import ContentWidth from "$lib/components/ContentWidth.svelte";
     import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
@@ -208,21 +202,29 @@
             link:"#"
         }
     ];
+    let percentLoaded = 0.0;
+
+
+
+    let coverImagesPromises: Promise<void>[] = [];
+    let imagesToPreload: string[] = [backgroundImage, exhibitionsActive, artistsActive, aboutActive, newsActive, contactActive];
+
+    IMAGE_ARRAY_WITH_BG_SHIFTS.forEach((item)=>imagesToPreload.push(item.image));
+    FORTHCOMING_GALLERY.forEach((item)=>imagesToPreload.push(item.image));
+    ON_VIEW_GALLERY.forEach((item)=>imagesToPreload.push(item.image));
 
     const preloadImage = (src: string) => {
         return new Promise<void>((resolve) => {
             let img = new Image();
             img.onload = () => resolve();
             img.src = src;
+            percentLoaded += 1/imagesToPreload.length;
         });
     };
 
-    let coverImagesPromises: Promise<void>[] = [];
-    let imagesToPreload: string[] = [onShowOne, onShowTwo, onShowThree, onShowFour, backgroundImage];
-
-    IMAGE_ARRAY_WITH_BG_SHIFTS.forEach((item)=>imagesToPreload.push(item.image));
 
     const createAndResolvePromises = async () => {
+        
         coverImagesPromises = imagesToPreload.map((image) => preloadImage(image));
         return await Promise.all(coverImagesPromises);
     };
@@ -241,6 +243,7 @@
     let showSonderPresents=false;
 
     let showNav = false;
+    let navTopItem:HTMLElement;
 
     let innerWidth:number;
 
@@ -382,7 +385,7 @@ onMount(() => {
     }
 
     .floating-links{
-        color: #00000015;
+        color: #B8CCCA;
 
         font-feature-settings: 'clig' off, 'liga' off;
 
@@ -450,7 +453,10 @@ text-transform: uppercase;
             <img src={E} alt="e" />
             <img src={R} alt="r" />
         </div>
-    
+
+        <div class="w-full h-16 fixed bottom-0 flex flex-row justify-start items-start overflow-hidden">
+            <div class="h-ful w-full bg-subtle-primary transition-transform" style="transform: translateX({percentLoaded*100-100}%);"/>
+        </div>
   {:then} 
   {#if !isIntroComplete}
   <div transition:fade>
@@ -500,7 +506,7 @@ text-transform: uppercase;
   <div class="h-screen w-screen fixed top-0 left-0 z-40 transition ease-fast-slow" style="background-color: {exploreActiveBackgroundColor}" transition:slide>
     <ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 justify-end h-full relative">
 
-        <div class="absolute -left-24 top-1/4 md:flex-col justify-center items-center gap-4 hidden xl:flex">
+        <div class="absolute -left-24 md:flex-col justify-center items-center gap-4 hidden xl:flex lg:bottom-[564px] md:bottom-[524px]">
             <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
                 <FontAwesomeIcon icon={faInstagram} size='2x'/>
             </a>
@@ -514,6 +520,7 @@ text-transform: uppercase;
                 <FontAwesomeIcon icon={faFacebookF} size='2x'/>
             </a>
         </div>
+    <div bind:this={navTopItem}>
     <NameRevealOnHover 
         activeImage={exhibitionsActive} 
         setBackgroundColor="#D4D0DD" 
@@ -523,6 +530,7 @@ text-transform: uppercase;
         href="#" 
         class="h-4 sm:h-6 md:h-10 lg:h-12"
     />
+    </div>
     <NameRevealOnHover 
         activeImage={artistsActive} 
         setBackgroundColor="#B4C6E1" 
@@ -653,8 +661,8 @@ text-transform: uppercase;
             <h5 class="mb-8">Forthcoming</h5>
             <Gallery isList items={FORTHCOMING_GALLERY}/>
        
-            <LinkArrowButton text="all exhibitions" class="mt-16"/>
-            <h2 class="font-normal mt-16 lg:w-2/3">Celebrating the Diverse Stories that Define Us</h2>
+            <LinkArrowButton text="all exhibitions" class="mt-26"/>
+            <h2 class="font-normal mt-8 lg:w-2/3">Celebrating the Diverse Stories that Define Us</h2>
         </ContentWidth>
     </div>
 
@@ -737,7 +745,7 @@ text-transform: uppercase;
             <div class="sm:pl-20 -mt-[20vw] relative">
                 <h2 class="text-white font-normal mt-64 md:mt-16 sm:w-2/3">Weaving Together the Stories that Shape Us</h2>
                 <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-0 md:ml-2 mt-4 text-left md:mt-10" />
-                <div class="absolute md:-left-3 top-32 md:top-3 flex md:flex-col justify-center items-center gap-4">
+                <div class="absolute md:-left-3 top-16 md:top-20 md:-translate-1 flex md:flex-col justify-center items-center gap-4">
                     <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
                         <FontAwesomeIcon icon={faInstagram} size='2x'/>
                     </a>
