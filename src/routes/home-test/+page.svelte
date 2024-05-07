@@ -545,7 +545,7 @@ onMount(() => {
   {/if}
   <div class="fixed w-screen h-screen z-30 pointer-events-none hidden lg:block">
     <ContentWidth class='h-full relative pointer-events-none'>
-        <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 -lef-0 -translate-x-1/2 rotate-90 flex flex-row gap-4  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
+        <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 -lef-0 -translate-x-1/2 rotate-90 flex flex-row gap-4 transition  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
             <a class="floating-links no-underline {isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
@@ -568,8 +568,8 @@ onMount(() => {
                 <h6 class='mb-6'>03.15 to 05.06.24</h6>
                 <LinkArrowButton text="EXPLORE"/>
 
-                <div class="absolute top-0 translate-y-[172px] left-0 -translate-x-1/2 rotate-90  flex-row gap-4 hidden lg:flex  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
-                    <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionOnView} href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
+                <div class="absolute top-0 translate-y-[168px] left-0 -translate-x-1/2 rotate-90  flex-row gap-4 hidden lg:flex transition  {!isFixedNavShown?'pointer-events-auto':'pointer-events-none opacity-0'}">
+                    <a class="floating-links no-underline active {!isFixedNavShown?'':'pointer-events-none'}" href="#onview" on:click|preventDefault={()=>sectionOnViewHat.scrollIntoView({behavior:'smooth'})}>ON VIEW</a>
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionForthcoming} href="#forthcoming" on:click|preventDefault={()=>sectionForthcomingHat.scrollIntoView({behavior:'smooth'})}>FORTHCOMING</a>
                     <a class="floating-links no-underline {!isFixedNavShown?'':'pointer-events-none'}" class:active={isSectionExplore} href="#explore" on:click|preventDefault={()=>sectionExplore.scrollIntoView({behavior:'smooth'})}>EXPLORE</a>
                 </div> 
@@ -596,7 +596,7 @@ onMount(() => {
                 <Gallery items={ON_VIEW_GALLERY}/>
                 
                 <h2 class="font-normal mt-16 sm:w-2/3">The Complete Catalogue of <span class="font-bold">To the Garden We Return</span></h2>
-                <LinkArrowButton text="explore" class="mt-16"/>
+                <LinkArrowButton text="explore" class="mt-8"/>
             </ContentWidth>
 
         </div>
@@ -627,9 +627,8 @@ onMount(() => {
         <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
             <Gallery isList items={FORTHCOMING_GALLERY}/>
-       
-            <LinkArrowButton text="all exhibitions" class="mt-26"/>
             <h2 class="font-normal mt-8 lg:w-2/3">Celebrating the Diverse Stories that Define Us</h2>
+            <LinkArrowButton text="all exhibitions" class="mt-8"/>
         </ContentWidth>
     </div>
 
