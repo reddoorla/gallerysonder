@@ -53,11 +53,6 @@
         
     }
     
-    .clipClose{
-        clip-path: inset(0 5% 0 5%);
-        -webkit-clip-path: inset(0 0 0 0);
-    }
-
     .clip-transition{
         transition: clip-path 0.75s ease-in, -webkit-clip-path 0.75s ease-in;
         -webkit-transition: -webkit-clip-path 0.75s ease-in;

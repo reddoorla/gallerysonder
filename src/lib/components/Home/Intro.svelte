@@ -6,7 +6,7 @@
     import { cubicOut, linear } from 'svelte/easing';
     import { interpolateString as interpolate } from 'd3-interpolate';
 
-    //TODO: added a 100ms crossfade
+
 
     import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
     import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
@@ -100,7 +100,7 @@
       }
     ];
 
-    export let imageAndPositionArray = IMAGE_ARRAY_WITH_BG_SHIFTS
+    export let imageAndPositionArray;
 
     let innerWidth:number;
   

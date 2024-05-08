@@ -229,13 +229,7 @@
         return await Promise.all(coverImagesPromises);
     };
 
-    const debounce = (func: Function, delay: number) => {
-        let timeoutId: ReturnType<typeof setTimeout>;
-        return (...args: any[]) => {
-        clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => func(...args), delay);
-        };
-    };
+
 
     let isIntroComplete = false;
     let showContent = false;
@@ -364,25 +358,7 @@ onMount(() => {
   </script>
   
   <style>
-    .background-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: -1;
-      overflow: hidden;
-    }
-  
-    .content-container {
-      position: relative;
-      z-index: 1;
-      overflow-y: scroll;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      /* Add any additional styles for the content container */
-    }
+   
 
     .floating-links{
         color: #B8CCCA;
@@ -413,16 +389,7 @@ onMount(() => {
         opacity: 1;
     }
 
-    h1{
-        color: var(--ffffff, #FFF);
 
-font-family: "commuters-sans";
-font-size: 160px;
-font-style: normal;
-font-weight: 700;
-line-height: 1em; /* 100% */
-text-transform: uppercase;
-    }
 
 
 @media screen and ( max-width: 1024px ) {
@@ -455,7 +422,7 @@ text-transform: uppercase;
         </div>
 
         <div class="w-full h-16 fixed bottom-0 flex flex-row justify-start items-start overflow-hidden">
-            <div class="h-ful w-full bg-subtle-primary transition-transform" style="transform: translateX({percentLoaded*100-100}%);"/>
+            <div class="h-ful w-full bg-subtle-primary" style="transform: translateX({percentLoaded*100-100}%);"/>
         </div>
   {:then} 
   {#if !isIntroComplete}
@@ -480,8 +447,8 @@ text-transform: uppercase;
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity {isSectionTop ? "" : "opacity-0"}">
         <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents ? "" : "opacity-0"}">SONDER PRESENTS</h5>
         <ScaleTextToContainer class="transition-opacity duration-500 ease-fast-slow {showPresentedArtist ? "":"opacity-0"}">
-            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Devon</h1>
-            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit" >Dejardin</h1>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >Devon</h1>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >Dejardin</h1>
         </ScaleTextToContainer>
     </ContentWidth>
   </div>
