@@ -333,16 +333,6 @@ export type IntroImagesDocument<Lang extends string = string> = prismic.PrismicD
  */
 export interface NavDocumentDataLinksItem {
 	/**
-	 * inactive link field in *nav → links*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: nav.links[].inactive_link
-	 * - **Documentation**: https://prismic.io/docs/field#image
-	 */
-	inactive_link: prismic.ImageField<never>;
-
-	/**
 	 * active link field in *nav → links*
 	 *
 	 * - **Field Type**: Image

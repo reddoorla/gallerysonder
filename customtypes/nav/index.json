@@ -12,14 +12,6 @@
 					"label": "links",
 					"repeat": true,
 					"fields": {
-						"inactive_link": {
-							"type": "Image",
-							"config": {
-								"label": "inactive link",
-								"constraint": {},
-								"thumbnails": []
-							}
-						},
 						"active_link": {
 							"type": "Image",
 							"config": {
