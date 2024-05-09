@@ -50,30 +50,24 @@
               "2"
             ]
           }
+        },
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
         }
       },
       "items": {
-        "name_inactive": {
-          "type": "Image",
+        "artist": {
+          "type": "Link",
           "config": {
-            "label": "name_inactive",
-            "constraint": {},
-            "thumbnails": []
-          }
-        },
-        "name_active": {
-          "type": "Image",
-          "config": {
-            "label": "name active (must be the same size)",
-            "constraint": {},
-            "thumbnails": []
-          }
-        },
-        "active_color": {
-          "type": "Color",
-          "config": {
-            "label": "active color",
-            "placeholder": ""
+            "label": "artist",
+            "select": "document",
+            "customtypes": [
+              "artist"
+            ]
           }
         }
       }

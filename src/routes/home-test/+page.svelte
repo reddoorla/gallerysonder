@@ -4,6 +4,7 @@
 	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 
+
     import { onMount } from 'svelte';
     import { fade, slide } from 'svelte/transition';
 
@@ -73,6 +74,8 @@
     import Intro from '$lib/components/Home/Intro.svelte';
     import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
     import Gallery from '$lib/components/Gallery.svelte';
+
+    import { backgroundColor } from '$lib/stores/backgroundColor';
 
 
     const IMAGE_ARRAY_WITH_BG_SHIFTS = [

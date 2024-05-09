@@ -11,24 +11,16 @@
     import NameRevealOnHover from "./NameRevealOnHover.svelte";
     import LinkArrowButton from "./Buttons/LinkArrowButton.svelte";
 
+    import { backgroundColor } from "$lib/stores/backgroundColor";
+
 
     export let isLogoBlack:boolean;
     export let navProps:NavDocumentDataLinksItem[];
     
     let showNav = false;
-    let backgroundColor="#E4EEEA";
-    let activatedBackgroundColor="inherit";
 
-    let navTopItem:HTMLElement;
 
-    const checkColor = () => {
-        setTimeout(()=>{
-        if(activatedBackgroundColor==="inherit"){
-            backgroundColor="#E4EEEA"
-        }else{
-            backgroundColor=activatedBackgroundColor;
-        }},5);
-    }
+
 </script>
 
 <div class=" w-screen fixed h-24 top-0 py-8 z-50 pointer-events-none" transition:fade={{ duration: 300 }}>
@@ -45,7 +37,7 @@
 </div>
 
 {#if showNav}
-<div class="h-screen w-screen fixed top-0 left-0 z-40 transition ease-fast-slow" style="background-color: {backgroundColor}" transition:slide>
+<div class="h-screen w-screen fixed top-0 left-0 z-40 transition ease-fast-slow" style="background-color:{$backgroundColor}" transition:slide>
   <ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 justify-end h-full relative">
 
       <div class="absolute -left-24 md:flex-col justify-center items-center gap-4 hidden xl:flex lg:bottom-[564px] md:bottom-[524px]">
@@ -66,10 +58,8 @@
   
     <NameRevealOnHover 
       activeImage={link.active_link.url||""} 
-      setBackgroundColor={link.active_color||"white"}
-      bind:activeBackgroundColor={activatedBackgroundColor} 
-      on:mouseover={checkColor}
-      on:mouseout={checkColor}   
+      on:mouseover={()=>backgroundColor.set(link.active_color||"#E4EEEA")}
+      on:mouseout={()=>backgroundColor.set("#E4EEEA")}   
       href={(prismicH.isFilled.link(link.link) ? link.link.url : "#")} 
       class="h-4 sm:h-6 md:h-10 lg:h-12"
      />

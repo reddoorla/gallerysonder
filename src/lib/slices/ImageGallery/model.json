@@ -68,6 +68,13 @@
             "placeholder": "",
             "select": null
           }
+        },
+        "sectionlabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
         }
       },
       "items": {

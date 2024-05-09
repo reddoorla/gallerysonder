@@ -13,6 +13,11 @@
 						}
 					}
 				]
+			},
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "brain",
+				"type": "Text"
 			}
 		},
 		"items": [

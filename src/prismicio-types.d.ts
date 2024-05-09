@@ -596,6 +596,16 @@ export interface ImageGallerySliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	button_bottom_link: prismic.LinkField;
+
+	/**
+	 * sectionLabel field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: image_gallery.primary.sectionlabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionlabel: prismic.KeyTextField;
 }
 
 /**
@@ -723,6 +733,16 @@ export interface NameListSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
 	shape_bottom: prismic.SelectField<'1' | '2'>;
+
+	/**
+	 * sectionLabel field in *NameList → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: name_list.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
 }
 
 /**
@@ -730,34 +750,14 @@ export interface NameListSliceDefaultPrimary {
  */
 export interface NameListSliceDefaultItem {
 	/**
-	 * name_inactive field in *NameList → Items*
+	 * artist field in *NameList → Items*
 	 *
-	 * - **Field Type**: Image
+	 * - **Field Type**: Content Relationship
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.items[].name_inactive
-	 * - **Documentation**: https://prismic.io/docs/field#image
+	 * - **API ID Path**: name_list.items[].artist
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	name_inactive: prismic.ImageField<never>;
-
-	/**
-	 * name active (must be the same size) field in *NameList → Items*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.items[].name_active
-	 * - **Documentation**: https://prismic.io/docs/field#image
-	 */
-	name_active: prismic.ImageField<never>;
-
-	/**
-	 * active color field in *NameList → Items*
-	 *
-	 * - **Field Type**: Color
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.items[].active_color
-	 * - **Documentation**: https://prismic.io/docs/field#color
-	 */
-	active_color: prismic.ColorField;
+	artist: prismic.ContentRelationshipField<'artist'>;
 }
 
 /**
@@ -810,6 +810,16 @@ export interface QuoteBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
 	signature: prismic.ImageField<never>;
+
+	/**
+	 * sectionLabel field in *QuoteBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: quote_block.primary.sectionlabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionlabel: prismic.KeyTextField;
 }
 
 /**
@@ -852,6 +862,16 @@ export interface RichTextSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
 	 */
 	content: prismic.RichTextField;
+
+	/**
+	 * sectionLabel field in *RichText → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: rich_text.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
 }
 
 /**
@@ -934,6 +954,16 @@ export interface TitleBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	button_link: prismic.LinkField;
+
+	/**
+	 * sectionLabel field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: title_block.primary.sectionlabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionlabel: prismic.KeyTextField;
 }
 
 /**
@@ -986,6 +1016,16 @@ export interface VideoBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#embed
 	 */
 	video: prismic.EmbedField;
+
+	/**
+	 * sectionLabel field in *VideoBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: video_block.primary.sectionlabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionlabel: prismic.KeyTextField;
 }
 
 /**

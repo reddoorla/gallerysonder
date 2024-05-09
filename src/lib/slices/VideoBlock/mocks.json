@@ -50,6 +50,11 @@
 				"alt": null,
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
+			},
+			"sectionlabel": {
+				"__TYPE__": "FieldContent",
+				"value": "protection",
+				"type": "Text"
 			}
 		},
 		"items": []

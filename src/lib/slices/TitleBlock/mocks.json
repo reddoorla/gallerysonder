@@ -53,6 +53,11 @@
 						}
 					}
 				]
+			},
+			"sectionlabel": {
+				"__TYPE__": "FieldContent",
+				"value": "simple",
+				"type": "Text"
 			}
 		},
 		"items": []

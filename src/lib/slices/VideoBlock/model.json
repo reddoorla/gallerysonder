@@ -26,6 +26,13 @@
             "label": "video",
             "placeholder": ""
           }
+        },
+        "sectionlabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
         }
       },
       "items": {}

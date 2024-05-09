@@ -38,6 +38,11 @@
 				"__TYPE__": "FieldContent",
 				"value": "1",
 				"type": "Select"
+			},
+			"sectionlabel": {
+				"__TYPE__": "FieldContent",
+				"value": "settle",
+				"type": "Text"
 			}
 		},
 		"items": [

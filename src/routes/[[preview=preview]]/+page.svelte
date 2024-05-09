@@ -95,7 +95,7 @@
 </div>
 
 <div class="w-full h-16 fixed bottom-0 flex flex-row justify-start items-start overflow-hidden">
-	<div class="h-ful w-full bg-subtle-primary" style="transform: translateX({percentLoaded*100-100}%);"/>
+	<div class="h-ful w-full bg-subtle-primary transition-transform duration-75" style="transform: translateX({percentLoaded*100-100}%);"/>
 </div>
 {:then} 
 {#if !isIntroComplete}
