@@ -18,6 +18,11 @@
 				"__TYPE__": "FieldContent",
 				"value": "brain",
 				"type": "Text"
+			},
+			"desktop_width": {
+				"__TYPE__": "FieldContent",
+				"value": "1/2",
+				"type": "Select"
 			}
 		},
 		"items": [

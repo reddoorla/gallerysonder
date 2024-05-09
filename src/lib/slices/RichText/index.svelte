@@ -9,7 +9,7 @@
 </script>
 
 <section style="background-color:{$backgroundColor}" class="w-screen">
-	<ContentWidth>
+	<ContentWidth class="w-full lg:pl-20 sm:w-{slice.primary.desktop_width}">
 		<PrismicRichText
 			field={slice.primary.content}
 			components={{

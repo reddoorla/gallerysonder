@@ -25,10 +25,26 @@
             ]
           }
         },
+        "gallery_eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "gallery_eyebrow",
+            "placeholder": ""
+          }
+        },
         "will_blur": {
           "type": "Boolean",
           "config": {
             "label": "will blur",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
+        },
+        "islist": {
+          "type": "Boolean",
+          "config": {
+            "label": "isList",
             "default_value": false,
             "placeholder_true": "true",
             "placeholder_false": "false"
@@ -41,6 +57,22 @@
             "default_value": false,
             "placeholder_true": "true",
             "placeholder_false": "false"
+          }
+        },
+        "sectionlabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "gallery_closing_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "gallery_closing_text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
           }
         },
         "button_bottom_text": {
@@ -57,13 +89,6 @@
             "placeholder": "",
             "select": null
           }
-        },
-        "sectionlabel": {
-          "type": "Text",
-          "config": {
-            "label": "sectionLabel",
-            "placeholder": "leave blank for no id"
-          }
         }
       },
       "items": {
@@ -75,40 +100,33 @@
             "thumbnails": []
           }
         },
+        "artist_name": {
+          "type": "Text",
+          "config": {
+            "label": "artist name",
+            "placeholder": ""
+          }
+        },
+        "piece_title": {
+          "type": "Text",
+          "config": {
+            "label": "piece_title",
+            "placeholder": ""
+          }
+        },
+        "piece_subtitle": {
+          "type": "Text",
+          "config": {
+            "label": "piece_subtitle",
+            "placeholder": ""
+          }
+        },
         "link": {
           "type": "Link",
           "config": {
             "label": "link",
             "placeholder": "",
             "select": null
-          }
-        },
-        "title": {
-          "type": "Text",
-          "config": {
-            "label": "title",
-            "placeholder": ""
-          }
-        },
-        "subtitle": {
-          "type": "Text",
-          "config": {
-            "label": "subtitle",
-            "placeholder": ""
-          }
-        },
-        "button_text": {
-          "type": "Text",
-          "config": {
-            "label": "button_text",
-            "placeholder": ""
-          }
-        },
-        "artist_name": {
-          "type": "Text",
-          "config": {
-            "label": "artist name",
-            "placeholder": ""
           }
         }
       }

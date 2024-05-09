@@ -69,6 +69,16 @@ export default {
         }
     },
   },
+  safelist: [
+    'sm:w-full',
+    'sm:w-4/5',
+    'sm:w-3/4',
+    'sm:w-2/3',
+    'sm:w-1/2',
+    'sm:w-1/3',
+    'sm:w-1/4',
+    'sm:w-1/5',
+  ],
   plugins: [],
 }
 

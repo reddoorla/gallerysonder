@@ -542,6 +542,16 @@ export interface ImageGallerySliceDefaultPrimary {
 	shape_top: prismic.SelectField<'0' | '1' | '2' | '3'>;
 
 	/**
+	 * gallery_eyebrow field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.primary.gallery_eyebrow
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	gallery_eyebrow: prismic.KeyTextField;
+
+	/**
 	 * will blur field in *ImageGallery → Primary*
 	 *
 	 * - **Field Type**: Boolean
@@ -553,6 +563,17 @@ export interface ImageGallerySliceDefaultPrimary {
 	will_blur: prismic.BooleanField;
 
 	/**
+	 * isList field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: image_gallery.primary.islist
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	islist: prismic.BooleanField;
+
+	/**
 	 * is staggered field in *ImageGallery → Primary*
 	 *
 	 * - **Field Type**: Boolean
@@ -562,6 +583,26 @@ export interface ImageGallerySliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#boolean
 	 */
 	is_staggered: prismic.BooleanField;
+
+	/**
+	 * sectionLabel field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: image_gallery.primary.sectionlabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionlabel: prismic.KeyTextField;
+
+	/**
+	 * gallery_closing_text field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.primary.gallery_closing_text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	gallery_closing_text: prismic.RichTextField;
 
 	/**
 	 * button bottom text field in *ImageGallery → Primary*
@@ -582,16 +623,6 @@ export interface ImageGallerySliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	button_bottom_link: prismic.LinkField;
-
-	/**
-	 * sectionLabel field in *ImageGallery → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: leave blank for no id
-	 * - **API ID Path**: image_gallery.primary.sectionlabel
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	sectionlabel: prismic.KeyTextField;
 }
 
 /**
@@ -609,46 +640,6 @@ export interface ImageGallerySliceDefaultItem {
 	image: prismic.ImageField<never>;
 
 	/**
-	 * link field in *ImageGallery → Items*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].link
-	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-	 */
-	link: prismic.LinkField;
-
-	/**
-	 * title field in *ImageGallery → Items*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].title
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	title: prismic.KeyTextField;
-
-	/**
-	 * subtitle field in *ImageGallery → Items*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].subtitle
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	subtitle: prismic.KeyTextField;
-
-	/**
-	 * button_text field in *ImageGallery → Items*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].button_text
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	button_text: prismic.KeyTextField;
-
-	/**
 	 * artist name field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Text
@@ -657,6 +648,36 @@ export interface ImageGallerySliceDefaultItem {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	artist_name: prismic.KeyTextField;
+
+	/**
+	 * piece_title field in *ImageGallery → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.items[].piece_title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	piece_title: prismic.KeyTextField;
+
+	/**
+	 * piece_subtitle field in *ImageGallery → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.items[].piece_subtitle
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	piece_subtitle: prismic.KeyTextField;
+
+	/**
+	 * link field in *ImageGallery → Items*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.items[].link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField;
 }
 
 /**
@@ -879,6 +900,17 @@ export interface RichTextSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * desktop width field in *RichText → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: full
+	 * - **API ID Path**: rich_text.primary.desktop_width
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	desktop_width: prismic.SelectField<'full' | '4/5' | '3/4' | '2/3' | '1/2' | '1/3', 'filled'>;
 }
 
 /**

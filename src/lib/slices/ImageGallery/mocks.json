@@ -32,6 +32,26 @@
 				"__TYPE__": "FieldContent",
 				"value": "powerful",
 				"type": "Text"
+			},
+			"gallery_eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "song",
+				"type": "Text"
+			},
+			"gallery_closing_text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Ea amet sunt commodo officia ut. Aute nisi proident nisi consectetur enim incididunt dolor occaecat labore reprehenderit."
+						}
+					}
+				]
+			},
+			"islist": {
+				"__TYPE__": "BooleanContent",
+				"value": true
 			}
 		},
 		"items": [
@@ -65,6 +85,14 @@
 						}
 					],
 					[
+						"artist_name",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "news",
+							"type": "Text"
+						}
+					],
+					[
 						"link",
 						{
 							"__TYPE__": "LinkContent",
@@ -75,34 +103,18 @@
 						}
 					],
 					[
-						"title",
+						"piece_title",
 						{
 							"__TYPE__": "FieldContent",
-							"value": "mice",
+							"value": "control",
 							"type": "Text"
 						}
 					],
 					[
-						"subtitle",
+						"piece_subtitle",
 						{
 							"__TYPE__": "FieldContent",
-							"value": "vast",
-							"type": "Text"
-						}
-					],
-					[
-						"button_text",
-						{
-							"__TYPE__": "FieldContent",
-							"value": "himself",
-							"type": "Text"
-						}
-					],
-					[
-						"artist_name",
-						{
-							"__TYPE__": "FieldContent",
-							"value": "news",
+							"value": "discuss",
 							"type": "Text"
 						}
 					]

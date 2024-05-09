@@ -5,7 +5,7 @@
 
 	import ContentWidth from "$lib/components/ContentWidth.svelte";
 	import placeholderThumbnail from "$lib/assets/images/homeImages/galleryImage.jpg"
-	import TopShape from "$lib/components/Shapes/topShape.svelte";
+	import TopShape from "$lib/components/Shapes/TopShape.svelte";
 
 	import { backgroundColor } from "$lib/stores/backgroundColor";
 

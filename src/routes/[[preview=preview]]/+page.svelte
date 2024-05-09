@@ -1,5 +1,7 @@
 <script lang="ts">
 
+	import { onMount } from 'svelte';
+
 	import Intro from '$lib/components/Home/Intro.svelte';
 	import Nav from '$lib/components/Nav.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
@@ -76,6 +78,12 @@
     setTimeout(()=>showSonderPresents=true, 1000);
 
     }
+
+	onMount(() => {
+    
+    window.addEventListener('scroll', checkPosition);
+
+});
 
 
 //console.log(data.nav.data.links)

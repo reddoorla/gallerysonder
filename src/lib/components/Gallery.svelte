@@ -27,14 +27,14 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
 <div class="w-full flex flex-col gap-16 mb-8">
     {#each slice.items as item, i (i)}
         <div class="flex flex-row no-underline">
-            <a class="w-1/2 pr-16 no-underline" href={(prismicHelpers.isFilled.link(item.link) ? item.link.url : "#")}>
-                <img class="w-full aspect-[8/5] object-cover" src={item.image.url} alt={item.title}/>
-            </a>
+            <button class="w-1/2 pr-16 no-underline">
+                <img class="w-full aspect-[8/5] object-cover" src={item.image.url} alt={item.piece_title}/>
+            </button>
         
             <div class="w-1/2 h-full flex flex-col gap-4">
                 <h6>{item.artist_name || ""}</h6>
-                <h3>{item.title || ""}</h3>
-                <span class="tracking-widest">{item.subtitle}</span>
+                <h3>{item.piece_title || ""}</h3>
+                <span class="tracking-widest">{item.piece_subtitle}</span>
                 <LinkArrowButton  text="explore" href={(prismicHelpers.isFilled.link(item.link) ? item.link.url : "#")}/>
             </div>
 
@@ -48,9 +48,9 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
             <GridImage 
                 class="{i%4==0 && !isRegular  ? "ml-10" : ""} {i%3==0 && !isRegular ? "mr-10" : ""}" 
                 src={item.image.url||""} 
-                text={item.title||""}
-                subtitle={(item.artist_name ? item.artist_name +" / "+item.subtitle : item.subtitle||"")}
-                alt={item.title||""}
+                text={item.piece_title||""}
+                subtitle={(item.artist_name ? item.artist_name +" / "+item.piece_subtitle : item.piece_subtitle||"")}
+                alt={item.piece_title||""}
                 bind:isHover={isHoverArray[i]}
                 on:hover={(event) => handleHover(event, i)}
             />

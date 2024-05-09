@@ -1,6 +1,6 @@
 <script lang='ts'>
 	import type { TitleBlockSlice } from "../../../prismicio-types";
-	import TopShape from "$lib/components/Shapes/topShape.svelte";
+	import TopShape from "$lib/components/Shapes/TopShape.svelte";
 	import { backgroundColor } from "$lib/stores/backgroundColor";
 	import ContentWidth from "$lib/components/ContentWidth.svelte";
 	import LinkArrowButton from "$lib/components/Buttons/LinkArrowButton.svelte";

@@ -29,6 +29,22 @@
             "label": "sectionLabel",
             "placeholder": "leave blank for no id"
           }
+        },
+        "desktop_width": {
+          "type": "Select",
+          "config": {
+            "label": "desktop width",
+            "placeholder": "",
+            "options": [
+              "full",
+              "4/5",
+              "3/4",
+              "2/3",
+              "1/2",
+              "1/3"
+            ],
+            "default_value": "full"
+          }
         }
       },
       "items": {},
