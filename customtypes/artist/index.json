@@ -29,29 +29,25 @@
 					"placeholder_false": "false"
 				}
 			},
-			"title": {
-				"type": "StructuredText",
+			"full_name": {
+				"type": "Text",
 				"config": {
-					"label": "title",
-					"placeholder": "",
-					"allowTargetBlank": true,
-					"multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+					"label": "Full Name",
+					"placeholder": ""
 				}
 			},
-			"sections": {
-				"type": "Group",
+			"first_name": {
+				"type": "Text",
 				"config": {
-					"label": "sections",
-					"repeat": true,
-					"fields": {
-						"section": {
-							"type": "Text",
-							"config": {
-								"label": "section",
-								"placeholder": ""
-							}
-						}
-					}
+					"label": "First Name",
+					"placeholder": ""
+				}
+			},
+			"last_name": {
+				"type": "Text",
+				"config": {
+					"label": "Last Name",
+					"placeholder": ""
 				}
 			},
 			"slices": {

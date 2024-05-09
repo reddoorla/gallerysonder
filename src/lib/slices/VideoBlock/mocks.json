@@ -55,6 +55,11 @@
 				"__TYPE__": "FieldContent",
 				"value": "protection",
 				"type": "Text"
+			},
+			"shape_top": {
+				"__TYPE__": "FieldContent",
+				"value": "0",
+				"type": "Select"
 			}
 		},
 		"items": []

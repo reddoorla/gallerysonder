@@ -3,39 +3,6 @@
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
 		"primary": {
-			"eyebrow": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Labore sunt ipsum quis duis tempor ex anim."
-						}
-					}
-				]
-			},
-			"title": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Culpa id occaecat eiusmod pariatur laboris id nostrud duis sunt. Voluptate velit incididunt reprehenderit culpa in ex aliqua magna id Lorem."
-						}
-					}
-				]
-			},
-			"subtitle": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Esse non culpa ex magna fugiat irure excepteur cupidatat. Est minim veniam minim amet cillum dolor. Culpa dolore et sit ad laboris et veniam irure labore anim sit excepteur deserunt."
-						}
-					}
-				]
-			},
 			"button_link": {
 				"__TYPE__": "LinkContent",
 				"value": {
@@ -43,21 +10,35 @@
 					"url": "http://twitter.com"
 				}
 			},
-			"button_text": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Culpa laborum incididunt eu qui irure tempor ut proident."
-						}
-					}
-				]
-			},
 			"sectionlabel": {
 				"__TYPE__": "FieldContent",
 				"value": "simple",
 				"type": "Text"
+			},
+			"eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "growth",
+				"type": "Text"
+			},
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "military",
+				"type": "Text"
+			},
+			"subtitle": {
+				"__TYPE__": "FieldContent",
+				"value": "left",
+				"type": "Text"
+			},
+			"button_text": {
+				"__TYPE__": "FieldContent",
+				"value": "instrument",
+				"type": "Text"
+			},
+			"shape_top": {
+				"__TYPE__": "FieldContent",
+				"value": "3",
+				"type": "Select"
 			}
 		},
 		"items": []

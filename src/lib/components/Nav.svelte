@@ -1,8 +1,6 @@
 <script lang='ts'>
     import { fade, slide } from "svelte/transition"
 
-    import  FontAwesomeIcon from 'svelte-fa'
-	import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
     import type { NavDocumentDataLinksItem } from "../../prismicio-types";
     import * as prismicH from '@prismicio/helpers'
 
@@ -42,16 +40,16 @@
 
       <div class="absolute -left-24 md:flex-col justify-center items-center gap-4 hidden xl:flex lg:bottom-[564px] md:bottom-[524px]">
           <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
-              <FontAwesomeIcon icon={faInstagram} size='2x'/>
+            <i class="fa-brands fa-instagram fa-2xl"></i>
           </a>
           <a href="https://www.linkedin.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
-              <FontAwesomeIcon icon={faLinkedinIn} size='2x'/>
+            <i class="fa-brands fa-linkedin-in fa-2xl"></i>
           </a>
           <a href="https://www.twitter.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
-              <FontAwesomeIcon icon={faXTwitter} size='2x'/>
+            <i class="fa-brands fa-x-twitter fa-2xl"></i>
           </a>
           <a href="https://www.facebook.com/" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump translate-x-1 scale-75">
-              <FontAwesomeIcon icon={faFacebookF} size='2x'/>
+            <i class="fa-brands fa-facebook-f fa-2xl"></i>
           </a>
       </div>
     {#each navProps as link}

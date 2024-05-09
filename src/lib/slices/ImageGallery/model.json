@@ -18,19 +18,10 @@
             "label": "shape top",
             "placeholder": "",
             "options": [
+              "0",
               "1",
-              "2"
-            ]
-          }
-        },
-        "shape_bottom": {
-          "type": "Select",
-          "config": {
-            "label": "shape bottom",
-            "placeholder": "",
-            "options": [
-              "1",
-              "2"
+              "2",
+              "3"
             ]
           }
         },
@@ -52,13 +43,11 @@
             "placeholder_false": "false"
           }
         },
-        "bottom_button_text": {
-          "type": "StructuredText",
+        "button_bottom_text": {
+          "type": "Text",
           "config": {
             "label": "button bottom text",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "single": "paragraph"
+            "placeholder": ""
           }
         },
         "button_bottom_link": {
@@ -86,39 +75,40 @@
             "thumbnails": []
           }
         },
-        "title": {
-          "type": "StructuredText",
-          "config": {
-            "label": "title",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-          }
-        },
-        "subtitle": {
-          "type": "StructuredText",
-          "config": {
-            "label": "subtitle",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-          }
-        },
-        "button_text": {
-          "type": "StructuredText",
-          "config": {
-            "label": "button text",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-          }
-        },
         "link": {
           "type": "Link",
           "config": {
             "label": "link",
             "placeholder": "",
             "select": null
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "title",
+            "placeholder": ""
+          }
+        },
+        "subtitle": {
+          "type": "Text",
+          "config": {
+            "label": "subtitle",
+            "placeholder": ""
+          }
+        },
+        "button_text": {
+          "type": "Text",
+          "config": {
+            "label": "button_text",
+            "placeholder": ""
+          }
+        },
+        "artist_name": {
+          "type": "Text",
+          "config": {
+            "label": "artist name",
+            "placeholder": ""
           }
         }
       }

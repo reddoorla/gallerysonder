@@ -5,9 +5,10 @@ import { createClient } from '$lib/prismicio';
 export async function load({ fetch, cookies }) {
 	const client = createClient({ fetch, cookies });
 
-	const page = await client.getByUID('page', 'home');
+	const page = await client.getByUID('page', 'home', {fetchLinks:['artist.data.full_name', 'artist.data.first_name', 'artist.data.last_name']});
 	const intro = await client.getSingle('intro_images')
 	const nav = await client.getSingle('nav')
+	
 
 	return {
 		page,
