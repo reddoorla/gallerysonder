@@ -16,8 +16,6 @@
 	p{
 		color: var(--e-4-eeea, #E4EEEA);
 	text-align: center;
-	leading-trim: both;
-	text-edge: cap;
 	font-feature-settings: 'clig' off, 'liga' off;
 	font-family: "commuters-sans";
 	font-size: 66px;

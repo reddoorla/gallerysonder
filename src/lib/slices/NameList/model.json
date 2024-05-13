@@ -18,18 +18,12 @@
             "label": "shape top",
             "placeholder": "",
             "options": [
+              "0",
               "1",
-              "2"
-            ]
-          }
-        },
-        "button_bottom_text": {
-          "type": "StructuredText",
-          "config": {
-            "label": "button bottom text",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+              "2",
+              "3"
+            ],
+            "default_value": "0"
           }
         },
         "button_bottom_link": {
@@ -40,34 +34,43 @@
             "select": null
           }
         },
-        "shape_bottom": {
-          "type": "Select",
-          "config": {
-            "label": "shape bottom",
-            "placeholder": "",
-            "options": [
-              "1",
-              "2"
-            ]
-          }
-        },
         "sectionLabel": {
           "type": "Text",
           "config": {
             "label": "sectionLabel",
             "placeholder": "leave blank for no id"
           }
+        },
+        "bottom_button_text": {
+          "type": "Text",
+          "config": {
+            "label": "bottom_button_text",
+            "placeholder": ""
+          }
         }
       },
       "items": {
-        "artist": {
+        "artist_page": {
           "type": "Link",
           "config": {
-            "label": "artist",
-            "select": "document",
-            "customtypes": [
-              "artist"
-            ]
+            "label": "artist page",
+            "placeholder": "",
+            "select": null
+          }
+        },
+        "artist_color": {
+          "type": "Color",
+          "config": {
+            "label": "artist color",
+            "placeholder": ""
+          }
+        },
+        "artist_active_image": {
+          "type": "Image",
+          "config": {
+            "label": "artist active image",
+            "constraint": {},
+            "thumbnails": []
           }
         }
       }

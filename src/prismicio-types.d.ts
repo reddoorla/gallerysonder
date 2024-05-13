@@ -716,20 +716,11 @@ export interface NameListSliceDefaultPrimary {
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
 	 * - **API ID Path**: name_list.primary.shape_top
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	shape_top: prismic.SelectField<'1' | '2'>;
-
-	/**
-	 * button bottom text field in *NameList → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.primary.button_bottom_text
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-	 */
-	button_bottom_text: prismic.RichTextField;
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
 
 	/**
 	 * button bottom link field in *NameList → Primary*
@@ -742,16 +733,6 @@ export interface NameListSliceDefaultPrimary {
 	button_bottom_link: prismic.LinkField;
 
 	/**
-	 * shape bottom field in *NameList → Primary*
-	 *
-	 * - **Field Type**: Select
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.primary.shape_bottom
-	 * - **Documentation**: https://prismic.io/docs/field#select
-	 */
-	shape_bottom: prismic.SelectField<'1' | '2'>;
-
-	/**
 	 * sectionLabel field in *NameList → Primary*
 	 *
 	 * - **Field Type**: Text
@@ -760,6 +741,16 @@ export interface NameListSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * bottom_button_text field in *NameList → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: name_list.primary.bottom_button_text
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	bottom_button_text: prismic.KeyTextField;
 }
 
 /**
@@ -767,14 +758,34 @@ export interface NameListSliceDefaultPrimary {
  */
 export interface NameListSliceDefaultItem {
 	/**
-	 * artist field in *NameList → Items*
+	 * artist page field in *NameList → Items*
 	 *
-	 * - **Field Type**: Content Relationship
+	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.items[].artist
+	 * - **API ID Path**: name_list.items[].artist_page
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	artist: prismic.ContentRelationshipField<'artist'>;
+	artist_page: prismic.LinkField;
+
+	/**
+	 * artist color field in *NameList → Items*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: name_list.items[].artist_color
+	 * - **Documentation**: https://prismic.io/docs/field#color
+	 */
+	artist_color: prismic.ColorField;
+
+	/**
+	 * artist active image field in *NameList → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: name_list.items[].artist_active_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	artist_active_image: prismic.ImageField<never>;
 }
 
 /**

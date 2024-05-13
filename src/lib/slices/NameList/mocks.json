@@ -3,17 +3,6 @@
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
 		"primary": {
-			"button_bottom_text": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Excepteur mollit aliqua ea."
-						}
-					}
-				]
-			},
 			"button_bottom_link": {
 				"__TYPE__": "LinkContent",
 				"value": {
@@ -23,17 +12,17 @@
 			},
 			"shape_top": {
 				"__TYPE__": "FieldContent",
-				"value": "2",
-				"type": "Select"
-			},
-			"shape_bottom": {
-				"__TYPE__": "FieldContent",
-				"value": "1",
+				"value": "0",
 				"type": "Select"
 			},
 			"sectionLabel": {
 				"__TYPE__": "FieldContent",
 				"value": "battle",
+				"type": "Text"
+			},
+			"bottom_button_text": {
+				"__TYPE__": "FieldContent",
+				"value": "slabs",
 				"type": "Text"
 			}
 		},
@@ -42,13 +31,47 @@
 				"__TYPE__": "GroupItemContent",
 				"value": [
 					[
-						"artist",
+						"artist_page",
 						{
 							"__TYPE__": "LinkContent",
 							"value": {
-								"__TYPE__": "DocumentLink",
-								"id": "mock_document_id"
+								"__TYPE__": "ExternalLink",
+								"url": "https://slicemachine.dev"
 							}
+						}
+					],
+					[
+						"artist_color",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "#3c9c56",
+							"type": "Color"
+						}
+					],
+					[
+						"artist_active_image",
+						{
+							"origin": {
+								"id": "main",
+								"url": "https://images.unsplash.com/photo-1493119508027-2b584f234d6c",
+								"width": 3424,
+								"height": 3424
+							},
+							"url": "https://images.unsplash.com/photo-1493119508027-2b584f234d6c",
+							"width": 3424,
+							"height": 3424,
+							"edit": {
+								"zoom": 1,
+								"crop": {
+									"x": 0,
+									"y": 0
+								},
+								"background": "transparent"
+							},
+							"credits": null,
+							"alt": null,
+							"__TYPE__": "ImageContent",
+							"thumbnails": {}
 						}
 					]
 				]
