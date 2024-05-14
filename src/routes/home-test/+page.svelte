@@ -623,16 +623,16 @@ onMount(() => {
           </svg>
     </div>
       
-    <div bind:this={sectionForthcomingBottom} class="w-full py-8 transition-all duration-1000 use-gpu ease-fast-slow" style="background-color:{exploreActiveBackgroundColor};">
+    <div bind:this={sectionForthcomingBottom} class="w-full pt-8 pb-20 transition-all duration-1000 use-gpu ease-fast-slow" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20">
             <h5 class="mb-8">Forthcoming</h5>
             <Gallery isList items={FORTHCOMING_GALLERY}/>
-            <h2 class="font-normal mt-8 lg:w-2/3">Celebrating the Diverse Stories that Define Us</h2>
+            <h2 class="font-normal mt-40 lg:w-2/3">Celebrating the Diverse Stories that Define Us</h2>
             <LinkArrowButton text="all exhibitions" class="mt-8"/>
         </ContentWidth>
     </div>
 
-    <div bind:this={sectionExplore} class="w-full use-gpu transition-all duration-1000 ease-fast-slow pt-16" id="explore" style="background-color:{exploreActiveBackgroundColor};">
+    <div bind:this={sectionExplore} class="w-full use-gpu transition-all duration-1000 ease-fast-slow pt-20" id="explore" style="background-color:{exploreActiveBackgroundColor};">
         <ContentWidth class="lg:pl-20 relative">
             <div class="flex flex-col gap-16 my-16">
                 <NameToClipPath 
