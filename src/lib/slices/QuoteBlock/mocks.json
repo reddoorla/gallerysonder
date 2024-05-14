@@ -37,15 +37,15 @@
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
 			},
-			"sectionlabel": {
-				"__TYPE__": "FieldContent",
-				"value": "gravity",
-				"type": "Text"
-			},
 			"shape_top": {
 				"__TYPE__": "FieldContent",
 				"value": "0",
 				"type": "Select"
+			},
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "courage",
+				"type": "Text"
 			}
 		},
 		"items": []

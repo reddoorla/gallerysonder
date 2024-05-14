@@ -23,11 +23,6 @@
 				"value": "2",
 				"type": "Select"
 			},
-			"sectionlabel": {
-				"__TYPE__": "FieldContent",
-				"value": "settle",
-				"type": "Text"
-			},
 			"button_bottom_text": {
 				"__TYPE__": "FieldContent",
 				"value": "powerful",
@@ -52,6 +47,11 @@
 			"islist": {
 				"__TYPE__": "BooleanContent",
 				"value": true
+			},
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "contrast",
+				"type": "Text"
 			}
 		},
 		"items": [

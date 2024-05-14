@@ -29,7 +29,7 @@
             "thumbnails": []
           }
         },
-        "sectionlabel": {
+        "sectionLabel": {
           "type": "Text",
           "config": {
             "label": "sectionLabel",

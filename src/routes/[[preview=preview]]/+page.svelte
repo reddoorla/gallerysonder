@@ -21,6 +21,8 @@
     import E from "$lib/assets/icons/sonderAlphabet/normal/E.svg"
     import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
 	import Footer from '$lib/components/Footer.svelte';
+	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
+
 
 
 	export let data;
@@ -42,6 +44,16 @@
     let showSonderPresents = false;
 
     let theBottomOfTheTop:HTMLElement;
+    let contentContainer:HTMLElement|null;
+    let sliceRefs:HTMLElement[]=[];
+
+    let slicesSections:string[]=[];
+    data.page.data.slices.forEach((slice)=>slicesSections.push(slice.primary?.sectionLabel || ""))
+
+    let sections:string[] =[];
+    data.page.data.sections.forEach((section)=>sections.push(section.section||""))
+
+
 
 	let isFixedNavShown = false;
     let isLogoBlack = false;
@@ -89,10 +101,10 @@
     }
 
 	onMount(() => {
-    
-    window.addEventListener('scroll', checkPosition);
 
-});
+        window.addEventListener('scroll', checkPosition);
+
+    });
 
 
 //console.log(data.nav.data.links)
@@ -144,7 +156,9 @@
 
 <Nav {isLogoBlack} navProps = {data.nav.data.links}/>
 
-<div class="content-container flex flex-col" on:scroll={checkPosition}>
+<InnerPageNav {slicesSections} {sections}/>
+
+<div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
 
     <div class="h-screen" />
     <div class="h-1" bind:this={theBottomOfTheTop}/>

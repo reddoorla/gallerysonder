@@ -59,7 +59,7 @@
             "placeholder_false": "false"
           }
         },
-        "sectionlabel": {
+        "sectionLabel": {
           "type": "Text",
           "config": {
             "label": "sectionLabel",

@@ -15,13 +15,13 @@
 <style>
 	p{
 		color: var(--e-4-eeea, #E4EEEA);
-	text-align: center;
-	font-feature-settings: 'clig' off, 'liga' off;
-	font-family: "commuters-sans";
-	font-size: 66px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 80px; /* 121.212% */
+		text-align: center;
+		font-feature-settings: 'clig' off, 'liga' off;
+		font-family: "commuters-sans";
+		font-size: 66px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 80px; /* 121.212% */
 	}
 </style>
 

@@ -231,7 +231,7 @@ a{
     overflow: hidden;
   }
 
-  .content-container {
+  #content-container {
     position: relative;
     z-index: 1;
     overflow-y: scroll;

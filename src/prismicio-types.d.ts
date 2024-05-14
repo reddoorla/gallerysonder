@@ -589,10 +589,10 @@ export interface ImageGallerySliceDefaultPrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: leave blank for no id
-	 * - **API ID Path**: image_gallery.primary.sectionlabel
+	 * - **API ID Path**: image_gallery.primary.sectionLabel
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	sectionlabel: prismic.KeyTextField;
+	sectionLabel: prismic.KeyTextField;
 
 	/**
 	 * gallery_closing_text field in *ImageGallery → Primary*
@@ -844,10 +844,10 @@ export interface QuoteBlockSliceDefaultPrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: leave blank for no id
-	 * - **API ID Path**: quote_block.primary.sectionlabel
+	 * - **API ID Path**: quote_block.primary.sectionLabel
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	sectionlabel: prismic.KeyTextField;
+	sectionLabel: prismic.KeyTextField;
 
 	/**
 	 * shape top field in *QuoteBlock → Primary*
@@ -1010,10 +1010,10 @@ export interface TitleBlockSliceDefaultPrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: leave blank for no id
-	 * - **API ID Path**: title_block.primary.sectionlabel
+	 * - **API ID Path**: title_block.primary.sectionLabel
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	sectionlabel: prismic.KeyTextField;
+	sectionLabel: prismic.KeyTextField;
 
 	/**
 	 * shape top field in *TitleBlock → Primary*
@@ -1083,10 +1083,10 @@ export interface VideoBlockSliceDefaultPrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: leave blank for no id
-	 * - **API ID Path**: video_block.primary.sectionlabel
+	 * - **API ID Path**: video_block.primary.sectionLabel
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	sectionlabel: prismic.KeyTextField;
+	sectionLabel: prismic.KeyTextField;
 
 	/**
 	 * shape_top field in *VideoBlock → Primary*

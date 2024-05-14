@@ -10,11 +10,6 @@
 					"url": "http://twitter.com"
 				}
 			},
-			"sectionlabel": {
-				"__TYPE__": "FieldContent",
-				"value": "simple",
-				"type": "Text"
-			},
 			"eyebrow": {
 				"__TYPE__": "FieldContent",
 				"value": "growth",
@@ -39,6 +34,11 @@
 				"__TYPE__": "FieldContent",
 				"value": "3",
 				"type": "Select"
+			},
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "disappear",
+				"type": "Text"
 			}
 		},
 		"items": []
