@@ -20,6 +20,7 @@
     import D from "$lib/assets/icons/sonderAlphabet/normal/D.svg"
     import E from "$lib/assets/icons/sonderAlphabet/normal/E.svg"
     import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
+	import Footer from '$lib/components/Footer.svelte';
 
 
 	export let data;
@@ -39,6 +40,8 @@
     let showContent = false;
     let showPresentedArtist = false;
     let showSonderPresents = false;
+
+    let theBottomOfTheTop:HTMLElement;
 
 	let isFixedNavShown = false;
     let isLogoBlack = false;
@@ -68,6 +71,12 @@
     };
 
 	const checkPosition = () => {
+        if(theBottomOfTheTop&&theBottomOfTheTop.getBoundingClientRect().bottom<0){
+            isBackgroundDark=true;
+        } else {
+            isBackgroundDark=false;
+        }
+
 	};
 
 	const handleIntroComplete = () => {
@@ -120,13 +129,13 @@
       style={innerWidth > 768 ? "width: "+backgroundScaleInVW+"%; max-width: "+backgroundScaleInVW+"%; left: "+backgroundLeft+"vw; top:"+backgroundTop+"vh" : "height:"+backgroundScaleInVW+"vh; top: -"+((backgroundScaleInVW||0-100)/2||0)+"%;"}
       alt="background"
     />
-    <div class="absolute w-screen h-screen backdrop-blur md:backdrop-blur-none {isBackgroundDark?"bg-black opacity-45":"opacity-0"} "/>
+    <div class="absolute w-screen h-screen transition-opacity duration-700 backdrop-blur md:backdrop-blur-none bg-black  {isBackgroundDark ? 'opacity-45' : 'opacity-0'}" transition:fade />
 </div>
 
 <div class="fixed w-screen h-screen-50 bottom-0" >
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity">
-        <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents ? "" : "opacity-0"}">SONDER PRESENTS</h5>
-        <ScaleTextToContainer class="transition-opacity duration-500 ease-fast-slow {showPresentedArtist ? "":"opacity-0"}">
+        <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents&&!isBackgroundDark ? "" : "opacity-0"}">SONDER PRESENTS</h5>
+        <ScaleTextToContainer class="transition-opacity duration-500 ease-fast-slow {showPresentedArtist&&!isBackgroundDark ? "":"opacity-0"}">
             <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >Devon</h1>
             <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >Dejardin</h1>
         </ScaleTextToContainer>
@@ -138,9 +147,11 @@
 <div class="content-container flex flex-col" on:scroll={checkPosition}>
 
     <div class="h-screen" />
-    <div class="h-1" />
+    <div class="h-1" bind:this={theBottomOfTheTop}/>
 
 <SliceZone slices={data.page.data.slices} {components} />
+
+<Footer />
 
 </div>
 
