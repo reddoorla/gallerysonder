@@ -7,7 +7,7 @@
 
 	import { backgroundColor } from "$lib/stores/backgroundColor";
 	import { PrismicRichText } from "@prismicio/svelte";
-	import TopShape from "$lib/components/Shapes/TopShape.svelte";
+	import TopShape from "$lib/components/Shapes/TopShape.svelte"
 	
 	let viewportWidth:number;
 	
