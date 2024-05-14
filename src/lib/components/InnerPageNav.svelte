@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+    import { fade } from "svelte/transition";
     import ContentWidth from "./ContentWidth.svelte";
+
 
     let sliceRefs:HTMLElement[];
     export let sections:string[]=[];
@@ -10,6 +12,7 @@
 
     let isFixedNavShown = false;
     let activeSection = "";
+    let viewportWidth:number;
 
     const findTopOfSection = (section:string) => {
         for( let i = 0 ; i < sliceRefs.length ; i++ ){
@@ -69,10 +72,13 @@
     }
     </style>
 
-<div class="fixed w-screen h-screen z-30 pointer-events-none opacity-0 lg:opacity-100">
-    <ContentWidth class='h-full relative pointer-events-none' >
-        <div bind:this={fixedNav} class="absolute top-1/2 -translate-y-4 -lef-0 -translate-x-1/2 rotate-90 flex flex-row gap-4 transition  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
+    <svelte:window bind:innerWidth={viewportWidth} />
+
+<div class="fixed w-screen h-screen z-30 pointer-events-none">
+    <ContentWidth class='h-full relative pointer-events-none flex flex-row items-center justify-center' >
+        <div bind:this={fixedNav} class="absolute top-2 md:top-1/2 md:-translate-y-4 md:left-0 md:-translate-x-1/2 md:rotate-90 flex flex-row gap-4 transition  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
             {#each sections as section, i (i)}
+            {#if viewportWidth>768}
                 <a 
                     class="floating-links no-underline uppercase 
                     {isFixedNavShown?'':'pointer-events-none'}" 
@@ -82,6 +88,13 @@
                 >
                     {section}
                 </a>
+            {:else}
+
+                <a class="floating-links active no-underline uppercase fixed h-24 mx-auto top-8 -translate-x-1/2 {isFixedNavShown?'':'opacity-0 pointer-events-none'}" href="#{section}" class:hidden={section!==activeSection}>
+                    {section}
+                </a>
+
+            {/if}
             {/each}
         </div> 
     </ContentWidth>
