@@ -58,7 +58,7 @@
 
 <svelte:window bind:innerWidth={innerWidth} bind:innerHeight={innerHeight}/>
 
-<a bind:this={linkRef} {href} class="flex-grow-0 flex flex-col items-left w-fit h-fit clip-transition no-underline {$$props.class || ''}"  
+<a bind:this={linkRef} {href} class="flex-grow-0 flex flex-col items-left clip-transition no-underline {$$props.class || ''}"  
     aria-hidden 
     on:mouseenter={() => onHover(true)}
     on:mouseleave={() => onHover(false)}
