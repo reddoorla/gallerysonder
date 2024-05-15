@@ -21,7 +21,7 @@
 
 </script>
 
-<div class=" w-screen fixed h-24 top-0 py-8 z-50 pointer-events-none mix-blend-difference " transition:fade={{ duration: 300 }}>
+<div class=" w-screen fixed h-24 top-0 py-8 z-50 pointer-events-none {!showNav ? "mix-blend-difference":"mix-blend-normal"} " transition:fade={{ duration: 300 }}>
     <ContentWidth class="flex flex-row justify-between items-center">
         <button class="scale-105 text-white hover:text-accent-pink hover:mix-blend-normal pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack||showNav ? "brightness-0" : ""}" on:click={()=>showNav = !showNav}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
