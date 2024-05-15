@@ -67,7 +67,7 @@
     {#if innerWidth>768}
     <h6 class="mt-3 text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{text}</h6>
     <span class="mt-2 text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{subtitle}</span>
-    <LinkArrowButton text="EXPLORE" class="mt-4 translate-x-[1px] transition-opacity duration-500 {isHover ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}"/>
+    <LinkArrowButton text={"EXPLORE"} class="mt-4 translate-x-[1px] transition-opacity duration-500 {isHover ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}"/>
     {:else}
     <LinkArrowButton {text} class="mt-4 translate-x-[1px] transition-opacity duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}"/>
     <span class="mt-2 mb-16 text-nowrap transition-opacity use-gpu duration-500 {insetPercent<8 ? "opacity-100  delay-[750ms]":"opacity-0 pointer-events-none delay-0"}">{subtitle}</span>

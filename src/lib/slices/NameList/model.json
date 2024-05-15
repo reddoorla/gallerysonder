@@ -12,6 +12,13 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
+        "section_eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "section eyebrow",
+            "placeholder": ""
+          }
+        },
         "shape_top": {
           "type": "Select",
           "config": {

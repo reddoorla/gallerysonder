@@ -27,7 +27,7 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
 <div class="w-full flex flex-col gap-16 mb-8">
     {#each slice.items as item, i (i)}
         <div class="flex flex-row no-underline">
-            <button class="w-1/2 pr-16 no-underline">
+            <button class="w-1/2 pr-16 no-underline pointer-events-none">
                 <GridImage class="w-full aspect-[8/5]" src={item.image.url||""} alt={item.piece_title||""}/>
             </button>
         

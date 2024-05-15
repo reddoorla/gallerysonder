@@ -13,7 +13,7 @@
 
 <section class="w-full use-gpu transition-all duration-1000 ease-fast-slow pt-16" id="explore" style="background-color:{$backgroundColor};">
         <ContentWidth class="lg:pl-20 relative flex flex-col gap-16 my-16">
-
+			<h5 class="pb-16">{slice.primary.section_eyebrow||""}</h5>
                
                 {#each slice.items as item}
 					<NameRevealOnHover		 

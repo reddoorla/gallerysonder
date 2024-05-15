@@ -712,6 +712,16 @@ export type ImageGallerySlice = prismic.SharedSlice<'image_gallery', ImageGaller
  */
 export interface NameListSliceDefaultPrimary {
 	/**
+	 * section eyebrow field in *NameList → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: name_list.primary.section_eyebrow
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	section_eyebrow: prismic.KeyTextField;
+
+	/**
 	 * shape top field in *NameList → Primary*
 	 *
 	 * - **Field Type**: Select

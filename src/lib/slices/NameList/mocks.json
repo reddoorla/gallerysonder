@@ -24,6 +24,11 @@
 				"__TYPE__": "FieldContent",
 				"value": "slabs",
 				"type": "Text"
+			},
+			"section_eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "central",
+				"type": "Text"
 			}
 		},
 		"items": [
