@@ -11,7 +11,7 @@
 	import { components } from '$lib/slices';
 	import { SliceZone } from '@prismicio/svelte';
 	
-	import { fade } from 'svelte/transition';
+
 
 	import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
     import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
@@ -26,12 +26,6 @@
 
 	import { fade } from 'svelte/transition';
 
-	import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
-    import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
-    import N from "$lib/assets/icons/sonderAlphabet/normal/N.svg"
-    import D from "$lib/assets/icons/sonderAlphabet/normal/D.svg"
-    import E from "$lib/assets/icons/sonderAlphabet/normal/E.svg"
-    import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
 
 
 	export let data;
