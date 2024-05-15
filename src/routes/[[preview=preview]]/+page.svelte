@@ -1,5 +1,6 @@
 <script lang="ts">
 
+
 	import { onMount } from 'svelte';
 
 	import Intro from '$lib/components/Home/Intro.svelte';
@@ -7,8 +8,6 @@
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
 
-	
-	
 	import { components } from '$lib/slices';
 	import { SliceZone } from '@prismicio/svelte';
 	
@@ -25,15 +24,27 @@
 
 
 
+	import { fade } from 'svelte/transition';
+
+	import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
+    import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
+    import N from "$lib/assets/icons/sonderAlphabet/normal/N.svg"
+    import D from "$lib/assets/icons/sonderAlphabet/normal/D.svg"
+    import E from "$lib/assets/icons/sonderAlphabet/normal/E.svg"
+    import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
+
+
 	export let data;
 
 	let innerWidth:number;
 
 	const IMAGE_ARRAY_WITH_BG_SHIFTS = data.intro.data.images;
+
 	const backgroundScaleInVW = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].scale||100;
     const backgroundLeft = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].left||0;
     const backgroundTop = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].top||0;
 	const backgroundImage = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].image.url;
+
 
 	let percentLoaded = 0.0;
 
@@ -60,6 +71,7 @@
 	let isBackgroundDark = false;
 
 	let coverImagesPromises: Promise<void>[] = [];
+
 	let imagesToPreload: string[]=[];
 
 	IMAGE_ARRAY_WITH_BG_SHIFTS.forEach((item)=>{
@@ -83,11 +95,13 @@
     };
 
 	const checkPosition = () => {
+
         if(theBottomOfTheTop&&theBottomOfTheTop.getBoundingClientRect().bottom<0){
             isBackgroundDark=true;
         } else {
             isBackgroundDark=false;
         }
+
 
 	};
 
@@ -100,6 +114,7 @@
 
     }
 
+
 	onMount(() => {
 
         window.addEventListener('scroll', checkPosition);
@@ -107,7 +122,7 @@
     });
 
 
-//console.log(data.nav.data.links)
+
 </script>
 
 <svelte:window bind:innerWidth={innerWidth} />
@@ -124,7 +139,9 @@
 </div>
 
 <div class="w-full h-16 fixed bottom-0 flex flex-row justify-start items-start overflow-hidden">
+
 	<div class="h-ful w-full bg-subtle-primary transition-transform duration-75" style="transform: translateX({percentLoaded*100-100}%);"/>
+
 </div>
 {:then} 
 {#if !isIntroComplete}
@@ -168,6 +185,7 @@
 <Footer />
 
 </div>
+
 
 {/if}
 {/await}
