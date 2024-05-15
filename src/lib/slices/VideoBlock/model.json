@@ -26,6 +26,27 @@
             "label": "video",
             "placeholder": ""
           }
+        },
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape_top",
+            "placeholder": "",
+            "options": [
+              "0",
+              "1",
+              "2",
+              "3"
+            ],
+            "default_value": "0"
+          }
         }
       },
       "items": {}

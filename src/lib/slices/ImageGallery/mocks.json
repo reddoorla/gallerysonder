@@ -11,17 +11,6 @@
 				"__TYPE__": "BooleanContent",
 				"value": true
 			},
-			"bottom_button_text": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Tempor eu deserunt duis mollit nisi enim ut ex voluptate dolore. Enim ut aliquip pariatur in amet."
-						}
-					}
-				]
-			},
 			"button_bottom_link": {
 				"__TYPE__": "LinkContent",
 				"value": {
@@ -31,13 +20,38 @@
 			},
 			"shape_top": {
 				"__TYPE__": "FieldContent",
-				"value": "1",
+				"value": "2",
 				"type": "Select"
 			},
-			"shape_bottom": {
+			"button_bottom_text": {
 				"__TYPE__": "FieldContent",
-				"value": "1",
-				"type": "Select"
+				"value": "powerful",
+				"type": "Text"
+			},
+			"gallery_eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "song",
+				"type": "Text"
+			},
+			"gallery_closing_text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Ea amet sunt commodo officia ut. Aute nisi proident nisi consectetur enim incididunt dolor occaecat labore reprehenderit."
+						}
+					}
+				]
+			},
+			"islist": {
+				"__TYPE__": "BooleanContent",
+				"value": true
+			},
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "contrast",
+				"type": "Text"
 			}
 		},
 		"items": [
@@ -71,31 +85,11 @@
 						}
 					],
 					[
-						"title",
+						"artist_name",
 						{
-							"__TYPE__": "StructuredTextContent",
-							"value": [
-								{
-									"type": "paragraph",
-									"content": {
-										"text": "Proident commodo ea pariatur sunt velit eu aute est consequat occaecat amet do Lorem voluptate."
-									}
-								}
-							]
-						}
-					],
-					[
-						"subtitle",
-						{
-							"__TYPE__": "StructuredTextContent",
-							"value": [
-								{
-									"type": "paragraph",
-									"content": {
-										"text": "Non veniam do in Lorem ex elit qui."
-									}
-								}
-							]
+							"__TYPE__": "FieldContent",
+							"value": "news",
+							"type": "Text"
 						}
 					],
 					[
@@ -109,17 +103,19 @@
 						}
 					],
 					[
-						"button_text",
+						"piece_title",
 						{
-							"__TYPE__": "StructuredTextContent",
-							"value": [
-								{
-									"type": "paragraph",
-									"content": {
-										"text": "Labore nostrud occaecat laboris minim ut proident aliqua consectetur aute cillum incididunt ex minim. Consequat dolore ad amet tempor. Anim ipsum aliquip aliqua est sunt laboris eiusmod do qui ad tempor esse."
-									}
-								}
-							]
+							"__TYPE__": "FieldContent",
+							"value": "control",
+							"type": "Text"
+						}
+					],
+					[
+						"piece_subtitle",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "discuss",
+							"type": "Text"
 						}
 					]
 				]

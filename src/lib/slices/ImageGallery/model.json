@@ -18,26 +18,33 @@
             "label": "shape top",
             "placeholder": "",
             "options": [
+              "0",
               "1",
-              "2"
+              "2",
+              "3"
             ]
           }
         },
-        "shape_bottom": {
-          "type": "Select",
+        "gallery_eyebrow": {
+          "type": "Text",
           "config": {
-            "label": "shape bottom",
-            "placeholder": "",
-            "options": [
-              "1",
-              "2"
-            ]
+            "label": "gallery_eyebrow",
+            "placeholder": ""
           }
         },
         "will_blur": {
           "type": "Boolean",
           "config": {
             "label": "will blur",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
+        },
+        "islist": {
+          "type": "Boolean",
+          "config": {
+            "label": "isList",
             "default_value": false,
             "placeholder_true": "true",
             "placeholder_false": "false"
@@ -52,13 +59,27 @@
             "placeholder_false": "false"
           }
         },
-        "bottom_button_text": {
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "gallery_closing_text": {
           "type": "StructuredText",
           "config": {
-            "label": "button bottom text",
+            "label": "gallery_closing_text",
             "placeholder": "",
             "allowTargetBlank": true,
-            "single": "paragraph"
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "button_bottom_text": {
+          "type": "Text",
+          "config": {
+            "label": "button bottom text",
+            "placeholder": ""
           }
         },
         "button_bottom_link": {
@@ -79,31 +100,25 @@
             "thumbnails": []
           }
         },
-        "title": {
-          "type": "StructuredText",
+        "artist_name": {
+          "type": "Text",
           "config": {
-            "label": "title",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "label": "artist name",
+            "placeholder": ""
           }
         },
-        "subtitle": {
-          "type": "StructuredText",
+        "piece_title": {
+          "type": "Text",
           "config": {
-            "label": "subtitle",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "label": "piece_title",
+            "placeholder": ""
           }
         },
-        "button_text": {
-          "type": "StructuredText",
+        "piece_subtitle": {
+          "type": "Text",
           "config": {
-            "label": "button text",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "label": "piece_subtitle",
+            "placeholder": ""
           }
         },
         "link": {

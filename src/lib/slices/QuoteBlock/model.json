@@ -18,7 +18,7 @@
             "label": "quotation",
             "placeholder": "",
             "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "multi": "paragraph"
           }
         },
         "signature": {
@@ -27,6 +27,27 @@
             "label": "signature",
             "constraint": {},
             "thumbnails": []
+          }
+        },
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape top",
+            "placeholder": "",
+            "options": [
+              "0",
+              "1",
+              "2",
+              "3"
+            ],
+            "default_value": "0"
           }
         }
       },

@@ -50,6 +50,16 @@
 				"alt": null,
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
+			},
+			"shape_top": {
+				"__TYPE__": "FieldContent",
+				"value": "0",
+				"type": "Select"
+			},
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "baby",
+				"type": "Text"
 			}
 		},
 		"items": []

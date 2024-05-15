@@ -9,6 +9,7 @@ export async function load({ fetch, cookies }) {
 	const intro = await client.getSingle('intro_images')
 	const nav = await client.getSingle('nav')
 
+
 	return {
 		page,
 		intro,

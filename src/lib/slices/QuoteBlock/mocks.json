@@ -9,13 +9,12 @@
 					{
 						"type": "paragraph",
 						"content": {
-							"text": "Cupidatat qui Lorem non quis ut ex labore sunt labore irure sunt. Do eu occaecat eiusmod nostrud tempor Lorem dolor occaecat aliquip dolore non proident. Cillum ad et ut laborum esse sunt eu esse."
+							"text": "Esse ullamco qui cillum nulla excepteur duis irure incididunt."
 						}
 					}
 				]
 			},
 			"signature": {
-				"__TYPE__": "ImageContent",
 				"origin": {
 					"id": "main",
 					"url": "https://images.unsplash.com/photo-1589652717521-10c0d092dea9",
@@ -33,7 +32,20 @@
 					},
 					"background": "transparent"
 				},
+				"credits": null,
+				"alt": null,
+				"__TYPE__": "ImageContent",
 				"thumbnails": {}
+			},
+			"shape_top": {
+				"__TYPE__": "FieldContent",
+				"value": "0",
+				"type": "Select"
+			},
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "courage",
+				"type": "Text"
 			}
 		},
 		"items": []

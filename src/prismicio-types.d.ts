@@ -4,21 +4,6 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-/**
- * Item in *artist → sections*
- */
-export interface ArtistDocumentDataSectionsItem {
-	/**
-	 * section field in *artist → sections*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: artist.sections[].section
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	section: prismic.KeyTextField;
-}
-
 type ArtistDocumentDataSlicesSlice = never;
 
 /**
@@ -49,26 +34,37 @@ interface ArtistDocumentData {
 	sonder_presents: prismic.BooleanField;
 
 	/**
-	 * title field in *artist*
+	 * Full Name field in *artist*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: artist.title
+	 * - **API ID Path**: artist.full_name
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	title: prismic.RichTextField;
+	full_name: prismic.KeyTextField;
 
 	/**
-	 * sections field in *artist*
+	 * First Name field in *artist*
 	 *
-	 * - **Field Type**: Group
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: artist.sections[]
+	 * - **API ID Path**: artist.first_name
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#group
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	sections: prismic.GroupField<Simplify<ArtistDocumentDataSectionsItem>>;
+	first_name: prismic.KeyTextField;
+
+	/**
+	 * Last Name field in *artist*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.last_name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	last_name: prismic.KeyTextField;
 
 	/**
 	 * Slice Zone field in *artist*
@@ -543,17 +539,17 @@ export interface ImageGallerySliceDefaultPrimary {
 	 * - **API ID Path**: image_gallery.primary.shape_top
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	shape_top: prismic.SelectField<'1' | '2'>;
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3'>;
 
 	/**
-	 * shape bottom field in *ImageGallery → Primary*
+	 * gallery_eyebrow field in *ImageGallery → Primary*
 	 *
-	 * - **Field Type**: Select
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.primary.shape_bottom
-	 * - **Documentation**: https://prismic.io/docs/field#select
+	 * - **API ID Path**: image_gallery.primary.gallery_eyebrow
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	shape_bottom: prismic.SelectField<'1' | '2'>;
+	gallery_eyebrow: prismic.KeyTextField;
 
 	/**
 	 * will blur field in *ImageGallery → Primary*
@@ -567,6 +563,17 @@ export interface ImageGallerySliceDefaultPrimary {
 	will_blur: prismic.BooleanField;
 
 	/**
+	 * isList field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: image_gallery.primary.islist
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	islist: prismic.BooleanField;
+
+	/**
 	 * is staggered field in *ImageGallery → Primary*
 	 *
 	 * - **Field Type**: Boolean
@@ -578,14 +585,34 @@ export interface ImageGallerySliceDefaultPrimary {
 	is_staggered: prismic.BooleanField;
 
 	/**
-	 * button bottom text field in *ImageGallery → Primary*
+	 * sectionLabel field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: image_gallery.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * gallery_closing_text field in *ImageGallery → Primary*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.primary.bottom_button_text
+	 * - **API ID Path**: image_gallery.primary.gallery_closing_text
 	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
 	 */
-	bottom_button_text: prismic.RichTextField;
+	gallery_closing_text: prismic.RichTextField;
+
+	/**
+	 * button bottom text field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.primary.button_bottom_text
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	button_bottom_text: prismic.KeyTextField;
 
 	/**
 	 * button bottom link field in *ImageGallery → Primary*
@@ -613,34 +640,34 @@ export interface ImageGallerySliceDefaultItem {
 	image: prismic.ImageField<never>;
 
 	/**
-	 * title field in *ImageGallery → Items*
+	 * artist name field in *ImageGallery → Items*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].title
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **API ID Path**: image_gallery.items[].artist_name
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	title: prismic.RichTextField;
+	artist_name: prismic.KeyTextField;
 
 	/**
-	 * subtitle field in *ImageGallery → Items*
+	 * piece_title field in *ImageGallery → Items*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].subtitle
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **API ID Path**: image_gallery.items[].piece_title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	subtitle: prismic.RichTextField;
+	piece_title: prismic.KeyTextField;
 
 	/**
-	 * button text field in *ImageGallery → Items*
+	 * piece_subtitle field in *ImageGallery → Items*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].button_text
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **API ID Path**: image_gallery.items[].piece_subtitle
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	button_text: prismic.RichTextField;
+	piece_subtitle: prismic.KeyTextField;
 
 	/**
 	 * link field in *ImageGallery → Items*
@@ -689,20 +716,11 @@ export interface NameListSliceDefaultPrimary {
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
 	 * - **API ID Path**: name_list.primary.shape_top
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	shape_top: prismic.SelectField<'1' | '2'>;
-
-	/**
-	 * button bottom text field in *NameList → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.primary.button_bottom_text
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-	 */
-	button_bottom_text: prismic.RichTextField;
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
 
 	/**
 	 * button bottom link field in *NameList → Primary*
@@ -715,14 +733,24 @@ export interface NameListSliceDefaultPrimary {
 	button_bottom_link: prismic.LinkField;
 
 	/**
-	 * shape bottom field in *NameList → Primary*
+	 * sectionLabel field in *NameList → Primary*
 	 *
-	 * - **Field Type**: Select
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.primary.shape_bottom
-	 * - **Documentation**: https://prismic.io/docs/field#select
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: name_list.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	shape_bottom: prismic.SelectField<'1' | '2'>;
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * bottom_button_text field in *NameList → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: name_list.primary.bottom_button_text
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	bottom_button_text: prismic.KeyTextField;
 }
 
 /**
@@ -730,34 +758,34 @@ export interface NameListSliceDefaultPrimary {
  */
 export interface NameListSliceDefaultItem {
 	/**
-	 * name_inactive field in *NameList → Items*
+	 * artist page field in *NameList → Items*
 	 *
-	 * - **Field Type**: Image
+	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.items[].name_inactive
-	 * - **Documentation**: https://prismic.io/docs/field#image
+	 * - **API ID Path**: name_list.items[].artist_page
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	name_inactive: prismic.ImageField<never>;
+	artist_page: prismic.LinkField;
 
 	/**
-	 * name active (must be the same size) field in *NameList → Items*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.items[].name_active
-	 * - **Documentation**: https://prismic.io/docs/field#image
-	 */
-	name_active: prismic.ImageField<never>;
-
-	/**
-	 * active color field in *NameList → Items*
+	 * artist color field in *NameList → Items*
 	 *
 	 * - **Field Type**: Color
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: name_list.items[].active_color
+	 * - **API ID Path**: name_list.items[].artist_color
 	 * - **Documentation**: https://prismic.io/docs/field#color
 	 */
-	active_color: prismic.ColorField;
+	artist_color: prismic.ColorField;
+
+	/**
+	 * artist active image field in *NameList → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: name_list.items[].artist_active_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	artist_active_image: prismic.ImageField<never>;
 }
 
 /**
@@ -810,6 +838,27 @@ export interface QuoteBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
 	signature: prismic.ImageField<never>;
+
+	/**
+	 * sectionLabel field in *QuoteBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: quote_block.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * shape top field in *QuoteBlock → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
+	 * - **API ID Path**: quote_block.primary.shape_top
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
 }
 
 /**
@@ -852,6 +901,27 @@ export interface RichTextSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
 	 */
 	content: prismic.RichTextField;
+
+	/**
+	 * sectionLabel field in *RichText → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: rich_text.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * desktop width field in *RichText → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: full
+	 * - **API ID Path**: rich_text.primary.desktop_width
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	desktop_width: prismic.SelectField<'full' | '4/5' | '3/4' | '2/3' | '1/2' | '1/3', 'filled'>;
 }
 
 /**
@@ -888,42 +958,42 @@ export interface TitleBlockSliceDefaultPrimary {
 	/**
 	 * eyebrow field in *TitleBlock → Primary*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: title_block.primary.eyebrow
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	eyebrow: prismic.RichTextField;
+	eyebrow: prismic.KeyTextField;
 
 	/**
 	 * title field in *TitleBlock → Primary*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: title_block.primary.title
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	title: prismic.RichTextField;
+	title: prismic.KeyTextField;
 
 	/**
 	 * subtitle field in *TitleBlock → Primary*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: title_block.primary.subtitle
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	subtitle: prismic.RichTextField;
+	subtitle: prismic.KeyTextField;
 
 	/**
-	 * button text field in *TitleBlock → Primary*
+	 * button_text field in *TitleBlock → Primary*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: title_block.primary.button_text
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	button_text: prismic.RichTextField;
+	button_text: prismic.KeyTextField;
 
 	/**
 	 * button link field in *TitleBlock → Primary*
@@ -934,6 +1004,27 @@ export interface TitleBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	button_link: prismic.LinkField;
+
+	/**
+	 * sectionLabel field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: title_block.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * shape top field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
+	 * - **API ID Path**: title_block.primary.shape_top
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
 }
 
 /**
@@ -986,6 +1077,27 @@ export interface VideoBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#embed
 	 */
 	video: prismic.EmbedField;
+
+	/**
+	 * sectionLabel field in *VideoBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: video_block.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * shape_top field in *VideoBlock → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
+	 * - **API ID Path**: video_block.primary.shape_top
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
 }
 
 /**
@@ -1027,7 +1139,6 @@ declare module '@prismicio/client' {
 		export type {
 			ArtistDocument,
 			ArtistDocumentData,
-			ArtistDocumentDataSectionsItem,
 			ArtistDocumentDataSlicesSlice,
 			ExhibitDocument,
 			ExhibitDocumentData,

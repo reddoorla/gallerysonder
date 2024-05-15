@@ -13,39 +13,31 @@
       "imageUrl": "",
       "primary": {
         "eyebrow": {
-          "type": "StructuredText",
+          "type": "Text",
           "config": {
             "label": "eyebrow",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "placeholder": ""
           }
         },
         "title": {
-          "type": "StructuredText",
+          "type": "Text",
           "config": {
             "label": "title",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "placeholder": ""
           }
         },
         "subtitle": {
-          "type": "StructuredText",
+          "type": "Text",
           "config": {
             "label": "subtitle",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "placeholder": ""
           }
         },
         "button_text": {
-          "type": "StructuredText",
+          "type": "Text",
           "config": {
-            "label": "button text",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "label": "button_text",
+            "placeholder": ""
           }
         },
         "button_link": {
@@ -54,6 +46,27 @@
             "label": "button link",
             "placeholder": "",
             "select": null
+          }
+        },
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape top",
+            "placeholder": "",
+            "options": [
+              "0",
+              "1",
+              "2",
+              "3"
+            ],
+            "default_value": "0"
           }
         }
       },
