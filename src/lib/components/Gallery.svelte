@@ -28,7 +28,7 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
     {#each slice.items as item, i (i)}
         <div class="flex flex-row no-underline">
             <button class="w-1/2 pr-16 no-underline">
-                <img class="w-full aspect-[8/5] object-cover" src={item.image.url} alt={item.piece_title}/>
+                <GridImage class="w-full aspect-[8/5]" src={item.image.url||""} alt={item.piece_title||""}/>
             </button>
         
             <div class="w-1/2 h-full flex flex-col gap-4">
@@ -44,9 +44,9 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
 {:else}
 <div class="w-full flex flex-row flex-wrap {$$props.class || ""}">
     {#each slice.items as item, i (i)} 
-        <div class="w-full md:w-1/2 aspect-square use-gpu flex items-center transition duration-700 delay-700 justify-{i%2 == 0 ? "start":"end"} {isHoverArray.some(Boolean) && !isHoverArray[i] && willBlur ? "blur" : ""}">
+        <div class="w-full md:w-1/2 aspect-square p-6 xl:p-10 use-gpu flex items-end transition duration-700 delay-700 justify-center relative {isHoverArray.some(Boolean) && !isHoverArray[i] && willBlur ? "blur" : ""}">
             <GridImage 
-                class="{i%4==0 && !isRegular  ? "" : ""} {i%3==0 && !isRegular ? "" : ""}" 
+                class="{(i%4==0||i%3==0) && !isRegular  ? "w-9/12" : "w-11/12"}" 
                 src={item.image.url||""} 
                 text={item.piece_title||""}
                 subtitle={(item.artist_name ? item.artist_name +" / "+item.piece_subtitle : item.piece_subtitle||"")}

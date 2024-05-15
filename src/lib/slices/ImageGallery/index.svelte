@@ -21,7 +21,7 @@
 <section data-slice-type={slice.slice_type} data-slice-variation={slice.variation} class="w-screen py-16 transition duration-1000" style="background-color: { $backgroundColor}" >
 	<ContentWidth class="lg:pl-20">
 		<h5 class="pb-16">{slice.primary.gallery_eyebrow||""}</h5>
-		<Gallery {slice} isList={slice.primary.islist}/>
+		<Gallery {slice} isList={slice.primary.islist} isRegular={!slice.primary.is_staggered}/>
 	
 		<div class="font-normal mt-40 sm:w-2/3">
 			<PrismicRichText field={slice.primary.gallery_closing_text} />

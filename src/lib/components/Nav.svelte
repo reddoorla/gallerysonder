@@ -36,9 +36,9 @@
 
 {#if showNav}
 <div class="h-screen w-screen fixed top-0 left-0 z-40 transition ease-fast-slow" style="background-color:{$backgroundColor}" transition:slide>
-  <ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 justify-end h-full relative">
+  <ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 pt-48 justify-start h-full relative">
 
-      <div class="absolute -left-24 md:flex-col justify-center items-center gap-4 hidden xl:flex lg:bottom-[564px] md:bottom-[524px]">
+      <div class="absolute  md:flex-col justify-center items-center gap-4 hidden md:flex translate-y-1">
           <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
             <i class="fa-brands fa-instagram fa-2xl"></i>
           </a>
@@ -59,13 +59,13 @@
       on:mouseover={()=>backgroundColor.set(link.active_color||"#E4EEEA")}
       on:mouseout={()=>backgroundColor.set("#E4EEEA")}   
       href={(prismicH.isFilled.link(link.link) ? link.link.url : "#")} 
-      class="h-4 sm:h-6 md:h-10 lg:h-12"
+      class="ml-12 h-4 sm:h-6 md:h-10 lg:h-12"
      />
   {/each}
 
 
 
-  <LinkArrowButton href="" text="Subscribe to our newsletter"/>
+  <LinkArrowButton class="ml-24" href="" text="Subscribe to our newsletter"/>
   
   </ContentWidth>
 </div>

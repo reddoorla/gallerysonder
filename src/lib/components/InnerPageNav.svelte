@@ -76,9 +76,9 @@
 
 <div class="fixed w-screen h-screen z-30 pointer-events-none">
     <ContentWidth class='h-full relative pointer-events-none flex flex-row items-center justify-center' >
-        <div bind:this={fixedNav} class="absolute top-2 md:top-1/2 md:-translate-y-4 md:left-[7px] md:-translate-x-1/2 md:rotate-90 flex flex-row gap-4 transition  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
+        <div bind:this={fixedNav} class="absolute top-2 lg:top-1/2 lg:-translate-y-4 lg:left-[7px] lg:-translate-x-1/2 lg:rotate-90 flex flex-row gap-4 transition  {isFixedNavShown?'pointer-events-auto transition-opacity':'pointer-events-none opacity-0'}">
             {#each sections as section, i (i)}
-            {#if viewportWidth>768}
+            {#if viewportWidth>1024}
                 <a 
                     class="floating-links no-underline uppercase 
                     {isFixedNavShown?'':'pointer-events-none'}" 
