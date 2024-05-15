@@ -19,7 +19,7 @@
         <div class="sm:pl-20 -mt-[20vw] relative">
             <h2 class="text-white font-normal mt-64 md:mt-16 sm:w-2/3">Weaving Together the Stories that Shape Us</h2>
             <LinkArrowButton text="Subscribe to our newsletter" class="brightness-0 invert ml-0 md:ml-2 mt-4 text-left md:mt-10" />
-            <div class="absolute md:-left-3 top-16 md:top-20 md:-translate-1 flex md:flex-col justify-center items-center gap-4">
+            <div class="absolute md:left-[3px] top-16 md:top-20 flex md:flex-col justify-center items-center gap-4">
                 <a href="https://www.instagram.com" class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75">
                    <i class="fa-brands fa-instagram fa-2xl" />
                 </a>
@@ -35,8 +35,8 @@
                 </a>
             </div>
         </div>
-        <div class="sm:pl-20 flex flex-row justify-between w-full mb-12">
-            <a href="/" class="h-3 ml-2">
+        <div class="sm:pl-20 flex flex-row justify-between items-end w-full mb-12">
+            <a href="/" class="h-6 ml-2">
                 <img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert"/>
             </a>
             <span class="text-white">©2024  |   All Rights Reserved</span>
