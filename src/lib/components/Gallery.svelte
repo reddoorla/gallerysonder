@@ -46,7 +46,7 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
     {#each slice.items as item, i (i)} 
         <div class="w-full md:w-1/2 p-6 xl:p-10 use-gpu flex items-end transition duration-700 delay-700 justify-center relative {isHoverArray.some(Boolean) && !isHoverArray[i] && willBlur ? "blur" : ""}">
             <GridImage 
-                class="{(i%4==0||i%3==0) && !isRegular  ? "w-9/12" : "w-11/12"}" 
+                class="{(i%4==0||i%3==0) && !isRegular  ? "w-11/12" : "w-9/12"}" 
                 src={item.image.url||""} 
                 text={item.piece_title||""}
                 subtitle={(item.artist_name ? item.artist_name +" / "+item.piece_subtitle : item.piece_subtitle||"")}
