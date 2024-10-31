@@ -17,16 +17,16 @@
     let linkRef:HTMLElement;
 
     const checkPosition = () =>{
+        if(linkRef){
         const linkTop = linkRef?.getBoundingClientRect().top;
 
-        if(linkRef&&linkTop<=innerHeight&&insetPercent!=5)
-            insetPercent = 25 - 25 * ((innerHeight-linkTop)/(innerHeight/2));
-
-        if(insetPercent<5)
+        if(linkTop>=innerHeight*4/5){
+            insetPercent = 25;
+        }else{
             insetPercent=0;
+        }
 
-        if(linkRef&&linkTop<=innerHeight&&innerWidth<769){
-            insetPercent = 20 * (1-(innerHeight-linkTop)/(innerHeight/2));
+        
         }
     }
 
@@ -49,8 +49,8 @@
 <style>
     
     .clip-transition{
-        transition: clip-path 0.75s ease-in, -webkit-clip-path 0.75s ease-in;
-        -webkit-transition: -webkit-clip-path 0.75s ease-in;
+        transition: clip-path 2.5s cubic-bezier(.5,0,0,1), -webkit-clip-path 2.5s cubic-bezier(.5,0,0,1);
+        -webkit-transition: -webkit-clip-path 2.5s cubic-bezier(.5,0,0,1);
         transform: translateZ(1px);
         -webkit-transform: translateZ(1px);
     }
