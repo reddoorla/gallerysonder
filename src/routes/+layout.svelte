@@ -29,6 +29,31 @@
 		background-position: 0% 50%;
 	}
 }
+
+h5{
+	color: var(--White, #FFF);
+text-align: center;
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: "commuters-sans";
+font-size: 18px;
+font-style: normal;
+font-weight: 700;
+line-height: 30px; /* 166.667% */
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+p{
+	color: var(--White, #FFF);
+text-align: center;
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: "rig-sans";
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: 150%; /* 27px */
+letter-spacing: 1px;
+}
 </style>
 
 <svelte:head>
@@ -56,11 +81,14 @@
 	   </clipPath>
 	</svg>
 	
-	<div class="w-screen h-screen absolute flex justify-center items-center">
+	<div class="w-screen h-screen absolute flex flex-col justify-center items-center">
 	
 			<div class="h-12 w-[382px] gradient-logo clip-by-logo -translate-y-12"/>
+			<h5 class="w-full text-center">Opening 11.23.2024</h5>
 			   
-		  <div class="h-6 text-white gap-4 absolute bottom-32 flex flex-row justify-center">
+		  <div class="h-6 text-white gap-4 absolute bottom-32 flex flex-col justify-center items-center">
+			<p>3435 E Pacific Coast Highway, Corona Del Mar, CA 92625</p>	
+
 			<!-- <a href="https://twitter.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
 				<FontAwesomeIcon icon={faXTwitter} class="h-full" />
 			</a>
