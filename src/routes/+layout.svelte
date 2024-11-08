@@ -83,10 +83,10 @@ letter-spacing: 1px;
 	
 	<div class="w-screen h-screen absolute flex flex-col justify-center items-center">
 	
-			<div class="h-12 w-[382px] gradient-logo clip-by-logo -translate-y-12"/>
-			<h5 class="w-full text-center">Opening 11.23.2024</h5>
+			<div class="h-12 w-[382px] gradient-logo clip-by-logo -translate-y-12 scale-75 sm:scale-100"/>
+			<h5 class="w-full text-center scale-75 sm:scale-100">Opening 11.23.2024</h5>
 			   
-		  <div class="h-6 text-white gap-4 absolute bottom-32 flex flex-col justify-center items-center">
+		  <div class="h-6 text-white gap-4 absolute bottom-32 flex flex-col justify-center items-center scale-75 sm:scale-100">
 			<p>3435 E Pacific Coast Highway, Corona Del Mar, CA 92625</p>	
 
 			<!-- <a href="https://twitter.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
