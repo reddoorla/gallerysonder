@@ -111,6 +111,7 @@ let isVideoDone = false;
 		<meta name="twitter:card" content="summary_large_image" />
 		 {/if}
 	</svelte:head>
+	<main class="w-screen h-screen overflow-clip">
 		
 	
 	<div class="w-screen h-screen relative bg-black">
@@ -187,6 +188,6 @@ let isVideoDone = false;
 
 		
 </div>
-	
+</main>
 
 <PrismicPreview {repositoryName} />
