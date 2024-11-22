@@ -84,9 +84,14 @@
       destroyPlayer();
       createPlayer();
     };
+
+    let viewportHeight:number;
+	let viewportWidth:number;
     </script>
+
+<svelte:window bind:innerHeight={viewportHeight} bind:innerWidth={viewportWidth} />
     
     <div
       bind:this={playerContainer}
-      class="w-full h-full absolute left-0 top-0"
+      class="aspect-video absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 {viewportHeight * 16 > viewportWidth * 9 ? 'h-screen min-w-full' : 'w-screen min-h-full'} contrast-[1.15] -z-10"
     />

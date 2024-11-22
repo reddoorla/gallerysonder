@@ -58,18 +58,6 @@ let isVideoDone = false;
 	
 	<style>
 
-		h5{
-		 color: var(--White, #FFF);
-		text-align: center;
-		font-feature-settings: 'liga' off, 'clig' off;
-		font-family: "commuters-sans";
-		font-size: 18px;
-		font-style: normal;
-		font-weight: 700;
-		line-height: 30px;
-		letter-spacing: 1.5px;
-		text-transform: uppercase;
-		}
 
 		p{
 		 color: var(--White, #FFF);
@@ -98,6 +86,14 @@ let isVideoDone = false;
 
 		b{
 		 font-weight: 700;
+		}
+
+		@media only screen and (max-width:768px) {
+
+			p, .label{
+				font-size: 14px;
+			}
+			
 		}
 	</style>
 
@@ -156,7 +152,7 @@ let isVideoDone = false;
 	{/if}
 	{#if isVideoDone}
 
-		<div class="max-w-[1220px] xl:max-w-[1440px] xl:mx-auto mx-[4%] w-[92%] h-full py-24 flex flex-col items-end justify-between relative z-10" transition:fade={{ duration: 700 }}>
+		<div class="max-w-[1220px] xl:max-w-[1440px] xl:mx-auto mx-[4%] w-[92%] h-full py-12 md:py-24 flex flex-col items-end justify-between relative z-10" transition:fade={{ duration: 700 }}>
 			
 			<div>
 				<p>HELEN BEARD</p>
@@ -169,7 +165,7 @@ let isVideoDone = false;
 				<p>ALEX SUTCLIFFE</p>
 				<p>KEVIN YAUN</p>
 		
-				<img src={prologue} class="h-20 my-10" alt="prologue"/>
+				<img src={prologue} class="h-8 md:h-20 my-10" alt="prologue"/>
 
 				<p>
 					<b>Opening 11.23.2024</b> <br/>
