@@ -6,3 +6,19 @@ body{
     background-color: black;
 }
   
+
+@keyframes pulse-scale {
+    0% {
+        transform: scale(1.07);
+    }
+    50% {
+        transform: scale(0.99);
+    }
+    100% {
+        transform: scale(1.07);
+    }
+}
+
+.pulse-always{
+    animation: 2s infinite forwards pulse-scale ease-in-out;
+}
