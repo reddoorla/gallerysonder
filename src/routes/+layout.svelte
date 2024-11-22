@@ -8,6 +8,7 @@
 	//@ts-ignore
 	import prologue from '$lib/assets/images/prologue.png'
 	import Img from '@zerodevx/svelte-img'
+	import RotatingLogo from '$lib/components/RotatingLogo.svelte';
 
 
 	import "../app.css";
@@ -89,11 +90,16 @@ b{
 			<img src={logo} class="h-16" alt="sonder" />
 		</div>
 	{/if}
+
 		
 		
 		<Img src={bgImage} class="w-full h-full object-cover absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
 		<div class="bg-black opacity-20 w-full h-full absolute left-0 top-0"/>
+
 		<div class="max-w-[1220px] xl:max-w-[1440px] xl:mx-auto mx-[4%] w-[92%] h-full py-24 flex flex-col items-end justify-between relative">
+			<div class="absolute top-0 left-0 w-12 h-12">
+				<RotatingLogo />
+			</div>
 			<div>
 				<p>HELEN BEARD</p>
 				<p>ALEX CUTLER</p>
