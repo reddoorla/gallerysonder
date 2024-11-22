@@ -1,11 +1,11 @@
 <script lang="ts">
   
     import sonderS from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
-    import logoExtendedO from "$lib/assets/icons/sonderAlphabet/extended/O.svg"
-    import logoExtendedN from "$lib/assets/icons/sonderAlphabet/extended/N.svg"
-    import logoExtendedD from "$lib/assets/icons/sonderAlphabet/extended/D.svg"
-    import logoExtendedE from "$lib/assets/icons/sonderAlphabet/extended/E.svg"
-    import logoExtendedR from "$lib/assets/icons/sonderAlphabet/extended/R.svg"
+    import logoExtendedO from "$lib/assets/icons/sonderAlphabet/extended/SONDER_O.svg"
+    import logoExtendedN from "$lib/assets/icons/sonderAlphabet/extended/SONDER_N.svg"
+    import logoExtendedD from "$lib/assets/icons/sonderAlphabet/extended/SONDER_D.svg"
+    import logoExtendedE from "$lib/assets/icons/sonderAlphabet/extended/SONDER_E.svg"
+    import logoExtendedR from "$lib/assets/icons/sonderAlphabet/extended/SONDER_R.svg"
 
     import { fade } from 'svelte/transition';
 
