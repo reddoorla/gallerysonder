@@ -96,10 +96,17 @@ b{
 		<Img src={bgImage} class="w-full h-full object-cover absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
 		<div class="bg-black opacity-20 w-full h-full absolute left-0 top-0"/>
 
-		<div class="max-w-[1220px] xl:max-w-[1440px] xl:mx-auto mx-[4%] w-[92%] h-full py-24 flex flex-col items-end justify-between relative">
-			<div class="absolute top-0 left-0 w-12 h-12">
-				<RotatingLogo />
+		<div class=" w-screen fixed h-24 top-0 py-8 z-10 pointer-events-none " transition:fade={{ duration: 300 }}>
+			<div class="max-w-[1220px] xl:max-w-[1440px] xl:mx-auto mx-[4%] w-[92%] flex flex-row justify-start items-center">
+				
+				<div  class="brightness-0 invert">
+					<RotatingLogo class="h-6" />
+				</div>
 			</div>
+		</div>
+
+		<div class="max-w-[1220px] xl:max-w-[1440px] xl:mx-auto mx-[4%] w-[92%] h-full py-24 flex flex-col items-end justify-between relative">
+			
 			<div>
 				<p>HELEN BEARD</p>
 				<p>ALEX CUTLER</p>
