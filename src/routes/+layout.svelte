@@ -125,7 +125,7 @@ let isVideoDone = false;
 
 	
 	  <Img src={bgImage} class="w-full h-full object-cover absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
-	  <div class="w-screen h-screen absolute top-0 left-0 z-10">
+	  <div class="w-screen h-screen absolute top-0 left-0 z-10 transition-opacity duration-700 delay-700 ease-out {isVideoDone?"opacity-0":""}">
 		<VimeoPlayer
 		  bind:this={vimeoPlayer}
 		  videoId="1032470650"
