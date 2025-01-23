@@ -87,7 +87,7 @@ letter-spacing: 1px;
 			
 			   
 		  <div class="h-6 text-white gap-4 absolute bottom-32 flex flex-col justify-center items-center scale-75 sm:scale-100">
-			<p>3435 E Pacific Coast Highway, Corona Del Mar, CA 92625</p>	
+			<p>3435 E Coast Highway, Corona Del Mar, CA 92625</p>	
 
 			<!-- <a href="https://twitter.com" class="h-full cursor-pointer hover:opacity-80 transition-all duration-300">
 				<FontAwesomeIcon icon={faXTwitter} class="h-full" />
