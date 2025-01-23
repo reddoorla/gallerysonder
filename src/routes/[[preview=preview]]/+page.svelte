@@ -2,8 +2,6 @@
 
 
 	import { onMount } from 'svelte';
-
-	import Intro from '$lib/components/Home/Intro.svelte';
 	import Nav from '$lib/components/Nav.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
@@ -21,6 +19,8 @@
     import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
+
+    import { isIntroFinished } from '$lib/stores/isIntroFinished.js';
 
 
 
@@ -64,7 +64,7 @@
     let isLogoBlack = false;
 	let isBackgroundDark = false;
 
-	let coverImagesPromises: Promise<void>[] = [];
+
 
 	let imagesToPreload: string[]=[];
 
@@ -73,20 +73,7 @@
 			imagesToPreload.push(item.image.url);
 	});
 
-	const preloadImage = (src: string) => {
-        return new Promise<void>((resolve) => {
-            let img = new Image();
-            img.onload = () => resolve();
-            img.src = src;
-            percentLoaded += 1/imagesToPreload.length;
-        });
-    };
 
-	const createAndResolvePromises = async () => {
-        
-        coverImagesPromises = imagesToPreload.map((image) => preloadImage(image));
-        return await Promise.all(coverImagesPromises);
-    };
 
 	const checkPosition = () => {
 
@@ -99,19 +86,27 @@
 
 	};
 
-	const handleIntroComplete = () => {
-    isIntroComplete=true;
-    checkPosition();
-    setTimeout(()=>showContent=true, 20);
-    setTimeout(()=>showPresentedArtist=true, 500);
-    setTimeout(()=>showSonderPresents=true, 1000);
+    
 
-    }
 
 
 	onMount(() => {
+        const unsubscribe = isIntroFinished.subscribe(value => {
+            if (value) {
+                isIntroComplete = true;
+                checkPosition();
+                setTimeout(() => showContent = true, 20);
+                setTimeout(() => showPresentedArtist = true, 500);
+                setTimeout(() => showSonderPresents = true, 1000);
+            }
+        });
 
         window.addEventListener('scroll', checkPosition);
+
+        return () => {
+   
+            unsubscribe();
+        };
 
     });
 
@@ -121,29 +116,6 @@
 
 <svelte:window bind:innerWidth={innerWidth} />
 
-{#await createAndResolvePromises()}
-
-<div class="h-24 w-[200%] -left-[50%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] scale-50">
-	<img src={S} alt="s" />
-	<img src={O} alt="o" />
-	<img src={N} alt="n" />
-	<img src={D} alt="d" />
-	<img src={E} alt="e" />
-	<img src={R} alt="r" />
-</div>
-
-<div class="w-full h-16 fixed bottom-0 flex flex-row justify-start items-start overflow-hidden">
-
-	<div class="h-ful w-full bg-subtle-primary transition-transform duration-75" style="transform: translateX({percentLoaded*100-100}%);"/>
-
-</div>
-{:then} 
-{#if !isIntroComplete}
-<div transition:fade>
-<Intro on:complete={handleIntroComplete} imageAndPositionArray={IMAGE_ARRAY_WITH_BG_SHIFTS}/>
-</div>
-  
-{:else}
 
 <div class="background-container">
     <img
@@ -181,5 +153,4 @@
 </div>
 
 
-{/if}
-{/await}
+
