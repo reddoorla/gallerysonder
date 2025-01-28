@@ -13,22 +13,39 @@
 					"placeholder": ""
 				}
 			},
-			"sonder_presents": {
-				"type": "Boolean",
+			"dates": {
+				"type": "Text",
 				"config": {
-					"label": "sonder presents",
-					"default_value": false,
-					"placeholder_true": "true",
-					"placeholder_false": "false"
+					"label": "dates",
+					"placeholder": ""
 				}
 			},
-			"title": {
-				"type": "StructuredText",
+			"artist": {
+				"type": "Text",
 				"config": {
-					"label": "Title",
-					"placeholder": "",
-					"allowTargetBlank": true,
-					"single": "heading1"
+					"label": "artist",
+					"placeholder": ""
+				}
+			},
+			"title_line_one": {
+				"type": "Text",
+				"config": {
+					"label": "title line one",
+					"placeholder": ""
+				}
+			},
+			"title_line_two": {
+				"type": "Text",
+				"config": {
+					"label": "title line two",
+					"placeholder": ""
+				}
+			},
+			"title_line_three": {
+				"type": "Text",
+				"config": {
+					"label": "title line three",
+					"placeholder": ""
 				}
 			},
 			"background_image": {

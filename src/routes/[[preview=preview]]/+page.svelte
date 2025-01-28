@@ -7,16 +7,8 @@
 	import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
 
 	import { components } from '$lib/slices';
-	import { SliceZone } from '@prismicio/svelte';
-	
+	import { PrismicImage, SliceZone } from '@prismicio/svelte';
 
-
-	import S from "$lib/assets/icons/sonderAlphabet/normal/S.svg"
-    import O from "$lib/assets/icons/sonderAlphabet/normal/O.svg"
-    import N from "$lib/assets/icons/sonderAlphabet/normal/N.svg"
-    import D from "$lib/assets/icons/sonderAlphabet/normal/D.svg"
-    import E from "$lib/assets/icons/sonderAlphabet/normal/E.svg"
-    import R from "$lib/assets/icons/sonderAlphabet/normal/R.svg"
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
@@ -60,7 +52,6 @@
 
 
 
-	let isFixedNavShown = false;
     let isLogoBlack = false;
 	let isBackgroundDark = false;
 
@@ -118,11 +109,11 @@
 
 
 <div class="background-container">
-    <img
-      src={backgroundImage}
+    <PrismicImage
+      field={data.page.data.background_image}
       class="absolute object-cover {isBackgroundDark ? "blur-sm md:blur-none":""}"
       style={innerWidth > 768 ? "width: "+backgroundScaleInVW+"%; max-width: "+backgroundScaleInVW+"%; left: "+backgroundLeft+"vw; top:"+backgroundTop+"vh" : "height:"+backgroundScaleInVW+"vh; top: -"+((backgroundScaleInVW||0-100)/2||0)+"%;"}
-      alt="background"
+      
     />
     <div class="absolute w-screen h-screen transition-opacity duration-700 backdrop-blur md:backdrop-blur-none bg-black  {isBackgroundDark ? 'opacity-45' : 'opacity-0'}" transition:fade />
 </div>
@@ -136,10 +127,12 @@
         </ScaleTextToContainer>
     </ContentWidth>
 </div>
-
-<Nav {isLogoBlack} navProps = {data.nav.data.links}/>
+{#if $isIntroFinished}
+    <Nav {isLogoBlack} navProps = {data.nav.data.links}/>
+{/if}
 
 <InnerPageNav {slicesSections} {sections}/>
+
 
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
 

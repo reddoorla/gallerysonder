@@ -418,27 +418,59 @@ type PageDocumentDataSlicesSlice =
  */
 interface PageDocumentData {
 	/**
-	 * sonder presents field in *page*
+	 * dates field in *page*
 	 *
-	 * - **Field Type**: Boolean
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **Default Value**: false
-	 * - **API ID Path**: page.sonder_presents
+	 * - **API ID Path**: page.dates
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	sonder_presents: prismic.BooleanField;
+	dates: prismic.KeyTextField;
 
 	/**
-	 * Title field in *page*
+	 * artist field in *page*
 	 *
-	 * - **Field Type**: Title
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: page.title
+	 * - **API ID Path**: page.artist
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	title: prismic.TitleField;
+	artist: prismic.KeyTextField;
+
+	/**
+	 * title line one field in *page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: page.title_line_one
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_one: prismic.KeyTextField;
+
+	/**
+	 * title line two field in *page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: page.title_line_two
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_two: prismic.KeyTextField;
+
+	/**
+	 * title line three field in *page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: page.title_line_three
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_three: prismic.KeyTextField;
 
 	/**
 	 * background image field in *page*
