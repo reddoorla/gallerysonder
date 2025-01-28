@@ -22,6 +22,8 @@
 
 	export let data;
 
+    const content = data.page.data;
+
 	let innerWidth:number;
 
 	const IMAGE_ARRAY_WITH_BG_SHIFTS = data.intro.data.images;
@@ -120,10 +122,12 @@
 
 <div class="fixed w-screen h-screen-50 bottom-0" >
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity">
-        <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents&&!isBackgroundDark ? "" : "opacity-0"}">SONDER PRESENTS</h5>
+        <h6 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents&&!isBackgroundDark ? "" : "opacity-0"}">{content.dates||''}</h6>
+        <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents&&!isBackgroundDark ? "" : "opacity-0"}">{content.artist||''}</h5>
         <ScaleTextToContainer class="transition-opacity duration-500 ease-fast-slow {showPresentedArtist&&!isBackgroundDark ? "":"opacity-0"}">
-            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >Devon</h1>
-            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >Dejardin</h1>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >{content.title_line_one||''}</h1>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >{content.title_line_two||''}</h1>
+            <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >{content.title_line_three||''}</h1>
         </ScaleTextToContainer>
     </ContentWidth>
 </div>
