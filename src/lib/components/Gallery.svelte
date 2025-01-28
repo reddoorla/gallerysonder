@@ -32,9 +32,10 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
             </button>
         
             <div class="w-1/2 h-full flex flex-col gap-4">
+                <span class="tracking-widest">{item.piece_eyebrow||''}</span>
                 <h6>{item.artist_name || ""}</h6>
                 <h3>{item.piece_title || ""}</h3>
-                <span class="tracking-widest">{item.piece_subtitle}</span>
+                <span>{item.piece_subtitle}</span>
                 <LinkArrowButton  text="explore" href={(prismicHelpers.isFilled.link(item.link) ? item.link.url : "#")}/>
             </div>
 
@@ -42,14 +43,14 @@ function handleHover(event: CustomEvent<boolean>, index: number) {
     {/each}
 </div>
 {:else}
-<div class="w-full flex flex-row flex-wrap {$$props.class || ""}">
+<div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ""}">
     {#each slice.items as item, i (i)} 
         <div class="w-full md:w-1/2 p-6 xl:p-10 use-gpu flex items-end transition duration-700 delay-700 justify-center relative {isHoverArray.some(Boolean) && !isHoverArray[i] && willBlur ? "blur" : ""}">
             <GridImage 
                 class="{(i%4==0||i%3==0) && !isRegular  ? "w-11/12" : "w-9/12"}" 
                 src={item.image.url||""} 
                 text={item.piece_title||""}
-                subtitle={(item.artist_name ? item.artist_name +" / "+item.piece_subtitle : item.piece_subtitle||"")}
+                subtitle={(item.artist_name ? item.artist_name +" / "+item.piece_subtitle || '' : item.piece_subtitle||"")}
                 alt={item.piece_title||""}
                 bind:isHover={isHoverArray[i]}
                 on:hover={(event) => handleHover(event, i)}

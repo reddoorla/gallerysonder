@@ -117,6 +117,14 @@
 							"value": "discuss",
 							"type": "Text"
 						}
+					],
+					[
+						"piece_eyebrow",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "helpful",
+							"type": "Text"
+						}
 					]
 				]
 			}

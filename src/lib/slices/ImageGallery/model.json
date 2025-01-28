@@ -92,12 +92,11 @@
         }
       },
       "items": {
-        "image": {
-          "type": "Image",
+        "piece_eyebrow": {
+          "type": "Text",
           "config": {
-            "label": "image",
-            "constraint": {},
-            "thumbnails": []
+            "label": "piece eyebrow",
+            "placeholder": ""
           }
         },
         "artist_name": {
@@ -105,6 +104,14 @@
           "config": {
             "label": "artist name",
             "placeholder": ""
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "image",
+            "constraint": {},
+            "thumbnails": []
           }
         },
         "piece_title": {

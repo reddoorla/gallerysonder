@@ -662,14 +662,14 @@ export interface ImageGallerySliceDefaultPrimary {
  */
 export interface ImageGallerySliceDefaultItem {
 	/**
-	 * image field in *ImageGallery → Items*
+	 * piece eyebrow field in *ImageGallery → Items*
 	 *
-	 * - **Field Type**: Image
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].image
-	 * - **Documentation**: https://prismic.io/docs/field#image
+	 * - **API ID Path**: image_gallery.items[].piece_eyebrow
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	image: prismic.ImageField<never>;
+	piece_eyebrow: prismic.KeyTextField;
 
 	/**
 	 * artist name field in *ImageGallery → Items*
@@ -680,6 +680,16 @@ export interface ImageGallerySliceDefaultItem {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	artist_name: prismic.KeyTextField;
+
+	/**
+	 * image field in *ImageGallery → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.items[].image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
 
 	/**
 	 * piece_title field in *ImageGallery → Items*
@@ -1038,6 +1048,17 @@ export interface TitleBlockSliceDefaultPrimary {
 	body: prismic.RichTextField;
 
 	/**
+	 * desktop body width  field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: full
+	 * - **API ID Path**: title_block.primary.desktop_body_width
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	desktop_body_width: prismic.SelectField<'full' | '2/3' | '1/2' | '1/3' | '1/4', 'filled'>;
+
+	/**
 	 * button_text field in *TitleBlock → Primary*
 	 *
 	 * - **Field Type**: Text
@@ -1076,7 +1097,7 @@ export interface TitleBlockSliceDefaultPrimary {
 	 * - **API ID Path**: title_block.primary.shape_top
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4', 'filled'>;
 }
 
 /**

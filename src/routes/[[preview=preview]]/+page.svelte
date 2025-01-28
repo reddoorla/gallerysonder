@@ -24,21 +24,15 @@
 
     const content = data.page.data;
 
-	let innerWidth:number;
-
-	const IMAGE_ARRAY_WITH_BG_SHIFTS = data.intro.data.images;
-
-	const backgroundScaleInVW = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].scale||100;
-    const backgroundLeft = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].left||0;
-    const backgroundTop = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].top||0;
-	const backgroundImage = IMAGE_ARRAY_WITH_BG_SHIFTS[IMAGE_ARRAY_WITH_BG_SHIFTS.length-1].image.url;
+	let viewportWidth:number;
+    let viewportHeight:number;
 
 
-	let percentLoaded = 0.0;
+
 
 
 	let isIntroComplete = false;
-    let showContent = false;
+
     let showPresentedArtist = false;
     let showSonderPresents = false;
 
@@ -57,14 +51,6 @@
     let isLogoBlack = false;
 	let isBackgroundDark = false;
 
-
-
-	let imagesToPreload: string[]=[];
-
-	IMAGE_ARRAY_WITH_BG_SHIFTS.forEach((item)=>{
-		if(item.image.url)
-			imagesToPreload.push(item.image.url);
-	});
 
 
 
@@ -86,9 +72,7 @@
 	onMount(() => {
         const unsubscribe = isIntroFinished.subscribe(value => {
             if (value) {
-                isIntroComplete = true;
                 checkPosition();
-                setTimeout(() => showContent = true, 20);
                 setTimeout(() => showPresentedArtist = true, 500);
                 setTimeout(() => showSonderPresents = true, 1000);
             }
@@ -107,22 +91,20 @@
 
 </script>
 
-<svelte:window bind:innerWidth={innerWidth} />
+<svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
+<div class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip min-h-full min-w-full aspect-video fixed -z-10">
+			
+    <img src={content.background_image.url} alt={content.background_image.alt}  class="absolute bottom-0 left-0 h-full w-full object-cover -z-10"/>
+    <div class="absolute w-screen h-screen left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 backdrop-blur md:backdrop-blur-none bg-black  {isBackgroundDark ? 'opacity-55' : 'opacity-20'}" transition:fade />
 
-<div class="background-container">
-    <PrismicImage
-      field={data.page.data.background_image}
-      class="absolute object-cover {isBackgroundDark ? "blur-sm md:blur-none":""}"
-      style={innerWidth > 768 ? "width: "+backgroundScaleInVW+"%; max-width: "+backgroundScaleInVW+"%; left: "+backgroundLeft+"vw; top:"+backgroundTop+"vh" : "height:"+backgroundScaleInVW+"vh; top: -"+((backgroundScaleInVW||0-100)/2||0)+"%;"}
-      
-    />
-    <div class="absolute w-screen h-screen transition-opacity duration-700 backdrop-blur md:backdrop-blur-none bg-black  {isBackgroundDark ? 'opacity-45' : 'opacity-0'}" transition:fade />
 </div>
+
+
 
 <div class="fixed w-screen h-screen-50 bottom-0" >
     <ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity">
-        <h6 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents&&!isBackgroundDark ? "" : "opacity-0"}">{content.dates||''}</h6>
+        <span class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents&&!isBackgroundDark ? "" : "opacity-0"}">{content.dates||''}</span>
         <h5 class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents&&!isBackgroundDark ? "" : "opacity-0"}">{content.artist||''}</h5>
         <ScaleTextToContainer class="transition-opacity duration-500 ease-fast-slow {showPresentedArtist&&!isBackgroundDark ? "":"opacity-0"}">
             <h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white" >{content.title_line_one||''}</h1>

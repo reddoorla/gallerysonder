@@ -25,8 +25,9 @@
 					/>
 				{/each}
                 
-     
-            <LinkArrowButton text={slice.primary.bottom_button_text||""} class="mt-16"/>
+			{#if slice.primary.bottom_button_text}
+            	<LinkArrowButton text={slice.primary.bottom_button_text||""} href={prismicHelpers.isFilled.link(slice.primary.button_bottom_link)?slice.primary.button_bottom_link.url:"#"} class="mt-16"/>
+			{/if}
         </ContentWidth>
        
    

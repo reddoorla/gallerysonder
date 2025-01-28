@@ -27,15 +27,22 @@
     const checkPosition = () => {
         activeSection=slicesSections[sliceRefs.findIndex((slice)=>slice.getBoundingClientRect().bottom > window.innerHeight/2)]
         isFixedNavShown = (fixedNav?.getBoundingClientRect().top>sliceRefs[0]?.getBoundingClientRect().top) && (fixedNav?.getBoundingClientRect().bottom<sliceRefs[sliceRefs.length-1]?.getBoundingClientRect().bottom)
+        
     }
 
     onMount(()=>{
-        let contentContainer = document.getElementById('content-container');
+        let contentContainer;
+        setTimeout(()=>{
+            contentContainer = document.getElementById('content-container');
         sliceRefs=[...contentContainer?.getElementsByTagName('section') ?? []];
-        
         window.addEventListener('scroll', checkPosition);
 
+        },500)
+        
 
+        return () => {
+            window.removeEventListener('scroll', checkPosition)
+        }
     })
 </script>
 
@@ -89,10 +96,11 @@
                     {section}
                 </a>
             {:else}
-
-                <a class="floating-links active no-underline uppercase fixed h-24 mx-auto top-8 -translate-x-1/2 {isFixedNavShown?'':'opacity-0 pointer-events-none'}" href="#{section}" class:hidden={section!==activeSection}>
+                {#if section===activeSection}
+                <a class="floating-links active no-underline uppercase transition-opacity fixed h-24 mx-auto top-6 -translate-x-1/2 {isFixedNavShown?'':'opacity-0 pointer-events-none'}" href="#{section}" transition:fade>
                     {section}
                 </a>
+                {/if}
 
             {/if}
             {/each}

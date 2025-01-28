@@ -32,7 +32,7 @@
 			},
 			"shape_top": {
 				"__TYPE__": "FieldContent",
-				"value": "3",
+				"value": "0",
 				"type": "Select"
 			},
 			"sectionLabel": {
@@ -50,6 +50,11 @@
 						}
 					}
 				]
+			},
+			"desktop_body_width": {
+				"__TYPE__": "FieldContent",
+				"value": "1/4",
+				"type": "Select"
 			}
 		},
 		"items": []

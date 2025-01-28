@@ -26,6 +26,8 @@
 		<div class="font-normal mt-40 sm:w-2/3">
 			<PrismicRichText field={slice.primary.gallery_closing_text} />
 		</div>
-		<LinkArrowButton text={slice.primary.button_bottom_text||"explore"} class="mt-8"/>
+		{#if slice.primary.button_bottom_text}
+			<LinkArrowButton text={slice.primary.button_bottom_text||"explore"} class="mt-8"/>
+		{/if}
 	</ContentWidth>
 </section>
