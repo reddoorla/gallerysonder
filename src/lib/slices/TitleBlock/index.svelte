@@ -5,6 +5,7 @@
 	import ContentWidth from "$lib/components/ContentWidth.svelte";
 	import LinkArrowButton from "$lib/components/Buttons/LinkArrowButton.svelte";
 	import * as prismicH from '@prismicio/helpers'
+	import { PrismicRichText } from "@prismicio/svelte";
 
 	let viewportWidth:number;
 
@@ -20,6 +21,11 @@
 		<h5>{slice.primary.eyebrow||""}</h5>
 		<h3 class='mt-6'>{slice.primary.title||""}</h3>
 		<h6 class='mb-6'>{slice.primary.subtitle||""}</h6>
+		{#if slice.primary.body}
+		<div class="lg:w-1/4">
+			<PrismicRichText field={slice.primary.body} />
+		</div>
+		{/if}
 		<LinkArrowButton text={slice.primary.button_text||""} href={(prismicH.isFilled.link(slice.primary.button_link) ? slice.primary.button_link.url : "#")}/>
 	</ContentWidth>
 </section>

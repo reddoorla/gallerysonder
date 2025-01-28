@@ -1028,6 +1028,16 @@ export interface TitleBlockSliceDefaultPrimary {
 	subtitle: prismic.KeyTextField;
 
 	/**
+	 * body field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: title_block.primary.body
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	body: prismic.RichTextField;
+
+	/**
 	 * button_text field in *TitleBlock → Primary*
 	 *
 	 * - **Field Type**: Text

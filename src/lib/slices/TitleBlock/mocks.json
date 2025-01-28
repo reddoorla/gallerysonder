@@ -39,6 +39,17 @@
 				"__TYPE__": "FieldContent",
 				"value": "disappear",
 				"type": "Text"
+			},
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Cupidatat qui magna quis anim minim labore duis labore esse labore irure reprehenderit. Ea eu ex Lorem laborum officia aliquip amet nostrud non."
+						}
+					}
+				]
 			}
 		},
 		"items": []
