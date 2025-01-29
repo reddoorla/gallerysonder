@@ -113,9 +113,7 @@
         </ScaleTextToContainer>
     </ContentWidth>
 </div>
-{#if $isIntroFinished}
-    <Nav {isLogoBlack} navProps = {data.nav.data.links}/>
-{/if}
+
 
 <InnerPageNav {slicesSections} {sections}/>
 

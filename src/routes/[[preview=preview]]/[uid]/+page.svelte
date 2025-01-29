@@ -2,6 +2,7 @@
 
 
 	import { onMount } from 'svelte';
+    import { afterNavigate } from '$app/navigation';
 	import Nav from '$lib/components/Nav.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
@@ -22,7 +23,13 @@
 
 	export let data;
 
-    const content = data.page.data;
+
+    let content = data.page.data;
+
+    afterNavigate(() => {
+    data = { ...data };
+    content = data.page.data
+  });
 
 	let viewportWidth:number;
     let viewportHeight:number;
@@ -120,9 +127,7 @@
        
     </ContentWidth>
 </div>
-{#if $isIntroFinished}
-    <Nav {isLogoBlack} navProps = {data.nav.data.links}/>
-{/if}
+
 
 <InnerPageNav {slicesSections} {sections}/>
 

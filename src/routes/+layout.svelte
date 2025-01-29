@@ -7,11 +7,16 @@
 	import "../app.css";
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import Nav from '$lib/components/Nav.svelte';
 
 	import { isIntroFinished } from '$lib/stores/isIntroFinished';
+
+	import { onNavigate } from '$app/navigation';
 	
+	export let data;
 	let isVideoLoaded = false;
 	let isPlaying = false;
+	let isTransitioning = false;
 	
 	interface VimeoComponent {
 	  play: () => Promise<void>;
@@ -24,6 +29,14 @@
 	onMount(() => {
 	  
 	});
+
+	onNavigate(()=>{
+	isTransitioning = true;
+
+	setTimeout(()=>{
+		isTransitioning = false;
+	}, 1050)
+  })
 	
 	const togglePlayback = async () => {
   try {
@@ -113,6 +126,7 @@ let isVideoDone = false;
 
 
 	<main class="{isVideoDone? "" : "w-screen h-screen"}" style="overflow: {isVideoDone? "auto" : "hidden"}">
+
 		
 	{#if !isVideoDone}
 	<div class="w-screen h-screen fixed top-0 left-0 bg-black" transition:fade>
@@ -145,6 +159,14 @@ let isVideoDone = false;
 
 		
 </div>
+{/if}
+
+{#if isTransitioning}
+	<div out:fade={{duration:600}} class="w-screen h-screen fixed top-0 left-0 bg-black z-30"></div>
+{/if}
+
+{#if $isIntroFinished}
+	<Nav isLogoBlack={false} navProps={data.nav.data.links}/>
 {/if}
 	<slot />
 </main>
