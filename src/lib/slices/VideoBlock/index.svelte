@@ -44,7 +44,7 @@
 
 <TopShape shapeNumber={slice.primary.shape_top} />
 
-<section class='w-full xl:-mb-[540px]' data-slice-type={slice.slice_type} data-slice-variation={slice.variation} style="background-color: {(viewportWidth>1340 ? "transparent" : $backgroundColor)}">
+<section class='w-full xl:-mb-[540px]' data-slice-type={slice.slice_type} data-slice-variation={slice.variation} style="background-color: { $backgroundColor}">
 
 		<ContentWidth class="lg:pl-20">
 			<button class="w-full aspect-video relative mt-16" on:click={openVideoModal}>

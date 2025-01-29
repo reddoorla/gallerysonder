@@ -24,8 +24,12 @@
   </svg>
   {:else if shapeNumber === "4"}
   <div class=""/>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 523" fill="none" class="w-screen transition-all duration-1000 ease-fast-slow" style={viewportWidth>768 ? "margin-top:-25vw;margin-bottom:-25vw;" :"margin-top:-25vw"}>
-    <path d="M1440 166.746L1440 523L-3.0286e-05 523L-4.64043e-06 80.1341C135.193 27.1123 323.923 0 564.779 0C922.596 0 1216.09 57.3709 1439.87 166.746H1440Z" fill={$backgroundColor}/>
+  <svg fill="none" viewBox="0 254.656 1200 459.488" xmlns="http://www.w3.org/2000/svg" class="w-screen transition-all duration-1000 ease-fast-slow" style={viewportWidth>768 ? "margin-top:-25vw;margin-bottom:-25vw;" :"margin-top:-25vw"}>
+    <path  d="M-563 1384V0C-563 174.18 -433.913 228.624 168.292 283.671C1257.49 386.732 1651.18 627.21 1692 1247.39V1384H-563Z" fill={$backgroundColor}/>
+  </svg>
+  {:else if shapeNumber === "5"}
+  <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="245" viewBox="0 0 1440 245" fill="none" class="w-screen transition-all duration-1000 ease-fast-slow" style={viewportWidth>768 ? "margin-top:-25vw;margin-bottom:-25vw;" :"margin-top:-25vw"}>
+    <path d="M-51 129.383V807H1553V587.649C1553 201.215 1251.96 0 671.343 0C394.19 0 152.646 44.1272 -50.8569 129.383H-51Z" fill={$backgroundColor}/>
   </svg>
 {/if}
  

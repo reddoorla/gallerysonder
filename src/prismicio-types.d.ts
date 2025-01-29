@@ -4,7 +4,28 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type ArtistDocumentDataSlicesSlice = never;
+/**
+ * Item in *artist → sections*
+ */
+export interface ArtistDocumentDataSectionsItem {
+	/**
+	 * section field in *artist → sections*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.sections[].section
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	section: prismic.KeyTextField;
+}
+
+type ArtistDocumentDataSlicesSlice =
+	| QuoteBlockSlice
+	| VideoBlockSlice
+	| ImageGallerySlice
+	| RichTextSlice
+	| TitleBlockSlice
+	| NameListSlice;
 
 /**
  * Content for artist documents
@@ -65,6 +86,50 @@ interface ArtistDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	last_name: prismic.KeyTextField;
+
+	/**
+	 * title_line_one field in *artist*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.title_line_one
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_one: prismic.KeyTextField;
+
+	/**
+	 * title_line_two field in *artist*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.title_line_two
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_two: prismic.KeyTextField;
+
+	/**
+	 * title_line_three field in *artist*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.title_line_three
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_three: prismic.KeyTextField;
+
+	/**
+	 * sections field in *artist*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.sections[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	sections: prismic.GroupField<Simplify<ArtistDocumentDataSectionsItem>>;
 
 	/**
 	 * Slice Zone field in *artist*
@@ -139,22 +204,61 @@ export interface ExhibitDocumentDataSectionsItem {
 	section: prismic.KeyTextField;
 }
 
-type ExhibitDocumentDataSlicesSlice = never;
+type ExhibitDocumentDataSlicesSlice =
+	| QuoteBlockSlice
+	| VideoBlockSlice
+	| ImageGallerySlice
+	| RichTextSlice
+	| TitleBlockSlice
+	| NameListSlice;
 
 /**
  * Content for exhibit documents
  */
 interface ExhibitDocumentData {
 	/**
-	 * title field in *exhibit*
+	 * dates field in *exhibit*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: exhibit.title
+	 * - **API ID Path**: exhibit.dates
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	title: prismic.RichTextField;
+	dates: prismic.KeyTextField;
+
+	/**
+	 * title_line_one field in *exhibit*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.title_line_one
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_one: prismic.KeyTextField;
+
+	/**
+	 * title_line_two field in *exhibit*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.title_line_two
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_two: prismic.KeyTextField;
+
+	/**
+	 * title_line_three field in *exhibit*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.title_line_three
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title_line_three: prismic.KeyTextField;
 
 	/**
 	 * background image field in *exhibit*
@@ -1212,6 +1316,7 @@ declare module '@prismicio/client' {
 		export type {
 			ArtistDocument,
 			ArtistDocumentData,
+			ArtistDocumentDataSectionsItem,
 			ArtistDocumentDataSlicesSlice,
 			ExhibitDocument,
 			ExhibitDocumentData,
