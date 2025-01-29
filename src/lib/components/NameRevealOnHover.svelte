@@ -22,7 +22,7 @@
     on:mouseout
     on:focus
     on:blur
-    on:click={()=>{goto(href);click(); }}
+    on:click={click}
     {href}
 >
 

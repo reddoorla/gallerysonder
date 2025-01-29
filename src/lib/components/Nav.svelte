@@ -69,7 +69,7 @@
       on:mouseout={()=>backgroundColor.set("#E4EEEA")}   
       href={(prismicH.isFilled.link(link.link) ? link.link.url : "#")} 
       class="ml-12 h-4 sm:h-6 md:h-10 lg:h-12"
-      click={()=>{setTimeout(()=>showNav=false),100}}
+      click={()=>{setTimeout(()=>showNav=false),300}}
      />
   {/each}
 
