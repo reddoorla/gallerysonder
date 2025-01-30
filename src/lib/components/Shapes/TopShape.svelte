@@ -47,7 +47,7 @@
 			fill={$backgroundColor}
 		/>
 	</svg>
-{:else if shapeNumber === '5'}
+{:else if shapeNumber === '6'}
 	<svg fill="none" viewBox="0 5.808 1429.8387096774193 190.21200000000002" xmlns="http://www.w3.org/2000/svg" class="w-screen transition-all duration-1000 ease-fast-slow -mb-[60px] md:-mb-[120px]  lg:-mb-[200px] xl:-mb[240px] xxl:-mb-[320px]">
 		<path fill={$backgroundColor} d="M1440 145.592V725.521H0V176.534C144.308 59.7004 374.893 0 688.288 0C979.986 0 1231.5 49.6862 1440 145.592Z"/>
 	  </svg>

@@ -4,6 +4,7 @@ import ImageGallery from './ImageGallery/index.svelte';
 import NameList from './NameList/index.svelte';
 import QuoteBlock from './QuoteBlock/index.svelte';
 import RichText from './RichText/index.svelte';
+import Spacer from './Spacer/index.svelte';
 import TitleBlock from './TitleBlock/index.svelte';
 import ContentWidthMedia from './ContentWidthMedia/index.svelte';
 
@@ -12,6 +13,7 @@ export const components = {
 	name_list: NameList,
 	quote_block: QuoteBlock,
 	rich_text: RichText,
+	spacer: Spacer,
 	title_block: TitleBlock,
 	video_block: ContentWidthMedia
 };

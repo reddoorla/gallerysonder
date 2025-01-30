@@ -172,5 +172,39 @@
 				"value": []
 			}
 		]
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "embed",
+		"primary": {
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "another",
+				"type": "Text"
+			},
+			"shape_top": {
+				"__TYPE__": "FieldContent",
+				"value": "2",
+				"type": "Select"
+			},
+			"eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "finally",
+				"type": "Text"
+			},
+			"center_point": {
+				"__TYPE__": "GeoPointContent",
+				"position": {
+					"lat": 48.8841267,
+					"lng": 2.3300579
+				}
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
 	}
 ]

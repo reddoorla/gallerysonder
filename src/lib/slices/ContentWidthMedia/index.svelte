@@ -163,6 +163,15 @@
 					>
 				</div>
 			</div>
+		{:else if slice.variation === 'embed'}
+		<iframe
+			title="google map"
+			class="w-full aspect-video relative mt-16"
+			frameborder="0" style="border:0"
+			referrerpolicy="no-referrer-when-downgrade"
+			src={`https://www.google.com/maps/embed/v1/MAP_MODE?key=AIzaSyChi9O7_yEWrLrRJSt2DyGO8pM5wl48UbYY&q=${slice.primary.center_point.latitude},${slice.primary.center_point.longitude}`}
+			allowfullscreen>
+	  	</iframe>
 		{/if}
 	</ContentWidth>
 
@@ -170,7 +179,7 @@
 
 {#if showModal && slice.variation === 'default'}
 	<div
-		class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
+		class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-60 flex justify-center items-center z-50"   
 		transition:fade
 	>
 		<button class="absolute w-full h-full" on:click={closeModal}> </button>
@@ -231,15 +240,15 @@
 					class="w-36 h-12 flex flex-row justify-between items-center absolute bottom-12 left-12"
 				>
 					<button class="bump" on:click={slideLeft}
-						><i class="fa-sharp fa-regular fa-arrow-left text-white" /></button
+						><i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl" /></button
 					>
 					<button class="bump" on:click={slideRight}
-						><i class="fa-sharp fa-regular fa-arrow-right text-white" /></button
+						><i class="fa-sharp fa-regular fa-arrow-right text-white fa-2xl" /></button
 					>
 				</div>
 				<div class="w-12 h-12 flex flex-row justify-between items-end absolute bottom-12 right-12">
 					<button class="bump" on:click={closeModal}
-						><i class="fa-sharp fa-regular fa-plus text-white rotate-45" /></button
+						><i class="fa-sharp fa-regular fa-plus text-white rotate-45 fa-2xl" /></button
 					>
 				</div>
 			</div>

@@ -161,6 +161,54 @@
         }
       },
       "items": {}
+    },
+    {
+      "id": "embed",
+      "name": "map",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape_top",
+            "placeholder": "",
+            "options": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ],
+            "default_value": "0"
+          }
+        },
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "eyebrow",
+            "placeholder": ""
+          }
+        },
+        "center_point": {
+          "type": "GeoPoint",
+          "config": {
+            "label": "center point"
+          }
+        }
+      },
+      "items": {}
     }
   ]
 }

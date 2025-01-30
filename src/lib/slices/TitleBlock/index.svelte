@@ -10,12 +10,14 @@
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
 	import { slide } from 'svelte/transition';
+	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
 
 	let viewportWidth: number;
 
 	export let slice: TitleBlockSlice;
 
 	let showFullBody = false;
+	let showContactForm = false;
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
@@ -23,16 +25,15 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="w-full md:bg-transparent {slice.primary.shape_top==="1"?"mt-[60vh]":""}"
+	class="w-full md:bg-transparent {slice.primary.shape_top==="1"?"":""}"
 	style="background-color: {$backgroundColor} "
 >
 {#if slice.primary.shape_top !== '0'}<div
 class="-translate-y-full "
 >
-<TopShape shapeNumber={slice.primary.shape_top || 0} />
+<TopShape shapeNumber={slice.primary.shape_top || '0'} />
 </div>
-{:else}
-<div class="xl:h-36" />
+
 {/if}
 	<ContentWidth class="h-full flex flex-col items-left lg:pl-20 relative">
 		{#if slice.variation === 'default'}
@@ -92,6 +93,34 @@ class="-translate-y-full "
 				<div class="w-full md:w-1/2 md:pl-16">
 					<PrismicImage field={slice.primary.image} />
 				</div>
+			</div>
+
+		{:else if slice.variation === 'connect'}
+
+		<h5>{slice.primary.eyebrow || ''}</h5>
+			{#if slice.primary.title}
+				<h2 class="mt-6">{slice.primary.title || ''}</h2>
+			{/if}
+			{#if slice.primary.subtitle}
+				<h6 class="mb-6">{slice.primary.subtitle || ''}</h6>
+			{/if}
+			{#if slice.primary.body}
+				<div class="rich-text mb-8">
+					<PrismicRichText field={slice.primary.body} />
+				</div>
+			{/if}
+			<div class="flex flex-row gap-6 mb-8">
+			{#if slice.primary.button_text}
+				<LinkPlusToggle text={slice.primary.button_text||'Inquire'} click={()=>{showContactForm=!showContactForm}} />
+			{/if}
+			{#if slice.primary.button_text}
+				<LinkPlusToggle text={slice.primary.button_two_text||'Newsletter'} click={()=>{isNewsletterActive.set(true)}} />
+			{/if}
+			</div>
+			<div class="flex flex-row gap-6">
+				{#if isFilled.link(slice.primary.instagram)}
+					<a href={slice.primary.instagram.url}><i class="fa-brands fa-instagram fa-lg"/></a>
+				{/if}
 			</div>
 		{/if}
 	</ContentWidth>
