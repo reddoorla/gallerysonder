@@ -20,6 +20,7 @@ export interface ArtistDocumentDataSectionsItem {
 }
 
 type ArtistDocumentDataSlicesSlice =
+	| SpacerSlice
 	| QuoteBlockSlice
 	| VideoBlockSlice
 	| ImageGallerySlice
@@ -204,6 +205,7 @@ export interface ExhibitDocumentDataSectionsItem {
 }
 
 type ExhibitDocumentDataSlicesSlice =
+	| SpacerSlice
 	| QuoteBlockSlice
 	| VideoBlockSlice
 	| ImageGallerySlice
@@ -508,6 +510,7 @@ export interface PageDocumentDataSectionsItem {
 }
 
 type PageDocumentDataSlicesSlice =
+	| SpacerSlice
 	| QuoteBlockSlice
 	| VideoBlockSlice
 	| ImageGallerySlice

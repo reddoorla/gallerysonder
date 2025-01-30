@@ -25,7 +25,7 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="w-full md:bg-transparent {slice.primary.shape_top==="1"?"":""}"
+	class="w-full md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""}"
 	style="background-color: {$backgroundColor} "
 >
 {#if slice.primary.shape_top !== '0'}<div
