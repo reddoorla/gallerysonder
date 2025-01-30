@@ -1122,6 +1122,16 @@ export interface SpacerSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
 	height: prismic.SelectField<'16px' | '32px' | '64px' | '128px' | '256px', 'filled'>;
+
+	/**
+	 * sectionLabel field in *Spacer → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: spacer.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
 }
 
 /**

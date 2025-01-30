@@ -12,6 +12,8 @@
 	import { isIntroFinished } from '$lib/stores/isIntroFinished';
 
 	import { onNavigate } from '$app/navigation';
+	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
+	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
 
 	export let data;
 	let isVideoLoaded = false;
@@ -30,6 +32,7 @@
 
 	onNavigate(() => {
 		isTransitioning = true;
+		isNewsletterActive.set(false);
 
 		setTimeout(() => {
 			isTransitioning = false;
@@ -79,6 +82,7 @@
 		<meta name="twitter:card" content="summary_large_image" />
 	{/if}
 </svelte:head>
+<NewsletterSignup />
 
 <main
 	class={isVideoDone ? '' : 'w-screen h-screen'}

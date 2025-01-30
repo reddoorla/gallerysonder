@@ -26,6 +26,13 @@
             ],
             "default_value": "16px"
           }
+        },
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": ""
+          }
         }
       },
       "items": {}

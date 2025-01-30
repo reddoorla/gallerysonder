@@ -3,6 +3,7 @@
 	export let text = '';
 	export let href = '';
 	export let click = () => {};
+	export let togglable = true;
 
 	let isLinkArrowActive = false;
 	let isRotated = false;
@@ -22,14 +23,13 @@
 		{href}
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
-		<img
-			src={linkArrow}
-			alt="link arrow"
-			class="h-5 w-5 ml-[10px] transition-transform duration-300 {isLinkArrowActive
-				? 'translate-x-2'
-				: ''}"
-		/>
-		<div class="absolute h-[1.5px] bg-black w-5 top-[9px] right-1" />
+	
+		<i
+			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated && togglable
+				? 'rotate-45 scale-125'
+				: ''} {isLinkArrowActive ? 'translate-x-2' : ''}"
+		>
+		</i>
 	</a>
 {:else}
 	<button
@@ -45,7 +45,7 @@
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
 		<i
-			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated
+			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated && togglable
 				? 'rotate-45 scale-125'
 				: ''} {isLinkArrowActive ? 'translate-x-2' : ''}"
 		>

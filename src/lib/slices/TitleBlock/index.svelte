@@ -122,7 +122,7 @@ class="-translate-y-full "
 				<LinkPlusToggle text={slice.primary.button_text||'Inquire'} click={()=>{showContactForm=!showContactForm}} />
 			{/if}
 			{#if slice.primary.button_text}
-				<LinkPlusToggle text={slice.primary.button_two_text||'Newsletter'} click={()=>{isNewsletterActive.set(true)}} />
+				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} click={()=>{isNewsletterActive.set(true)}} />
 			{/if}
 			</div>
 			{#if showContactForm}
@@ -150,9 +150,9 @@ class="-translate-y-full "
                           </p>
                           
                         <p>Message</p>
-                        <textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-1 mb-4"/>
+                        <textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
               
-                        <input type="submit" value="Connect" class="text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
+                        <input type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
                  
                </form>
 			   {/if}
