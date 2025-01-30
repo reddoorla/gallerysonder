@@ -205,6 +205,13 @@
             "default_value": "0"
           }
         },
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
         "eyebrow": {
           "type": "Text",
           "config": {
@@ -242,34 +249,11 @@
             "placeholder": ""
           }
         },
-        "button_link": {
-          "type": "Link",
-          "config": {
-            "label": "button link",
-            "placeholder": "",
-            "select": null
-          }
-        },
-        "sectionLabel": {
-          "type": "Text",
-          "config": {
-            "label": "sectionLabel",
-            "placeholder": "leave blank for no id"
-          }
-        },
         "button_two_text": {
           "type": "Text",
           "config": {
             "label": "button_two_text",
             "placeholder": ""
-          }
-        },
-        "button_two_link": {
-          "type": "Link",
-          "config": {
-            "label": "button two link",
-            "placeholder": "",
-            "select": null
           }
         },
         "instagram": {

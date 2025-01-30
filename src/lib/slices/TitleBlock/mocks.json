@@ -169,13 +169,6 @@
 				"value": "island",
 				"type": "Text"
 			},
-			"button_link": {
-				"__TYPE__": "LinkContent",
-				"value": {
-					"__TYPE__": "ExternalLink",
-					"url": "https://prismic.io"
-				}
-			},
 			"sectionLabel": {
 				"__TYPE__": "FieldContent",
 				"value": "cent",
@@ -185,13 +178,6 @@
 				"__TYPE__": "FieldContent",
 				"value": "0",
 				"type": "Select"
-			},
-			"button_two_link": {
-				"__TYPE__": "LinkContent",
-				"value": {
-					"__TYPE__": "ExternalLink",
-					"url": "https://slicemachine.dev"
-				}
 			},
 			"instagram": {
 				"__TYPE__": "LinkContent",

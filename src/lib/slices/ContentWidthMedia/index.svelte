@@ -11,6 +11,7 @@
 	import { PrismicImage } from '@prismicio/svelte';
 	import type { ImageField } from '@prismicio/client';
 	import { isModalActive } from '$lib/stores/isModalActive';
+	import { isFilled } from '@prismicio/helpers';
 
 	let viewportWidth: number;
 
@@ -164,14 +165,18 @@
 				</div>
 			</div>
 		{:else if slice.variation === 'embed'}
+		{#if isFilled.geoPoint(slice.primary.center_point)}
 		<iframe
 			title="google map"
 			class="w-full aspect-video relative mt-16"
 			frameborder="0" style="border:0"
 			referrerpolicy="no-referrer-when-downgrade"
-			src={`https://www.google.com/maps/embed/v1/MAP_MODE?key=AIzaSyChi9O7_yEWrLrRJSt2DyGO8pM5wl48UbYY&q=${slice.primary.center_point.latitude},${slice.primary.center_point.longitude}`}
+			src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyChi9O7_yEWrLrRJSt2DyGO8pM5wl48UbY&q=${slice.primary.center_point.latitude},${slice.primary.center_point.longitude}`}
 			allowfullscreen>
 	  	</iframe>
+		{:else}
+		<iframe title="google map" class="w-full aspect-video relative mt-16" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.3897009596562!2d-117.87470001146133!3d33.595191804572465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dce185053be61d%3A0x1a37c375339550c8!2sGallery%20Sonder!5e0!3m2!1sen!2sus!4v1738268047328!5m2!1sen!2sus" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+		{/if}
 		{/if}
 	</ContentWidth>
 

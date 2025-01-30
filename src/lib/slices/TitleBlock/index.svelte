@@ -20,6 +20,14 @@
 	let showContactForm = false;
 </script>
 
+<style>
+	input, textarea{
+		background-color: rgba(255, 255, 255, 0.4);
+		border-radius: 2px;
+	}
+</style>
+
+
 <svelte:window bind:innerWidth={viewportWidth} />
 
 <section
@@ -117,6 +125,37 @@ class="-translate-y-full "
 				<LinkPlusToggle text={slice.primary.button_two_text||'Newsletter'} click={()=>{isNewsletterActive.set(true)}} />
 			{/if}
 			</div>
+			{#if showContactForm}
+			<form transition:slide class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+                
+                
+                <input type="hidden" name="form-name" value="contact" />
+                    
+                        <p>Name</p>
+                        <input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
+                    
+                        <p>Company Name</p>
+                        <input type="text" name="company" placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
+                     
+                        <p>Phone</p>
+                        <input type="phone" name="phone" required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
+                 
+                        <p>Email</p>
+                        <input type="email" name="email" required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
+                       
+                        <p class="hidden">
+                            <label>
+                              Don’t fill this out if you’re human: <input name="bot-field" />
+                            </label>
+                          </p>
+                          
+                        <p>Message</p>
+                        <textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-1 mb-4"/>
+              
+                        <input type="submit" value="Connect" class="text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
+                 
+               </form>
+			   {/if}
 			<div class="flex flex-row gap-6">
 				{#if isFilled.link(slice.primary.instagram)}
 					<a href={slice.primary.instagram.url}><i class="fa-brands fa-instagram fa-lg"/></a>

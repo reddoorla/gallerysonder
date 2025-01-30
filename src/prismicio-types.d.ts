@@ -1377,6 +1377,16 @@ export interface TitleBlockSliceConnectPrimary {
 	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5' | '6', 'filled'>;
 
 	/**
+	 * sectionLabel field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: title_block.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
 	 * eyebrow field in *TitleBlock → Primary*
 	 *
 	 * - **Field Type**: Text
@@ -1427,26 +1437,6 @@ export interface TitleBlockSliceConnectPrimary {
 	button_text: prismic.KeyTextField;
 
 	/**
-	 * button link field in *TitleBlock → Primary*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: title_block.primary.button_link
-	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-	 */
-	button_link: prismic.LinkField;
-
-	/**
-	 * sectionLabel field in *TitleBlock → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: leave blank for no id
-	 * - **API ID Path**: title_block.primary.sectionLabel
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	sectionLabel: prismic.KeyTextField;
-
-	/**
 	 * button_two_text field in *TitleBlock → Primary*
 	 *
 	 * - **Field Type**: Text
@@ -1455,16 +1445,6 @@ export interface TitleBlockSliceConnectPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	button_two_text: prismic.KeyTextField;
-
-	/**
-	 * button two link field in *TitleBlock → Primary*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: title_block.primary.button_two_link
-	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-	 */
-	button_two_link: prismic.LinkField;
 
 	/**
 	 * instagram field in *TitleBlock → Primary*
