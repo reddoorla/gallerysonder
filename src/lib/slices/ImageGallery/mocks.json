@@ -20,7 +20,7 @@
 			},
 			"shape_top": {
 				"__TYPE__": "FieldContent",
-				"value": "2",
+				"value": "3",
 				"type": "Select"
 			},
 			"button_bottom_text": {

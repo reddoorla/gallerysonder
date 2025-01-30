@@ -43,18 +43,6 @@ interface ArtistDocumentData {
 	background_image: prismic.ImageField<never>;
 
 	/**
-	 * sonder presents field in *artist*
-	 *
-	 * - **Field Type**: Boolean
-	 * - **Placeholder**: *None*
-	 * - **Default Value**: false
-	 * - **API ID Path**: artist.sonder_presents
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#boolean
-	 */
-	sonder_presents: prismic.BooleanField;
-
-	/**
 	 * Full Name field in *artist*
 	 *
 	 * - **Field Type**: Text
@@ -119,6 +107,17 @@ interface ArtistDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	title_line_three: prismic.KeyTextField;
+
+	/**
+	 * artist color field in *artist*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.artist_color
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#color
+	 */
+	artist_color: prismic.ColorField;
 
 	/**
 	 * sections field in *artist*
@@ -272,16 +271,15 @@ interface ExhibitDocumentData {
 	background_image: prismic.ImageField<never>;
 
 	/**
-	 * sonder presents field in *exhibit*
+	 * exhibit color field in *exhibit*
 	 *
-	 * - **Field Type**: Boolean
+	 * - **Field Type**: Color
 	 * - **Placeholder**: *None*
-	 * - **Default Value**: false
-	 * - **API ID Path**: exhibit.sonder_presents
+	 * - **API ID Path**: exhibit.exhibit_color
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 * - **Documentation**: https://prismic.io/docs/field#color
 	 */
-	sonder_presents: prismic.BooleanField;
+	exhibit_color: prismic.ColorField;
 
 	/**
 	 * sections field in *exhibit*
@@ -675,7 +673,7 @@ export interface ImageGallerySliceDefaultPrimary {
 	 * - **API ID Path**: image_gallery.primary.shape_top
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	shape_top: prismic.SelectField<'0' | '1' | '2' | '3'>;
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5' | '6'>;
 
 	/**
 	 * gallery_eyebrow field in *ImageGallery → Primary*
@@ -876,7 +874,7 @@ export interface NameListSliceDefaultPrimary {
 	 * - **API ID Path**: name_list.primary.shape_top
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5' | '6', 'filled'>;
 
 	/**
 	 * button bottom link field in *NameList → Primary*
@@ -1201,7 +1199,7 @@ export interface TitleBlockSliceDefaultPrimary {
 	 * - **API ID Path**: title_block.primary.shape_top
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4', 'filled'>;
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5' | '6', 'filled'>;
 }
 
 /**
@@ -1218,9 +1216,109 @@ export type TitleBlockSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *TitleBlock → Primary*
+ */
+export interface TitleBlockSliceTwoColumnPrimary {
+	/**
+	 * eyebrow field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: title_block.primary.eyebrow
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	eyebrow: prismic.KeyTextField;
+
+	/**
+	 * title field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: title_block.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * subtitle field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: title_block.primary.subtitle
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	subtitle: prismic.KeyTextField;
+
+	/**
+	 * body field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: title_block.primary.body
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	body: prismic.RichTextField;
+
+	/**
+	 * sectionLabel field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: title_block.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * shape top field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
+	 * - **API ID Path**: title_block.primary.shape_top
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5', 'filled'>;
+
+	/**
+	 * read more button field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: title_block.primary.read_more_button
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	read_more_button: prismic.BooleanField;
+
+	/**
+	 * image field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: title_block.primary.image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * Two Column variation for TitleBlock Slice
+ *
+ * - **API ID**: `twoColumn`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TitleBlockSliceTwoColumn = prismic.SharedSliceVariation<
+	'twoColumn',
+	Simplify<TitleBlockSliceTwoColumnPrimary>,
+	never
+>;
+
+/**
  * Slice variation for *TitleBlock*
  */
-type TitleBlockSliceVariation = TitleBlockSliceDefault;
+type TitleBlockSliceVariation = TitleBlockSliceDefault | TitleBlockSliceTwoColumn;
 
 /**
  * TitleBlock Shared Slice
@@ -1232,11 +1330,11 @@ type TitleBlockSliceVariation = TitleBlockSliceDefault;
 export type TitleBlockSlice = prismic.SharedSlice<'title_block', TitleBlockSliceVariation>;
 
 /**
- * Primary content in *VideoBlock → Primary*
+ * Primary content in *ContentWidthMedia → Primary*
  */
 export interface VideoBlockSliceDefaultPrimary {
 	/**
-	 * placeholder_image field in *VideoBlock → Primary*
+	 * placeholder_image field in *ContentWidthMedia → Primary*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -1246,7 +1344,7 @@ export interface VideoBlockSliceDefaultPrimary {
 	placeholder_image: prismic.ImageField<never>;
 
 	/**
-	 * video field in *VideoBlock → Primary*
+	 * video field in *ContentWidthMedia → Primary*
 	 *
 	 * - **Field Type**: Embed
 	 * - **Placeholder**: *None*
@@ -1256,7 +1354,7 @@ export interface VideoBlockSliceDefaultPrimary {
 	video: prismic.EmbedField;
 
 	/**
-	 * sectionLabel field in *VideoBlock → Primary*
+	 * sectionLabel field in *ContentWidthMedia → Primary*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: leave blank for no id
@@ -1266,7 +1364,7 @@ export interface VideoBlockSliceDefaultPrimary {
 	sectionLabel: prismic.KeyTextField;
 
 	/**
-	 * shape_top field in *VideoBlock → Primary*
+	 * shape_top field in *ContentWidthMedia → Primary*
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
@@ -1274,11 +1372,21 @@ export interface VideoBlockSliceDefaultPrimary {
 	 * - **API ID Path**: video_block.primary.shape_top
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5' | '6', 'filled'>;
+
+	/**
+	 * eyebrow field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: video_block.primary.eyebrow
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	eyebrow: prismic.KeyTextField;
 }
 
 /**
- * Default variation for VideoBlock Slice
+ * video variation for ContentWidthMedia Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
@@ -1291,12 +1399,138 @@ export type VideoBlockSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
- * Slice variation for *VideoBlock*
+ * Primary content in *ContentWidthMedia → Primary*
  */
-type VideoBlockSliceVariation = VideoBlockSliceDefault;
+export interface VideoBlockSliceSlideshowPrimary {
+	/**
+	 * sectionLabel field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: video_block.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * shape_top field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
+	 * - **API ID Path**: video_block.primary.shape_top
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5' | '6', 'filled'>;
+
+	/**
+	 * eyebrow field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: video_block.primary.eyebrow
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	eyebrow: prismic.KeyTextField;
+}
 
 /**
- * VideoBlock Shared Slice
+ * Primary content in *ContentWidthMedia → Items*
+ */
+export interface VideoBlockSliceSlideshowItem {
+	/**
+	 * image field in *ContentWidthMedia → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: video_block.items[].image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * slideshow variation for ContentWidthMedia Slice
+ *
+ * - **API ID**: `slideshow`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type VideoBlockSliceSlideshow = prismic.SharedSliceVariation<
+	'slideshow',
+	Simplify<VideoBlockSliceSlideshowPrimary>,
+	Simplify<VideoBlockSliceSlideshowItem>
+>;
+
+/**
+ * Primary content in *ContentWidthMedia → Primary*
+ */
+export interface VideoBlockSliceImagePrimary {
+	/**
+	 * sectionLabel field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: leave blank for no id
+	 * - **API ID Path**: video_block.primary.sectionLabel
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	sectionLabel: prismic.KeyTextField;
+
+	/**
+	 * image field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: video_block.primary.image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+
+	/**
+	 * shape_top field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
+	 * - **API ID Path**: video_block.primary.shape_top
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5' | '6', 'filled'>;
+
+	/**
+	 * eyebrow field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: video_block.primary.eyebrow
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	eyebrow: prismic.KeyTextField;
+}
+
+/**
+ * image variation for ContentWidthMedia Slice
+ *
+ * - **API ID**: `image`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type VideoBlockSliceImage = prismic.SharedSliceVariation<
+	'image',
+	Simplify<VideoBlockSliceImagePrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *ContentWidthMedia*
+ */
+type VideoBlockSliceVariation =
+	| VideoBlockSliceDefault
+	| VideoBlockSliceSlideshow
+	| VideoBlockSliceImage;
+
+/**
+ * ContentWidthMedia Shared Slice
  *
  * - **API ID**: `video_block`
  * - **Description**: VideoBlock
@@ -1353,12 +1587,19 @@ declare module '@prismicio/client' {
 			RichTextSliceDefault,
 			TitleBlockSlice,
 			TitleBlockSliceDefaultPrimary,
+			TitleBlockSliceTwoColumnPrimary,
 			TitleBlockSliceVariation,
 			TitleBlockSliceDefault,
+			TitleBlockSliceTwoColumn,
 			VideoBlockSlice,
 			VideoBlockSliceDefaultPrimary,
+			VideoBlockSliceSlideshowPrimary,
+			VideoBlockSliceSlideshowItem,
+			VideoBlockSliceImagePrimary,
 			VideoBlockSliceVariation,
-			VideoBlockSliceDefault
+			VideoBlockSliceDefault,
+			VideoBlockSliceSlideshow,
+			VideoBlockSliceImage
 		};
 	}
 }

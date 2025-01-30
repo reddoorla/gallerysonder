@@ -18,4 +18,3 @@
 		/>
 	</ContentWidth>
 </section>
-

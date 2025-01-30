@@ -5,6 +5,7 @@
 	export let click = () => {};
 
 	let isLinkArrowActive = false;
+	let isRotated = false;
 </script>
 
 {#if href}
@@ -13,6 +14,7 @@
 		on:mouseleave={() => (isLinkArrowActive = false)}
 		on:click={() => {
 			isLinkArrowActive = false;
+			isRotated = !isRotated;
 			click();
 		}}
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {$$props.class ||
@@ -35,21 +37,20 @@
 		on:mouseleave={() => (isLinkArrowActive = false)}
 		on:click={() => {
 			isLinkArrowActive = false;
+			isRotated = !isRotated;
 			click();
 		}}
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {$$props.class ||
 			''}"
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
-		<img
-			src={linkArrow}
-			alt="link arrow"
-			class="h-5 w-5 ml-[10px] transition-transform duration-300 {isLinkArrowActive
-				? 'translate-x-2'
-				: ''}"
-		/>
-		<div class="absolute h-[1.5px] bg-black w-5 top-[9px] right-1" />
-	</button>
+		<i
+			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated
+				? 'rotate-45 scale-125'
+				: ''} {isLinkArrowActive ? 'translate-x-2' : ''}"
+		>
+		</i></button
+	>
 {/if}
 
 <style>

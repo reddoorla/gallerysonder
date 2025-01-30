@@ -60,8 +60,117 @@
 				"__TYPE__": "FieldContent",
 				"value": "baby",
 				"type": "Text"
+			},
+			"eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "solve",
+				"type": "Text"
 			}
 		},
 		"items": []
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "slideshow",
+		"primary": {
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "vegetable",
+				"type": "Text"
+			},
+			"shape_top": {
+				"__TYPE__": "FieldContent",
+				"value": "4",
+				"type": "Select"
+			},
+			"eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "river",
+				"type": "Text"
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"image",
+						{
+							"origin": {
+								"id": "main",
+								"url": "https://images.unsplash.com/photo-1587653915936-5623ea0b949a",
+								"width": 4000,
+								"height": 4000
+							},
+							"url": "https://images.unsplash.com/photo-1587653915936-5623ea0b949a",
+							"width": 4000,
+							"height": 4000,
+							"edit": {
+								"zoom": 1,
+								"crop": {
+									"x": 0,
+									"y": 0
+								},
+								"background": "transparent"
+							},
+							"credits": null,
+							"alt": null,
+							"__TYPE__": "ImageContent",
+							"thumbnails": {}
+						}
+					]
+				]
+			}
+		]
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "image",
+		"primary": {
+			"sectionLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "disappear",
+				"type": "Text"
+			},
+			"shape_top": {
+				"__TYPE__": "FieldContent",
+				"value": "0",
+				"type": "Select"
+			},
+			"image": {
+				"origin": {
+					"id": "main",
+					"url": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5",
+					"width": 5848,
+					"height": 3899
+				},
+				"url": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5",
+				"width": 5848,
+				"height": 3899,
+				"edit": {
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					},
+					"background": "transparent"
+				},
+				"credits": null,
+				"alt": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {}
+			},
+			"eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "read",
+				"type": "Text"
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
 	}
 ]

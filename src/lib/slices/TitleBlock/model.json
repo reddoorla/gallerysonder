@@ -89,9 +89,92 @@
               "1",
               "2",
               "3",
-              "4"
+              "4",
+              "5",
+              "6"
             ],
             "default_value": "0"
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "twoColumn",
+      "name": "Two Column",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "title",
+            "placeholder": ""
+          }
+        },
+        "subtitle": {
+          "type": "Text",
+          "config": {
+            "label": "subtitle",
+            "placeholder": ""
+          }
+        },
+        "body": {
+          "type": "StructuredText",
+          "config": {
+            "label": "body",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape top",
+            "placeholder": "",
+            "options": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ],
+            "default_value": "0"
+          }
+        },
+        "read_more_button": {
+          "type": "Boolean",
+          "config": {
+            "label": "read more button",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "image",
+            "constraint": {},
+            "thumbnails": []
           }
         }
       },

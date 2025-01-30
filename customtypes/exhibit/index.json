@@ -48,13 +48,11 @@
 					"thumbnails": []
 				}
 			},
-			"sonder_presents": {
-				"type": "Boolean",
+			"exhibit_color": {
+				"type": "Color",
 				"config": {
-					"label": "sonder presents",
-					"default_value": false,
-					"placeholder_true": "true",
-					"placeholder_false": "false"
+					"label": "exhibit color",
+					"placeholder": ""
 				}
 			},
 			"sections": {

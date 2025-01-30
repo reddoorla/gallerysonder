@@ -20,15 +20,6 @@
 					"thumbnails": []
 				}
 			},
-			"sonder_presents": {
-				"type": "Boolean",
-				"config": {
-					"label": "sonder presents",
-					"default_value": false,
-					"placeholder_true": "true",
-					"placeholder_false": "false"
-				}
-			},
 			"full_name": {
 				"type": "Text",
 				"config": {
@@ -68,6 +59,13 @@
 				"type": "Text",
 				"config": {
 					"label": "title_line_three",
+					"placeholder": ""
+				}
+			},
+			"artist_color": {
+				"type": "Color",
+				"config": {
+					"label": "artist color",
 					"placeholder": ""
 				}
 			},

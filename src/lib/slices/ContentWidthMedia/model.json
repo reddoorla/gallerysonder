@@ -1,0 +1,166 @@
+{
+  "id": "video_block",
+  "type": "SharedSlice",
+  "name": "ContentWidthMedia",
+  "description": "VideoBlock",
+  "variations": [
+    {
+      "id": "default",
+      "name": "video",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "placeholder_image": {
+          "type": "Image",
+          "config": {
+            "label": "placeholder_image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "video": {
+          "type": "Embed",
+          "config": {
+            "label": "video",
+            "placeholder": ""
+          }
+        },
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape_top",
+            "placeholder": "",
+            "options": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ],
+            "default_value": "0"
+          }
+        },
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "eyebrow",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "slideshow",
+      "name": "slideshow",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape_top",
+            "placeholder": "",
+            "options": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ],
+            "default_value": "0"
+          }
+        },
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "eyebrow",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        }
+      }
+    },
+    {
+      "id": "image",
+      "name": "image",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "sectionLabel": {
+          "type": "Text",
+          "config": {
+            "label": "sectionLabel",
+            "placeholder": "leave blank for no id"
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "shape_top": {
+          "type": "Select",
+          "config": {
+            "label": "shape_top",
+            "placeholder": "",
+            "options": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ],
+            "default_value": "0"
+          }
+        },
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "eyebrow",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
