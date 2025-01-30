@@ -4,5 +4,5 @@
 	export let slice;
 </script>
 
-<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation} style="background-color:{$backgroundColor}; height:{slice.primary.height}">
+<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation} class="w-screen" style="background-color:{$backgroundColor}; height:{slice.primary.height}">
 </section>
