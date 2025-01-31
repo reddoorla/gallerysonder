@@ -11,6 +11,7 @@
 	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
 	import { slide } from 'svelte/transition';
 	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
+	import { hasNewsletterBeenCleared } from '$lib/stores/hasNewsletterBeenCleared';
 
 	let viewportWidth: number;
 
@@ -122,7 +123,7 @@ class="-translate-y-full "
 				<LinkPlusToggle text={slice.primary.button_text||'Inquire'} click={()=>{showContactForm=!showContactForm}} />
 			{/if}
 			{#if slice.primary.button_text}
-				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} click={()=>{isNewsletterActive.set(true)}} />
+				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} click={()=>{$hasNewsletterBeenCleared=false;$isNewsletterActive=true;}} />
 			{/if}
 			</div>
 			{#if showContactForm}
