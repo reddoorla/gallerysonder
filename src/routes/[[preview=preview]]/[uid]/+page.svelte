@@ -65,7 +65,8 @@
 	});
 
 	afterNavigate(() => {
-		data = { ...data };
+		setTimeout(()=>{
+			data = { ...data };
 		content = data.page.data;
 		slicesSections = [];
 		sections = [];
@@ -73,6 +74,8 @@
 			slicesSections.push(slice.primary?.sectionLabel || '')
 		);
 		data.page.data.sections.forEach((section) => sections.push(section.section || ''));
+		}, 50)
+		
 	});
 </script>
 
@@ -135,8 +138,9 @@
 		</h1>
 	</ContentWidth>
 </div>
-
-<InnerPageNav {slicesSections} {sections} />
+{#key data}
+	<InnerPageNav {slicesSections} {sections} />
+{/key}
 
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
 	<div class="h-[55vh]" />
