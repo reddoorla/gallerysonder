@@ -42,11 +42,11 @@
 				
 			</div>
 		</div>
-		<div class="sm:pl-20 flex flex-row justify-between items-end w-full mb-12">
+		<div class="sm:pl-20 flex flex-col md:flex-row justify-between items-end w-full md:mb-12 gap-8">
 			<a href="/" class="h-6 ml-2">
 				<img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert" />
 			</a>
-			<span class="text-white">©{new Date().getFullYear()} | All Rights Reserved</span>
+			<span class="text-white text-xs md:text-md">©{new Date().getFullYear()} | All Rights Reserved</span>
 		</div>
 	</ContentWidth>
 </div>

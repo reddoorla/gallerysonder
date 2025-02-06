@@ -12,6 +12,7 @@
 	import { slide } from 'svelte/transition';
 	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
 	import { hasNewsletterBeenCleared } from '$lib/stores/hasNewsletterBeenCleared';
+	import { onMount } from 'svelte';
 
 	let viewportWidth: number;
 
@@ -19,6 +20,15 @@
 
 	let showFullBody = false;
 	let showContactForm = false;
+
+	let shape:HTMLElement;
+	let shapeHeight:number;
+
+	onMount(()=>{
+		if(shape)
+			shapeHeight=shape.getBoundingClientRect().height	
+	}
+)
 </script>
 
 <style>
@@ -31,6 +41,10 @@
 
 <svelte:window bind:innerWidth={viewportWidth} />
 
+{#if slice.primary.shape_top !== '0'}
+	<div style="height:{shapeHeight}px;"></div>
+{/if}
+
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
@@ -39,6 +53,7 @@
 >
 {#if slice.primary.shape_top !== '0'}<div
 class="-translate-y-full "
+bind:this={shape}
 >
 <TopShape shapeNumber={slice.primary.shape_top || '0'} />
 </div>

@@ -10,7 +10,7 @@
 
 
 {#if shapeNumber === '1'}
-<svg fill="none" viewBox="0 22.704 1324.5729303547962 416.24" xmlns="http://www.w3.org/2000/svg" class="use-gpu w-screen transition-all duration-1000 -mb-[120px] md:-mb-[240px] lg:-mb-[400px] xl:-mb-[600px] xxl:-mb-[800px]">
+<svg fill="none" viewBox="0 22.704 1324.5729303547962 416.24" xmlns="http://www.w3.org/2000/svg" class="use-gpu w-screen transition-all duration-1000 -mb-[120px] md:-mb-[240px] lg:-mb-[480px] xl:-mb-[600px] xxl:-mb-[800px]">
 	<path fill={$backgroundColor} class="transition-all duration-1000 use-gpu" d="M0 946V0C0 119.057 88.2714 156.271 500.067 193.896C1244.87 264.342 1514.09 428.714 1542 852.622V946H0Z"/>
   </svg>
 {:else if shapeNumber === '2'}

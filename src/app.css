@@ -10,6 +10,11 @@ body {
 	transition-duration: 500ms;
 }
 
+section{
+	margin-top: -1px;
+	margin-bottom: -1px;
+}
+
 h1 {
 	font-family: 'commuters-sans';
 	font-size: 160px;

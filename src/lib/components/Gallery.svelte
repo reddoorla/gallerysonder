@@ -58,9 +58,10 @@
 					class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'w-11/12' : 'w-9/12'}
 					src={item.image.url || ''}
 					text={item.piece_title || ''}
-					subtitle={item.artist_name
-						? item.artist_name + ' / ' + item.piece_subtitle || ''
-						: item.piece_subtitle || ''}
+					subtitle={
+						item.artist_name && item.piece_subtitle 
+						? item.artist_name + ' / ' + item.piece_subtitle
+						: item.artist_name || item.piece_subtitle || ''}
 					alt={item.piece_title || ''}
 					bind:isHover={isHoverArray[i]}
 					on:hover={(event) => handleHover(event, i)}

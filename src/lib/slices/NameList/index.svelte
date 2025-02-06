@@ -18,7 +18,7 @@
 >
 	<ContentWidth class="lg:pl-20 relative flex flex-col gap-16 mb-16">
 		{#if slice.primary.section_eyebrow}
-			<h5 class="pb-16">{slice.primary.section_eyebrow || ''}</h5>
+			<h5>{slice.primary.section_eyebrow || ''}</h5>
 		{/if}
 
 		{#each slice.items as item}

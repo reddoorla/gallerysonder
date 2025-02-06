@@ -132,8 +132,9 @@
 
 	{#if $isIntroFinished}
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
+		<slot />
 	{/if}
-	<slot />
+	
 </main>
 
 <PrismicPreview {repositoryName} />

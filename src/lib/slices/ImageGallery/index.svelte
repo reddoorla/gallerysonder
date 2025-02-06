@@ -10,6 +10,7 @@
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import { isFilled } from '@prismicio/helpers';
 	import { onMount } from 'svelte';
+	import { onNavigate } from '$app/navigation';
 
 	let viewportWidth: number;
 
@@ -17,6 +18,12 @@
 	let shapeHeight:number;
 
 	onMount(()=>{
+		if(shape)
+			shapeHeight=shape.getBoundingClientRect().height	
+	}
+)
+
+onNavigate(()=>{
 		if(shape)
 			shapeHeight=shape.getBoundingClientRect().height	
 	}
@@ -44,7 +51,7 @@
 			<TopShape shapeNumber={slice.primary.shape_top||""} />
 		</div>
 	{/if}
-	<ContentWidth class="lg:pl-20">
+	<ContentWidth class="lg:pl-20 pb-16">
 		{#if slice.primary.gallery_eyebrow}
 			<h5 class="mb-12 mt-24">{slice.primary.gallery_eyebrow || ''}</h5>
 		{/if}

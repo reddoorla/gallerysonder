@@ -88,10 +88,17 @@ export default {
 		'lg:w-1/4',
 		'lg:w-1/5',
 		'py-0',
+		'py-1',
+		'py-2',
 		'py-4',
 		'py-8',
 		'py-16',
-		'py-32'
+		'py-32',
+		'sm:py-0',
+		'sm:py-4',
+		'sm:py-8',
+		'sm:py-16',
+		'sm:py-32'
 	],
 	plugins: []
 };

@@ -109,11 +109,11 @@
 			? ''
 			: 'opacity-0'}"
 	>
-		<span
-			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+		<h5
+			class="text-white font-thin translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
 			!isBackgroundDark
 				? ''
-				: 'opacity-0'}">{content.dates || ''}</span
+				: 'opacity-0'}">{content.dates || ''}</h5
 		>
 		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
 			{content.title_line_one || ''}

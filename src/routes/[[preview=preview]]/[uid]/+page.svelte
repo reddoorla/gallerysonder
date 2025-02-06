@@ -102,18 +102,18 @@
     />
     </div> -->
 
-<div class="fixed w-screen h-screen-75 bottom-0">
+<div class="fixed w-screen h-screen-50">
 	<ContentWidth
 		class="h-full flex flex-col justify-end items-start transition-opacity {!isBackgroundDark &&
 		showSonderPresents
 			? ''
 			: 'opacity-0'}"
 	>
-		<span
-			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+		<h5
+			class="text-white translate-y-[22%] font-thin lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
 			!isBackgroundDark
 				? ''
-				: 'opacity-0'}">{content.dates || ''}</span
+				: 'opacity-0'}">{content.dates || ''}</h5
 		>
 		<h5
 			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
@@ -139,7 +139,7 @@
 <InnerPageNav {slicesSections} {sections} />
 
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
-	<div class="h-screen mb-[40vw]" />
+	<div class="h-[55vh]" />
 	<div class="h-1" bind:this={theBottomOfTheTop} />
 
 	<SliceZone slices={data.page.data.slices} {components} />
