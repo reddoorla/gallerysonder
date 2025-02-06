@@ -65,7 +65,7 @@
 	});
 
 	afterNavigate(() => {
-		setTimeout(()=>{
+	
 			data = { ...data };
 		content = data.page.data;
 		slicesSections = [];
@@ -74,7 +74,7 @@
 			slicesSections.push(slice.primary?.sectionLabel || '')
 		);
 		data.page.data.sections.forEach((section) => sections.push(section.section || ''));
-		}, 50)
+		
 		
 	});
 </script>
