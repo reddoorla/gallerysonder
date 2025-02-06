@@ -80,29 +80,12 @@
 				class="absolute md:flex-col justify-center items-center gap-4 hidden md:flex translate-y-1"
 			>
 				<a
-					href="https://www.instagram.com"
+					href="https://www.instagram.com/gallerysonder/"
 					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75"
 				>
 					<i class="fa-brands fa-instagram fa-2xl"></i>
 				</a>
-				<a
-					href="https://www.linkedin.com"
-					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75"
-				>
-					<i class="fa-brands fa-linkedin-in fa-2xl"></i>
-				</a>
-				<a
-					href="https://www.twitter.com"
-					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75"
-				>
-					<i class="fa-brands fa-x-twitter fa-2xl"></i>
-				</a>
-				<a
-					href="https://www.facebook.com/"
-					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump translate-x-1 scale-75"
-				>
-					<i class="fa-brands fa-facebook-f fa-2xl"></i>
-				</a>
+				
 			</div>
 			{#each navProps as link}
 				<NameRevealOnHover

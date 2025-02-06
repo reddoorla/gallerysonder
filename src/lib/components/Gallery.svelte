@@ -36,11 +36,13 @@
 					<span class="tracking-widest">{item.piece_eyebrow || ''}</span>
 					<h6>{item.artist_name || ''}</h6>
 					<h3>{item.piece_title || ''}</h3>
-					<span>{item.piece_subtitle}</span>
+					<span>{item.piece_subtitle||''}</span>
+					{#if prismicHelpers.isFilled.link(item.link)}
 					<LinkArrowButton
-						text="explore"
-						href={prismicHelpers.isFilled.link(item.link) ? item.link.url : '#'}
+						text={"explore"}
+						href={item.link.url}
 					/>
+					{/if}
 				</div>
 			</div>
 		{/each}
@@ -49,7 +51,7 @@
 	<div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ''}">
 		{#each slice.items as item, i (i)}
 			<div
-				class="w-full md:w-1/2 p-6 xl:p-10 use-gpu flex items-end transition duration-700 delay-700 justify-center relative 
+				class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex items-start transition duration-700 delay-700 justify-start relative 
 				{isHoverArray.some(Boolean) && !isHoverArray[i] &&willBlur	? 'blur'	: ''}"
 			>
 				<GridImage

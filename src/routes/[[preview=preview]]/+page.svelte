@@ -64,6 +64,19 @@
 	});
 </script>
 
+<style>
+	.dates{
+		font-family: 'commuters-sans';
+	font-size: 21px;
+	font-style: normal;
+	font-weight: 300;
+	line-height: 30px; /* 142.857% */
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	}
+</style>
+
+
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
 <div
@@ -85,7 +98,7 @@
 <div class="fixed w-screen h-screen-75 bottom-0">
 	<ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity">
 		<span
-			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+			class="text-white translate-y-[22%] dates lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}">{content.dates || ''}</span

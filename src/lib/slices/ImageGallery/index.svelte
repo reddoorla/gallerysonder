@@ -9,23 +9,37 @@
 	import { PrismicRichText } from '@prismicio/svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import { isFilled } from '@prismicio/helpers';
+	import { onMount } from 'svelte';
 
 	let viewportWidth: number;
+
+	let shape:HTMLElement;
+	let shapeHeight:number;
+
+	onMount(()=>{
+		if(shape)
+			shapeHeight=shape.getBoundingClientRect().height	
+	}
+)
 
 	export let slice: ImageGallerySlice;
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
 
+{#if slice.primary.shape_top !== '0'}
+	<div style="height:{shapeHeight}px;"></div>
+{/if}
 
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="w-screen transition duration-1000"
+	class="w-screen  use-gpu transition duration-1000"
 	style="background-color: {$backgroundColor}"
 >
 	{#if slice.primary.shape_top !== '0'}<div
-			class="-translate-y-full"
+			class="-translate-y-full" 
+			bind:this={shape}
 		>
 			<TopShape shapeNumber={slice.primary.shape_top||""} />
 		</div>

@@ -101,7 +101,7 @@
 		{#if slice.primary.eyebrow}
 			<h5 class="mt-16 mb-12">{slice.primary.eyebrow||''}</h5>
 		{/if}
-		{#if slice.variation === 'default'}
+		{#if slice.variation === 'default'&&isFilled.embed(slice.primary.video)}
 			<button class="w-full aspect-video relative mt-16" on:click={openModal}>
 				<img
 					src={slice.primary.placeholder_image.url || placeholderThumbnail}
@@ -123,6 +123,8 @@
 					</button>
 				</div>
 			</button>
+		{:else if slice.variation === 'default'}
+			<PrismicImage field={slice.primary.placeholder_image} class="w-full aspect-video mt-16" />
 		{:else if slice.variation === 'image'}
 			<PrismicImage field={slice.primary.image} class="w-full mt-16" />
 		{:else if slice.variation === 'slideshow'}

@@ -12,7 +12,7 @@
 </script>
 
 <section
-	class="w-full use-gpu transition-all duration-1000 ease-fast-slow pt-16"
+	class="w-full use-gpu transition-all duration-1000 pt-16"
 	id="explore"
 	style="background-color:{$backgroundColor};"
 >

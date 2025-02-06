@@ -1079,6 +1079,37 @@ export interface RichTextSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
 	desktop_width: prismic.SelectField<'full' | '4/5' | '3/4' | '2/3' | '1/2' | '1/3', 'filled'>;
+
+	/**
+	 * slice vertical padding field in *RichText → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: 0
+	 * - **API ID Path**: rich_text.primary.slice_vertical_padding
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	slice_vertical_padding: prismic.SelectField<'0' | '4' | '8' | '16' | '32', 'filled'>;
+
+	/**
+	 * button text field in *RichText → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.primary.button_text
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	button_text: prismic.KeyTextField;
+
+	/**
+	 * button link field in *RichText → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.primary.button_link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	button_link: prismic.LinkField;
 }
 
 /**

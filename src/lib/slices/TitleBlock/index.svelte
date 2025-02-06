@@ -34,7 +34,7 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="w-full md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""}"
+	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""}"
 	style="background-color: {$backgroundColor} "
 >
 {#if slice.primary.shape_top !== '0'}<div
@@ -46,15 +46,15 @@ class="-translate-y-full "
 {/if}
 	<ContentWidth class="h-full flex flex-col items-left lg:pl-20 relative">
 		{#if slice.variation === 'default'}
-			<h5>{slice.primary.eyebrow || ''}</h5>
+			<h6 class="font-light">{slice.primary.eyebrow || ''}</h6>
 			{#if slice.primary.title}
-				<h3 class="mt-6">{slice.primary.title || ''}</h3>
+				<h3 class="mt-3">{slice.primary.title || ''}</h3>
 			{/if}
 			{#if slice.primary.subtitle}
-				<h6 class="mb-6">{slice.primary.subtitle || ''}</h6>
+				<h6 class="mt-3">{slice.primary.subtitle || ''}</h6>
 			{/if}
 			{#if slice.primary.body}
-				<div class="lg:w-{slice.primary.desktop_body_width} rich-text mb-6">
+				<div class="lg:w-{slice.primary.desktop_body_width} rich-text mt-6">
 					<PrismicRichText field={slice.primary.body} />
 				</div>
 			{/if}
@@ -62,12 +62,13 @@ class="-translate-y-full "
 				<LinkArrowButton
 					text={slice.primary.button_text || ''}
 					href={slice.primary.button_link.url}
+					class="mt-6"
 				/>
 			{/if}
 		{:else if slice.variation === 'twoColumn'}
 			<div class="w-full flex flex-col md:flex-row">
 				<div class="w-full md:w-1/2">
-					<h5>{slice.primary.eyebrow || ''}</h5>
+					<h6 class="font-light">{slice.primary.eyebrow || ''}</h6>
 					{#if slice.primary.title}
 						<h3 class="mt-6">{slice.primary.title || ''}</h3>
 					{/if}

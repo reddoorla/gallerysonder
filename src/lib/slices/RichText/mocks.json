@@ -23,6 +23,23 @@
 				"__TYPE__": "FieldContent",
 				"value": "1/2",
 				"type": "Select"
+			},
+			"slice_vertical_padding": {
+				"__TYPE__": "FieldContent",
+				"value": "0",
+				"type": "Select"
+			},
+			"button_link": {
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "http://google.com"
+				}
+			},
+			"button_text": {
+				"__TYPE__": "FieldContent",
+				"value": "lunch",
+				"type": "Text"
 			}
 		},
 		"items": [

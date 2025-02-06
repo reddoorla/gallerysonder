@@ -34,29 +34,12 @@
 				class="absolute md:left-[3px] top-16 md:top-20 flex md:flex-col justify-center items-center gap-4"
 			>
 				<a
-					href="https://www.instagram.com"
+					href="https://www.instagram.com/gallerysonder/"
 					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75"
 				>
 					<i class="fa-brands fa-instagram fa-2xl" />
 				</a>
-				<a
-					href="https://www.linkedin.com"
-					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75"
-				>
-					<i class="fa-brands fa-linkedin-in fa-2xl" />
-				</a>
-				<a
-					href="https://www.twitter.com"
-					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75"
-				>
-					<i class="fa-brands fa-x-twitter fa-2xl" />
-				</a>
-				<a
-					href="https://www.facebook.com/"
-					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump translate-x-1 scale-75"
-				>
-					<i class="fa-brands fa-facebook-f fa-2xl" />
-				</a>
+				
 			</div>
 		</div>
 		<div class="sm:pl-20 flex flex-row justify-between items-end w-full mb-12">
