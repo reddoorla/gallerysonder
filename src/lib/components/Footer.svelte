@@ -12,7 +12,7 @@
 <div aria-hidden class="w-full -z-10 -mt-[40vw] object-cover use-gpu">
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1081">
 		<path
-			class="transition-all duration-1000 ease-fast-slow"
+			class="transition-all duration-1000"
 			d="M-8.40312e-05 645.743L-2.76537e-05 0.859371L1440 0.859497L1440 1080.86C1294.79 870.352 987.176 769.073 431.897 716.51C212.097 696.382 78.5734 676.511 -8.40312e-05 645.743Z"
 			fill={$backgroundColor}
 		/>
