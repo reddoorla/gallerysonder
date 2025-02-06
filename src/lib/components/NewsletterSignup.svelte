@@ -49,7 +49,7 @@
 
 {#if $isNewsletterActive&&!$hasNewsletterBeenCleared}
 <div class="w-screen h-screen fixed top-0 left-0 z-40  backdrop-blur" transition:fade >
-    <div class="w-full h-full absolute top-0 left-0 opacity-75" style="background-color:{$backgroundColor}"></div>
+    <div class="w-full h-full absolute top-0 left-0 opacity-95" style="background-color:{$backgroundColor}"></div>
     <ContentWidth  class="h-full relative flex flex-col items-start justify-center gap-10">
         <button on:click={()=>{$isNewsletterActive=false; $hasNewsletterBeenCleared=true}} class="absolute top-5 left-0 hover:opacity-80"><i class="fa-sharp fa-close fa-2xl text-black" /></button>
         <a href="/" class="absolute top-5 right-0 hover:opacity-80"><RotatingLogo class="h-6" /></a>
