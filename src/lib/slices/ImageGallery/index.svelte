@@ -45,7 +45,7 @@ onNavigate(()=>{
 	style="background-color: {$backgroundColor}"
 >
 	{#if slice.primary.shape_top !== '0'}<div
-			class="-translate-y-[99%]" 
+			class="-translate-y-[98%]" 
 			bind:this={shape}
 		>
 			<TopShape shapeNumber={slice.primary.shape_top||""} />
