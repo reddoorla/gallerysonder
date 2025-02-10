@@ -44,7 +44,7 @@
 					<span>{item.piece_subtitle||''}</span>
 					{#if prismicHelpers.isFilled.link(item.link)}
 					<LinkArrowButton
-						text={"explore"}
+						text={item.button_text||"explore"}
 						href={item.link.url}
 					/>
 					{/if}

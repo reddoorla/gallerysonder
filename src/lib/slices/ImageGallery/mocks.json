@@ -129,6 +129,14 @@
 							"value": "helpful",
 							"type": "Text"
 						}
+					],
+					[
+						"button_text",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "running",
+							"type": "Text"
+						}
 					]
 				]
 			}

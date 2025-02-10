@@ -280,5 +280,9 @@ a {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* Add any additional styles for the content container */
+
+}
+
+.rich-text p{
+	min-height: 1em;
 }

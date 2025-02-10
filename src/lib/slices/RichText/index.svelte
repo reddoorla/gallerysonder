@@ -12,7 +12,7 @@
 
 <section style="background-color:{$backgroundColor}" class="w-screen transition duration-1000">
 	<ContentWidth class="w-full flex flex-col items-start lg:pl-20 py-{parseInt(slice.primary.slice_vertical_padding)/4} sm:py-{slice.primary.slice_vertical_padding}">
-		<div class="sm:w-{slice.primary.desktop_width} whitespace-pre-line">
+		<div class="sm:w-{slice.primary.desktop_width} whitespace-pre-line rich-text">
 		<PrismicRichText
 			field={slice.primary.content}
 			components={{

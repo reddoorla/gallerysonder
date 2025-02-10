@@ -828,6 +828,16 @@ export interface ImageGallerySliceDefaultItem {
 	piece_subtitle: prismic.KeyTextField;
 
 	/**
+	 * button text field in *ImageGallery → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.items[].button_text
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	button_text: prismic.KeyTextField;
+
+	/**
 	 * link field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Link

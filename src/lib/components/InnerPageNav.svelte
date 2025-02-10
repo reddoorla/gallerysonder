@@ -8,6 +8,9 @@
 	export let sections: string[] = [];
 	export let slicesSections: string[];
 
+	const formattedSections = sections.map(section => section.replace(/\s+/g, ''));
+	const formattedSlicesSections = slicesSections.map(section => section.replace(/\s+/g, ''));
+
 	let fixedNav: HTMLElement;
 
 	let isFixedNavShown = false;
@@ -16,7 +19,7 @@
 
 	const findTopOfSection = (section: string) => {
 		for (let i = 0; i < sliceRefs.length; i++) {
-			if (slicesSections[i] === section) return sliceRefs[i];
+			if (formattedSlicesSections[i] === section.replace(/\s+/g, '')) return sliceRefs[i];
 		}
 
 		console.log('find top of section error looking for ' + section);
@@ -25,7 +28,7 @@
 
 	const checkPosition = () => {
 		activeSection =
-			slicesSections[
+			formattedSlicesSections[
 				sliceRefs.findIndex(
 					(slice) => slice.getBoundingClientRect().bottom > window.innerHeight / 2
 				)
@@ -67,19 +70,19 @@
 					<a
 						class="floating-links no-underline uppercase
                     {isFixedNavShown ? '' : 'pointer-events-none'}"
-						class:active={section === activeSection}
-						href="#{section}"
+						class:active={section.replace(/\s+/g, '') === activeSection.replace(/\s+/g, '')}
+						href="#{section.replace(/\s+/g, '')}"
 						on:click|preventDefault={() =>
 							findTopOfSection(section).scrollIntoView({ behavior: 'smooth' })}
 					>
 						{section}
 					</a>
-				{:else if section === activeSection}
+				{:else if section.replace(/\s+/g, '') === activeSection.replace(/\s+/g, '')}
 					<a
 						class="floating-links active no-underline uppercase transition-opacity fixed h-24 mx-auto top-6 -translate-x-1/2 {isFixedNavShown
 							? ''
 							: 'opacity-0 pointer-events-none'}"
-						href="#{section}"
+						href="#{section.replace(/\s+/g, '')}"
 						transition:fade
 					>
 						{section}
