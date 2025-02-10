@@ -140,6 +140,13 @@
             "placeholder": ""
           }
         },
+        "subtitle_two": {
+          "type": "Text",
+          "config": {
+            "label": "subtitle Two",
+            "placeholder": ""
+          }
+        },
         "button_text": {
           "type": "Text",
           "config": {

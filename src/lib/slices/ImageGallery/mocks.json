@@ -137,6 +137,14 @@
 							"value": "running",
 							"type": "Text"
 						}
+					],
+					[
+						"subtitle_two",
+						{
+							"__TYPE__": "FieldContent",
+							"value": "war",
+							"type": "Text"
+						}
 					]
 				]
 			}

@@ -10,7 +10,9 @@
 	export let text = '';
 	export let alt = 'gallery image';
 	export let subtitle = '';
+	export let subtitleTwo =''
 	export let isHover = false;
+
 
 	let innerWidth: number;
 	let innerHeight: number;
@@ -100,6 +102,11 @@ const closeModal = () => {
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</span
 		>
+		<span
+			class="mt-2 text-nowrap transition-opacity use-gpu duration-500 {insetPercent < 8
+				? 'opacity-100  delay-[750ms]'
+				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</span
+		>
 		<LinkArrowButton
 			text={'EXPLORE'}
 			class="mt-4 translate-x-[1px] transition-opacity duration-500 {isHover
@@ -117,6 +124,11 @@ const closeModal = () => {
 			class="mt-2 mb-16 text-nowrap transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</span
+		>
+		<span
+			class="mt-2 mb-16 text-nowrap transition-opacity use-gpu duration-500 {insetPercent < 8
+				? 'opacity-100  delay-[750ms]'
+				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</span
 		>
 	{/if}
 </a>

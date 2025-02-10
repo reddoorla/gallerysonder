@@ -34,6 +34,7 @@
 						class="w-full aspect-[8/5]"
 						src={item.image.url || ''}
 						alt={item.piece_title || ''}
+						
 					/>
 				</button>
 
@@ -42,6 +43,7 @@
 					<h6>{item.artist_name || ''}</h6>
 					<h3>{item.piece_title || ''}</h3>
 					<span>{item.piece_subtitle||''}</span>
+					<span>{item.subtitle_two||''}</span>
 					{#if prismicHelpers.isFilled.link(item.link)}
 					<LinkArrowButton
 						text={item.button_text||"explore"}
@@ -70,6 +72,7 @@
 						? item.artist_name + ' / ' + item.piece_subtitle
 						: item.artist_name || item.piece_subtitle || ''}
 					alt={item.piece_title || ''}
+					subtitleTwo={item.subtitle_two||''}
 					bind:isHover={isHoverArray[i]}
 					on:hover={(event) => handleHover(event, i)}
 				/>
