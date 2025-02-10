@@ -59,7 +59,7 @@ onNavigate(()=>{
 	{/if}
 	<ContentWidth class="lg:pl-20 pb-16">
 		{#if slice.primary.gallery_eyebrow}
-			<h5 class="mb-12 mt-24">{slice.primary.gallery_eyebrow || ''}</h5>
+			<h5 class="mb-12 mt-24"><b>{slice.primary.gallery_eyebrow || ''}</b></h5>
 		{/if}
 		<Gallery {slice} isList={slice.primary.islist} isRegular={!slice.primary.is_staggered} {isTruncated} />
 

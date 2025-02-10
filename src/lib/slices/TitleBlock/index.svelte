@@ -66,7 +66,7 @@ bind:this={shape}
 				<h3 class="mt-3">{slice.primary.title || ''}</h3>
 			{/if}
 			{#if slice.primary.subtitle}
-				<h6 class="mt-3">{slice.primary.subtitle || ''}</h6>
+				<h6 class="mt-3"><b>{slice.primary.subtitle || ''}</b></h6>
 			{/if}
 			{#if slice.primary.body}
 				<div class="xl:w-{slice.primary.desktop_body_width} rich-text mt-6">
@@ -88,7 +88,7 @@ bind:this={shape}
 						<h3 class="mt-6">{slice.primary.title || ''}</h3>
 					{/if}
 					{#if slice.primary.subtitle}
-						<h6 class="mb-6">{slice.primary.subtitle || ''}</h6>
+						<h6 class="mb-6"><b>{slice.primary.subtitle || ''}</b></h6>
 					{/if}
 					{#if slice.primary.body}
 						{#if slice.primary.read_more_button}

@@ -110,7 +110,7 @@
 			: 'opacity-0'}"
 	>
 		<h5
-			class="text-white font-thin translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+			class="text-white font-light translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}">{content.dates || ''}</h5

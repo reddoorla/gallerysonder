@@ -99,7 +99,7 @@
 	{/if}
 	<ContentWidth class="lg:pl-20">
 		{#if slice.primary.eyebrow}
-			<h5 class="mt-16 mb-12">{slice.primary.eyebrow||''}</h5>
+			<h5 class="mt-16 mb-12"><b>{slice.primary.eyebrow||''}</b></h5>
 		{/if}
 		{#if slice.variation === 'default'&&isFilled.embed(slice.primary.video)}
 			<button class="w-full aspect-video relative mt-16" on:click={openModal}>
