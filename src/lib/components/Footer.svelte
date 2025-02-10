@@ -28,7 +28,7 @@
 			<LinkArrowButton
 				text="Subscribe to our newsletter"
 				class="brightness-0 invert ml-0 md:ml-2 mt-4 text-left md:mt-10"
-				click={()=>{$hasNewsletterBeenCleared=false; $isNewsletterActive=true;}}
+				click={()=>{hasNewsletterBeenCleared.set(false); isNewsletterActive.set(true);}}
 			/>
 			<div
 				class="absolute md:left-[3px] top-16 md:top-20 flex md:flex-col justify-center items-center gap-4"

@@ -10,6 +10,8 @@
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 
 	import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { hasNewsletterBeenCleared } from '$lib/stores/hasNewsletterBeenCleared';
+	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
 
 	export let isLogoBlack: boolean;
 	export let navProps: NavDocumentDataLinksItem[];
@@ -100,7 +102,7 @@
 				/>
 			{/each}
 
-			<LinkArrowButton class="ml-24" href="" text="Subscribe to our newsletter" />
+			<LinkArrowButton class="ml-24" click={()=>{hasNewsletterBeenCleared.set(false); isNewsletterActive.set(true)}} text="Subscribe to our newsletter" />
 		</ContentWidth>
 	</div>
 {/if}
