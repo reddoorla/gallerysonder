@@ -92,6 +92,15 @@
             "placeholder": "",
             "select": null
           }
+        },
+        "show_more_button": {
+          "type": "Boolean",
+          "config": {
+            "label": "show more button",
+            "placeholder_false": "no button, show all always",
+            "placeholder_true": "show first four with button for all",
+            "default_value": false
+          }
         }
       },
       "items": {

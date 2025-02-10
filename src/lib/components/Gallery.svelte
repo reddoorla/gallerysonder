@@ -3,12 +3,17 @@
 	import GridImage from './GridImage.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import * as prismicHelpers from '@prismicio/helpers';
+	import { slide } from 'svelte/transition';
+	import LinkPlusToggle from './Buttons/LinkPlusToggle.svelte';
 
 	export let slice: ImageGallerySlice;
 
 	export let willBlur = false;
 	export let isRegular = true;
 	export let isList = false;
+
+
+	let isTruncated = slice.primary.show_more_button;
 
 	let isHoverArray = new Array(slice.items.length).fill(false);
 	let viewportWidth = 1024;
@@ -50,9 +55,11 @@
 {:else}
 	<div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ''}">
 		{#each slice.items as item, i (i)}
+		{#if !isTruncated || i<4}
 			<div
 				class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex items-start transition duration-700 delay-700 justify-start relative 
 				{isHoverArray.some(Boolean) && !isHoverArray[i] &&willBlur	? 'blur'	: ''}"
+				transition:slide
 			>
 				<GridImage
 					class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'w-11/12' : 'w-9/12'}
@@ -67,6 +74,11 @@
 					on:hover={(event) => handleHover(event, i)}
 				/>
 			</div>
+			{/if}
 		{/each}
 	</div>
+{/if}
+
+{#if slice.primary.show_more_button&&slice.items.length>4}
+	<LinkPlusToggle text={'Show More'} click={()=>isTruncated=!isTruncated} class="mt-8" />
 {/if}

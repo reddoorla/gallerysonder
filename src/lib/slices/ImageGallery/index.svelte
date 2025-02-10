@@ -11,11 +11,14 @@
 	import { isFilled } from '@prismicio/helpers';
 	import { onMount } from 'svelte';
 	import { onNavigate } from '$app/navigation';
+	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
 
 	let viewportWidth: number;
 
 	let shape:HTMLElement;
 	let shapeHeight:number;
+
+	
 
 	onMount(()=>{
 		if(shape)
@@ -30,6 +33,9 @@ onNavigate(()=>{
 )
 
 	export let slice: ImageGallerySlice;
+
+
+	let isTruncated = slice.primary.show_more_button;
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
@@ -55,7 +61,7 @@ onNavigate(()=>{
 		{#if slice.primary.gallery_eyebrow}
 			<h5 class="mb-12 mt-24">{slice.primary.gallery_eyebrow || ''}</h5>
 		{/if}
-		<Gallery {slice} isList={slice.primary.islist} isRegular={!slice.primary.is_staggered} />
+		<Gallery {slice} isList={slice.primary.islist} isRegular={!slice.primary.is_staggered} {isTruncated} />
 
 		<div class="font-normal mt-12 sm:w-2/3">
 			<PrismicRichText field={slice.primary.gallery_closing_text} />
@@ -63,5 +69,6 @@ onNavigate(()=>{
 		{#if slice.primary.button_bottom_text&& isFilled.link(slice.primary.button_bottom_link)}
 			<LinkArrowButton text={slice.primary.button_bottom_text || 'explore'} href={slice.primary.button_bottom_link.url} class="mt-8" />
 		{/if}
+
 	</ContentWidth>
 </section>

@@ -69,7 +69,7 @@ bind:this={shape}
 				<h6 class="mt-3">{slice.primary.subtitle || ''}</h6>
 			{/if}
 			{#if slice.primary.body}
-				<div class="lg:w-{slice.primary.desktop_body_width} rich-text mt-6">
+				<div class="xl:w-{slice.primary.desktop_body_width} rich-text mt-6">
 					<PrismicRichText field={slice.primary.body} />
 				</div>
 			{/if}

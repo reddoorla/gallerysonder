@@ -760,6 +760,17 @@ export interface ImageGallerySliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	button_bottom_link: prismic.LinkField;
+
+	/**
+	 * show more button field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: image_gallery.primary.show_more_button
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	show_more_button: prismic.BooleanField;
 }
 
 /**

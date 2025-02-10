@@ -208,13 +208,17 @@ button {
 	}
 }
 
-a {
-	color: #000;
-	font-feature-settings:
-		'clig' off,
-		'liga' off;
+@media screen and (max-width: 480px) {
+	h2{
 
-	/* Link */
+		font-size: 22px;
+		line-height: 125%; /* 60px */
+
+	}
+}
+
+a {
+
 	font-family: 'rig-sans';
 	font-size: 14px;
 	font-style: normal;
