@@ -66,7 +66,7 @@
 
 {#if showNav}
 	<div
-		class="h-screen w-screen fixed top-0 left-0 z-40 transition ease-fast-slow"
+		class="h-screen w-screen fixed top-0 left-0 z-30 transition ease-fast-slow"
 		style="background-color:{$backgroundColor}"
 		transition:slide
 	>
