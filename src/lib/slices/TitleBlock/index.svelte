@@ -98,8 +98,9 @@ bind:this={shape}
 								<PrismicRichText field={slice.primary.body} />
 							  </div>
 							{:else}
-							  <div class="max-h-[400px] overflow-hidden">
+							  <div class="max-h-[400px] overflow-hidden relative">
 								<PrismicRichText field={slice.primary.body} />
+								<div class="h-12 w-full absolute bottom-0 left-0" style="background: linear-gradient(to top, {$backgroundColor} 20%, transparent 100%);"></div>
 							  </div>
 							{/if}
 						  </div>
@@ -113,6 +114,13 @@ bind:this={shape}
 								<PrismicRichText field={slice.primary.body} />
 							</div>
 						{/if}
+					{/if}
+					{#if slice.primary.button_text && isFilled.link(slice.primary.button_link)}
+						<LinkArrowButton
+							text={slice.primary.button_text || ''}
+							href={slice.primary.button_link.url}
+							class="mt-6"
+						/>
 					{/if}
 				</div>
 				<div class="w-full md:w-1/2 md:pl-16">

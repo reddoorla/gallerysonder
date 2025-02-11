@@ -58,7 +58,7 @@
             <p>Sign up for our newsletter to receive updates  <br/> on exhibitions, artists, and community events. </p>
         </div>
         <div>
-            <input type="text" bind:value={emailValue} placeholder="enter your email" class="h-12 pl-2"/>
+            <input type="text" bind:value={emailValue} placeholder="Enter Your Email" class="h-12 pl-2"/>
             <LinkArrowButton class="mt-6" text="Subscribe" />
         </div>
         <p class="text-sm mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>

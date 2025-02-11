@@ -1418,6 +1418,26 @@ export interface TitleBlockSliceTwoColumnPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
 	image: prismic.ImageField<never>;
+
+	/**
+	 * button text field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: title_block.primary.button_text
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	button_text: prismic.KeyTextField;
+
+	/**
+	 * button link field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: title_block.primary.button_link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	button_link: prismic.LinkField;
 }
 
 /**

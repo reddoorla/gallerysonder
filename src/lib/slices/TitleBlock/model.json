@@ -176,6 +176,21 @@
             "constraint": {},
             "thumbnails": []
           }
+        },
+        "button_text": {
+          "type": "Text",
+          "config": {
+            "label": "button text",
+            "placeholder": ""
+          }
+        },
+        "button_link": {
+          "type": "Link",
+          "config": {
+            "label": "button link",
+            "placeholder": "",
+            "select": null
+          }
         }
       },
       "items": {}

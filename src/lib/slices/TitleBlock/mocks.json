@@ -125,6 +125,18 @@
 				"alt": null,
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
+			},
+			"button_text": {
+				"__TYPE__": "FieldContent",
+				"value": "evening",
+				"type": "Text"
+			},
+			"button_link": {
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "https://prismic.io"
+				}
 			}
 		},
 		"items": [
