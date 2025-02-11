@@ -32,7 +32,7 @@
 </svg>
 {:else if shapeNumber === '4'}
 	
-<svg class="use-gpu w-screen transition-all duration-1000 -mb-[100px] sm:-mb-[180px] md:-mb-[280px] lg:-mb-[320px] xl:-mb-[560px] xxl:-mb-[640px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 259.4548302872063 1200 250.7388825065274" fill="none">
+<svg class="use-gpu w-screen transition-all duration-1000 -mb-[100px] sm:-mb-[180px] md:-mb-[280px] lg:-mb-[320px] xl:-mb-[500px] xxl:-mb-[640px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 259.4548302872063 1200 250.7388825065274" fill="none">
 	<path fill={$backgroundColor} class="transition-all duration-1000 use-gpu" d="M-563 1384V0C-563 174.18 -433.913 228.624 168.292 283.671C1257.49 386.732 1651.18 627.21 1692 1247.39V1384H-563Z"/>
 </svg>
 {:else if shapeNumber === '5'}

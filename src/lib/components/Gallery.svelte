@@ -42,8 +42,8 @@
 					<span class="tracking-widest">{item.piece_eyebrow || ''}</span>
 					<h6>{item.artist_name || ''}</h6>
 					<h3>{item.piece_title || ''}</h3>
-					<span>{item.piece_subtitle||''}</span>
-					<span>{item.subtitle_two||''}</span>
+					<div>{item.piece_subtitle||''}</div>
+					<div>{item.subtitle_two||''}</div>
 					{#if prismicHelpers.isFilled.link(item.link)}
 					<LinkArrowButton
 						text={item.button_text||"explore"}

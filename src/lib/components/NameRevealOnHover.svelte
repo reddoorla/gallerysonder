@@ -3,7 +3,7 @@
 	import SonderLogoActive from '$lib/assets/icons/sonderLogosExtended/SONDER_O.svg';
 
 	export let activeImage = SonderLogoActive;
-	export let href = '/';
+	export let href = '';
 	export let click = () => {};
 
 	let viewportWidth: number;
@@ -14,6 +14,7 @@
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
+{#if href}
 <a
 	class="relative transition duration-500 ease-fast-slow w-fit {active
 		? ''
@@ -29,3 +30,20 @@
 >
 	<img src={activeImage} alt="link to name" class={$$props.class || ''} />
 </a>
+
+{:else}
+<button
+	class="relative transition duration-500 ease-fast-slow w-fit cursor-default {active
+		? ''
+		: 'brightness-0'} {$$props.class || ''}"
+	on:mouseenter={() => (active = true)}
+	on:mouseleave={() => (active = false)}
+	on:mouseover
+	on:mouseout
+	on:focus
+	on:blur
+	on:click={click}
+>
+	<img src={activeImage} alt="link to name" class={$$props.class || ''} />
+</button>
+{/if}

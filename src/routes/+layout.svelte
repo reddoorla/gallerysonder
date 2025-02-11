@@ -16,7 +16,7 @@
 	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
 
 	export let data;
-	let isVideoLoaded = false;
+	let isVideoLoaded = true;
 	let isPlaying = false;
 	let isTransitioning = false;
 
@@ -28,7 +28,9 @@
 
 	let vimeoPlayer: VimeoComponent;
 
-	onMount(() => {});
+	onMount(() => {
+		isIntroFinished.set(true)
+	});
 
 	onNavigate(() => {
 		isTransitioning = true;
@@ -57,15 +59,15 @@
 
 	const handleVideoReady = async () => {
 		isVideoLoaded = true;
-		await vimeoPlayer.play();
-		setTimeout(async () => {
-			await vimeoPlayer.pause();
-			isVideoDone = true;
-			isIntroFinished.set(true);
-		}, 6000);
+		// await vimeoPlayer.play();
+		// setTimeout(async () => {
+		// 	await vimeoPlayer.pause();
+		// 	isVideoDone = true;
+		// 	isIntroFinished.set(true);
+		// }, 6000);
 	};
-
-	let isVideoDone = false;
+	
+	let isVideoDone = true;
 </script>
 
 <svelte:head>
