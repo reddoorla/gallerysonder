@@ -135,7 +135,7 @@ const openModal = () => {
 {:else}
 	<button 
 		bind:this={linkRef}
-		class="flex-grow-0 flex flex-col items-left clip-transition no-underline {$$props.class || 'w-full'}"
+		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline {$$props.class || 'w-full'}"
 		on:mouseenter={() => onHover(true)}
 		on:mouseleave={() => onHover(false)}
 		on:click={openModal}
