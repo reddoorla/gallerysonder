@@ -39,11 +39,21 @@
 				</button>
 
 				<div class="w-1/2 h-full flex flex-col gap-4">
-					<span class="tracking-widest mb-4">{item.piece_eyebrow || ''}</span>
-					<h6>{item.artist_name || ''}</h6>
-					<h3>{item.piece_title || ''}</h3>
-					<p>{item.piece_subtitle||''}</p>
-					<p>{item.subtitle_two||''}</p>
+					{#if item.piece_eyebrow}
+						<span class="tracking-widest">{item.piece_eyebrow}</span>
+					{/if}
+					{#if item.artist_name}
+						<h6>{item.artist_name}</h6>
+					{/if}
+					{#if item.piece_title}
+						<h3>{item.piece_title}</h3>
+					{/if}
+					{#if item.piece_subtitle}
+						<p>{item.piece_subtitle}</p>
+					{/if}
+					{#if item.subtitle_two}
+						<p>{item.subtitle_two}</p>
+					{/if}
 					{#if prismicHelpers.isFilled.link(item.link)}
 					<LinkArrowButton
 						text={item.button_text||"explore"}
