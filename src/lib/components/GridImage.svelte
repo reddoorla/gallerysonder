@@ -4,6 +4,7 @@
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { isModalActive } from '$lib/stores/isModalActive';
 	import { fade } from 'svelte/transition';
+	import { isLightboxActive, lightboxImageUrl } from '$lib/stores/lightbox';
 
 	export let src = onShowOne;
 	export let href = '';
@@ -12,6 +13,7 @@
 	export let subtitle = '';
 	export let subtitleTwo =''
 	export let isHover = false;
+	export let willOpen = false;
 
 
 	let innerWidth: number;
@@ -38,16 +40,12 @@
 const openModal = () => {
 	showModal = true;
 	isModalActive.set(true);
+	isLightboxActive.set(true);
+	lightboxImageUrl.set(src);
 	if (document.getElementsByTagName('body'))
 		(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
 };
 
-const closeModal = () => {
-	showModal = false;
-	isModalActive.set(false)
-	if (document.getElementsByTagName('body'))
-		(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
-};
 
 	onMount(() => {
 		window.addEventListener('scroll', checkPosition);
@@ -63,14 +61,14 @@ const closeModal = () => {
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
+{#if href||!willOpen}
 <a
 	bind:this={linkRef}
 	{href}
-	class="flex-grow-0 flex flex-col items-left clip-transition no-underline pointer-events-none {$$props.class || 'w-full'}"
-	aria-hidden
+	class="flex-grow-0 flex flex-col items-left clip-transition no-underline {href?"":"pointer-events-none"} {$$props.class || 'w-full'}"
+	aria-hidden={href?false:true}
 	on:mouseenter={() => onHover(true)}
 	on:mouseleave={() => onHover(false)}
-	on:click={openModal}
 >
 	<img
 		{src}
@@ -134,36 +132,79 @@ const closeModal = () => {
 		>
 	{/if}
 </a>
-
-{#if showModal}
-<div
-		class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
-		transition:fade
+{:else}
+	<button 
+		bind:this={linkRef}
+		class="flex-grow-0 flex flex-col items-left clip-transition no-underline {$$props.class || 'w-full'}"
+		on:mouseenter={() => onHover(true)}
+		on:mouseleave={() => onHover(false)}
+		on:click={openModal}
 	>
-		<button class="absolute w-full h-full" on:click={closeModal}> </button>
-		<button class="w-4/5 aspect-video relative">
-			<img
-				{src}
-				alt="video thumbnail placeholder"
-				class="w-full h-full object-cover"
-			/>
-			<div
-				class="bottom-4 md:bottom-8 left-4 w-24 md:left-8 absolute flex flex-row justify-between gap-4"
+	<img
+			{src}
+			{alt}
+			class="clip-transition use-gpu w-full"
+			style={isHover
+				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
+				: 'clip-path: inset(0 ' +
+					insetPercent +
+					'% 0 ' +
+					insetPercent +
+					'%); -webkit-clip-path: inset(0 ' +
+					insetPercent +
+					'% 0 ' +
+					insetPercent +
+					'%);'}
+		/>
+		{#if innerWidth > 768}
+			<h6
+				class="mt-3  transition-opacity use-gpu duration-500 {insetPercent < 8
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}"
+			><b>
+				{text}
+				</b>
+			</h6>
+			<p
+				class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
 			>
-				<button
-					class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump"
-				>
-					<i class="fa-solid fa-circle-play fa-2xl"></i>
-				</button>
-				<button
-					class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump"
-				>
-					<i class="fa-solid fa-volume-high fa-2xl"></i>
-				</button>
-			</div>
-		</button>
-	</div>
+			<p
+				class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
+			>
+			<LinkArrowButton
+				text={'EXPLORE'}
+				class="mt-4 translate-x-[1px] transition-opacity duration-500 {isHover
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}"
+			/>
+		{:else}
+
+			<h5
+			
+				class="mt-4 translate-x-[1px] transition-opacity duration-500 {insetPercent < 8
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}"
+			><b>{text}</b></h5>
+
+			<p
+				class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
+			>
+			<p
+				class="mt-2   transition-opacity use-gpu duration-500 {insetPercent < 8
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
+			>
+		{/if}
+	</button>
 {/if}
+
+
 
 <style>
 	.clip-transition {

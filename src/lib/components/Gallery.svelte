@@ -34,7 +34,7 @@
 						class="w-full aspect-[8/5]"
 						src={item.image.url || ''}
 						alt={item.piece_title || ''}
-						
+						willOpen={slice.primary.will_open}
 					/>
 				</button>
 
@@ -84,6 +84,7 @@
 						: item.artist_name || item.piece_subtitle || ''}
 					alt={item.piece_title || ''}
 					subtitleTwo={item.subtitle_two||''}
+					willOpen={slice.primary.will_open}
 					bind:isHover={isHoverArray[i]}
 					on:hover={(event) => handleHover(event, i)}
 				/>

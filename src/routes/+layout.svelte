@@ -14,6 +14,8 @@
 	import { onNavigate } from '$app/navigation';
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
 	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
+	import { isLightboxActive } from '$lib/stores/lightbox';
+	import Lightbox from '$lib/components/Lightbox.svelte';
 
 	export let data;
 	let isVideoLoaded = true;
@@ -133,6 +135,9 @@
 	{/if}
 
 	{#if $isIntroFinished}
+		{#if $isLightboxActive}
+			<Lightbox />
+		{/if}
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 		<slot />
 	{/if}

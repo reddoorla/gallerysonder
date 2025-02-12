@@ -771,6 +771,17 @@ export interface ImageGallerySliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#boolean
 	 */
 	show_more_button: prismic.BooleanField;
+
+	/**
+	 * will open field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: image_gallery.primary.will_open
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	will_open: prismic.BooleanField;
 }
 
 /**

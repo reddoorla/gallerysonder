@@ -13,6 +13,7 @@
 	import { isModalActive } from '$lib/stores/isModalActive';
 	import { isFilled } from '@prismicio/helpers';
 
+
 	let viewportWidth: number;
 
 	export let slice: VideoBlockSlice;

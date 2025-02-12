@@ -101,6 +101,15 @@
             "placeholder_true": "show first four with button for all",
             "default_value": false
           }
+        },
+        "will_open": {
+          "type": "Boolean",
+          "config": {
+            "label": "will open",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
         }
       },
       "items": {
