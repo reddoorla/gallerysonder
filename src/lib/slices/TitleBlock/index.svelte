@@ -12,6 +12,7 @@
 	import { slide } from 'svelte/transition';
 	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
 	import { hasNewsletterBeenCleared } from '$lib/stores/hasNewsletterBeenCleared';
+	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
 	import { onMount } from 'svelte';
 
 	let viewportWidth: number;
@@ -48,6 +49,7 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
+
 	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""}"
 	style="background-color: {$backgroundColor} "
 >
@@ -92,17 +94,10 @@ bind:this={shape}
 					{/if}
 					{#if slice.primary.body}
 						{#if slice.primary.read_more_button}
-						<div class="rich-text mb-6 md:pr-16">
-							{#if showFullBody}
-							  <div transition:slide>
+						<div class="rich-text mb-3 md:pr-16">
+							<SplitRichTextAccordian bind:showFullBody >
 								<PrismicRichText field={slice.primary.body} />
-							  </div>
-							{:else}
-							  <div class="max-h-[400px] overflow-hidden relative">
-								<PrismicRichText field={slice.primary.body} />
-								<div class="h-12 w-full absolute bottom-0 left-0" style="background: linear-gradient(to top, {$backgroundColor} 20%, transparent 100%);"></div>
-							  </div>
-							{/if}
+							  </SplitRichTextAccordian>
 						  </div>
 							<LinkPlusToggle
 								click={() => (showFullBody = !showFullBody)}
