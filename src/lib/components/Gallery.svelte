@@ -64,6 +64,50 @@
 			</div>
 		{/each}
 	</div>
+{:else if isList}
+<div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ''}">
+	{#each slice.items as item, i (i)}
+	{#if !isTruncated || i<4}
+		<div
+			class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex flex-col items-start transition duration-700 delay-700 justify-start relative 
+			{isHoverArray.some(Boolean) && !isHoverArray[i] &&willBlur	? 'blur'	: ''}"
+			transition:slide
+		>
+		
+			<GridImage
+				class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
+				src={item.image.url || ''}
+				alt={item.piece_title || ''}
+				bind:isHover={isHoverArray[i]}
+				on:hover={(event) => handleHover(event, i)}
+			/>
+			
+			{#if item.piece_eyebrow}
+				<span class="tracking-widest">{item.piece_eyebrow}</span>
+			{/if}
+			{#if item.artist_name}
+				<h5 class="mt-2 uppercase">{item.artist_name}</h5>
+			{/if}
+			{#if item.piece_title}
+				<h5 class="mt-2 uppercase"><b>{item.piece_title}</b></h5>
+			{/if}
+			{#if item.piece_subtitle}
+				<p class="mt-2">{item.piece_subtitle}</p>
+			{/if}
+			{#if item.subtitle_two}
+				<p class="mt-2">{item.subtitle_two}</p>
+			{/if}
+	{#if prismicHelpers.isFilled.link(item.link)}
+				<LinkArrowButton
+					text={item.button_text||"explore"}
+					href={item.link.url}
+				/>
+				{/if}
+		</div>
+		{/if}
+	{/each}
+</div>
+
 {:else}
 	<div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ''}">
 		{#each slice.items as item, i (i)}

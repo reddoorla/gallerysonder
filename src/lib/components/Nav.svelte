@@ -79,7 +79,7 @@
 			</button>
 
 			<div
-				class="absolute md:hidden justify-center items-center gap-4 hidden md:flex translate-y-1"
+				class="absolute md:hidden justify-center items-center gap-4 hidden translate-y-1"
 			>
 				<a
 					href="https://www.instagram.com/gallerysonder/"
