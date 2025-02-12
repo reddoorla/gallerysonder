@@ -114,19 +114,21 @@ const closeModal = () => {
 				: 'opacity-0 pointer-events-none delay-0'}"
 		/>
 	{:else}
+
 		<h5
 		
 			class="mt-4 translate-x-[1px] transition-opacity duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		><b>{text}</b></h5>
+
 		<p
-			class="mt-2 md:mb-16  transition-opacity use-gpu duration-500 {insetPercent < 8
+			class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
 		>
 		<p
-			class="mt-2 mb-8 md:mb-16  transition-opacity use-gpu duration-500 {insetPercent < 8
+			class="mt-2   transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
 		>
