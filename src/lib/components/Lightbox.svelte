@@ -20,11 +20,11 @@
 		transition:fade
 	>
 		<button class="absolute w-full h-full" on:click={closeModal}> </button>
-		<div class="w-4/5 aspect-video relative">
+		<div class="w-4/5 h-4/5 max-w-4/5 max-h-4/5">
 			<img
 				src={$lightboxImageUrl}
 				alt="video thumbnail placeholder"
-				class="w-full h-full object-cover"
+				class="w-full h-full object-contain"
 			/>
 			
 		</div>
