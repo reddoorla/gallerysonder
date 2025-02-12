@@ -59,10 +59,11 @@
 		{#each slice.items as item, i (i)}
 		{#if !isTruncated || i<4}
 			<div
-				class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex items-start transition duration-700 delay-700 justify-start relative 
+				class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex flex-col items-start transition duration-700 delay-700 justify-start relative 
 				{isHoverArray.some(Boolean) && !isHoverArray[i] &&willBlur	? 'blur'	: ''}"
 				transition:slide
 			>
+			<span class="tracking-widest">{item.piece_eyebrow || ''}</span>
 				<GridImage
 					class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'w-11/12' : 'w-9/12'}
 					src={item.image.url || ''}

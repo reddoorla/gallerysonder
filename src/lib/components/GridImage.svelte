@@ -97,15 +97,15 @@ const closeModal = () => {
 			{text}
 			</b>
 		</h6>
-		<div
+		<p
 			class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</div
+				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
 		>
-		<div
+		<p
 			class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</div
+				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
 		>
 		<LinkArrowButton
 			text={'EXPLORE'}
@@ -120,15 +120,15 @@ const closeModal = () => {
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		><b>{text}</b></h6>
-		<div
-			class="mt-2 mb-16  transition-opacity use-gpu duration-500 {insetPercent < 8
+		<p
+			class="mt-2 md:mb-16  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</div
+				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
 		>
-		<div
-			class="mt-2 mb-16  transition-opacity use-gpu duration-500 {insetPercent < 8
+		<p
+			class="mt-2 mb-8 md:mb-16  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</div
+				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
 		>
 	{/if}
 </a>

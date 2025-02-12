@@ -286,3 +286,7 @@ a {
 .rich-text p{
 	min-height: 1em;
 }
+
+.rich-text h5{
+	letter-spacing: normal;
+}

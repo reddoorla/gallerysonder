@@ -70,7 +70,7 @@
 		style="background-color:{$backgroundColor}"
 		transition:slide
 	>
-		<ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 pt-48 justify-start h-full relative">
+		<ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 pt-48 items-start justify-start h-full relative">
 			<button
 				on:click={() => (showNav = false)}
 				class="absolute top-12 right-0 text-black bump hover:opacity-40"
@@ -95,14 +95,14 @@
 					on:mouseover={() => backgroundColor.set(link.active_color || '#E4EEEA')}
 					on:mouseout={() => backgroundColor.set('#E4EEEA')}
 					href={prismicH.isFilled.link(link.link) ? link.link.url : '#'}
-					class="ml-12 h-4 sm:h-6 md:h-10 lg:h-12"
+					class="h-4 sm:h-6 md:h-10 lg:h-12"
 					click={() => {
 						setTimeout(() => (showNav = false)), 300;
 					}}
 				/>
 			{/each}
 
-			<LinkArrowButton class="ml-24" click={()=>{hasNewsletterBeenCleared.set(false); isNewsletterActive.set(true)}} text="Subscribe to our newsletter" />
+			<LinkArrowButton class="" click={()=>{hasNewsletterBeenCleared.set(false); isNewsletterActive.set(true)}} text="Subscribe to our newsletter" />
 		</ContentWidth>
 	</div>
 {/if}

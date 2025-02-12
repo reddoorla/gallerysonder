@@ -57,7 +57,7 @@ onNavigate(()=>{
 			<TopShape shapeNumber={slice.primary.shape_top||""} />
 		</div>
 	{/if}
-	<ContentWidth class="lg:pl-20 pb-16">
+	<ContentWidth class="lg:pl-20">
 		{#if slice.primary.gallery_eyebrow}
 			<h5 class="mb-12 mt-24 uppercase"><b>{slice.primary.gallery_eyebrow || ''}</b></h5>
 		{/if}

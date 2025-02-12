@@ -20,9 +20,9 @@
 </div>
 
 <div class="w-full h-[80vh] sm:h-[30vw] xl:h-[20vw]">
-	<ContentWidth class="h-full flex flex-col justify-between pt:16 md:pt-32">
+	<ContentWidth class="h-full flex flex-col justify-between md:pt-32">
 		<div class="sm:pl-20 -mt-[20vw] relative">
-			<h2 class="text-white font-normal mt-64 md:mt-16 sm:w-2/3">
+			<h2 class="text-white font-normal mt-32 md:mt-16 sm:w-2/3">
 				Weaving Together the Stories that Shape Us
 			</h2>
 			<LinkArrowButton
@@ -42,11 +42,12 @@
 				
 			</div>
 		</div>
+	
 		<div class="sm:pl-20 flex flex-col md:flex-row justify-between items-end w-full md:mb-12 gap-8">
 			<a href="/" class="h-6 ml-2">
 				<img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert" />
 			</a>
-			<span class="text-white text-xs md:text-md">©{new Date().getFullYear()} | All Rights Reserved</span>
+			<span class="text-white mb-5 text-xs md:text-md">©{new Date().getFullYear()} | All Rights Reserved</span>
 		</div>
 	</ContentWidth>
 </div>
