@@ -14,6 +14,7 @@
 	import { hasNewsletterBeenCleared } from '$lib/stores/hasNewsletterBeenCleared';
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	let viewportWidth: number;
 
@@ -95,9 +96,11 @@ bind:this={shape}
 					{#if slice.primary.body}
 						{#if slice.primary.read_more_button}
 						<div class="rich-text mb-3 md:pr-16">
+							{#key $page.url}
 							<SplitRichTextAccordian bind:showFullBody >
 								<PrismicRichText field={slice.primary.body} />
 							  </SplitRichTextAccordian>
+							  {/key}
 						  </div>
 							<LinkPlusToggle
 								click={() => (showFullBody = !showFullBody)}

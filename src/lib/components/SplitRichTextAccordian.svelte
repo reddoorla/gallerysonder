@@ -3,6 +3,8 @@
     import { slide } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
     import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { onNavigate } from '$app/navigation';
+	import { onMount } from 'svelte';
     
     interface HTMLElementWithOuterHTML extends HTMLElement {
       outerHTML: string;
@@ -20,14 +22,16 @@
     function splitContent(): void {
       if (!contentDiv) return;
       
-      const elements = Array.from(contentDiv.children) as HTMLElementWithOuterHTML[];
+      let elements = Array.from(contentDiv.children) as HTMLElementWithOuterHTML[];
       const visibleElements: HTMLElementWithOuterHTML[] = [];
       const hiddenElements: HTMLElementWithOuterHTML[] = [];
       let currentHeight = 0;
+      if(elements.length>0)
+        visibleElements.push(elements.shift() as HTMLElementWithOuterHTML);
+      
       
       for (const element of elements) {
         const { offsetTop, offsetHeight } = element;
-        
         if (offsetTop + offsetHeight <= maxHeight) {
           visibleElements.push(element);
           currentHeight = offsetTop + offsetHeight;
@@ -40,6 +44,9 @@
       visibleContent = visibleElements;
       hiddenContent = hiddenElements;
     }
+
+    onNavigate(()=>splitContent());
+    onMount(()=>{setTimeout(()=>splitContent(),25)});
     
     $: if (contentDiv) splitContent();
   </script>
