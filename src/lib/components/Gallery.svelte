@@ -77,6 +77,12 @@
 					bind:isHover={isHoverArray[i]}
 					on:hover={(event) => handleHover(event, i)}
 				/>
+				{#if prismicHelpers.isFilled.link(item.link)}
+					<LinkArrowButton
+						text={item.button_text||"explore"}
+						href={item.link.url}
+					/>
+					{/if}
 			</div>
 			{/if}
 		{/each}
