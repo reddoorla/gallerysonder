@@ -43,7 +43,7 @@
 			</div>
 		</div>
 	
-		<div class="sm:pl-20 flex flex-col md:flex-row justify-between items-end w-full md:mb-12 gap-8">
+		<div class="sm:pl-20 flex flex-col md:flex-row justify-between items-end w-full md:mb-12 gap-4 md:gap-8">
 			<a href="/" class="h-6 ml-2">
 				<img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert" />
 			</a>

@@ -90,5 +90,5 @@
 {/if}
 
 {#if slice.primary.show_more_button&&slice.items.length>4}
-	<LinkPlusToggle text={'Show More'} click={()=>isTruncated=!isTruncated} class="mt-8" />
+	<LinkPlusToggle text={isTruncated?'Show More':'Show Less'} click={()=>isTruncated=!isTruncated} class="mt-8" />
 {/if}

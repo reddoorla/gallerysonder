@@ -73,7 +73,7 @@
 		<ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 pt-48 items-start justify-start h-full relative">
 			<button
 				on:click={() => (showNav = false)}
-				class="absolute top-12 right-0 text-black bump hover:opacity-40"
+				class="absolute top-12 left-0 text-black bump hover:opacity-40"
 			>
 				<i class="fa-thin fa-sharp fa-close fa-2xl scale-200" />
 			</button>
