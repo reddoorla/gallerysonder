@@ -12,14 +12,14 @@
 
 <section style="background-color:{$backgroundColor}" class="w-screen transition duration-1000">
 	<ContentWidth class="w-full flex flex-col items-start lg:pl-20 py-{parseInt(slice.primary.slice_vertical_padding)/4} sm:py-{slice.primary.slice_vertical_padding}">
-		<div class="sm:w-{slice.primary.desktop_width} whitespace-pre-line rich-text">
+		<div class="sm:w-{slice.primary.desktop_width} whitespace-pre-line rich-text pr-4 md:pr-0">
 		<PrismicRichText
 			field={slice.primary.content}
 			components={{
 				label: Label
 			}}
 		/>
-
+ 
 		{#if slice.primary.button_text&& isFilled.link(slice.primary.button_link)}
 			<LinkArrowButton text={slice.primary.button_text || 'explore'} href={slice.primary.button_link.url} class="mt-8" />
 		{/if}

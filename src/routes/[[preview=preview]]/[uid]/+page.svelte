@@ -143,7 +143,7 @@
 {/key}
 
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
-	<div class="h-[55vh]" />
+	<div class="h-[65vh]" />
 	<div class="h-1" bind:this={theBottomOfTheTop} />
 
 	<SliceZone slices={data.page.data.slices} {components} />

@@ -17,8 +17,11 @@
             const body = document.getElementsByTagName('body')[0] as HTMLElement;
             if($isNewsletterActive){
                 body.style.overflow = 'hidden'
+                disableScroll();
+                
             }else{
                 body.style.overflow = 'auto'
+                enableScroll();
             }
         }
     }
@@ -26,6 +29,20 @@
     let emailValue:string;
 
     let lowestPoint = 0;
+
+    const enableScroll = () => {
+        if(window){
+            window.onscroll=function(){};
+        }
+    }
+
+    const disableScroll = () => {
+        if(window){
+            const x=window.scrollX;
+            const y=window.scrollY;
+            window.onscroll=function(){window.scrollTo(x, y);};
+        }
+}
    
     
 

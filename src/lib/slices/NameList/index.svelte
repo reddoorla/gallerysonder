@@ -16,7 +16,7 @@
 	id="explore"
 	style="background-color:{$backgroundColor};"
 >
-	<ContentWidth class="lg:pl-20 relative flex flex-col gap-16 mb-16">
+	<ContentWidth class="lg:pl-20 relative flex flex-col gap-8 md:gap-16 mb-16">
 		{#if slice.primary.section_eyebrow}
 			<h5 class="uppercase">{slice.primary.section_eyebrow || ''}</h5>
 		{/if}
