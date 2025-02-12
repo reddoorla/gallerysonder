@@ -82,7 +82,7 @@ bind:this={shape}
 			{/if}
 		{:else if slice.variation === 'twoColumn'}
 			<div class="w-full flex flex-col md:flex-row">
-				<div class="w-full md:w-1/2">
+				<div class="w-full md:w-1/2 mb-10 md:mb-0">
 					<h6 class="font-light">{slice.primary.eyebrow || ''}</h6>
 					{#if slice.primary.title}
 						<h3 class="mt-6">{slice.primary.title || ''}</h3>
