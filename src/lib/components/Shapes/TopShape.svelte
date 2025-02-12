@@ -27,7 +27,7 @@
 		/>
 	</svg>
 {:else if shapeNumber === '3'}
-<svg  viewBox="-518 0 1968 206.5289256198347" xmlns="http://www.w3.org/2000/svg" class="use-gpu w-screen transition-all duration-1000  -mb-[30px] sm:-mb-[50px] md:-mb-[60px] lg:-mb-[120px] xl:-mb-[160px] xxl:-mb-[220px]">
+<svg  viewBox="-518 0 1968 206.5289256198347" xmlns="http://www.w3.org/2000/svg" class="use-gpu w-screen transition-all duration-1000  -mb-[10px] sm:-mb-[50px] md:-mb-[60px] lg:-mb-[120px] xl:-mb-[160px] xxl:-mb-[220px]">
 	<path fill={$backgroundColor} class="transition-all duration-1000 use-gpu" d="M1450 143.557V714.277H-518V174.008C-320.779 59.0298 -5.64624 0.277344 422.66 0.277344C821.314 0.277344 1165.05 49.1745 1450 143.557Z"/>
 </svg>
 {:else if shapeNumber === '4'}

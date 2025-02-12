@@ -65,7 +65,7 @@
 			>
 			<span class="tracking-widest">{item.piece_eyebrow || ''}</span>
 				<GridImage
-					class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'w-11/12' : 'w-9/12'}
+					class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 					src={item.image.url || ''}
 					text={item.piece_title || ''}
 					subtitle={
