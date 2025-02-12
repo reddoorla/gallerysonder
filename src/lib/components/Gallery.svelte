@@ -64,7 +64,7 @@
 			</div>
 		{/each}
 	</div>
-{:else if isList}
+{:else if isList&&false}
 <div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ''}">
 	{#each slice.items as item, i (i)}
 	{#if !isTruncated || i<4}
