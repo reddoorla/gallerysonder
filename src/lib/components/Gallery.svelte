@@ -64,7 +64,7 @@
 			</div>
 		{/each}
 	</div>
-{:else if isList&&false}
+{:else if isList}
 <div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ''}">
 	{#each slice.items as item, i (i)}
 	{#if !isTruncated || i<4}
@@ -86,7 +86,7 @@
 				<span class="tracking-widest">{item.piece_eyebrow}</span>
 			{/if}
 			{#if item.artist_name}
-				<h5 class="mt-2 uppercase">{item.artist_name}</h5>
+				<span class="mt-2 uppercase">{item.artist_name}</span>
 			{/if}
 			{#if item.piece_title}
 				<h5 class="mt-2 uppercase"><b>{item.piece_title}</b></h5>
@@ -101,6 +101,7 @@
 				<LinkArrowButton
 					text={item.button_text||"explore"}
 					href={item.link.url}
+					class="mt-4"
 				/>
 				{/if}
 		</div>
