@@ -39,7 +39,7 @@
 				</button>
 
 				<div class="w-1/2 h-full flex flex-col gap-4">
-					<span class="tracking-widest">{item.piece_eyebrow || ''}</span>
+					<span class="tracking-widest mb-4">{item.piece_eyebrow || ''}</span>
 					<h6>{item.artist_name || ''}</h6>
 					<h3>{item.piece_title || ''}</h3>
 					<div>{item.piece_subtitle||''}</div>
@@ -63,7 +63,7 @@
 				{isHoverArray.some(Boolean) && !isHoverArray[i] &&willBlur	? 'blur'	: ''}"
 				transition:slide
 			>
-			<span class="tracking-widest">{item.piece_eyebrow || ''}</span>
+			<span class="tracking-widest mb-4">{item.piece_eyebrow || ''}</span>
 				<GridImage
 					class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 					src={item.image.url || ''}
