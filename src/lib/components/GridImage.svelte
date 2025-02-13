@@ -33,10 +33,8 @@
 	};
 
 
-	let showModal = false;
-
 const openModal = () => {
-	showModal = true;
+
 	isModalActive.set(true);
 	isLightboxActive.set(true);
 	lightboxImageUrl.set(src);

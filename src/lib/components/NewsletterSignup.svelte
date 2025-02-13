@@ -60,6 +60,9 @@
     onMount(()=>{
         window.addEventListener('scroll', checkPosition);
     })
+
+    let submit = () => form.submit();
+    let form:HTMLFormElement;
     
 
 </script>
@@ -74,10 +77,16 @@
             <h2>Join Our Community</h2>
             <p>Sign up for our newsletter to receive updates  <br/> on exhibitions, artists, and community events. </p>
         </div>
-        <div>
-            <input type="text" bind:value={emailValue} placeholder="Enter Your Email" class="h-12 pl-2"/>
-            <LinkArrowButton class="mt-6" text="Subscribe" />
-        </div>
+        <form name="newsletter" method="post" bind:this={form} data-netlify="true" data-netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="newsletter" />
+            <p class="hidden">
+                <label>
+                  Don’t fill this out if you’re human: <input name="bot-field" />
+                </label>
+            </p>
+            <input type="email" bind:value={emailValue} placeholder="Enter Your Email" class="h-12 pl-2"/>
+            <LinkArrowButton class="mt-6" text="Subscribe" onclick={submit}/>
+        </form>
         <p class="text-sm mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
     </ContentWidth>
     
