@@ -87,6 +87,7 @@ const openModal = () => {
 				'%);'}
 	/>
 	{#if innerWidth > 768}
+	{#if text}
 		<h6
 			class="mt-3  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
@@ -95,41 +96,51 @@ const openModal = () => {
 			{text}
 			</b>
 		</h6>
+		{/if}
+		{#if subtitle}
 		<p
 			class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
 		>
+		{/if}
+		{#if subtitleTwo}
 		<p
 			class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
 		>
+		{/if}
 		<LinkArrowButton
 			text={'EXPLORE'}
-			class="mt-4 translate-x-[1px] transition-opacity duration-500 {isHover
+			class="mt-4 translate-x-[1px] transition-opacity duration-500 pointer pointer-events-auto {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}"
+				: 'opacity-0 delay-0'}"
+			{href}
 		/>
 	{:else}
-
+		{#if text}
 		<h5
 		
 			class="mt-4 translate-x-[1px] transition-opacity duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		><b>{text}</b></h5>
-
+		{/if}
+		{#if subtitle}
 		<p
 			class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
 		>
+		{/if}
+		{#if subtitleTwo}
 		<p
 			class="mt-2   transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
 		>
+		{/if}
 	{/if}
 </a>
 {:else}
@@ -157,6 +168,7 @@ const openModal = () => {
 					'%);'}
 		/>
 		{#if innerWidth > 768}
+		{#if text}
 			<h6
 				class="mt-3  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
@@ -165,41 +177,45 @@ const openModal = () => {
 				{text}
 				</b>
 			</h6>
+			{/if}
+			{#if subtitle}
 			<p
 				class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
 			>
+			{/if}
+			{#if subtitleTwo}
 			<p
 				class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
 			>
-			<LinkArrowButton
-				text={'EXPLORE'}
-				class="mt-4 translate-x-[1px] transition-opacity duration-500 {isHover
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}"
-			/>
+			{/if}
+			
 		{:else}
-
+			{#if text}
 			<h5
 			
 				class="mt-4 translate-x-[1px] transition-opacity duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}"
 			><b>{text}</b></h5>
-
+			{/if}
+			{#if subtitle}
 			<p
 				class="mt-2  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
 			>
+			{/if}
+			{#if subtitleTwo}
 			<p
 				class="mt-2   transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
 			>
+			{/if}
 		{/if}
 	</button>
 {/if}

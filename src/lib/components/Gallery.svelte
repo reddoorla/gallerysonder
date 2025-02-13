@@ -5,6 +5,7 @@
 	import * as prismicHelpers from '@prismicio/helpers';
 	import { slide } from 'svelte/transition';
 	import LinkPlusToggle from './Buttons/LinkPlusToggle.svelte';
+	import { isFilled } from '@prismicio/client';
 
 	export let slice: ImageGallerySlice;
 
@@ -78,6 +79,7 @@
 				class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 				src={item.image.url || ''}
 				alt={item.piece_title || ''}
+				href={isFilled.link(item.link)?item.link.url:''}
 				bind:isHover={isHoverArray[i]}
 				on:hover={(event) => handleHover(event, i)}
 			/>
@@ -110,7 +112,7 @@
 </div>
 
 {:else}
-	<div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ''}">
+	<div class="w-full flex flex-row flex-wrap items-center justify-between gap-y-10 {$$props.class || ''}">
 		{#each slice.items as item, i (i)}
 		{#if !isTruncated || i<4}
 			<div
@@ -129,16 +131,12 @@
 						: item.artist_name || item.piece_subtitle || ''}
 					alt={item.piece_title || ''}
 					subtitleTwo={item.subtitle_two||''}
+					href={isFilled.link(item.link)?item.link.url:''}
 					willOpen={slice.primary.will_open}
 					bind:isHover={isHoverArray[i]}
 					on:hover={(event) => handleHover(event, i)}
 				/>
-				{#if prismicHelpers.isFilled.link(item.link)}
-					<LinkArrowButton
-						text={item.button_text||"explore"}
-						href={item.link.url}
-					/>
-					{/if}
+				
 			</div>
 			{/if}
 		{/each}
