@@ -63,6 +63,16 @@
 
     let submit = () => form.submit();
     let form:HTMLFormElement;
+
+    const triggerSubmitButton = () => {
+  const submitButton = form.querySelector('button');
+    if (submitButton) {
+        submitButton.click();
+    }
+    
+    $hasNewsletterBeenCleared  = true;
+    $isNewsletterActive = false;
+};
     
 
 </script>
@@ -79,7 +89,7 @@
         </div>
         <div>
             <input type="email" bind:value={emailValue} name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
-            <LinkArrowButton class="mt-6" text="Subscribe" onclick={submit}/>
+            <LinkArrowButton class="mt-6" text="Subscribe" onclick={triggerSubmitButton}/>
         </div>
         <p class="text-sm mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
     </ContentWidth>
@@ -95,5 +105,7 @@
         </label>
     </p>
     <input type="email" bind:value={emailValue} name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
-    <LinkArrowButton class="mt-6" text="Subscribe" onclick={submit}/>
+    <button class="mt-6" on:click={submit}/>
 </form>
+
+
