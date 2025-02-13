@@ -85,7 +85,7 @@
 			/>
 			
 			{#if item.piece_eyebrow}
-				<span class="tracking-widest">{item.piece_eyebrow}</span>
+				<span class="tracking-widest mt-2">{item.piece_eyebrow}</span>
 			{/if}
 			{#if item.artist_name}
 				<span class="mt-2 uppercase">{item.artist_name}</span>
