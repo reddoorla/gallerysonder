@@ -105,10 +105,10 @@
         "will_open": {
           "type": "Boolean",
           "config": {
-            "label": "will open",
-            "default_value": false,
-            "placeholder_true": "true",
-            "placeholder_false": "false"
+            "label": "lightbox toggle",
+            "placeholder_false": "not a lightbox, can be link",
+            "placeholder_true": "lightbox opens on click",
+            "default_value": false
           }
         }
       },

@@ -59,7 +59,7 @@
 			},
 			"will_open": {
 				"__TYPE__": "BooleanContent",
-				"value": false
+				"value": true
 			}
 		},
 		"items": [

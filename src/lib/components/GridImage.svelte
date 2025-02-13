@@ -1,9 +1,7 @@
 <script lang="ts">
-	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import onShowOne from '$lib/assets/images/homeImages/onShow/sonderOnShow1.jpg';
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { isModalActive } from '$lib/stores/isModalActive';
-	import { fade } from 'svelte/transition';
 	import { isLightboxActive, lightboxImageUrl } from '$lib/stores/lightbox';
 
 	export let src = onShowOne;

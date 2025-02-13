@@ -773,7 +773,7 @@ export interface ImageGallerySliceDefaultPrimary {
 	show_more_button: prismic.BooleanField;
 
 	/**
-	 * will open field in *ImageGallery → Primary*
+	 * lightbox toggle field in *ImageGallery → Primary*
 	 *
 	 * - **Field Type**: Boolean
 	 * - **Placeholder**: *None*
