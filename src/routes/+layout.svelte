@@ -136,7 +136,7 @@
 		<div class="w-screen h-screen fixed top-0 left-0 bg-black" transition:fade>
 			{#if !isVideoLoaded}
 				<div
-					class="w-screen h-screen absolute top-0 left-0 bg-black flex flex-col items-center text-center justify-center gap-20 z-20"
+					class="w-screen h-screen absolute top-0 left-0 bg-black flex flex-col items-center text-center justify-center gap-10 z-20"
 					out:fade={{ delay: 200 }}
 				>
 		
