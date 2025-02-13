@@ -93,7 +93,7 @@
 </div>
 {/if}
 
-<form class="hidden" name="newsletter" method="post" bind:this={form} data-netlify="true" data-netlify-honeypot="bot-field">
+<form class="hidden" name="newsletter" method="post" data-netlify="true" data-netlify-honeypot="bot-field">
     <input type="hidden" name="form-name" value="newsletter" />
     <p class="hidden">
         <label>
