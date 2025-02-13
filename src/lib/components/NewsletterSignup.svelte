@@ -92,14 +92,3 @@
     
 </div>
 {/if}
-
-<form class="hidden" name="newsletter" method="post" data-netlify="true" data-netlify-honeypot="bot-field">
-    <input type="hidden" name="form-name" value="newsletter" />
-    <p class="hidden">
-        <label>
-          Don’t fill this out if you’re human: <input name="bot-field" />
-        </label>
-    </p>
-    <input type="email" bind:value={emailValue} placeholder="Enter Your Email" class="h-12 pl-2"/>
-    <LinkArrowButton class="mt-6" text="Subscribe" onclick={submit}/>
-</form>
