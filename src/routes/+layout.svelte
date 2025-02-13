@@ -3,9 +3,9 @@
 	import { page } from '$app/stores';
 	import { repositoryName } from '$lib/prismicio';
 	import logo from '$lib/assets/icons/SONDER_Logo.svg';
+	import preloader from '$lib/assets/SONDER_preloader.svg'
 	import VimeoPlayer from '$lib/components/VimeoPlayer.svelte';
 	import '../app.css';
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import Nav from '$lib/components/Nav.svelte';
 
@@ -18,7 +18,7 @@
 	import Lightbox from '$lib/components/Lightbox.svelte';
 
 	export let data;
-	let isVideoLoaded = true;
+	let isVideoLoaded = false;
 	let isPlaying = false;
 	let isTransitioning = false;
 
@@ -30,9 +30,6 @@
 
 	let vimeoPlayer: VimeoComponent;
 
-	onMount(() => {
-		isIntroFinished.set(true)
-	});
 
 	onNavigate(() => {
 		isTransitioning = true;
@@ -61,15 +58,15 @@
 
 	const handleVideoReady = async () => {
 		isVideoLoaded = true;
-		// await vimeoPlayer.play();
-		// setTimeout(async () => {
-		// 	await vimeoPlayer.pause();
-		// 	isVideoDone = true;
-		// 	isIntroFinished.set(true);
-		// }, 6000);
+		await vimeoPlayer.play();
+		setTimeout(async () => {
+			await vimeoPlayer.pause();
+			isVideoDone = true;
+			isIntroFinished.set(true);
+		}, 6000);
 	};
 	
-	let isVideoDone = true;
+	let isVideoDone = false;
 </script>
 
 <svelte:head>
@@ -99,7 +96,7 @@
 					class="w-screen h-screen absolute top-0 left-0 bg-black flex items-center justify-center z-20"
 					out:fade={{ delay: 200 }}
 				>
-					<img src={logo} class="h-16 pulse-always" alt="sonder" />
+					<img src={logo} class="h-12 sm:h-16 pulse-always" alt="sonder" />
 				</div>
 			{/if}
 

@@ -284,3 +284,20 @@ a {
 .rich-text h5{
 	letter-spacing: normal;
 }
+
+
+@keyframes pulse-scale {
+    0% {
+        transform: scale(1.01);
+    }
+    50% {
+        transform: scale(0.99);
+    }
+    100% {
+        transform: scale(1.01);
+    }
+}
+
+.pulse-always{
+    animation: 1.3s infinite forwards pulse-scale ease-out;
+}
