@@ -111,13 +111,7 @@ const openModal = () => {
 				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
 		>
 		{/if}
-		<LinkArrowButton
-			text={'EXPLORE'}
-			class="mt-4 translate-x-[1px] transition-opacity duration-500 pointer pointer-events-auto {insetPercent < 8
-				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 delay-0'}"
-			{href}
-		/>
+	
 	{:else}
 		{#if text}
 		<h5
