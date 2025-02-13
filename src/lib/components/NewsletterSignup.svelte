@@ -84,7 +84,7 @@
                   Don’t fill this out if you’re human: <input name="bot-field" />
                 </label>
             </p>
-            <input type="email" bind:value={emailValue} placeholder="Enter Your Email" class="h-12 pl-2"/>
+            <input type="email" bind:value={emailValue} name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
             <LinkArrowButton class="mt-6" text="Subscribe" onclick={submit}/>
         </form>
         <p class="text-sm mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
