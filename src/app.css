@@ -111,7 +111,7 @@ h6 {
 	text-transform: uppercase;
 }
 
-p, input, textarea {
+p, input, textarea, form button {
 	color: #000;
 	font-feature-settings:
 		'clig' off,
