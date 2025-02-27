@@ -120,8 +120,9 @@
 		</h1>
 	</ContentWidth>
 </div>
-
-<InnerPageNav {slicesSections} {sections} />
+{#key data}
+	<InnerPageNav {slicesSections} {sections} />
+{/key}
 
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
 	<div class="h-screen" />
