@@ -187,3 +187,33 @@ bind:this={shape}
 		{/if}
 	</ContentWidth>
 </section>
+
+<form class="hidden"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+                
+                
+	<input type="hidden" name="form-name" value="contact" />
+		
+			<p>Name</p>
+			<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
+		
+			<p>Company Name</p>
+			<input type="text" name="company" placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
+		 
+			<p>Phone</p>
+			<input type="phone" name="phone" required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
+	 
+			<p>Email</p>
+			<input type="email" name="email" required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
+		   
+			<p class="hidden">
+				<label>
+				  Don’t fill this out if you’re human: <input name="bot-field" />
+				</label>
+			  </p>
+			  
+			<p>Message</p>
+			<textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
+  
+			<input type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
+	 
+   </form>
