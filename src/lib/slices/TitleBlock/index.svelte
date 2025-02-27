@@ -31,7 +31,7 @@
 	let formEmail:string;
 	let formMessage:string;
 
-	const submit = () => submitButton.click();
+	const submit = () => {submitButton.click(); form.submit();console.log('submitted')};
 
 	let shape:HTMLElement;
 	let shapeHeight:number;
@@ -159,10 +159,8 @@ bind:this={shape}
 			{/if}
 			</div>
 			{#if showContactForm}
-			<form transition:slide class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+			<form transition:slide class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"  name="contact" >
                 
-                
-					<input type="hidden" name="form-name" value="contact" />
 						
 					<p>Name</p>
 					<input type="text" name="name" bind:value={formName} required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
@@ -186,7 +184,7 @@ bind:this={shape}
 					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
 	  
 				
-                        <button type="submit" on:click={submit} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
+                        <button type="submit" on:click={()=>submit()} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
                  
                </form>
 			   {/if}
@@ -199,7 +197,7 @@ bind:this={shape}
 	</ContentWidth>
 </section>
 
-<form class="hidden"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" bind:this={form}>
+<form class="h-0 w-0 overflow-hidden"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" bind:this={form}>
                 
                 
 	<input type="hidden" name="form-name" value="contact" />
