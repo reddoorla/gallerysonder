@@ -23,6 +23,16 @@
 	let showFullBody = false;
 	let showContactForm = false;
 
+	let form:HTMLFormElement;
+	let submitButton:HTMLInputElement;
+	let formName:string;
+	let formCompany:string;
+	let formPhone:string;
+	let formEmail:string;
+	let formMessage:string;
+
+	const submit = () => submitButton.click();
+
 	let shape:HTMLElement;
 	let shapeHeight:number;
 
@@ -152,30 +162,32 @@ bind:this={shape}
 			<form transition:slide class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
                 
                 
-                <input type="hidden" name="form-name" value="contact" />
-                    
-                        <p>Name</p>
-                        <input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
-                    
-                        <p>Company Name</p>
-                        <input type="text" name="company" placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
-                     
-                        <p>Phone</p>
-                        <input type="phone" name="phone" required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
-                 
-                        <p>Email</p>
-                        <input type="email" name="email" required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
-                       
-                        <p class="hidden">
-                            <label>
-                              Don’t fill this out if you’re human: <input name="bot-field" />
-                            </label>
-                          </p>
-                          
-                        <p>Message</p>
-                        <textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
+					<input type="hidden" name="form-name" value="contact" />
+						
+					<p>Name</p>
+					<input type="text" name="name" bind:value={formName} required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
+				
+					<p>Company Name</p>
+					<input type="text" name="company" bind:value={formCompany} placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
+				
+					<p>Phone</p>
+					<input type="phone" name="phone"bind:value={formPhone} required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
+			
+					<p>Email</p>
+					<input type="email" name="email" bind:value={formEmail} required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
+				
+					<p class="hidden">
+						<label>
+						Don’t fill this out if you’re human: <input name="bot-field" />
+						</label>
+					</p>
+					
+					<p>Message</p>
+					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
+	  
+				<input type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
               
-                        <input type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
+                        <button type="submit" value="Connect" on:click={submit} class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
                  
                </form>
 			   {/if}
@@ -188,22 +200,22 @@ bind:this={shape}
 	</ContentWidth>
 </section>
 
-<form class="hidden"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+<form class="hidden"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" bind:this={form}>
                 
                 
 	<input type="hidden" name="form-name" value="contact" />
 		
 			<p>Name</p>
-			<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
+			<input type="text" name="name" bind:value={formName} required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
 		
 			<p>Company Name</p>
-			<input type="text" name="company" placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
+			<input type="text" name="company" bind:value={formCompany} placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
 		 
 			<p>Phone</p>
-			<input type="phone" name="phone" required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
+			<input type="phone" name="phone"bind:value={formPhone} required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
 	 
 			<p>Email</p>
-			<input type="email" name="email" required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
+			<input type="email" name="email" bind:value={formEmail} required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
 		   
 			<p class="hidden">
 				<label>
@@ -212,8 +224,8 @@ bind:this={shape}
 			  </p>
 			  
 			<p>Message</p>
-			<textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
+			<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
   
-			<input type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
+			<input bind:this={submitButton} type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
 	 
    </form>
