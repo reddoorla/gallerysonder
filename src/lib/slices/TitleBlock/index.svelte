@@ -31,8 +31,31 @@
 	let formEmail:string;
 	let formMessage:string;
 
-	const submit = () => {form.submit();console.log('submitted')};
-	const triggerSubmitButton = () => {form?.querySelector('button')?.click();}
+
+	const triggerSubmitButton = () => {
+    // Get the hidden form
+    const hiddenForm = document.getElementById('netlifyContactForm') as HTMLFormElement;
+    
+    if (hiddenForm) {
+      // Set values in the hidden form
+      const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
+      const hiddenCompany = hiddenForm.querySelector('[name="company"]') as HTMLInputElement;
+      const hiddenPhone = hiddenForm.querySelector('[name="phone"]') as HTMLInputElement;
+      const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
+      const hiddenMessage = hiddenForm.querySelector('[name="message"]') as HTMLTextAreaElement;
+      
+      // Use the bound values from the visible form
+      if (hiddenName) hiddenName.value = formName;
+      if (hiddenCompany) hiddenCompany.value = formCompany;
+      if (hiddenPhone) hiddenPhone.value = formPhone;
+      if (hiddenEmail) hiddenEmail.value = formEmail;
+      if (hiddenMessage) hiddenMessage.value = formMessage;
+      
+      // Submit the hidden form
+      hiddenForm.submit();
+      console.log('submitted');
+    }
+  };
 
 
 	let shape:HTMLElement;
@@ -198,33 +221,3 @@ bind:this={shape}
 		{/if}
 	</ContentWidth>
 </section>
-
-<form class="hidden"  name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" bind:this={form}>
-                
-                
-	<input type="hidden" name="form-name" value="contact" />
-		
-			<p>Name</p>
-			<input type="text" name="name" bind:value={formName} required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
-		
-			<p>Company Name</p>
-			<input type="text" name="company" bind:value={formCompany} placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
-		 
-			<p>Phone</p>
-			<input type="phone" name="phone"bind:value={formPhone} required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
-	 
-			<p>Email</p>
-			<input type="email" name="email" bind:value={formEmail} required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
-		   
-			<p class="hidden">
-				<label>
-				  Don’t fill this out if you’re human: <input name="bot-field" />
-				</label>
-			  </p>
-			  
-			<p>Message</p>
-			<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
-  
-			<button id="hiddenSubmitButton" on:click={submit} value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
-	 
-   </form>
