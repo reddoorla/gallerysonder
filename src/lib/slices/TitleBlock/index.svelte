@@ -24,14 +24,16 @@
 	let showContactForm = false;
 
 	let form:HTMLFormElement;
-	let submitButton:HTMLInputElement;
+
 	let formName:string;
 	let formCompany:string;
 	let formPhone:string;
 	let formEmail:string;
 	let formMessage:string;
 
-	const submit = () => {submitButton.click(); form.submit();console.log('submitted')};
+	const submit = () => {form.submit();console.log('submitted')};
+	const triggerSubmitButton = () => {form?.querySelector('button')?.click();}
+
 
 	let shape:HTMLElement;
 	let shapeHeight:number;
@@ -159,7 +161,7 @@ bind:this={shape}
 			{/if}
 			</div>
 			{#if showContactForm}
-			<form transition:slide class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"  name="contact" >
+			<div transition:slide class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"   >
                 
 						
 					<p>Name</p>
@@ -184,9 +186,9 @@ bind:this={shape}
 					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
 	  
 				
-                        <button type="submit" on:click={()=>submit()} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
+                        <button type="submit" on:click={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
                  
-               </form>
+               </div>
 			   {/if}
 			<div class="flex flex-row gap-6">
 				{#if isFilled.link(slice.primary.instagram)}
@@ -197,7 +199,7 @@ bind:this={shape}
 	</ContentWidth>
 </section>
 
-<form class="h-0 w-0 overflow-hidden"  name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" bind:this={form}>
+<form class="hidden"  name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" bind:this={form}>
                 
                 
 	<input type="hidden" name="form-name" value="contact" />
@@ -223,6 +225,6 @@ bind:this={shape}
 			<p>Message</p>
 			<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
   
-			<input bind:this={submitButton} type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
+			<button id="hiddenSubmitButton" on:click={submit} value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"/>
 	 
    </form>
