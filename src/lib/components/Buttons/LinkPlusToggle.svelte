@@ -1,12 +1,16 @@
 <script lang="ts">
 	import linkArrow from '$lib/assets/icons/sonderArrowRight.svg';
+	import { onMount } from 'svelte';
 	export let text = '';
 	export let href = '';
 	export let click = () => {};
 	export let togglable = true;
+	export let startsActive = false;
 
 	let isLinkArrowActive = false;
 	let isRotated = false;
+
+	onMount(()=>isRotated = startsActive)
 </script>
 
 {#if href}
@@ -27,7 +31,7 @@
 		<i
 			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated && togglable
 				? 'rotate-45 scale-125'
-				: ''} {isLinkArrowActive ? 'translate-x-2' : ''}"
+				: ''} {isLinkArrowActive ? '-translate-y-[1px]' : ''}"
 		>
 		</i>
 	</a>
@@ -47,7 +51,7 @@
 		<i
 			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated && togglable
 				? 'rotate-45 scale-125'
-				: ''} {isLinkArrowActive ? 'translate-x-2' : ''}"
+				: ''} {isLinkArrowActive ? '-translate-y-[1px]' : ''}"
 		>
 		</i></button
 	>

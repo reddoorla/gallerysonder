@@ -1,0 +1,96 @@
+{
+	"format": "custom",
+	"id": "artwork",
+	"label": "artwork",
+	"repeatable": true,
+	"status": true,
+	"json": {
+		"Main": {
+			"uid": {
+				"config": {
+					"label": "UID"
+				},
+				"type": "UID"
+			},
+			"title": {
+				"type": "Text",
+				"config": {
+					"label": "title",
+					"placeholder": ""
+				}
+			},
+			"artist": {
+				"type": "Link",
+				"config": {
+					"label": "artist",
+					"select": "document",
+					"customtypes": ["artist"]
+				}
+			},
+			"year": {
+				"type": "Text",
+				"config": {
+					"label": "year",
+					"placeholder": ""
+				}
+			},
+			"medium": {
+				"type": "Text",
+				"config": {
+					"label": "medium",
+					"placeholder": ""
+				}
+			},
+			"dimensions": {
+				"type": "Text",
+				"config": {
+					"label": "dimensions",
+					"placeholder": ""
+				}
+			},
+			"body": {
+				"type": "StructuredText",
+				"config": {
+					"label": "body",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"multi": "paragraph"
+				}
+			},
+			"primary_image": {
+				"type": "Image",
+				"config": {
+					"label": "primary image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"secondary_images": {
+				"type": "Group",
+				"config": {
+					"label": "secondary images",
+					"repeat": true,
+					"fields": {
+						"image": {
+							"type": "Image",
+							"config": {
+								"label": "image",
+								"constraint": {},
+								"thumbnails": []
+							}
+						}
+					}
+				}
+			},
+			"orientation": {
+				"type": "Select",
+				"config": {
+					"label": "orientation",
+					"placeholder": "fit will only display primary image (no slides)",
+					"options": ["landscape", "portrait", "fit"],
+					"default_value": "landscape"
+				}
+			}
+		}
+	}
+}

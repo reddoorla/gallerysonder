@@ -2,7 +2,7 @@
 	import onShowOne from '$lib/assets/images/homeImages/onShow/sonderOnShow1.jpg';
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { isModalActive } from '$lib/stores/isModalActive';
-	import { isLightboxActive, lightboxImageUrl } from '$lib/stores/lightbox';
+	import { activeArtworkUid, isLightboxActive, lightboxImageUrl } from '$lib/stores/lightbox';
 
 	export let src = onShowOne;
 	export let href = '';
@@ -12,6 +12,7 @@
 	export let subtitleTwo =''
 	export let isHover = false;
 	export let willOpen = false;
+	export let artworkUID = '';
 
 
 	let innerWidth: number;
@@ -34,10 +35,12 @@
 
 
 const openModal = () => {
+	lightboxImageUrl.set(src);
+	activeArtworkUid.set(artworkUID);
 
 	isModalActive.set(true);
-	isLightboxActive.set(true);
-	lightboxImageUrl.set(src);
+		isLightboxActive.set(true);
+	
 	if (document.getElementsByTagName('body'))
 		(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
 };

@@ -69,6 +69,14 @@
 					"placeholder": ""
 				}
 			},
+			"nav_image": {
+				"type": "Image",
+				"config": {
+					"label": "nav image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
 			"sections": {
 				"type": "Group",
 				"config": {

@@ -19,6 +19,20 @@
 					"placeholder": ""
 				}
 			},
+			"artist": {
+				"type": "Text",
+				"config": {
+					"label": "artist name",
+					"placeholder": ""
+				}
+			},
+			"title": {
+				"type": "Text",
+				"config": {
+					"label": "title",
+					"placeholder": ""
+				}
+			},
 			"title_line_one": {
 				"type": "Text",
 				"config": {
@@ -40,10 +54,25 @@
 					"placeholder": ""
 				}
 			},
+			"short_description": {
+				"type": "Text",
+				"config": {
+					"label": "short description",
+					"placeholder": ""
+				}
+			},
 			"background_image": {
 				"type": "Image",
 				"config": {
 					"label": "background image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"primary_image": {
+				"type": "Image",
+				"config": {
+					"label": "primary image",
 					"constraint": {},
 					"thumbnails": []
 				}

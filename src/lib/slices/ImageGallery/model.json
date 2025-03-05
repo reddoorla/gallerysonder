@@ -113,11 +113,31 @@
         }
       },
       "items": {
-        "piece_eyebrow": {
+        "artwork": {
+          "type": "Link",
+          "config": {
+            "label": "artwork",
+            "select": "document",
+            "customtypes": [
+              "artwork"
+            ]
+          }
+        },
+        "exhibition": {
+          "type": "Link",
+          "config": {
+            "label": "exhibition",
+            "select": "document",
+            "customtypes": [
+              "exhibit"
+            ]
+          }
+        },
+        "eyebrow": {
           "type": "Text",
           "config": {
             "label": "piece eyebrow",
-            "placeholder": ""
+            "placeholder": "manual"
           }
         },
         "artist_name": {
@@ -135,17 +155,17 @@
             "thumbnails": []
           }
         },
-        "piece_title": {
+        "title": {
           "type": "Text",
           "config": {
-            "label": "piece_title",
+            "label": "title",
             "placeholder": ""
           }
         },
-        "piece_subtitle": {
+        "subtitle": {
           "type": "Text",
           "config": {
-            "label": "piece_subtitle",
+            "label": "subtitle",
             "placeholder": ""
           }
         },

@@ -60,6 +60,16 @@
         }
       },
       "items": {
+        "artist": {
+          "type": "Link",
+          "config": {
+            "label": "artist",
+            "select": "document",
+            "customtypes": [
+              "artist"
+            ]
+          }
+        },
         "artist_page": {
           "type": "Link",
           "config": {

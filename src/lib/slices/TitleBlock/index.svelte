@@ -21,9 +21,7 @@
 	export let slice: TitleBlockSlice;
 
 	let showFullBody = false;
-	let showContactForm = false;
-
-	let form:HTMLFormElement;
+	let showContactForm = $page.url.searchParams.has('inquire');
 
 	let formName:string;
 	let formCompany:string;
@@ -33,25 +31,24 @@
 
 
 	const triggerSubmitButton = () => {
-    // Get the hidden form
+   
     const hiddenForm = document.getElementById('netlifyContactForm') as HTMLFormElement;
     
     if (hiddenForm) {
-      // Set values in the hidden form
+      
       const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
       const hiddenCompany = hiddenForm.querySelector('[name="company"]') as HTMLInputElement;
       const hiddenPhone = hiddenForm.querySelector('[name="phone"]') as HTMLInputElement;
       const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
       const hiddenMessage = hiddenForm.querySelector('[name="message"]') as HTMLTextAreaElement;
       
-      // Use the bound values from the visible form
+  
       if (hiddenName) hiddenName.value = formName;
       if (hiddenCompany) hiddenCompany.value = formCompany;
       if (hiddenPhone) hiddenPhone.value = formPhone;
       if (hiddenEmail) hiddenEmail.value = formEmail;
       if (hiddenMessage) hiddenMessage.value = formMessage;
-      
-      // Submit the hidden form
+
       hiddenForm.submit();
       console.log('submitted');
     }
@@ -177,7 +174,7 @@ bind:this={shape}
 			{/if}
 			<div class="flex flex-row gap-6 mb-8">
 			{#if slice.primary.button_text}
-				<LinkPlusToggle text={slice.primary.button_text||'Inquire'} click={()=>{showContactForm=!showContactForm}} />
+				<LinkPlusToggle startsActive={showContactForm} text={slice.primary.button_text||'Inquire'} click={()=>{showContactForm=!showContactForm}} />
 			{/if}
 			{#if slice.primary.button_text}
 				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} click={()=>{$hasNewsletterBeenCleared=false;$isNewsletterActive=true;}} />

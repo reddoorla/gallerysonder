@@ -111,7 +111,7 @@
 						}
 					],
 					[
-						"piece_title",
+						"title",
 						{
 							"__TYPE__": "FieldContent",
 							"value": "control",
@@ -119,7 +119,7 @@
 						}
 					],
 					[
-						"piece_subtitle",
+						"subtitle",
 						{
 							"__TYPE__": "FieldContent",
 							"value": "discuss",
@@ -127,10 +127,10 @@
 						}
 					],
 					[
-						"piece_eyebrow",
+						"eyebrow",
 						{
 							"__TYPE__": "FieldContent",
-							"value": "helpful",
+							"value": "poet",
 							"type": "Text"
 						}
 					],
@@ -148,6 +148,26 @@
 							"__TYPE__": "FieldContent",
 							"value": "war",
 							"type": "Text"
+						}
+					],
+					[
+						"artwork",
+						{
+							"__TYPE__": "LinkContent",
+							"value": {
+								"__TYPE__": "DocumentLink",
+								"id": "mock_document_id"
+							}
+						}
+					],
+					[
+						"exhibition",
+						{
+							"__TYPE__": "LinkContent",
+							"value": {
+								"__TYPE__": "DocumentLink",
+								"id": "mock_document_id"
+							}
 						}
 					]
 				]

@@ -121,6 +121,17 @@ interface ArtistDocumentData {
 	artist_color: prismic.ColorField;
 
 	/**
+	 * nav image field in *artist*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.nav_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	nav_image: prismic.ImageField<never>;
+
+	/**
 	 * sections field in *artist*
 	 *
 	 * - **Field Type**: Group
@@ -190,6 +201,141 @@ export type ArtistDocument<Lang extends string = string> = prismic.PrismicDocume
 >;
 
 /**
+ * Item in *artwork → secondary images*
+ */
+export interface ArtworkDocumentDataSecondaryImagesItem {
+	/**
+	 * image field in *artwork → secondary images*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.secondary_images[].image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * Content for artwork documents
+ */
+interface ArtworkDocumentData {
+	/**
+	 * title field in *artwork*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * artist field in *artwork*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.artist
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	artist: prismic.ContentRelationshipField<'artist'>;
+
+	/**
+	 * year field in *artwork*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.year
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	year: prismic.KeyTextField;
+
+	/**
+	 * medium field in *artwork*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.medium
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	medium: prismic.KeyTextField;
+
+	/**
+	 * dimensions field in *artwork*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.dimensions
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	dimensions: prismic.KeyTextField;
+
+	/**
+	 * body field in *artwork*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.body
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	body: prismic.RichTextField;
+
+	/**
+	 * primary image field in *artwork*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.primary_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	primary_image: prismic.ImageField<never>;
+
+	/**
+	 * secondary images field in *artwork*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artwork.secondary_images[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	secondary_images: prismic.GroupField<Simplify<ArtworkDocumentDataSecondaryImagesItem>>;
+
+	/**
+	 * orientation field in *artwork*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: fit will only display primary image (no slides)
+	 * - **Default Value**: landscape
+	 * - **API ID Path**: artwork.orientation
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	orientation: prismic.SelectField<'landscape' | 'portrait' | 'fit', 'filled'>;
+}
+
+/**
+ * artwork document from Prismic
+ *
+ * - **API ID**: `artwork`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ArtworkDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<ArtworkDocumentData>,
+	'artwork',
+	Lang
+>;
+
+/**
  * Item in *exhibit → sections*
  */
 export interface ExhibitDocumentDataSectionsItem {
@@ -229,6 +375,28 @@ interface ExhibitDocumentData {
 	dates: prismic.KeyTextField;
 
 	/**
+	 * artist name field in *exhibit*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.artist
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	artist: prismic.KeyTextField;
+
+	/**
+	 * title field in *exhibit*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
 	 * title_line_one field in *exhibit*
 	 *
 	 * - **Field Type**: Text
@@ -262,6 +430,17 @@ interface ExhibitDocumentData {
 	title_line_three: prismic.KeyTextField;
 
 	/**
+	 * short description field in *exhibit*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.short_description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	short_description: prismic.KeyTextField;
+
+	/**
 	 * background image field in *exhibit*
 	 *
 	 * - **Field Type**: Image
@@ -271,6 +450,17 @@ interface ExhibitDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
 	background_image: prismic.ImageField<never>;
+
+	/**
+	 * primary image field in *exhibit*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: exhibit.primary_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	primary_image: prismic.ImageField<never>;
 
 	/**
 	 * exhibit color field in *exhibit*
@@ -659,6 +849,7 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 
 export type AllDocumentTypes =
 	| ArtistDocument
+	| ArtworkDocument
 	| ExhibitDocument
 	| IntroImagesDocument
 	| NavDocument
@@ -789,14 +980,34 @@ export interface ImageGallerySliceDefaultPrimary {
  */
 export interface ImageGallerySliceDefaultItem {
 	/**
+	 * artwork field in *ImageGallery → Items*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.items[].artwork
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	artwork: prismic.ContentRelationshipField<'artwork'>;
+
+	/**
+	 * exhibition field in *ImageGallery → Items*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.items[].exhibition
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	exhibition: prismic.ContentRelationshipField<'exhibit'>;
+
+	/**
 	 * piece eyebrow field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].piece_eyebrow
+	 * - **Placeholder**: manual
+	 * - **API ID Path**: image_gallery.items[].eyebrow
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	piece_eyebrow: prismic.KeyTextField;
+	eyebrow: prismic.KeyTextField;
 
 	/**
 	 * artist name field in *ImageGallery → Items*
@@ -819,24 +1030,24 @@ export interface ImageGallerySliceDefaultItem {
 	image: prismic.ImageField<never>;
 
 	/**
-	 * piece_title field in *ImageGallery → Items*
+	 * title field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].piece_title
+	 * - **API ID Path**: image_gallery.items[].title
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	piece_title: prismic.KeyTextField;
+	title: prismic.KeyTextField;
 
 	/**
-	 * piece_subtitle field in *ImageGallery → Items*
+	 * subtitle field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].piece_subtitle
+	 * - **API ID Path**: image_gallery.items[].subtitle
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	piece_subtitle: prismic.KeyTextField;
+	subtitle: prismic.KeyTextField;
 
 	/**
 	 * subtitle Two field in *ImageGallery → Items*
@@ -956,6 +1167,16 @@ export interface NameListSliceDefaultPrimary {
  * Primary content in *NameList → Items*
  */
 export interface NameListSliceDefaultItem {
+	/**
+	 * artist field in *NameList → Items*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: name_list.items[].artist
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	artist: prismic.ContentRelationshipField<'artist'>;
+
 	/**
 	 * artist page field in *NameList → Items*
 	 *
@@ -1873,6 +2094,9 @@ declare module '@prismicio/client' {
 			ArtistDocumentData,
 			ArtistDocumentDataSectionsItem,
 			ArtistDocumentDataSlicesSlice,
+			ArtworkDocument,
+			ArtworkDocumentData,
+			ArtworkDocumentDataSecondaryImagesItem,
 			ExhibitDocument,
 			ExhibitDocumentData,
 			ExhibitDocumentDataSectionsItem,

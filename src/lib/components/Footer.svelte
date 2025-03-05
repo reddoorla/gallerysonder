@@ -47,7 +47,7 @@
 			<a href="/" class="h-6 ml-2">
 				<img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert" />
 			</a>
-			<span class="text-white mb-5 text-xs md:text-md">©{new Date().getFullYear()} | All Rights Reserved</span>
+			<span class="text-white text-xs md:text-md">©{new Date().getFullYear()} | All Rights Reserved</span>
 		</div>
 	</ContentWidth>
 </div>

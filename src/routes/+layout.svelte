@@ -192,7 +192,9 @@
 
 	{#if $isIntroFinished}
 		{#if $isLightboxActive}
+		
 			<Lightbox />
+		
 		{/if}
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 		<slot />
