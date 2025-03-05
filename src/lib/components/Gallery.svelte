@@ -8,6 +8,7 @@
 	import { asLink, createClient, isFilled } from '@prismicio/client';
 	import { onMount } from 'svelte';
 	import type { LinkField, ImageField, KeyTextField } from '@prismicio/client';
+	import { onNavigate } from '$app/navigation';
 
 	export let slice: ImageGallerySlice;
 
@@ -41,6 +42,7 @@
 
 	async function fetchGalleryItems(items: ImageGallerySliceDefaultItem[]) {
 		const client = createClient('gallerysonder');
+		galleryItems = [];
 	
 		for (const item of items) {
 			let itemData = {
@@ -113,16 +115,16 @@
 		isLoading = false;
 	}
 
-	onMount(() => {
-		fetchGalleryItems(slice.items);
-	})
+	onMount( () => fetchGalleryItems(slice.items) )
+
+	onNavigate( () => {fetchGalleryItems(slice.items)} )
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
 
 {#if isLoading}
-	<div class="w-full flex justify-center items-center py-8">
-		<span>Loading gallery...</span>
+	<div class="w-full flex justify-center items-center py-32">
+		<i class="fa-solid fa-spinner-third fa-spin fa-2xl"></i>
 	</div>
 {:else if isList && viewportWidth > 768}
 	<div class="w-full flex flex-col gap-16 mb-8">
@@ -166,7 +168,7 @@
 		{/each}
 	</div>
 {:else if isList}
-	<div class="w-full flex flex-row flex-wrap items-center justify-between {$$props.class || ''}">
+	<div class="w-full flex flex-row flex-wrap items-center justify-center {$$props.class || ''}">
 		{#each galleryItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
@@ -211,7 +213,7 @@
 		{/each}
 	</div>
 {:else}
-	<div class="w-full flex flex-row flex-wrap items-center justify-between gap-y-10 {$$props.class || ''}">
+	<div class="w-full flex flex-row flex-wrap items-center justify-center gap-y-10 {$$props.class || ''}">
 		{#each galleryItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div

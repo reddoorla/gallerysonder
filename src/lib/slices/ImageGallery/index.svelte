@@ -12,6 +12,7 @@
 	import { onMount } from 'svelte';
 	import { onNavigate } from '$app/navigation';
 	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
+	import { page } from '$app/stores';
 
 	let viewportWidth: number;
 
@@ -61,8 +62,9 @@ onNavigate(()=>{
 		{#if slice.primary.gallery_eyebrow}
 			<h5 class="mb-12 mt-24 uppercase"><b>{slice.primary.gallery_eyebrow || ''}</b></h5>
 		{/if}
+		{#key slice}
 		<Gallery {slice} isList={slice.primary.islist} isRegular={!slice.primary.is_staggered} {isTruncated} />
-
+		{/key}
 		<div class="font-normal mt-12 sm:w-2/3">
 			<PrismicRichText field={slice.primary.gallery_closing_text} />
 		</div>

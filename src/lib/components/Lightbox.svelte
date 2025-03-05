@@ -62,11 +62,11 @@
 				</div>
 				
 			</div>
-			<div class="w-full lg:w-1/2 lg:h-4/5 lg:p-16 flex flex-col items-start justify-center gap-6">
+			<div class="w-full lg:w-1/2 lg:h-4/5 lg:p-16 lg:pr-0 flex flex-col items-start justify-center gap-6">
 				<h5 class="uppercase"><b>{$activeArtwork.data.title}</b></h5>
 				<div class="flex flex-col gap-1">
 					{#if $activeArtist}
-						<a on:click={closeModal} class="cursor-pointer hover:opacity-80 transition no-underline" href="/artists/{$activeArtist.uid}"><h6 style="color: {$activeArtist.data.artist_color||"black"};"><b>{$activeArtist.data.full_name}</b></h6></a>
+						<a on:click={closeModal} class="cursor-pointer hover:opacity-80 transition no-underline" href="/artists/{$activeArtist.uid}"><h6 class="brightness-50" style="color: {$activeArtist.data.artist_color||"black"};"><b>{$activeArtist.data.full_name}</b></h6></a>
 					{/if}
 					{#if $activeArtwork.data.year}
 						<h6><b>{$activeArtwork.data.year}</b></h6>
