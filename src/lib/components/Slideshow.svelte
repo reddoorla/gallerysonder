@@ -26,13 +26,13 @@
 		}
 	  }
 	  
-	  // Create the tripled array AFTER populating imageArray
+
 	  tripledImages = [...imageArray, ...imageArray, ...imageArray];
 	  console.log('Image Array:', imageArray);
 	  console.log('Tripled Images:', tripledImages);
 	};
   
-	// Call setImageArray when activeArtwork changes
+
 	$: if ($activeArtwork) {
 	  setImageArray();
 	}
