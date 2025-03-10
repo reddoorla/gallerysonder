@@ -17,10 +17,10 @@ section{
 
 h1 {
 	font-family: 'commuters-sans';
-	font-size: 160px;
+	font-size: 120px;
 	font-style: normal;
 	font-weight: 700;
-	line-height: 1em; /* 100% */
+	line-height: 1.3em; /* 100% */
 	text-transform: uppercase;
 }
 
