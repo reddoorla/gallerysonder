@@ -138,7 +138,7 @@ bind:this={shape}
 								click={() => (showFullBody = !showFullBody)}
 								text={showFullBody ? 'Show Less' : 'Read More'}
 							/>
-							<div class="h-12" />
+							
 						{:else}
 							<div class="rich-text mb-6 md:pr-16">
 								<PrismicRichText field={slice.primary.body} />
