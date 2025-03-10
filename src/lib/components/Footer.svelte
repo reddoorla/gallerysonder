@@ -23,7 +23,7 @@
 	<ContentWidth class="h-full flex flex-col justify-between md:pt-32">
 		<div class="sm:pl-20 -mt-[20vw] relative">
 			<h2 class="text-white font-normal mt-32 md:mt-16 sm:w-2/3">
-				Weaving Together the Stories that Shape Us
+				Weaving Together the Stories that Define Us
 			</h2>
 			<LinkArrowButton
 				text="Subscribe to our newsletter"
