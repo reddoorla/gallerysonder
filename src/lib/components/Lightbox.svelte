@@ -8,10 +8,14 @@
 	import { PrismicImage, PrismicRichText } from "@prismicio/svelte";
 	import { isFilled } from "@prismicio/client";
 	import LinkArrowButton from "./Buttons/LinkArrowButton.svelte";
+	import Slideshow from "./Slideshow.svelte";
 
 
 	let viewportWidth:number;
 
+	 
+
+	
 
 
 
@@ -58,7 +62,11 @@
 			</div>
 			<div class="w-full lg:w-1/2 h-2/5 lg:h-4/5 flex items-start lg:items-center justify-start lg:justify-center ">
 				<div class="relative {$activeArtwork.data.orientation==='landscape'?'aspect-[4/3] w-full':$activeArtwork.data.orientation==='portrait'?'aspect-[3/4] h-full':'w-full max-w-full h-full max-h-full'}">
-					<PrismicImage class="{$activeArtwork.data.orientation==='fit'?"object-contain":"object-cover"} w-full h-full" field={$activeArtwork.data.primary_image} />
+					{#if $activeArtwork.data.secondary_images[0]&&isFilled.image($activeArtwork.data.secondary_images[0].image) && $activeArtwork.data.orientation!=='fit'}
+						<Slideshow />
+					{:else}
+						<PrismicImage class="{$activeArtwork.data.orientation==='fit'?"object-contain":"object-cover"} w-full h-full" field={$activeArtwork.data.primary_image} />
+					{/if}
 				</div>
 				
 			</div>
