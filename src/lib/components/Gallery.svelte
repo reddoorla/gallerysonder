@@ -168,7 +168,7 @@
 		{/each}
 	</div>
 {:else if isList}
-	<div class="w-full flex flex-row flex-wrap items-center justify-center {$$props.class || ''}">
+	<div class="w-full flex flex-row flex-wrap items-center justify-start {$$props.class || ''}">
 		{#each galleryItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
@@ -213,7 +213,7 @@
 		{/each}
 	</div>
 {:else}
-	<div class="w-full flex flex-row flex-wrap items-center justify-center gap-y-10 {$$props.class || ''}">
+	<div class="w-full flex flex-row flex-wrap items-center justify-start gap-y-10 {$$props.class || ''}">
 		{#each galleryItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
