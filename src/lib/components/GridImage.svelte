@@ -226,7 +226,7 @@ const openModal = () => {
 	}
 	p{
 		font-size: 11px;
-		line-height: 1em;
+		line-height: 13px;
 	}
 </style>
 
