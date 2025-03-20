@@ -43,7 +43,7 @@
 			</div>
 		</div>
 	
-		<div class="sm:pl-20 md:ml-2 flex flex-col md:flex-row justify-between items-end w-full md:mb-12 gap-4 md:gap-8">
+		<div class="sm:pl-20 md:ml-2 flex flex-col md:flex-row justify-between items-start md:items-end w-full md:mb-12 gap-4 md:gap-8">
 			<div class="gap-3 flex flex-col">
 				<a href="/" class="h-3">
 					<img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert" />
@@ -55,7 +55,7 @@
 					info@gallerysonder.com 
 				</div>
 				</div>
-				<div class="text-white text-xs md:text-md">©{new Date().getFullYear()} &nbsp;&nbsp;|&nbsp;&nbsp; All Rights Reserved</div>
+				<div class="text-white text-xs md:text-md mb-8 md:mb-0">©{new Date().getFullYear()} &nbsp;&nbsp;|&nbsp;&nbsp; All Rights Reserved</div>
 			
 			
 			
