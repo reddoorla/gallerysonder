@@ -19,7 +19,7 @@
 	</svg>
 </div>
 
-<div class="w-full h-[80vh] sm:h-[30vw] xl:h-[20vw]">
+<div class="w-full h-[90vh] sm:h-[40vw] xl:h-[20vw]">
 	<ContentWidth class="h-full flex flex-col justify-between md:pt-32">
 		<div class="sm:pl-20 -mt-[20vw] relative">
 			<h2 class="text-white font-normal mt-32 md:mt-16 sm:w-2/3">
@@ -43,19 +43,21 @@
 			</div>
 		</div>
 	
-		<div class="sm:pl-20 flex flex-col md:flex-row justify-between items-end w-full md:mb-12 gap-4 md:gap-8">
+		<div class="sm:pl-20 md:ml-2 flex flex-col md:flex-row justify-between items-end w-full md:mb-12 gap-4 md:gap-8">
 			<div class="gap-3 flex flex-col">
 				<a href="/" class="h-3">
 					<img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert" />
 				</a>
+				<div style="color:{$backgroundColor}">
+					3435 E Coast Highway, <br/>
+					Corona del Mar, CA 92625 <br/>
+					(949) 662-0077 <br/>
+					info@gallerysonder.com 
+				</div>
+				</div>
 				<div class="text-white text-xs md:text-md">©{new Date().getFullYear()} &nbsp;&nbsp;|&nbsp;&nbsp; All Rights Reserved</div>
-			</div>
-			<div class="text-right" style="color:{$backgroundColor}">
-				3435 E Coast Highway, <br/>
-				Corona del Mar, CA 92625 <br/>
-				(949) 662-0077 <br/>
-				info@gallerysonder.com 
-			</div>
+			
+			
 			
 		</div>
 	</ContentWidth>
