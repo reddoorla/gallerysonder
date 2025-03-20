@@ -13,6 +13,7 @@
 	import { isIntroFinished } from '$lib/stores/isIntroFinished.js';
 
 	import { fade } from 'svelte/transition';
+	import { isFilled } from '@prismicio/client';
 
 	export let data;
 
@@ -82,6 +83,7 @@
 <div
 	class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip min-h-full min-w-full aspect-video fixed -z-10"
 >
+{#if content.background_image.url}
 	<img
 		src={content.background_image.url}
 		alt={content.background_image.alt}
@@ -93,6 +95,7 @@
 			: 'opacity-20'}"
 		transition:fade
 	/>
+	{/if}
 </div>
 
 <div class="fixed w-screen h-screen-75 bottom-0">
@@ -117,6 +120,7 @@
 				? ''
 				: 'opacity-0'}"
 		>
+		
 			<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
 				{content.title_line_one || ''}
 			</h1>

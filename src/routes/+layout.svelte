@@ -64,8 +64,9 @@
 
 	const handleVideoReady = async () => {
 		
-			isVideoLoaded = true;
+			
 			await vimeoPlayer.play();
+			isVideoLoaded = true;
 			setTimeout(async () => {
 				await vimeoPlayer.pause();
 				isVideoDone = true;
@@ -141,12 +142,12 @@
 	class={isVideoDone ? '' : 'w-screen h-screen'}
 	style="overflow: {isVideoDone ? 'auto' : 'hidden'}"
 >
-	{#if !isVideoDone}
-		<div class="w-screen h-screen fixed top-0 left-0 bg-black" transition:fade>
+
+		<div class="w-screen h-screen fixed top-0 left-0 bg-black -z-10" transition:fade>
 			{#if !isVideoLoaded}
 			<div
 			class="w-screen h-screen absolute top-0 left-0 bg-black flex flex-col items-center text-center justify-center gap-10 z-20"
-			out:fade={{ delay: 200 }}
+			
 		>
 
 				<div class="loading-text">Loading Your</div>
@@ -160,9 +161,7 @@
 			{/if}
 
 			<div
-				class="w-screen h-screen absolute top-0 left-0 z-10 transition-opacity duration-700 delay-700 ease-out {isVideoDone
-					? 'opacity-0'
-					: ''}"
+				class="w-screen h-screen absolute top-0 left-0 -z-10 transition-opacity" transition:fade={{duration:200}}
 			>
 				<VimeoPlayer
 					bind:this={vimeoPlayer}
@@ -174,14 +173,14 @@
 				/>
 			</div>
 
-			<div class="bg-black {isVideoDone ? 'opacity-0' : ''} w-full h-full absolute left-0 top-0" />
+			<div class="bg-black {isVideoDone ? 'opacity-0' : ''} w-full h-full absolute left-0 -z-20 top-0" />
 			<div
 				class="bg-black {isVideoDone
 					? 'opacity-20'
-					: 'opacity-0'} w-full h-full z-10 absolute left-0 top-0 transition-opacity"
+					: 'opacity-0'} w-full h-full absolute left-0 top-0 transition-opacity duration-1000"
 			/>
 		</div>
-	{/if}
+
 
 	{#if isTransitioning}
 		<div
@@ -190,7 +189,8 @@
 		></div>
 	{/if}
 
-	{#if $isIntroFinished}
+	{#if $isIntroFinished && isVideoDone}
+	<div transition:fade>
 		{#if $isLightboxActive}
 		
 			<Lightbox />
@@ -198,6 +198,7 @@
 		{/if}
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 		<slot />
+	</div>
 	{/if}
 	
 </main>

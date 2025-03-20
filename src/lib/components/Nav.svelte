@@ -23,7 +23,7 @@
 <svelte:window bind:innerWidth={viewportWidth} />
 
 <div
-	class=" w-screen fixed h-16 top-0 z-30 pointer-events-none bg-black {!showNav &&
+	class=" w-screen fixed h-16 top-0 z-30 pointer-events-none  {!showNav &&
 	viewportWidth > 768
 		? 'mix-blend-difference'
 		: 'mix-blend-normal'} "
