@@ -14,6 +14,7 @@
 
 	import { fade } from 'svelte/transition';
 	import { isFilled } from '@prismicio/client';
+	import AnimateIn from '$lib/components/Animation/AnimateIn.svelte';
 
 	export let data;
 
@@ -120,16 +121,17 @@
 				? ''
 				: 'opacity-0'}"
 		>
-		
-			<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
-				{content.title_line_one || ''}
-			</h1>
-			<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
-				{content.title_line_two || ''}
-			</h1>
-			<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
-				{content.title_line_three || ''}
-			</h1>
+			<AnimateIn>
+				<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+					{content.title_line_one || ''}
+				</h1>
+				<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+					{content.title_line_two || ''}
+				</h1>
+				<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+					{content.title_line_three || ''}
+				</h1>
+			</AnimateIn>
 		</ScaleTextToContainer>
 	</ContentWidth>
 </div>

@@ -1,18 +1,18 @@
 <script lang="ts">
     import { onDestroy, onMount } from "svelte";
   
-      let isInView = $state(false);
-      let el:HTMLElement | undefined = $state();
-      let transitionDelay = $state(0);
+      let isInView = false;
+      let el:HTMLElement | undefined;
+      let transitionDelay = 0;
   
 
-  let {
-    style = "",
-    transitionDelayMax = 400,
-    transitionDuration = 2400,
-    class:passedClasses = "",
-    children
-  } = $props();
+
+     export let style = "";
+     export let transitionDelayMax = 400;
+     export let transitionDuration = 2400;
+   
+
+   
   
       const checkViewport = () => {
           if(window&&el){
@@ -48,7 +48,7 @@
   
      
   
-          <div bind:this={el} class="transition ease-fast-slow {passedClasses} {isInView ? "opacity-100 translate-y-0":"opacity-0 translate-y-[50%]"}" style="transition-delay:{transitionDelay}ms; transition-duration:{transitionDuration}ms; {style}">
-              {@render children?.()}
+          <div bind:this={el} class="transition ease-fast-slow {isInView ? "opacity-100 translate-y-0":"opacity-0 translate-y-[50%]"}" style="transition-delay:{transitionDelay}ms; transition-duration:{transitionDuration}ms; {style}">
+              <slot/>
           </div>
   
