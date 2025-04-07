@@ -15,6 +15,7 @@
 	import { fade } from 'svelte/transition';
 	import { isFilled } from '@prismicio/client';
 	import AnimateIn from '$lib/components/Animation/AnimateIn.svelte';
+	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
 
 	export let data;
 
@@ -59,6 +60,9 @@
 		});
 
 		window.addEventListener('scroll', checkPosition);
+		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
+
+
 
 		return () => {
 			unsubscribe();

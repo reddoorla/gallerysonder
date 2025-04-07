@@ -22,6 +22,8 @@
 	let viewportWidth: number;
 	let viewportHeight: number;
 
+	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
+
 	let isIntroComplete = false;
 
 	let showPresentedArtist = false;
@@ -58,6 +60,7 @@
 		});
 
 		window.addEventListener('scroll', checkPosition);
+		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
 
 		return () => {
 			unsubscribe();

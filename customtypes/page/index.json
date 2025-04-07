@@ -56,6 +56,13 @@
 					"thumbnails": []
 				}
 			},
+			"default_background_color": {
+				"type": "Color",
+				"config": {
+					"label": "default background color",
+					"placeholder": ""
+				}
+			},
 			"sections": {
 				"type": "Group",
 				"config": {

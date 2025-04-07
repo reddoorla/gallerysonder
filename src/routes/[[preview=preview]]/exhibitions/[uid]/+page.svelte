@@ -15,6 +15,8 @@
 
 	import { fade } from 'svelte/transition';
 
+	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
+
 	export let data;
 
 	let content = data.page.data;
@@ -58,6 +60,8 @@
 		});
 
 		window.addEventListener('scroll', checkPosition);
+
+		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
 
 		return () => {
 			unsubscribe();

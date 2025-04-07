@@ -77,10 +77,10 @@
 					"thumbnails": []
 				}
 			},
-			"exhibit_color": {
+			"default_background_color": {
 				"type": "Color",
 				"config": {
-					"label": "exhibit color",
+					"label": "default background color",
 					"placeholder": ""
 				}
 			},

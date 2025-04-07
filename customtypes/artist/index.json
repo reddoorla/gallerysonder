@@ -65,7 +65,14 @@
 			"artist_color": {
 				"type": "Color",
 				"config": {
-					"label": "artist color",
+					"label": "hover color",
+					"placeholder": ""
+				}
+			},
+			"default_background_color": {
+				"type": "Color",
+				"config": {
+					"label": "default background color",
 					"placeholder": ""
 				}
 			},

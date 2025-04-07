@@ -8,6 +8,7 @@
 	import { backgroundColor } from '$lib/stores/backgroundColor';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import { onMount } from 'svelte';
+	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault';
 	
 	export let slice: NameListSlice;
 	
@@ -104,7 +105,7 @@
 		   <NameRevealOnHover
 			 activeImage={item.activeImage}
 			 on:mouseover={() => backgroundColor.set(item.color)}
-			 on:mouseout={() => backgroundColor.set('#E4EEEA')}
+			 on:mouseout={() => backgroundColor.set($backgroundColorDefault)}
 			 href={isFilled.link(item.link) ? item.link.url : ''}
 			 class="h-4 sm:h-6 md:h-10 lg:h-12"
 		   />

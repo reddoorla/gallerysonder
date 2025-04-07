@@ -110,7 +110,7 @@ interface ArtistDocumentData {
 	title_line_three: prismic.KeyTextField;
 
 	/**
-	 * artist color field in *artist*
+	 * hover color field in *artist*
 	 *
 	 * - **Field Type**: Color
 	 * - **Placeholder**: *None*
@@ -119,6 +119,17 @@ interface ArtistDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#color
 	 */
 	artist_color: prismic.ColorField;
+
+	/**
+	 * default background color field in *artist*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.default_background_color
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#color
+	 */
+	default_background_color: prismic.ColorField;
 
 	/**
 	 * nav image field in *artist*
@@ -463,15 +474,15 @@ interface ExhibitDocumentData {
 	primary_image: prismic.ImageField<never>;
 
 	/**
-	 * exhibit color field in *exhibit*
+	 * default background color field in *exhibit*
 	 *
 	 * - **Field Type**: Color
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: exhibit.exhibit_color
+	 * - **API ID Path**: exhibit.default_background_color
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#color
 	 */
-	exhibit_color: prismic.ColorField;
+	default_background_color: prismic.ColorField;
 
 	/**
 	 * sections field in *exhibit*
@@ -777,6 +788,17 @@ interface PageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
 	background_image: prismic.ImageField<never>;
+
+	/**
+	 * default background color field in *page*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: page.default_background_color
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#color
+	 */
+	default_background_color: prismic.ColorField;
 
 	/**
 	 * sections field in *page*

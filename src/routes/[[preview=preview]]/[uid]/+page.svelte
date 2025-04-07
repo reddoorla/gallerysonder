@@ -12,6 +12,7 @@
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
 	import { isIntroFinished } from '$lib/stores/isIntroFinished.js';
+	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
 
 	import { fade } from 'svelte/transition';
 
@@ -58,6 +59,7 @@
 		});
 
 		window.addEventListener('scroll', checkPosition);
+		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
 
 		return () => {
 			unsubscribe();
