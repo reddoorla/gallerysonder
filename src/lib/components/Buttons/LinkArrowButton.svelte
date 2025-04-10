@@ -3,6 +3,7 @@
 	export let text = '';
 	export let href = '';
 	export let click = () => {};
+	export let opensNewTab = false;
 
 	let isLinkArrowActive = false;
 </script>
@@ -15,8 +16,10 @@
 			isLinkArrowActive = false;
 			click();
 		}}
+		
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {$$props.class ||
 			''}"
+		target="{opensNewTab?'_blank':"_self"}"
 		{href}
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>

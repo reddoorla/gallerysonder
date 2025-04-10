@@ -11,8 +11,7 @@
 	import { isFilled } from '@prismicio/helpers';
 	import { onMount } from 'svelte';
 	import { onNavigate } from '$app/navigation';
-	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
-	import { page } from '$app/stores';
+
 
 	let viewportWidth: number;
 

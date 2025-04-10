@@ -119,6 +119,7 @@
 			 ? slice.primary.button_bottom_link.url
 			 : ''}
 		   class="mt-16"
+		   opensNewTab={slice.primary.button_bottom_link.link_type==='Media'}
 		 />
 	   {/if}
 	 </ContentWidth>
