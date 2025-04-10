@@ -68,7 +68,7 @@ onNavigate(()=>{
 			<PrismicRichText field={slice.primary.gallery_closing_text} />
 		</div>
 		{#if slice.primary.button_bottom_text&& isFilled.link(slice.primary.button_bottom_link)}
-			<LinkArrowButton text={slice.primary.button_bottom_text} href={slice.primary.button_bottom_link.url} class="mt-8" />
+			<LinkArrowButton text={slice.primary.button_bottom_text} href={slice.primary.button_bottom_link.url} class="mt-8" opensNewTab={slice.primary.button_bottom_link.link_type==='Media'} />
 		{/if}
 
 	</ContentWidth>

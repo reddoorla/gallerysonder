@@ -150,6 +150,7 @@ bind:this={shape}
 							text={slice.primary.button_text || ''}
 							href={slice.primary.button_link.url}
 							class="mt-6"
+							opensNewTab={slice.primary.button_link.link_type==='Media'}
 						/>
 					{/if}
 				</div>

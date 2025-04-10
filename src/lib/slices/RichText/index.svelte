@@ -21,7 +21,7 @@
 		/>
  
 		{#if slice.primary.button_text&& isFilled.link(slice.primary.button_link)}
-			<LinkArrowButton text={slice.primary.button_text || 'explore'} href={slice.primary.button_link.url} class="mt-8" />
+			<LinkArrowButton text={slice.primary.button_text || 'explore'} href={slice.primary.button_link.url} opensNewTab={slice.primary.button_link.link_type==='Media'} class="mt-8" />
 		{/if}
 		</div>
 	</ContentWidth>
