@@ -225,11 +225,11 @@
 					<GridImage
 						class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 						src={item.image.url || ''}
-						text={item.title || ''}
+						text={item.artistName || ''}
 						subtitle={
-							item.artistName && item.subtitleOne 
-							? item.artistName + ' / ' + item.subtitleOne
-							: item.artistName || item.subtitleOne || ''}
+							item.title && item.subtitleOne 
+							? item.title + ' / ' + item.subtitleOne
+							: item.title || item.subtitleOne || ''}
 						alt={item.title || ''}
 						subtitleTwo={item.subtitleTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
