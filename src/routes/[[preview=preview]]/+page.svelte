@@ -86,21 +86,22 @@
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
 <div
-	class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip min-h-full min-w-full aspect-video fixed -z-10"
+	class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip min-h-full min-w-full aspect-video fixed"
 >
 {#if content.background_image.url}
 	<img
 		src={content.background_image.url}
 		alt={content.background_image.alt}
-		class="absolute bottom-0 left-0 h-full w-full object-cover -z-10"
+		class="absolute bottom-0 left-0 h-full w-full object-cover"
 	/>
-	<div
-		class="absolute w-screen h-screen left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 backdrop-blur md:backdrop-blur-none bg-black {isBackgroundDark
-			? 'opacity-55'
-			: 'opacity-20'}"
-		transition:fade
-	/>
+
 	{/if}
+	<div
+	class="absolute w-screen h-screen left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 backdrop-blur md:backdrop-blur-none bg-black {isBackgroundDark
+		? 'opacity-55'
+		: 'opacity-20'}"
+	transition:fade
+/>
 </div>
 
 <div class="fixed w-screen h-screen-75 bottom-0">

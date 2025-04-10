@@ -106,10 +106,10 @@
 		class="w-36 h-12 flex flex-row justify-between items-center absolute bottom-12 left-12"
 	  >
 		<button class="bump" on:click={slideRight}>
-		  <i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl" />
+		  <i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl shadow-sm" />
 		</button>
 		<button class="bump" on:click={slideLeft}>
-		  <i class="fa-sharp fa-regular fa-arrow-right text-white fa-2xl" />
+		  <i class="fa-sharp fa-regular fa-arrow-right text-white fa-2xl shadow-sm" />
 		</button>
 	  </div>
 	{:else}

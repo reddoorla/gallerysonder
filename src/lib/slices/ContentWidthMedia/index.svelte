@@ -155,10 +155,10 @@
 					class="flex flex-row justify-between items-center absolute bottom-6 left-6 gap-12"
 				>
 					<button class="bump" on:click={slideRight}
-						><i class="fa-sharp fa-regular fa-arrow-left fa-2xl text-white" /></button
+						><i class="fa-sharp fa-regular fa-arrow-left fa-2xl text-white drop-shadow-lg" /></button
 					>
 					<button class="bump" on:click={slideLeft}
-						><i class="fa-sharp fa-regular fa-arrow-right fa-2xl text-white" /></button
+						><i class="fa-sharp fa-regular fa-arrow-right fa-2xl text-white drop-shadow-lg" /></button
 					>
 				</div>
 				<div class= "flex flex-row justify-between items-end absolute bottom-6 right-6">
