@@ -38,8 +38,8 @@ const openModal = () => {
 	lightboxImageUrl.set(src);
 	activeArtworkUid.set(artworkUID);
 
-	isModalActive.set(true);
-		isLightboxActive.set(true);
+	//isModalActive.set(true);
+	isLightboxActive.set(true);
 	
 	if (document.getElementsByTagName('body'))
 		(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
