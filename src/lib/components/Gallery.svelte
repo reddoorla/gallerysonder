@@ -77,7 +77,7 @@
 					if(!itemData.subtitleTwo) {
 						itemData.subtitleTwo = fetchedContent.dimensions
 					} else if(fetchedContent.dimensions) {
-						itemData.subtitleTwo = itemData.subtitleTwo + ', ' + fetchedContent.dimensions
+						itemData.subtitleTwo = itemData.subtitleTwo + '<br/>' + fetchedContent.dimensions
 					}
 				}
 			} else if(isFilled.contentRelationship(item.exhibition) && item.exhibition.uid){
@@ -149,7 +149,7 @@
 						<h6>{item.artistName}</h6>
 					{/if}
 					{#if item.title}
-						<h3>{item.title}</h3>
+						<h3 class="italic">{item.title}</h3>
 					{/if}
 					{#if item.subtitleOne}
 						<p>{item.subtitleOne}</p>
@@ -193,7 +193,7 @@
 						<span class="mt-2 uppercase">{item.artistName}</span>
 					{/if}
 					{#if item.title}
-						<h5 class="mt-2 uppercase"><b>{item.title}</b></h5>
+						<h5 class="mt-2 uppercase italic">{item.title}</h5>
 					{/if}
 					{#if item.subtitleOne}
 						<p class="mt-2">{item.subtitleOne}</p>
@@ -228,8 +228,10 @@
 						text={item.artistName || ''}
 						subtitle={
 							item.title && item.subtitleOne 
-							? item.title + ' / ' + item.subtitleOne
-							: item.title || item.subtitleOne || ''}
+							? `<i>${item.title}</i>, ${item.subtitleOne}`
+							: item.title 
+							  ? `<i>${item.title}</i>` 
+							  : item.subtitleOne || ''}
 						alt={item.title || ''}
 						subtitleTwo={item.subtitleTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}

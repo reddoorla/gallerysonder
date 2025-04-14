@@ -98,16 +98,16 @@ const openModal = () => {
 		{/if}
 		{#if subtitle}
 		<p
-			class="mt-1  transition-opacity use-gpu duration-500 {insetPercent < 8
+			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
+				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
 		>
 		{/if}
 		{#if subtitleTwo}
 		<p
-			class="mt-1  transition-opacity use-gpu duration-500 {insetPercent < 8
+			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
+				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
 		>
 		{/if}
 	
@@ -122,16 +122,16 @@ const openModal = () => {
 		{/if}
 		{#if subtitle}
 		<p
-			class="mt-1  transition-opacity use-gpu duration-500 {insetPercent < 8
+			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
+				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
 		>
 		{/if}
 		{#if subtitleTwo}
 		<p
-			class="mt-1   transition-opacity use-gpu duration-500 {insetPercent < 8
+			class="  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
+				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
 		>
 		{/if}
 	{/if}
@@ -173,16 +173,16 @@ const openModal = () => {
 			{/if}
 			{#if subtitle}
 			<p
-				class="mt-1  transition-opacity use-gpu duration-500 {insetPercent < 8
+				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
+					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
 			>
 			{/if}
 			{#if subtitleTwo}
 			<p
-				class="mt-1  transition-opacity use-gpu duration-500 {insetPercent < 8
+				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
+					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
 			>
 			{/if}
 			
@@ -197,16 +197,16 @@ const openModal = () => {
 			{/if}
 			{#if subtitle}
 			<p
-				class="mt-1  transition-opacity use-gpu duration-500 {insetPercent < 8
+				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{subtitle}</p
+					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
 			>
 			{/if}
 			{#if subtitleTwo}
 			<p
-				class="mt-1   transition-opacity use-gpu duration-500 {insetPercent < 8
+				class="  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{subtitleTwo}</p
+					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
 			>
 			{/if}
 		{/if}
@@ -226,7 +226,6 @@ const openModal = () => {
 	}
 	p{
 		font-size: 11px;
-		line-height: 13px;
+		line-height: 18px;
 	}
 </style>
-

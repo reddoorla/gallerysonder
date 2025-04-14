@@ -76,15 +76,17 @@
 						<a on:click={closeModal} class="cursor-pointer hover:opacity-80 transition no-underline" href="/artists/{$activeArtist.uid}"><h5 class="brightness-50" style="color: {$activeArtist.data.artist_color||"black"};"><b>{$activeArtist.data.full_name}</b></h5></a>
 					{/if}
 				<div class="flex flex-col gap-1">
-					<h6 class="uppercase"><b>{$activeArtwork.data.title}</b></h6>
+					{#if $activeArtist}
+						<p class="brightness-50" style="color:{$activeArtist.data.artist_color||"black"};"><b>{$activeArtwork.data.title}</b></p>
+					{/if}
 					{#if $activeArtwork.data.year}
-						<h6><b>{$activeArtwork.data.year}</b></h6>
+						<p>{$activeArtwork.data.year}</p>
 					{/if}
 					{#if $activeArtwork.data.medium}
-						<h6><b>{$activeArtwork.data.medium}</b></h6>
+						<p>{$activeArtwork.data.medium}</p>
 					{/if}
 					{#if $activeArtwork.data.dimensions}
-						<h6><b>{$activeArtwork.data.dimensions}</b></h6>
+						<p>{$activeArtwork.data.dimensions}</p>
 					{/if}
 				</div>
 				{#if isFilled.richText($activeArtwork.data.body)}
