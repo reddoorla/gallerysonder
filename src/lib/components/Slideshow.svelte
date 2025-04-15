@@ -103,7 +103,7 @@
 	  </div>
 	  
 	  <div
-		class="w-36 h-12 flex flex-row justify-start gap-6 items-center absolute bottom-0 left-6"
+		class="flex flex-row justify-between items-center absolute bottom-6 left-6 gap-12"
 	  >
 		<button class="bump" on:click={slideRight}>
 		  <i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl shadow-sm" />
