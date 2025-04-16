@@ -77,7 +77,7 @@
 					{/if}
 				<div class="flex flex-col gap-1">
 					{#if $activeArtist}
-						<p style="color:{"black"};"><i>{$activeArtwork.data.title}</i></p>
+						<p><i>{$activeArtwork.data.title}</i></p>
 					{/if}
 					{#if $activeArtwork.data.year}
 						<p>{$activeArtwork.data.year}</p>
