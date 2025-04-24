@@ -96,7 +96,7 @@ bind:this={shape}
 {/if}
 	<ContentWidth class="h-full flex flex-col items-left pt-8 lg:pl-20 relative">
 		{#if slice.variation === 'default'}
-			<h6 class="font-light">{slice.primary.eyebrow || ''}</h6>
+			<h5><b>{slice.primary.eyebrow || ''}</b></h5>
 			{#if slice.primary.title}
 				<h3 class="mt-3">{slice.primary.title || ''}</h3>
 			{/if}
