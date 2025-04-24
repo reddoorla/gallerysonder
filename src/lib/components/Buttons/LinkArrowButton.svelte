@@ -19,7 +19,7 @@
 		
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {$$props.class ||
 			''}"
-		target="{opensNewTab?'_blank':"_self"}"
+		target="{opensNewTab?'_blank':""}"
 		{href}
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
