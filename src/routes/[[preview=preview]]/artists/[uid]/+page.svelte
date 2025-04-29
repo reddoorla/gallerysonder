@@ -112,13 +112,13 @@
 			? ''
 			: 'opacity-0'}"
 	>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+		<h1 class="mb-0 pb-0 md:translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
 			{content.title_line_one || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+		<h1 class="mb-0 pb-0 md:translate-y-[22%] lg:translate-y-[18%] w-fit text-white md:text-nowrap">
 			{content.title_line_two || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+		<h1 class="mb-0 pb-0 md:translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
 			{content.title_line_three || ''}
 		</h1>
 	</ContentWidth>

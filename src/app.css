@@ -169,6 +169,18 @@ button {
 	line-height: 80px; /* 121.212% */
 }
 
+@media screen and (max-width: 1600px) {
+	h1{
+		font-size: 96px;
+	}
+}
+
+@media screen and (max-width: 1340px) {
+	h1{
+		font-size: 80px;
+	}
+}
+
 @media screen and (max-width: 1024px) {
 	h1 {
 		color: var(--ffffff, #fff);
