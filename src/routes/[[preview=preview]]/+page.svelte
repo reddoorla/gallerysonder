@@ -144,7 +144,7 @@
 	<InnerPageNav {slicesSections} {sections} />
 {/key}
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
-	<div class="h-screen md:h-[40vh]" />
+	<div class="h-screen lg:h-[20vh]" />
 	<div class="h-1" bind:this={theBottomOfTheTop} />
 
 	<SliceZone slices={data.page.data.slices} {components} />
