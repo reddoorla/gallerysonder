@@ -206,6 +206,21 @@ button {
 		line-height: 38px; /* 135.714% */
 	}
 
+	.quote p{
+			font-size: 42px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: 1.2em; /* 121.212% */
+		}
+
+	
+}
+
+@media screen and (max-width: 480px) {
+	h5{
+		font-size: 19px;
+	}
+
 	.quote p {
 		color: var(--e-4-eeea, #e4eeea);
 		font-feature-settings:
@@ -217,16 +232,8 @@ button {
 		font-weight: 400;
 		line-height: 125%; /* 40px */
 	}
-}
 
-@media screen and (max-width: 480px) {
-	h5{
-		font-size: 19px;
-	}
 
-}
-
-@media screen and (max-width: 480px) {
 	h2{
 
 		font-size: 22px;
