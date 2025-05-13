@@ -47,7 +47,7 @@ onNavigate(()=>{
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="w-screen  use-gpu transition duration-1000"
+	class="w-screen  use-gpu transition duration-1000 {slice.primary.hide ? 'hidden' : ''}"
 	style="background-color: {$backgroundColor}"
 >
 	{#if slice.primary.shape_top !== '0'}<div

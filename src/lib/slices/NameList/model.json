@@ -57,6 +57,15 @@
             "label": "bottom_button_text",
             "placeholder": ""
           }
+        },
+        "hide": {
+          "type": "Boolean",
+          "config": {
+            "label": "hide",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
         }
       },
       "items": {

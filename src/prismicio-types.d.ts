@@ -20,7 +20,6 @@ export interface ArtistDocumentDataSectionsItem {
 }
 
 type ArtistDocumentDataSlicesSlice =
-	| SpacerSlice
 	| QuoteBlockSlice
 	| VideoBlockSlice
 	| ImageGallerySlice
@@ -362,7 +361,6 @@ export interface ExhibitDocumentDataSectionsItem {
 }
 
 type ExhibitDocumentDataSlicesSlice =
-	| SpacerSlice
 	| QuoteBlockSlice
 	| VideoBlockSlice
 	| ImageGallerySlice
@@ -711,7 +709,6 @@ export interface PageDocumentDataSectionsItem {
 }
 
 type PageDocumentDataSlicesSlice =
-	| SpacerSlice
 	| QuoteBlockSlice
 	| VideoBlockSlice
 	| ImageGallerySlice
@@ -995,6 +992,17 @@ export interface ImageGallerySliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#boolean
 	 */
 	will_open: prismic.BooleanField;
+
+	/**
+	 * hide field in *ImageGallery → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: image_gallery.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -1183,6 +1191,17 @@ export interface NameListSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	bottom_button_text: prismic.KeyTextField;
+
+	/**
+	 * hide field in *NameList → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: name_list.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -1301,6 +1320,17 @@ export interface QuoteBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
 	shape_top: prismic.SelectField<'0' | '1' | '2' | '3', 'filled'>;
+
+	/**
+	 * hide field in *QuoteBlock → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: quote_block.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -1395,6 +1425,17 @@ export interface RichTextSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	button_link: prismic.LinkField;
+
+	/**
+	 * hide field in *RichText → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: rich_text.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -1423,59 +1464,6 @@ type RichTextSliceVariation = RichTextSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type RichTextSlice = prismic.SharedSlice<'rich_text', RichTextSliceVariation>;
-
-/**
- * Primary content in *Spacer → Primary*
- */
-export interface SpacerSliceDefaultPrimary {
-	/**
-	 * height field in *Spacer → Primary*
-	 *
-	 * - **Field Type**: Select
-	 * - **Placeholder**: *None*
-	 * - **Default Value**: 16px
-	 * - **API ID Path**: spacer.primary.height
-	 * - **Documentation**: https://prismic.io/docs/field#select
-	 */
-	height: prismic.SelectField<'16px' | '32px' | '64px' | '128px' | '256px', 'filled'>;
-
-	/**
-	 * sectionLabel field in *Spacer → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: spacer.primary.sectionLabel
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	sectionLabel: prismic.KeyTextField;
-}
-
-/**
- * Default variation for Spacer Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type SpacerSliceDefault = prismic.SharedSliceVariation<
-	'default',
-	Simplify<SpacerSliceDefaultPrimary>,
-	never
->;
-
-/**
- * Slice variation for *Spacer*
- */
-type SpacerSliceVariation = SpacerSliceDefault;
-
-/**
- * Spacer Shared Slice
- *
- * - **API ID**: `spacer`
- * - **Description**: Spacer
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type SpacerSlice = prismic.SharedSlice<'spacer', SpacerSliceVariation>;
 
 /**
  * Primary content in *TitleBlock → Primary*
@@ -1572,6 +1560,17 @@ export interface TitleBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
 	shape_top: prismic.SelectField<'0' | '1' | '2' | '3' | '4' | '5' | '6', 'filled'>;
+
+	/**
+	 * hide field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: title_block.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -1692,6 +1691,17 @@ export interface TitleBlockSliceTwoColumnPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	button_link: prismic.LinkField;
+
+	/**
+	 * hide field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: title_block.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -1801,6 +1811,17 @@ export interface TitleBlockSliceConnectPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	instagram: prismic.LinkField;
+
+	/**
+	 * hide field in *TitleBlock → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: title_block.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -1887,6 +1908,17 @@ export interface VideoBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	eyebrow: prismic.KeyTextField;
+
+	/**
+	 * hide field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: video_block.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -1936,6 +1968,17 @@ export interface VideoBlockSliceSlideshowPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	eyebrow: prismic.KeyTextField;
+
+	/**
+	 * hide field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: video_block.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -2010,6 +2053,17 @@ export interface VideoBlockSliceImagePrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	eyebrow: prismic.KeyTextField;
+
+	/**
+	 * hide field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: video_block.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -2069,6 +2123,17 @@ export interface VideoBlockSliceEmbedPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#geopoint
 	 */
 	center_point: prismic.GeoPointField;
+
+	/**
+	 * hide field in *ContentWidthMedia → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: video_block.primary.hide
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	hide: prismic.BooleanField;
 }
 
 /**
@@ -2152,10 +2217,6 @@ declare module '@prismicio/client' {
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
 			RichTextSliceDefault,
-			SpacerSlice,
-			SpacerSliceDefaultPrimary,
-			SpacerSliceVariation,
-			SpacerSliceDefault,
 			TitleBlockSlice,
 			TitleBlockSliceDefaultPrimary,
 			TitleBlockSliceTwoColumnPrimary,

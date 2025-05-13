@@ -40,6 +40,10 @@
 				"__TYPE__": "FieldContent",
 				"value": "lunch",
 				"type": "Text"
+			},
+			"hide": {
+				"__TYPE__": "BooleanContent",
+				"value": false
 			}
 		},
 		"items": [

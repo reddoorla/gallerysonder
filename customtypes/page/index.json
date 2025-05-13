@@ -84,9 +84,6 @@
 				"fieldset": "Slice Zone",
 				"config": {
 					"choices": {
-						"spacer": {
-							"type": "SharedSlice"
-						},
 						"quote_block": {
 							"type": "SharedSlice"
 						},

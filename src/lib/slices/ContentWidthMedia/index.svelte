@@ -86,7 +86,7 @@
 
 
 <section
-	class="w-full"
+	class="w-full {slice.primary.hide ? 'hidden' : ''}"
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
 	style="background-color: {$backgroundColor}"

@@ -83,7 +83,7 @@
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
 
-	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""}"
+	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""} {slice.primary.hide ? 'hidden' : ''}"
 	style="background-color: {$backgroundColor} "
 >
 {#if slice.primary.shape_top !== '0'}<div

@@ -95,6 +95,15 @@
             ],
             "default_value": "0"
           }
+        },
+        "hide": {
+          "type": "Boolean",
+          "config": {
+            "label": "hide",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
         }
       },
       "items": {}
@@ -191,6 +200,15 @@
             "placeholder": "",
             "select": null
           }
+        },
+        "hide": {
+          "type": "Boolean",
+          "config": {
+            "label": "hide",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
         }
       },
       "items": {}
@@ -277,6 +295,15 @@
             "label": "instagram",
             "placeholder": "",
             "select": null
+          }
+        },
+        "hide": {
+          "type": "Boolean",
+          "config": {
+            "label": "hide",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
           }
         }
       },

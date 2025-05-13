@@ -110,6 +110,15 @@
             "placeholder_true": "lightbox opens on click",
             "default_value": false
           }
+        },
+        "hide": {
+          "type": "Boolean",
+          "config": {
+            "label": "hide",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
         }
       },
       "items": {

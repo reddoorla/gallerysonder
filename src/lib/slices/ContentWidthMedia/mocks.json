@@ -65,6 +65,10 @@
 				"__TYPE__": "FieldContent",
 				"value": "solve",
 				"type": "Text"
+			},
+			"hide": {
+				"__TYPE__": "BooleanContent",
+				"value": false
 			}
 		},
 		"items": []
@@ -87,6 +91,10 @@
 				"__TYPE__": "FieldContent",
 				"value": "river",
 				"type": "Text"
+			},
+			"hide": {
+				"__TYPE__": "BooleanContent",
+				"value": false
 			}
 		},
 		"items": [
@@ -164,6 +172,10 @@
 				"__TYPE__": "FieldContent",
 				"value": "read",
 				"type": "Text"
+			},
+			"hide": {
+				"__TYPE__": "BooleanContent",
+				"value": true
 			}
 		},
 		"items": [
@@ -193,11 +205,15 @@
 				"type": "Text"
 			},
 			"center_point": {
-				"__TYPE__": "GeoPointContent",
 				"position": {
 					"lat": 48.8841267,
 					"lng": 2.3300579
-				}
+				},
+				"__TYPE__": "GeoPointContent"
+			},
+			"hide": {
+				"__TYPE__": "BooleanContent",
+				"value": false
 			}
 		},
 		"items": [

@@ -55,6 +55,10 @@
 				"__TYPE__": "FieldContent",
 				"value": "1/4",
 				"type": "Select"
+			},
+			"hide": {
+				"__TYPE__": "BooleanContent",
+				"value": false
 			}
 		},
 		"items": []
@@ -137,6 +141,10 @@
 					"__TYPE__": "ExternalLink",
 					"url": "https://prismic.io"
 				}
+			},
+			"hide": {
+				"__TYPE__": "BooleanContent",
+				"value": true
 			}
 		},
 		"items": [
@@ -202,6 +210,10 @@
 				"__TYPE__": "FieldContent",
 				"value": "substance",
 				"type": "Text"
+			},
+			"hide": {
+				"__TYPE__": "BooleanContent",
+				"value": true
 			}
 		},
 		"items": [

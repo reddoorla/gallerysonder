@@ -81,7 +81,7 @@
    {/if}
    
    <section
-	 class="w-full use-gpu transition-all duration-1000"
+	 class="w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
 	 id={slice.primary.sectionLabel}
 	 style="background-color:{$backgroundColor};"
    >
