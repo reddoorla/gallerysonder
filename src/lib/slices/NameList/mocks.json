@@ -92,6 +92,13 @@
 								"id": "mock_document_id"
 							}
 						}
+					],
+					[
+						"doubleheight",
+						{
+							"__TYPE__": "BooleanContent",
+							"value": true
+						}
 					]
 				]
 			}

@@ -1247,6 +1247,17 @@ export interface NameListSliceDefaultItem {
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
 	artist_active_image: prismic.ImageField<never>;
+
+	/**
+	 * doubleHeight field in *NameList → Items*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: name_list.items[].doubleheight
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	doubleheight: prismic.BooleanField;
 }
 
 /**

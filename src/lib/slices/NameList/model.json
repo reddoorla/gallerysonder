@@ -101,6 +101,15 @@
             "constraint": {},
             "thumbnails": []
           }
+        },
+        "doubleheight": {
+          "type": "Boolean",
+          "config": {
+            "label": "doubleHeight",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
         }
       }
     }

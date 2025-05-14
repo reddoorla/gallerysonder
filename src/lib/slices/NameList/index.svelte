@@ -20,6 +20,7 @@
 	  activeImage: string;
 	  color: string;
 	  link: LinkField;
+	  doubleHeight?: boolean;
 	}
 	
 	let artistItems: ArtistItem[] = [];
@@ -31,7 +32,8 @@
 		let artistData = {
 		  activeImage: item.artist_active_image.url || '',
 		  color: item.artist_color || '#E4EEEA',
-		  link: item.artist_page || { link_type: "Web", url: '' }
+		  link: item.artist_page || { link_type: "Web", url: '' },
+		  doubleHeight: item.doubleheight || false
 		};
 		
 		// If we have an artist content relationship, fetch and use its data
@@ -48,6 +50,8 @@
 			if (!item.artist_color && fetchedArtist.artist_color) {
 			  artistData.color = fetchedArtist.artist_color;
 			}
+
+			
 			
 			// If no direct link provided, create one to the artist page
 			if (!isFilled.link(item.artist_page)) {
@@ -107,7 +111,7 @@
 			 on:mouseover={() => backgroundColor.set(item.color)}
 			 on:mouseout={() => backgroundColor.set($backgroundColorDefault)}
 			 href={isFilled.link(item.link) ? item.link.url : ''}
-			 class="h-4 sm:h-6 md:h-10 lg:h-12"
+			 class={item.doubleHeight?"h-11 sm:h-[66px] md:h-[110px] lg:h-[132px]":"h-4 sm:h-6 md:h-10 lg:h-12"}
 		   />
 		 {/each}
 	   {/if}
