@@ -106,7 +106,7 @@
 		{#if slice.variation === 'default'&&slice.primary.vimeo_id}
 			<button class="w-full aspect-video relative mt-16" on:click={openModal}>
 				<img
-					src={slice.primary.placeholder_image.url || placeholderThumbnail}
+					src={slice.primary.placeholder_image.url }
 					alt="video thumbnail placeholder"
 					class="w-full h-full object-cover"
 				/>
