@@ -20,10 +20,10 @@
             "thumbnails": []
           }
         },
-        "video": {
-          "type": "Embed",
+        "vimeo_id": {
+          "type": "Text",
           "config": {
-            "label": "video",
+            "label": "vimeo_id",
             "placeholder": ""
           }
         },

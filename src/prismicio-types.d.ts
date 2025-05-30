@@ -1880,14 +1880,14 @@ export interface VideoBlockSliceDefaultPrimary {
 	placeholder_image: prismic.ImageField<never>;
 
 	/**
-	 * video field in *ContentWidthMedia → Primary*
+	 * vimeo_id field in *ContentWidthMedia → Primary*
 	 *
-	 * - **Field Type**: Embed
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: video_block.primary.video
-	 * - **Documentation**: https://prismic.io/docs/field#embed
+	 * - **API ID Path**: video_block.primary.vimeo_id
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	video: prismic.EmbedField;
+	vimeo_id: prismic.KeyTextField;
 
 	/**
 	 * sectionLabel field in *ContentWidthMedia → Primary*

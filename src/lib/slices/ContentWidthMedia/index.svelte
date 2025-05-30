@@ -15,6 +15,7 @@
 
 
 	let viewportWidth: number;
+	let viewportHeight: number;
 
 	export let slice: VideoBlockSlice;
 
@@ -82,7 +83,7 @@
 	};
 </script>
 
-<svelte:window bind:innerWidth={viewportWidth} />
+<svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
 
 <section
@@ -102,14 +103,21 @@
 		{#if slice.primary.eyebrow}
 			<h5 class="mt-8 mb-4 md:mt-16 md:mb-12 uppercase"><b>{slice.primary.eyebrow||''}</b></h5>
 		{/if}
-		{#if slice.variation === 'default'&&isFilled.embed(slice.primary.video)}
+		{#if slice.variation === 'default'&&slice.primary.vimeo_id}
 			<button class="w-full aspect-video relative mt-16" on:click={openModal}>
 				<img
 					src={slice.primary.placeholder_image.url || placeholderThumbnail}
 					alt="video thumbnail placeholder"
 					class="w-full h-full object-cover"
 				/>
-				<div
+				<iframe
+		  title="background video"
+		  src={`https://player.vimeo.com/video/${slice.primary.vimeo_id}?background=1&muted=1&loop=1&autoplay=1`}
+		  class="aspect-video absolute w-full h-full z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+		  frameborder="0"
+		  allowfullscreen
+		></iframe>
+				<!-- <div
 					class="bottom-4 md:bottom-8 left-4 w-24 md:left-8 absolute flex flex-row justify-between gap-4"
 				>
 					<button
@@ -122,7 +130,7 @@
 					>
 						<i class="fa-solid fa-volume-high fa-2xl"></i>
 					</button>
-				</div>
+				</div> -->
 			</button>
 		{:else if slice.variation === 'default'}
 			<PrismicImage field={slice.primary.placeholder_image} class="w-full aspect-video mt-16" />
