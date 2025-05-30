@@ -112,7 +112,7 @@
 				/>
 				<iframe
 		  title="background video"
-		  src={`https://player.vimeo.com/video/${slice.primary.vimeo_id}?background=1&muted=1&loop=1&autoplay=1`}
+		  src={`https://player.vimeo.com/video/${slice.primary.vimeo_id.includes('?h=')?slice.primary.vimeo_id+'&':slice.primary.vimeo_id+'?'}background=1&muted=1&loop=1&autoplay=1`}
 		  class="aspect-video absolute w-full h-full z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 		  frameborder="0"
 		  allowfullscreen
