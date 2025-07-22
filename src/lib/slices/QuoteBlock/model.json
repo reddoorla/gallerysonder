@@ -58,6 +58,13 @@
             "placeholder_true": "true",
             "placeholder_false": "false"
           }
+        },
+        "text_size": {
+          "type": "Number",
+          "config": {
+            "label": "text_size",
+            "placeholder": "default is 66"
+          }
         }
       },
       "items": {}

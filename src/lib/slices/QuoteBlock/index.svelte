@@ -9,8 +9,21 @@
 	import { PrismicRichText } from '@prismicio/svelte';
 	import * as prismicH from '@prismicio/helpers';
 
+	let viewportWidth = 1024;
+
+		$: customFontSize = slice.primary.text_size 
+		? (viewportWidth > 1024 ? slice.primary.text_size : slice.primary.text_size / 2) 
+		: (viewportWidth > 1024 ? 66 : viewportWidth>768 ? 42 : 24) ;
+
 	export let slice: QuoteBlockSlice;
 </script>
+<style>
+	.quote :global(*) {
+		font-size: var(--quote-font-size) !important;
+	}
+</style>
+
+<svelte:window bind:innerWidth={viewportWidth} />
 {#if !slice.primary.hide}
 	<TopShape shapeNumber={slice.primary.shape_top} />
 	<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation}>
@@ -32,7 +45,7 @@
 						</svg>
 					</div>
 				{/if}
-				<div class="md:mx-16 quote">
+				<div class="md:mx-16 quote " style={customFontSize ? `--quote-font-size: ${customFontSize}px;` : ''}>
 					<PrismicRichText field={slice.primary.quotation} />
 				</div>
 				{#if prismicH.isFilled.image(slice.primary.signature)}

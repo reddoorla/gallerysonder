@@ -1342,6 +1342,16 @@ export interface QuoteBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#boolean
 	 */
 	hide: prismic.BooleanField;
+
+	/**
+	 * text_size field in *QuoteBlock → Primary*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: default is 66
+	 * - **API ID Path**: quote_block.primary.text_size
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	text_size: prismic.NumberField;
 }
 
 /**
