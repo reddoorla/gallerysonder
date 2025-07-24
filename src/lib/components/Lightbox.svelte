@@ -66,15 +66,16 @@
 
 <svelte:window bind:innerHeight={viewportWidth} />
 
-	{#if showInquiryForm}
+
+
+	{#if $activeArtwork}
 		<div
-			class="w-screen h-screen overflow-y-scroll fixed top-0 left-0 z-50"
-			transition:fade
+			class="w-screen h-screen fixed top-0 left-0 flex justify-center items-start lg:items-center z-40 overflow-y-scroll md:overflow-hidden"
 			style="background-color:{$backgroundColor}"
+			
 		>
-			<ContentWidth class="h-full flex items-center flex-col lg:flex-row relative py-20 ">
-				<div class="w-full absolute top-0 h-16 flex items-center justify-between">
-					<button class="h-6 bump" on:click={() => (showInquiryForm = false)}
+			<ContentWidth class="w-full fixed top-0 h-16 flex items-center justify-between px-4 md:px-0 z-40">
+					<button class="h-6 bump" on:click={closeModal}
 						><i
 							class="text-black fa-sharp fa-solid fa-close fa-2xl hover:opacity-80 transition"
 						/></button
@@ -82,10 +83,76 @@
 					<a href="/" class="bump" on:click={closeModal}
 						><RotatingLogo class="h-6 hover:opacity-80 transition" /></a
 					>
+				</ContentWidth>
+			<ContentWidth
+				class="min-h-screen h-screen w-full relative flex flex-col lg:flex-row justify-center items-start lg:items-center gap-6 lg:gap-0 overflow-y-scroll lg:overflow-hidden"
+			>
+			
+				<div
+					class="mt-20 md:mt-0 w-full lg:w-1/2 h-2/5 lg:h-4/5 relative flex items-center justify-center"
+				>
+					<div
+						class="w-full {$activeArtwork.data.orientation === 'landscape'
+							? 'aspect-[4/3] '
+							: $activeArtwork.data.orientation === 'portrait'
+								? 'md:w-auto md:aspect-[3/4] h-full'
+								: 'max-w-full h-full max-h-full'}"
+					>
+					<i class='fa-regular fa-circle-notch fa-spin fa-2xl text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0' />
+					
+						{#if $activeArtwork.data.secondary_images[0] && isFilled.image($activeArtwork.data.secondary_images[0].image) && $activeArtwork.data.orientation !== 'fit'}
+							 <Slideshow /> 
+						{:else}
+							<PrismicImage
+								class="{$activeArtwork.data.orientation === 'fit'
+									? 'object-contain'
+									: 'object-cover'} w-full h-full z-10 relative"
+								field={$activeArtwork.data.primary_image}
+							/>
+						{/if}
+					</div>
 				</div>
-				<div class='w-full lg:w-3/5 lg:pr-16 flex flex-col'>
+				<div
+					class="w-full lg:w-1/2 lg:h-4/5 lg:p-16 lg:pr-0 flex flex-col items-start justify-center gap-6"
+				>
+				{#if !showInquiryForm}
+					{#if $activeArtist}
+						<a
+							on:click={closeModal}
+							class="cursor-pointer hover:opacity-80 transition uppercase no-underline"
+							href="/artists/{$activeArtist.uid}"><h5><b>{$activeArtist.data.full_name}</b></h5></a
+						>
+					{/if}
+					<div class="flex flex-col gap-1">
+						{#if $activeArtist}
+							<p><i>{$activeArtwork.data.title}</i></p>
+						{/if}
+						{#if $activeArtwork.data.year}
+							<p>{$activeArtwork.data.year}</p>
+						{/if}
+						{#if $activeArtwork.data.medium}
+							<p>{$activeArtwork.data.medium}</p>
+						{/if}
+						{#if $activeArtwork.data.dimensions}
+							<p>{$activeArtwork.data.dimensions}</p>
+						{/if}
+					</div>
+					{#if isFilled.richText($activeArtwork.data.body)}
+						<div class="rich-text"><PrismicRichText field={$activeArtwork.data.body} /></div>
+					{/if}
+					{#if !showInquiryForm}
+					<button
+						on:click={() => (showInquiryForm = true)}
+						class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer"
+						>Inquire</button
+					>
+					{/if}
+					{/if}
+				{#if showInquiryForm}
+					
+				<div in:fade={{delay:400}} class='w-full flex flex-col mt-64 md:mt-20'>
 				<h2>Inquire</h2>
-				<p class="mb-8">Fill out the form below to learn more about this piece.</p>
+				<p class="mb-8 mt-4">Fill out the form below to learn more about this piece.</p>
 				<p>Name</p>
 				<input
 					type="text"
@@ -135,7 +202,7 @@
 
 				<p>What best describes you?</p>
 
-					<select name="role" id="role" class='bg-white border-1 border-mid p-2 mb-8' bind:value={formRole}>
+					<select name="role" id="role" class='bg-white border-1 border-mid p-2 mb-8 cursor-pointer' bind:value={formRole}>
 						<option value="First Time Buyer">First Time Buyer</option>
 						<option value="Occasional Buyer">Occasional Buyer</option>
 						<option value="experienced">Experienced Collector</option>
@@ -144,128 +211,19 @@
 						<option value="Art Enthusiast">Art Enthusiast</option>
 					</select>
 
-
-				<LinkArrowButton
 					
+				<LinkArrowButton
+					class="uppercase"
 					click={triggerSubmitButton}
 					text="Submit"
 					/>
+				
 
 					<p class="text-xs mt-12 w-2/3 mb-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic
 communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
 				
 				</div>
-				<div class="hidden lg:block w-2/5">
-					{#if $activeArtwork}
-					<PrismicImage
-								class="{$activeArtwork.data.orientation === 'fit'
-									? 'object-contain'
-									: 'object-cover'} h-[50vh]"
-								field={$activeArtwork.data.primary_image}
-							/>
-
-						<div class="flex flex-col mt-3">
-						{#if $activeArtist}
-							<h6><b>{$activeArtist.data.full_name}</b></h6>
-						{/if}
-						{#if $activeArtwork}
-							<p class='text-s mt-1'><i>{$activeArtwork.data.title}</i>{#if $activeArtwork.data.year}
-							<span>{", "+$activeArtwork.data.year}</span>
-						{/if}</p>
-						{/if}
-					
-						{#if $activeArtwork.data.medium}
-							<p class='text-sm'>{$activeArtwork.data.medium}</p>
-						{/if}
-						{#if $activeArtwork.data.dimensions}
-							<p class='text-sm'>{$activeArtwork.data.dimensions}</p>
-						{/if}
-					</div>
-						
-					{/if}
-
-				</div>
-			</ContentWidth>
-		</div>
-	{/if}
-
-
-	{#if $activeArtwork}
-		<div
-			class="w-screen h-screen fixed top-0 left-0 flex justify-center items-start lg:items-center z-40 overflow-scroll"
-			transition:fade
-			style="background-color:{$backgroundColor}"
-		>
-			<ContentWidth
-				class="h-full w-full relative flex flex-col lg:flex-row justify-center items-start lg:items-center gap-6 lg:gap-0"
-			>
-				<div class="w-full absolute top-0 h-16 flex items-center justify-between">
-					<button class="h-6 bump" on:click={closeModal}
-						><i
-							class="text-black fa-sharp fa-solid fa-close fa-2xl hover:opacity-80 transition"
-						/></button
-					>
-					<a href="/" class="bump" on:click={closeModal}
-						><RotatingLogo class="h-6 hover:opacity-80 transition" /></a
-					>
-				</div>
-				<div
-					class="w-full lg:w-1/2 h-2/5 lg:h-4/5 flex items-center justify-center"
-				>
-					<div
-						class="relative {$activeArtwork.data.orientation === 'landscape'
-							? 'aspect-[4/3] w-full'
-							: $activeArtwork.data.orientation === 'portrait'
-								? 'w-full md:w-auto md:aspect-[3/4] h-full'
-								: 'w-full max-w-full h-full max-h-full'}"
-					>
-					<i class='fa-regular fa-circle-notch fa-spin fa-2xl text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0' />
-					
-						{#if $activeArtwork.data.secondary_images[0] && isFilled.image($activeArtwork.data.secondary_images[0].image) && $activeArtwork.data.orientation !== 'fit'}
-							 <Slideshow /> 
-						{:else}
-							<PrismicImage
-								class="{$activeArtwork.data.orientation === 'fit'
-									? 'object-contain'
-									: 'object-cover'} w-full h-full z-10 relative"
-								field={$activeArtwork.data.primary_image}
-							/>
-						{/if}
-					</div>
-				</div>
-				<div
-					class="w-full lg:w-1/2 lg:h-4/5 lg:p-16 lg:pr-0 flex flex-col items-start justify-center gap-6"
-				>
-					{#if $activeArtist}
-						<a
-							on:click={closeModal}
-							class="cursor-pointer hover:opacity-80 transition uppercase no-underline"
-							href="/artists/{$activeArtist.uid}"><h5><b>{$activeArtist.data.full_name}</b></h5></a
-						>
-					{/if}
-					<div class="flex flex-col gap-1">
-						{#if $activeArtist}
-							<p><i>{$activeArtwork.data.title}</i></p>
-						{/if}
-						{#if $activeArtwork.data.year}
-							<p>{$activeArtwork.data.year}</p>
-						{/if}
-						{#if $activeArtwork.data.medium}
-							<p>{$activeArtwork.data.medium}</p>
-						{/if}
-						{#if $activeArtwork.data.dimensions}
-							<p>{$activeArtwork.data.dimensions}</p>
-						{/if}
-					</div>
-					{#if isFilled.richText($activeArtwork.data.body)}
-						<div class="rich-text"><PrismicRichText field={$activeArtwork.data.body} /></div>
-					{/if}
-
-					<button
-						on:click={() => (showInquiryForm = true)}
-						class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
-						>Inquire</button
-					>
+				{/if}
 				</div>
 			</ContentWidth>
 		</div>
