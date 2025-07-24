@@ -234,8 +234,6 @@
 	<input type="hidden" name="form-name" value="inquiry" />
 	<p>Name</p>
 	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
-	<p>Company Name</p>
-	<input type="text" name="company" placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
 	<p>Phone</p>
 	<input type="phone" name="phone" required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
 	<p>Email</p>
