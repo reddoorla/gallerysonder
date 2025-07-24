@@ -44,8 +44,8 @@
 			if (hiddenPhone) hiddenPhone.value = formPhone;
 			if (hiddenEmail) hiddenEmail.value = formEmail;
 			if (hiddenMessage) hiddenMessage.value = formMessage;
-			if (hiddenPiece&&$activeArtwork) hiddenPiece.value = $activeArtwork.data.title as string;
-			if (hiddenArtist&&$activeArtist) hiddenArtist.value = $activeArtist.data.full_name as string;
+			if (hiddenPiece&&$activeArtwork) hiddenPiece.value = $activeArtwork.data.title as string+ ", " +$activeArtwork.data.year;
+			if (hiddenArtist&&$activeArtist) hiddenArtist.value = $activeArtist.data.full_name as string ;
 			if (hiddenRole) hiddenRole.value = formRole;
 
 			hiddenForm.submit();
@@ -136,13 +136,14 @@
 				<p>What best describes you?</p>
 
 					<select name="role" id="role" class='bg-white border-1 border-mid p-2 mb-8' bind:value={formRole}>
-						<option value="first">First Time Buyer</option>
-						<option value="occasional">Occasional Buyer</option>
+						<option value="First Time Buyer">First Time Buyer</option>
+						<option value="Occasional Buyer">Occasional Buyer</option>
 						<option value="experienced">Experienced Collector</option>
-						<option value="advisor">Art Advisor</option>
-						<option value="curator">Curator</option>
-						<option value="enthusiast">Art Enthusiast</option>
+						<option value="Experienced Collector">Art Advisor</option>
+						<option value="Curator">Curator</option>
+						<option value="Art Enthusiast">Art Enthusiast</option>
 					</select>
+
 
 				<LinkArrowButton
 					
