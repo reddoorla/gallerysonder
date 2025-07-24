@@ -32,7 +32,6 @@
 
 		if (hiddenForm) {
 			const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
-			const hiddenCompany = hiddenForm.querySelector('[name="company"]') as HTMLInputElement;
 			const hiddenPhone = hiddenForm.querySelector('[name="phone"]') as HTMLInputElement;
 			const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
 			const hiddenMessage = hiddenForm.querySelector('[name="message"]') as HTMLTextAreaElement;
@@ -41,7 +40,7 @@
 			const hiddenRole = hiddenForm.querySelector('[name="role"]') as HTMLInputElement;
 
 			if (hiddenName) hiddenName.value = formName;
-			if (hiddenCompany) hiddenCompany.value = formCompany;
+
 			if (hiddenPhone) hiddenPhone.value = formPhone;
 			if (hiddenEmail) hiddenEmail.value = formEmail;
 			if (hiddenMessage) hiddenMessage.value = formMessage;
@@ -97,14 +96,7 @@
 					class="w-full border-1 border-mid p-2 mb-4"
 				/>
 
-				<p>Company Name</p>
-				<input
-					type="text"
-					name="company"
-					bind:value={formCompany}
-					placeholder="company name"
-					class="w-full border-1 border-mid p-2 mb-4"
-				/>
+
 
 				<p>Phone</p>
 				<input
@@ -158,7 +150,7 @@
 					text="Submit"
 					/>
 
-					<p class="text-xs mt-12">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic
+					<p class="text-xs mt-12 w-2/3">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic
 communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
 				
 				</div>
