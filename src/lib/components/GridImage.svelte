@@ -35,8 +35,11 @@
 
 
 const openModal = () => {
-	lightboxImageUrl.set(src);
-	activeArtworkUid.set(artworkUID);
+	if(artworkUID){
+		activeArtworkUid.set(artworkUID);
+	}else{
+		lightboxImageUrl.set(src);
+	}
 
 	//isModalActive.set(true);
 	isLightboxActive.set(true);

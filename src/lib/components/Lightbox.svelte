@@ -65,14 +65,14 @@
 </script>
 
 <svelte:window bind:innerHeight={viewportWidth} />
-<div transition:fade>
+
 	{#if showInquiryForm}
 		<div
-			class="w-screen min-h-screen lg:h-screen fixed top-0 left-0 z-50"
+			class="w-screen h-screen overflow-y-scroll fixed top-0 left-0 z-50"
 			transition:fade
 			style="background-color:{$backgroundColor}"
 		>
-			<ContentWidth class="h-full flex items-center flex-col lg:flex-row relative">
+			<ContentWidth class="h-full flex items-center flex-col lg:flex-row relative py-20 ">
 				<div class="w-full absolute top-0 h-16 flex items-center justify-between">
 					<button class="h-6 bump" on:click={() => (showInquiryForm = false)}
 						><i
@@ -151,7 +151,7 @@
 					text="Submit"
 					/>
 
-					<p class="text-xs mt-12 w-2/3">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic
+					<p class="text-xs mt-12 w-2/3 mb-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic
 communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
 				
 				</div>
@@ -189,19 +189,8 @@ communications from Gallery Sonder. You can unsubscribe or change your preferenc
 		</div>
 	{/if}
 
-	{#if viewportWidth < 768 || !$activeArtwork}
-		<div
-			class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-90 flex justify-center items-center z-40"
-			transition:fade
-		>
-			<button class="absolute w-full h-full" on:click={closeModal}> </button>
-			<div
-				class="w-11/12 h-11/12 max-h-11/12 max-w-11/12 lg:w-4/5 lg:h-4/5 lg:max-w-4/5 lg:max-h-4/5"
-			>
-				<img src={$lightboxImageUrl} alt="lightbox" class="w-full h-full object-contain" />
-			</div>
-		</div>
-	{:else if $activeArtwork.data.orientation}
+
+	{#if $activeArtwork}
 		<div
 			class="w-screen h-screen fixed top-0 left-0 flex justify-center items-start lg:items-center z-40 overflow-scroll"
 			transition:fade
@@ -230,7 +219,7 @@ communications from Gallery Sonder. You can unsubscribe or change your preferenc
 								? 'aspect-[3/4] h-full'
 								: 'w-full max-w-full h-full max-h-full'}"
 					>
-					<i class='fa-regular fa-circle-notch fa-spin fa-2xl text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
+					<i class='fa-regular fa-circle-notch fa-spin fa-2xl text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0' />
 					
 						{#if $activeArtwork.data.secondary_images[0] && isFilled.image($activeArtwork.data.secondary_images[0].image) && $activeArtwork.data.orientation !== 'fit'}
 							 <Slideshow /> 
@@ -238,7 +227,7 @@ communications from Gallery Sonder. You can unsubscribe or change your preferenc
 							<PrismicImage
 								class="{$activeArtwork.data.orientation === 'fit'
 									? 'object-contain'
-									: 'object-cover'} w-full h-full"
+									: 'object-cover'} w-full h-full z-10 relative"
 								field={$activeArtwork.data.primary_image}
 							/>
 						{/if}
@@ -281,4 +270,18 @@ communications from Gallery Sonder. You can unsubscribe or change your preferenc
 			</ContentWidth>
 		</div>
 	{/if}
-</div>
+
+		 {#if !$activeArtwork&&$lightboxImageUrl}
+		<div
+			class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-90 flex justify-center items-center z-40"
+			
+		>
+			<button class="absolute w-full h-full" on:click={closeModal}> </button>
+			<div
+				class="w-11/12 h-11/12 max-h-11/12 max-w-11/12 lg:w-4/5 lg:h-4/5 lg:max-w-4/5 lg:max-h-4/5"
+			>
+				<img src={$lightboxImageUrl} alt="lightbox" class="w-full h-full object-contain" />
+			</div>
+		</div>
+	{/if}
+

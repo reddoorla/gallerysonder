@@ -190,12 +190,9 @@
 	{/if}
 
 	{#if $isIntroFinished && isVideoDone}
+
 	<div transition:fade>
-		{#if $isLightboxActive}
-		
-			<Lightbox />
-		
-		{/if}
+	
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 		<slot />
 	</div>
@@ -203,7 +200,11 @@
 	
 </main>
 
-
+		{#if $isLightboxActive}
+		
+			<Lightbox />
+		
+		{/if}
 
 <PrismicPreview {repositoryName} />
 
