@@ -230,8 +230,10 @@ communications from Gallery Sonder. You can unsubscribe or change your preferenc
 								? 'aspect-[3/4] h-full'
 								: 'w-full max-w-full h-full max-h-full'}"
 					>
+					<i class='fa-regular fa-circle-notch fa-spin fa-2xl text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
+					
 						{#if $activeArtwork.data.secondary_images[0] && isFilled.image($activeArtwork.data.secondary_images[0].image) && $activeArtwork.data.orientation !== 'fit'}
-							<Slideshow />
+							 <Slideshow /> 
 						{:else}
 							<PrismicImage
 								class="{$activeArtwork.data.orientation === 'fit'
