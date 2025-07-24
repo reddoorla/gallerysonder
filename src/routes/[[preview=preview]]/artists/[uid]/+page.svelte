@@ -39,6 +39,17 @@
 	let sections: string[] = [];
 	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
 
+	const refreshData = () => {
+		data = { ...data };
+		content = data.page.data;
+		slicesSections = [];
+		sections = [];
+		data.page.data.slices.forEach((slice) =>
+			slicesSections.push(slice.primary?.sectionLabel || '')
+		);
+		data.page.data.sections.forEach((section) => sections.push(section.section || ''));
+	}
+
 	let isLogoBlack = false;
 	let isBackgroundDark = false;
 
@@ -58,25 +69,18 @@
 				setTimeout(() => (showSonderPresents = true), 1000);
 			}
 		});
+		refreshData();
 
 		window.addEventListener('scroll', checkPosition);
 		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
+		
 
 		return () => {
 			unsubscribe();
 		};
 	});
 
-	afterNavigate(() => {
-		data = { ...data };
-		content = data.page.data;
-		slicesSections = [];
-		sections = [];
-		data.page.data.slices.forEach((slice) =>
-			slicesSections.push(slice.primary?.sectionLabel || '')
-		);
-		data.page.data.sections.forEach((section) => sections.push(section.section || ''));
-	});
+	afterNavigate(refreshData);
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />

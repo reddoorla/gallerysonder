@@ -20,6 +20,9 @@
 	let isHoverArray: boolean[] = [];
 	let viewportWidth = 1024;
 
+
+
+
 	function handleHover(event: CustomEvent<boolean>, index: number) {
 		isHoverArray[index] = event.detail;
 	}
