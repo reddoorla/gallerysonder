@@ -160,7 +160,7 @@
 					bind:value={formName}
 					required
 					placeholder="first and last name"
-					class="w-full border-1 border-mid p-2 mb-4"
+					class="w-full border-2 border-mid p-2 mb-4"
 				/>
 
 
@@ -172,7 +172,7 @@
 					bind:value={formPhone}
 					required
 					placeholder="000-000-0000"
-					class="w-full border-1 border-mid p-2 mb-4"
+					class="w-full border-2 border-mid p-2 mb-4"
 				/>
 
 				<p>Email</p>
@@ -182,7 +182,7 @@
 					bind:value={formEmail}
 					required
 					placeholder="you@domain.com"
-					class="w-full border-1 border-mid p-2 mb-4"
+					class="w-full border-2 border-mid p-2 mb-4"
 				/>
 
 				<p class="hidden">
@@ -197,12 +197,12 @@
 					bind:value={formMessage}
 					required
 					placeholder="how can we help?"
-					class="min-h-24 w-full border-1 border-mid p-2 mb-4"
+					class="min-h-24 w-full border-2 border-mid p-2 mb-4"
 				/>
 
 				<p>What best describes you?</p>
-
-					<select name="role" id="role" class='bg-white border-1 border-mid p-2 mb-8 cursor-pointer' bind:value={formRole}>
+				<div>
+					<select name="role" id="role" class='bg-white border-2 border-mid p-2 mb-8 cursor-pointer' bind:value={formRole}>
 						<option value="First Time Buyer">First Time Buyer</option>
 						<option value="Occasional Buyer">Occasional Buyer</option>
 						<option value="experienced">Experienced Collector</option>
@@ -210,7 +210,7 @@
 						<option value="Curator">Curator</option>
 						<option value="Art Enthusiast">Art Enthusiast</option>
 					</select>
-
+				</div>
 					
 				<LinkArrowButton
 					class="uppercase"
