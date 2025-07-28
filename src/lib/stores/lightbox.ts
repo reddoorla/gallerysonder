@@ -18,6 +18,7 @@ const getActiveArtwork = async (uid:string|null) => {
 }
 
 export const isLightboxActive = writable(false);
+export const showInquiryForm = writable(false);
 export const lightboxImageUrl = writable('');
 export const activeArtworkUid = writable('')
 

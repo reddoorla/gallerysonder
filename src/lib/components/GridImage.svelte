@@ -2,7 +2,8 @@
 	import onShowOne from '$lib/assets/images/homeImages/onShow/sonderOnShow1.jpg';
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { isModalActive } from '$lib/stores/isModalActive';
-	import { activeArtworkUid, isLightboxActive, lightboxImageUrl } from '$lib/stores/lightbox';
+	import { activeArtworkUid, isLightboxActive, lightboxImageUrl, showInquiryForm } from '$lib/stores/lightbox';
+	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 
 	export let src = onShowOne;
 	export let href = '';
@@ -113,6 +114,7 @@ const openModal = () => {
 				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
 		>
 		{/if}
+
 	
 	{:else}
 		{#if text}
@@ -188,6 +190,13 @@ const openModal = () => {
 					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
 			>
 			{/if}
+					{#if artworkUID}
+					<div class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}">
+		<LinkArrowButton text="INQUIRE" class="origin-left scale-75 mt-1" click={()=>{openModal();showInquiryForm.set(true)}} />
+					</div>
+		{/if}
 			
 		{:else}
 			{#if text}
@@ -212,6 +221,13 @@ const openModal = () => {
 					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
 			>
 			{/if}
+					{#if artworkUID}
+					<div class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}">
+		<LinkArrowButton text="INQUIRE" class="scale-75 origin-left mt-1 " click={()=>{openModal();showInquiryForm.set(true)}} />
+					</div>
+		{/if}
 		{/if}
 	</button>
 {/if}

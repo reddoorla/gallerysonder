@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {
 		isLightboxActive,
+		showInquiryForm,
 		lightboxImageUrl,
 		activeArtworkUid,
 		activeArtwork,
@@ -17,8 +18,6 @@
 	import Slideshow from './Slideshow.svelte';
 
 	let viewportWidth: number;
-
-	let showInquiryForm = false;
 
 	let formName: string;
 	let formCompany: string;
@@ -54,7 +53,7 @@
 	};
 
 	const closeModal = () => {
-		showInquiryForm = false;
+		showInquiryForm.set(false);
 		isModalActive.set(false);
 		isLightboxActive.set(false);
 		lightboxImageUrl.set('');
@@ -72,7 +71,7 @@
 		<div
 			class="w-screen h-screen fixed top-0 left-0 flex justify-center items-start lg:items-center z-40 overflow-y-scroll md:overflow-hidden"
 			style="background-color:{$backgroundColor}"
-			
+			transition:fade
 		>
 			<ContentWidth class="w-full fixed top-0 h-16 flex items-center justify-between px-4 md:px-0 z-40">
 					<button class="h-6 bump" on:click={closeModal}
@@ -115,7 +114,7 @@
 				<div
 					class="w-full lg:w-1/2 lg:h-4/5 lg:p-16 lg:pr-0 flex flex-col items-start justify-center gap-6"
 				>
-				{#if !showInquiryForm}
+				{#if !$showInquiryForm}
 					{#if $activeArtist}
 						<a
 							on:click={closeModal}
@@ -140,15 +139,15 @@
 					{#if isFilled.richText($activeArtwork.data.body)}
 						<div class="rich-text"><PrismicRichText field={$activeArtwork.data.body} /></div>
 					{/if}
-					{#if !showInquiryForm}
+					{#if !$showInquiryForm}
 					<button
-						on:click={() => (showInquiryForm = true)}
+						on:click={() => showInquiryForm.set(true)}
 						class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer"
 						>Inquire</button
 					>
 					{/if}
 					{/if}
-				{#if showInquiryForm}
+				{#if $showInquiryForm}
 					
 				<div in:fade={{delay:400}} class='w-full flex flex-col mt-64 md:mt-20'>
 				<h2>Inquire</h2>
