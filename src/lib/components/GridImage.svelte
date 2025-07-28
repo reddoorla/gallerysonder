@@ -44,9 +44,12 @@ const openModal = () => {
 
 	//isModalActive.set(true);
 	isLightboxActive.set(true);
-	
+setTimeout(()=>{
 	if (document.getElementsByTagName('body'))
 		(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
+
+}, 500)	
+	
 };
 
 
