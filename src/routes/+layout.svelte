@@ -16,6 +16,7 @@
 	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
 	import { isLightboxActive } from '$lib/stores/lightbox';
 	import Lightbox from '$lib/components/Lightbox.svelte';
+	import CookieConsent from '$lib/components/CookieConsent.svelte';
 
 
 	export let data;
@@ -76,6 +77,7 @@
 		
 
 	};
+
 	
 	let isVideoDone = !USE_INTRO;
 </script>
@@ -130,6 +132,7 @@
 	{/if}
 </svelte:head>
 <NewsletterSignup />
+<CookieConsent />
 
 <svg id="sonderLogo" width="0" height="0" viewBox="0 0 383 49" xmlns="http://www.w3.org/2000/svg">
 	<clipPath id="sonderClipPath">

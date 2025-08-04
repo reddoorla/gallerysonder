@@ -63,7 +63,7 @@
 			if(isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
 				const fetchedContent = (await client.getByUID('artwork', item.artwork.uid)).data
 				itemData.artUID = item.artwork.uid;
-				console.log(fetchedContent)
+	
 
 				if(!itemData.artistName && isFilled.contentRelationship(fetchedContent.artist) && fetchedContent.artist.uid) {
 					const artistContent = (await client.getByUID('artist', fetchedContent.artist.uid)).data
@@ -86,7 +86,7 @@
 			} else if(isFilled.contentRelationship(item.exhibition) && item.exhibition.uid){
 				const fetchedContent = (await client.getByUID('exhibit', item.exhibition.uid)).data
 
-				console.log(fetchedContent)
+	
 
 				itemData.willOpen=false;
 
@@ -109,8 +109,7 @@
 						url:"/exhibitions/"+item.exhibition.uid
 				}
 			}
-		
-			console.log(itemData)
+
 			galleryItems.push(itemData);
 		}
 		
