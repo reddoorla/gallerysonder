@@ -4,6 +4,7 @@
   import { writable } from 'svelte/store';
   import { backgroundColor } from '$lib/stores/backgroundColor';
 	import ContentWidth from './ContentWidth.svelte';
+	import { fade, fly } from 'svelte/transition';
 
         //@ts-nocheck
   // Cookie consent store - simplified to just accepted/rejected
@@ -23,12 +24,17 @@
       // Initialize tracking if accepted
       if (accepted) {
         initializeFacebookPixel();
+        
       }
     } else {
-      showModal = true;
-        if (document.getElementsByTagName('body'))
-			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
+       if (document.getElementsByTagName('body'))
+			    (document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
+
+        setTimeout(()=>{
+          showModal = true;
+        }, 3000)
     }
+
   });
 
 
@@ -87,11 +93,12 @@
 
   <div 
     class="w-screen h-screen fixed top-0 left-0 z-50" 
+    transition:fade
   >
   <div class='w-full h-full absolute top-0 left-0 blur-sm backdrop-blur-sm bg-black/40'></div>
     <ContentWidth class="relative z-10 flex justify-center md:justify-end h-full flex-col pb-5">
       
-      <div class="z-20 relative flex flex-col items-start px-5 pt-10 w-full" style="background-color: {$backgroundColor}">
+      <div class="z-20 relative flex flex-col items-start px-5 pt-10 w-full" style="background-color: {$backgroundColor}" >
         <p>We use cookies to track website usage and personalize content. 
         </p>
         <p>Click 'Accept' to allow all cookies or 'Reject' to limit to necessaries.
@@ -107,19 +114,7 @@
        
       </div>
 
-      {#if hasConsented}
-        <div class="cookie-footer">
-          <p class="current-choice">
-            Current choice: 
-            <strong class={$cookieConsent ? 'accepted' : 'rejected'}>
-              {$cookieConsent ? 'Accepted' : 'Rejected'}
-            </strong>
-          </p>
-          <button class="btn-link" on:click={resetConsent}>
-            Reset Preference
-          </button>
-        </div>
-      {/if}
+      
     </ContentWidth>
   </div>
 {/if}
