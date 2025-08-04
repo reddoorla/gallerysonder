@@ -89,7 +89,7 @@
     class="w-screen h-screen fixed top-0 left-0 z-50" 
   >
   <div class='w-full h-full absolute top-0 left-0 blur-sm backdrop-blur-sm bg-black/40'></div>
-    <ContentWidth class="relative z-10 flex items-start justify-end h-full flex-col pb-5">
+    <ContentWidth class="relative z-10 flex justify-center md:justify-end h-full flex-col pb-5">
       
       <div class="z-20 relative flex flex-col items-start px-5 pt-10 w-full" style="background-color: {$backgroundColor}">
         <p>We use cookies to track website usage and personalize content. 
