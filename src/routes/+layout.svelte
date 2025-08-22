@@ -17,13 +17,23 @@
 	import { isLightboxActive } from '$lib/stores/lightbox';
 	import Lightbox from '$lib/components/Lightbox.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
-
+	import Analytics from '$lib/components/Analytics.svelte';
+	import { utmParams } from '$lib/stores/analyticsData.js';
 
 	export let data;
 	const USE_INTRO = import.meta.env.VITE_USE_INTRO&&import.meta.env.VITE_USE_INTRO!=='false';
 	let isVideoLoaded = !USE_INTRO;
 	let isPlaying = !USE_INTRO;
 	let isTransitioning = false;
+
+	// UTM parameters
+	let currentUtmParams = {
+		source: 'none',
+		medium: 'none',
+		campaign: 'none',
+		term: 'none',
+		content: 'none'
+	};
 
 	interface VimeoComponent {
 		play: () => Promise<void>;
@@ -36,6 +46,19 @@
 	onMount(() => {
 		if(!USE_INTRO)
 			isIntroFinished.set(true);
+
+		// Extract UTM parameters from URL
+		const urlParams = $page.url.searchParams;
+		currentUtmParams = {
+			source: urlParams.get('utm_source') || 'none',
+			medium: urlParams.get('utm_medium') || 'none',
+			campaign: urlParams.get('utm_campaign') || 'none',
+			term: urlParams.get('utm_term') || 'none',
+			content: urlParams.get('utm_content') || 'none'
+		};
+
+		// Update the store
+		utmParams.set(currentUtmParams);
 	});
 
 	onNavigate(() => {
@@ -133,6 +156,7 @@
 </svelte:head>
 <NewsletterSignup />
 <CookieConsent />
+<Analytics />
 
 <svg id="sonderLogo" width="0" height="0" viewBox="0 0 383 49" xmlns="http://www.w3.org/2000/svg">
 	<clipPath id="sonderClipPath">
@@ -214,6 +238,14 @@
 
 <form class="hidden" name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyContactForm">
 	<input type="hidden" name="form-name" value="contact" />
+	
+	<!-- UTM Parameters -->
+	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
+	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
+	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
+	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
+	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
+	
 	<p>Name</p>
 	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
 	<p>Company Name</p>
@@ -230,11 +262,19 @@
 	<p>Message</p>
 	<textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 	<button id="hiddenSubmitButton" type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
-  </form>
+</form>
 
 
-  <form class="hidden" name="inquiry" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyInquiryForm">
+<form class="hidden" name="inquiry" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyInquiryForm">
 	<input type="hidden" name="form-name" value="inquiry" />
+	
+	<!-- UTM Parameters -->
+	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
+	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
+	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
+	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
+	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
+	
 	<p>Name</p>
 	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
 	<p>Phone</p>
@@ -254,4 +294,4 @@
 	<input name="role" type="text" />
 
 	<button id="hiddenSubmitButton" type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
-  </form>
+</form>
