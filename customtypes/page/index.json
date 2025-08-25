@@ -23,7 +23,7 @@
 			"artist": {
 				"type": "Text",
 				"config": {
-					"label": "artist",
+					"label": "small title",
 					"placeholder": ""
 				}
 			},
