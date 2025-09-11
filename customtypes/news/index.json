@@ -1,0 +1,137 @@
+{
+	"format": "page",
+	"id": "news",
+	"label": "news",
+	"repeatable": true,
+	"status": true,
+	"json": {
+		"Main": {
+			"uid": {
+				"config": {
+					"label": "UID"
+				},
+				"type": "UID"
+			},
+			"background_image": {
+				"type": "Image",
+				"config": {
+					"label": "background_image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"full_name": {
+				"type": "Text",
+				"config": {
+					"label": "full title",
+					"placeholder": ""
+				}
+			},
+			"title_line_one": {
+				"type": "Text",
+				"config": {
+					"label": "title_line_one",
+					"placeholder": ""
+				}
+			},
+			"title_line_two": {
+				"type": "Text",
+				"config": {
+					"label": "title_line_two",
+					"placeholder": ""
+				}
+			},
+			"title_line_three": {
+				"type": "Text",
+				"config": {
+					"label": "title_line_three",
+					"placeholder": ""
+				}
+			},
+			"default_background_color": {
+				"type": "Color",
+				"config": {
+					"label": "default_background_color",
+					"placeholder": ""
+				}
+			},
+			"nav_image": {
+				"type": "Image",
+				"config": {
+					"label": "nav_image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"sections": {
+				"type": "Group",
+				"config": {
+					"label": "sections",
+					"repeat": true,
+					"fields": {
+						"section": {
+							"type": "Text",
+							"config": {
+								"label": "section",
+								"placeholder": ""
+							}
+						}
+					}
+				}
+			},
+			"slices": {
+				"type": "Slices",
+				"fieldset": "Slice Zone",
+				"config": {
+					"choices": {
+						"video_block": {
+							"type": "SharedSlice"
+						},
+						"quote_block": {
+							"type": "SharedSlice"
+						},
+						"title_block": {
+							"type": "SharedSlice"
+						},
+						"image_gallery": {
+							"type": "SharedSlice"
+						},
+						"name_list": {
+							"type": "SharedSlice"
+						},
+						"rich_text": {
+							"type": "SharedSlice"
+						}
+					}
+				}
+			}
+		},
+		"SEO & Metadata": {
+			"meta_description": {
+				"config": {
+					"label": "Meta Description",
+					"placeholder": "A brief summary of the page"
+				},
+				"type": "Text"
+			},
+			"meta_image": {
+				"config": {
+					"constraint": {
+						"height": 1260,
+						"width": 2400
+					},
+					"label": "Meta Image",
+					"thumbnails": []
+				},
+				"type": "Image"
+			},
+			"meta_title": {
+				"config": {
+					"label": "Meta Title",
+					"placeholder": "A title of the page used for social media and search engines"
+				},
+				"type": "Text"
+			}
+		}
+	}
+}
