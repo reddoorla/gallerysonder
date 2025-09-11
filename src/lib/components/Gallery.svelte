@@ -60,6 +60,7 @@
 				artUID: '',
 				willOpen : slice.primary.will_open
 			}
+			
 			if(isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
 				const fetchedContent = (await client.getByUID('artwork', item.artwork.uid)).data
 				itemData.artUID = item.artwork.uid;
@@ -86,8 +87,6 @@
 			} else if(isFilled.contentRelationship(item.exhibition) && item.exhibition.uid){
 				const fetchedContent = (await client.getByUID('exhibit', item.exhibition.uid)).data
 
-	
-
 				itemData.willOpen=false;
 
 				if(!itemData.eyebrow)
@@ -108,7 +107,24 @@
 						link_type: "Web",
 						url:"/exhibitions/"+item.exhibition.uid
 				}
+			} else if(isFilled.contentRelationship(item.news) && item.news.uid) {
+				const fetchedContent = (await client.getByUID('news', item.news.uid)).data
+
+				itemData.willOpen = false;
+
+			
+				itemData.title = fetchedContent.full_name
+				if(!isFilled.image(itemData.image))
+					itemData.image = fetchedContent.nav_image || fetchedContent.background_image
+				
+				if(!isFilled.link(itemData.buttonLink))
+					itemData.buttonLink = {
+						link_type: "Web",
+						url:"/news/"+item.news.uid
+				
 			}
+		}
+	
 
 			galleryItems.push(itemData);
 		}

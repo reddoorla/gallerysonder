@@ -142,6 +142,13 @@
             ]
           }
         },
+        "news": {
+          "type": "Link",
+          "config": {
+            "label": "news",
+            "select": "document"
+          }
+        },
         "eyebrow": {
           "type": "Text",
           "config": {

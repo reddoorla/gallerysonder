@@ -1035,6 +1035,17 @@ interface PageDocumentData {
 	sections: prismic.GroupField<Simplify<PageDocumentDataSectionsItem>>;
 
 	/**
+	 * nav image field in *page*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: page.nav_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	nav_image: prismic.ImageField<never>;
+
+	/**
 	 * Slice Zone field in *page*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -1255,6 +1266,16 @@ export interface ImageGallerySliceDefaultItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
 	exhibition: prismic.ContentRelationshipField<'exhibit'>;
+
+	/**
+	 * news field in *ImageGallery → Items*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: image_gallery.items[].news
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	news: prismic.ContentRelationshipField;
 
 	/**
 	 * piece eyebrow field in *ImageGallery → Items*

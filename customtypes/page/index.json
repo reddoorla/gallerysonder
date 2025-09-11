@@ -79,6 +79,14 @@
 					}
 				}
 			},
+			"nav_image": {
+				"type": "Image",
+				"config": {
+					"label": "nav image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
 			"slices": {
 				"type": "Slices",
 				"fieldset": "Slice Zone",
