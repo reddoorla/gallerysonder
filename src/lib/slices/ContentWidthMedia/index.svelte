@@ -144,17 +144,17 @@
 			>
 				<div
 					style="width: {tripledImages.length * 100}%; transform:translateX({((-sliderIndex / tripledImages.length) - (1/3 )) * 100}%);"
-					class="flex flex-row justify-between flex-nowrap h-full overflow-hidden 
-						{isSlideAnimated ? 'transition-transform duration-[2000ms]' : ''}"
+					class="flex flex-row justify-between flex-nowrap h-full overflow-hidden will-change-transform
+						{isSlideAnimated ? 'transition-transform duration-[2000ms] ease-fast-slow' : ''}"
 				>
 					{#each tripledImages as image}
 						<div
 							style="width: {100 / tripledImages.length}%;"
-							class="h-full relative overflow-hidden"
+							class="h-full relative overflow-hidden will-change-transform"
 						>
 							<PrismicImage
 								field={image}
-								class="min-h-full min-w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover"
+								class="min-h-full min-w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover will-change-transform"
 							/>
 						</div>
 					{/each}

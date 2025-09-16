@@ -11,7 +11,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
-	import { isIntroFinished } from '$lib/stores/isIntroFinished.js';
+	import { isIntroRunning } from '$lib/stores/intro';
 
 	import { fade } from 'svelte/transition';
 
@@ -24,14 +24,10 @@
 	let viewportWidth: number;
 	let viewportHeight: number;
 
-	let isIntroComplete = false;
-
-	let showPresentedArtist = false;
-	let showSonderPresents = false;
+	let showEyebrow = false;
 
 	let theBottomOfTheTop: HTMLElement;
-	let contentContainer: HTMLElement | null;
-	let sliceRefs: HTMLElement[] = [];
+
 
 	let slicesSections: string[] = [];
 	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
@@ -39,7 +35,6 @@
 	let sections: string[] = [];
 	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
 
-	let isLogoBlack = false;
 	let isBackgroundDark = false;
 
 	const checkPosition = () => {
@@ -51,11 +46,11 @@
 	};
 
 	onMount(() => {
-		const unsubscribe = isIntroFinished.subscribe((value) => {
+		const unsubscribe = isIntroRunning.subscribe((value) => {
 			if (value) {
 				checkPosition();
-				setTimeout(() => (showPresentedArtist = true), 500);
-				setTimeout(() => (showSonderPresents = true), 1000);
+
+				setTimeout(() => (showEyebrow = true), 500);
 			}
 		});
 
@@ -108,13 +103,10 @@
 
 <div class="fixed w-screen h-screen-75 bottom-0">
 	<ContentWidth
-		class="h-full flex flex-col justify-end items-start transition-opacity {!isBackgroundDark &&
-		showSonderPresents
-			? ''
-			: 'opacity-0'}"
+		class="h-full flex flex-col justify-end items-start transition-opacity "
 	>
 		<h5
-			class="text-white font-light translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+			class="text-white font-light translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}">{content.dates || ''}</h5

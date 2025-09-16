@@ -11,7 +11,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
-	import { isIntroFinished } from '$lib/stores/isIntroFinished.js';
+	import { isIntroRunning } from '$lib/stores/intro';
 
 	import { fade } from 'svelte/transition';
 
@@ -24,14 +24,10 @@
 
 	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
 
-	let isIntroComplete = false;
-
-	let showPresentedArtist = false;
-	let showSonderPresents = false;
+	let showEyebrow = false;
 
 	let theBottomOfTheTop: HTMLElement;
-	let contentContainer: HTMLElement | null;
-	let sliceRefs: HTMLElement[] = [];
+
 
 	let slicesSections: string[] = [];
 	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
@@ -62,11 +58,11 @@
 	};
 
 	onMount(() => {
-		const unsubscribe = isIntroFinished.subscribe((value) => {
-			if (value) {
+		const unsubscribe = isIntroRunning.subscribe((value) => {
+			if (!value) {
 				checkPosition();
-				setTimeout(() => (showPresentedArtist = true), 500);
-				setTimeout(() => (showSonderPresents = true), 1000);
+
+				setTimeout(() => (showEyebrow = true), 500);
 			}
 		});
 		refreshData();
@@ -112,7 +108,7 @@
 <div class="fixed w-screen h-screen-75 bottom-0">
 	<ContentWidth
 		class="h-full flex flex-col justify-end items-start transition-opacity {!isBackgroundDark &&
-		showSonderPresents
+		showEyebrow
 			? ''
 			: 'opacity-0'}"
 	>
