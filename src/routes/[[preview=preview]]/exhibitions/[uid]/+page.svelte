@@ -47,7 +47,7 @@
 
 	onMount(() => {
 		const unsubscribe = isIntroRunning.subscribe((value) => {
-			if (value) {
+			if (!value) {
 				checkPosition();
 
 				setTimeout(() => (showEyebrow = true), 500);
