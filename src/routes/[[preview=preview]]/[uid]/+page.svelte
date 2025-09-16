@@ -11,7 +11,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
-	import { isIntroFinished } from '$lib/stores/isIntroFinished.js';
+	import { isIntroRunning } from '$lib/stores/intro';
 	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
 
 	import { fade } from 'svelte/transition';
@@ -23,14 +23,10 @@
 	let viewportWidth: number;
 	let viewportHeight: number;
 
-	let isIntroComplete = false;
-
-	let showPresentedArtist = false;
-	let showSonderPresents = false;
+	let showEyebrow = false;
 
 	let theBottomOfTheTop: HTMLElement;
-	let contentContainer: HTMLElement | null;
-	let sliceRefs: HTMLElement[] = [];
+
 
 	let slicesSections: string[] = [];
 	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
@@ -38,7 +34,6 @@
 	let sections: string[] = [];
 	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
 
-	let isLogoBlack = false;
 	let isBackgroundDark = false;
 
 	const checkPosition = () => {
@@ -50,11 +45,10 @@
 	};
 
 	onMount(() => {
-		const unsubscribe = isIntroFinished.subscribe((value) => {
-			if (value) {
+		const unsubscribe = isIntroRunning.subscribe((value) => {
+			if (!value) {
 				checkPosition();
-				setTimeout(() => (showPresentedArtist = true), 500);
-				setTimeout(() => (showSonderPresents = true), 1000);
+				setTimeout(() => (showEyebrow = true), 500);
 			}
 		});
 
@@ -99,29 +93,23 @@
 	/>
 </div>
 
-<!-- <div class="background-container">
-    <PrismicImage
-      field={data.page.data.background_image}
-      class="absolute object-cover  {isBackgroundDark ? "blur-sm md:blur-none":""}"
 
-    />
-    </div> -->
 
 <div class="fixed w-screen h-screen-50">
 	<ContentWidth
 		class="h-full flex flex-col justify-end items-start transition-opacity {!isBackgroundDark &&
-		showSonderPresents
+		showEyebrow
 			? ''
 			: 'opacity-0'}"
 	>
 		<h5
-			class="text-white translate-y-[22%] font-thin lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+			class="text-white translate-y-[22%] font-thin lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}">{content.dates || ''}</h5
 		>
 		<h5
-			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}"

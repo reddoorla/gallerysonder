@@ -1,21 +1,21 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Nav from '$lib/components/Nav.svelte';
+
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
 
 	import { components } from '$lib/slices';
-	import { PrismicImage, SliceZone } from '@prismicio/svelte';
+	import { SliceZone } from '@prismicio/svelte';
 
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
-	import { isIntroFinished } from '$lib/stores/isIntroFinished.js';
+	import { isIntroRunning } from '$lib/stores/intro';
 
 	import { fade } from 'svelte/transition';
-	import { isFilled } from '@prismicio/client';
 	import AnimateIn from '$lib/components/Animation/AnimateIn.svelte';
 	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
+	import Intro from '$lib/components/Intro.svelte';
 
 	export let data;
 
@@ -24,14 +24,10 @@
 	let viewportWidth: number;
 	let viewportHeight: number;
 
-	let isIntroComplete = false;
-
 	let showPresentedArtist = false;
-	let showSonderPresents = false;
+	let showEyebrow = false;
 
 	let theBottomOfTheTop: HTMLElement;
-	let contentContainer: HTMLElement | null;
-	let sliceRefs: HTMLElement[] = [];
 
 	let slicesSections: string[] = [];
 	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
@@ -39,7 +35,6 @@
 	let sections: string[] = [];
 	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
 
-	let isLogoBlack = false;
 	let isBackgroundDark = false;
 
 	const checkPosition = () => {
@@ -51,11 +46,12 @@
 	};
 
 	onMount(() => {
-		const unsubscribe = isIntroFinished.subscribe((value) => {
-			if (value) {
+		isIntroRunning.set(false)
+		const unsubscribe = isIntroRunning.subscribe((value) => {
+			if (!value) {
 				checkPosition();
 				setTimeout(() => (showPresentedArtist = true), 500);
-				setTimeout(() => (showSonderPresents = true), 1000);
+				setTimeout(() => (showEyebrow = true), 1000);
 			}
 		});
 
@@ -84,7 +80,7 @@
 
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
-
+<Intro>
 <div
 	class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip min-h-full min-w-full aspect-video fixed"
 >
@@ -107,13 +103,13 @@
 <div class="fixed w-screen h-screen-75 bottom-0">
 	<ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity">
 		<span
-			class="text-white translate-y-[22%] dates lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+			class="text-white translate-y-[22%] dates lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}">{content.dates || ''}</span
 		>
 		<h5
-			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showSonderPresents &&
+			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}"
@@ -151,3 +147,4 @@
 
 	<Footer />
 </div>
+</Intro>
