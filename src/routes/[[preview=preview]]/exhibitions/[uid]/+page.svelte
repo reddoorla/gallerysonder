@@ -47,7 +47,7 @@
 
 	onMount(() => {
 		const unsubscribe = isIntroRunning.subscribe((value) => {
-			if (value) {
+			if (!value) {
 				checkPosition();
 
 				setTimeout(() => (showEyebrow = true), 500);
@@ -111,13 +111,22 @@
 				? ''
 				: 'opacity-0'}">{content.dates || ''}</h5
 		>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
+			!isBackgroundDark
+				? ''
+				: 'opacity-0'}">
 			{content.title_line_one || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
+			!isBackgroundDark
+				? ''
+				: 'opacity-0'}">
 			{content.title_line_two || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
+			!isBackgroundDark
+				? ''
+				: 'opacity-0'}">
 			{content.title_line_three || ''}
 		</h1>
 	</ContentWidth>
