@@ -188,5 +188,5 @@
         </label>
     </p>
     <input type="email" name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
-    <input type="submit" class="mt-6" id="hiddenSubmitButton"/>
+    <button type="submit" class="mt-6" id="hiddenNewsSubmitButton"/>
 </form>

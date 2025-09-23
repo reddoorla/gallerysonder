@@ -10,7 +10,7 @@
 	import { onMount } from "svelte";
 
        let form:HTMLFormElement|null;
-       let body:HTMLBodyElement|null;
+
 
     $: {
         $isNewsletterActive;
