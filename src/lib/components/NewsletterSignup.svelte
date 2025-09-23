@@ -10,6 +10,7 @@
 	import { onMount } from "svelte";
 
        let form:HTMLFormElement|null;
+       let body:HTMLBodyElement|null;
 
     $: {
         $isNewsletterActive;
@@ -61,9 +62,12 @@
 
     onMount(()=>{
         window.addEventListener('scroll', checkPosition);
+
+         if(window)
+        form = window.document.querySelector("#newsletter-signup")
     })
 
-    form = document.querySelector("#newsletter-signup")
+   
 
     let submit = () => form?.submit();
  
@@ -83,6 +87,8 @@ const triggerSubmitButton = () => {
     
 
 </script>
+
+
 
 {#if $isNewsletterActive&&!$hasNewsletterBeenCleared}
 <div class="w-screen h-screen fixed top-0 left-0 z-40  backdrop-blur" transition:fade >
