@@ -88,7 +88,7 @@ const submitForm = async (formElement:HTMLFormElement) => {
       console.error("405 Error - Form endpoint not accepting POST");
       // Try fallback submission
       formElement.submit();
-      console.log(formElement)
+      console.log(new FormData(formElement))
     }
   } catch (error) {
     console.error("Form submission failed:", error);
