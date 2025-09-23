@@ -85,7 +85,7 @@ const triggerSubmitButton = () => {
              hiddenEmail.value=emailValue;
         }
 
-    hiddenForm.submit();
+    hiddenForm.requestSubmit();
 
     console.log("email: " + emailValue);
     
