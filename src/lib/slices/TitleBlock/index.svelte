@@ -17,6 +17,8 @@
 	import { page } from '$app/stores';
 
 	let viewportWidth: number;
+	let submitted = false;
+	let error = false;
 
 	export let slice: TitleBlockSlice;
 
@@ -33,24 +35,21 @@
   const formData = new FormData(formElement);
   
 
-  try {
-    const response = await fetch("/", {  // Always use "/"
+ 
+    const response = await fetch("/", { 
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
         //@ts-ignore
       body: new URLSearchParams(formData).toString()
     });
-    
-    if (response.status === 405) {
-      console.error("405 Error - Form endpoint not accepting POST");
-      // Try fallback submission
-      formElement.submit();
-      console.log(new FormData(formElement))
-    }
-  } catch (error) {
-    console.error("Form submission failed:", error);
-  }
-};
+
+	console.log("response: "+response.toString())
+	submitted = true;
+
+	if (response.status !== 200)
+		error = true;
+
+}
 
 
 	const triggerSubmitButton = () => {
@@ -206,7 +205,7 @@ bind:this={shape}
 			</div>
 			{#if showContactForm}
 			<div transition:slide class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"   >
-                
+                {#if !submitted}
 						
 					<p>Name</p>
 					<input type="text" name="name" bind:value={formName} required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
@@ -232,7 +231,13 @@ bind:this={shape}
 				
                         <button type="submit" on:click={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
                  
-               </div>
+               
+			   	{:else if error}
+				<h2>We're sorry, there appears to be an error. Please email info@gallerysonder.com with your inquiry.</h2>
+				{:else}
+				<h2>Thank you for reaching out!</h2>
+				{/if}
+				</div>
 			   {/if}
 			<div class="flex flex-row gap-6">
 				{#if isFilled.link(slice.primary.instagram)}

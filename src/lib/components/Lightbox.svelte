@@ -18,6 +18,8 @@
 	import Slideshow from './Slideshow.svelte';
 
 	let viewportWidth: number;
+	let submitted=false;
+	let error = false;
 
 	let formName: string;
 	let formCompany: string;
@@ -30,7 +32,7 @@
   const formData = new FormData(formElement);
   
 
-  try {
+ 
     const response = await fetch("/", { 
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -39,17 +41,12 @@
     });
 
 	console.log("response: "+response.toString())
-    
-    if (response.status === 405) {
-      console.error("405 Error - Form endpoint not accepting POST");
-      // Try fallback submission
-      formElement.submit();
-      console.log(new FormData(formElement))
-    }
-  } catch (error) {
-    console.error("Form submission failed:", error);
-  }
-};
+	submitted = true;
+
+	if (response.status !== 200)
+		error = true;
+
+}
 
 	const triggerSubmitButton = () => {
 		const hiddenForm = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
@@ -174,6 +171,7 @@
 					{/if}
 				{#if $showInquiryForm}
 					
+				{#if !submitted}
 				<div in:fade={{delay:400}} class='w-full flex flex-col mt-64 md:mt-20'>
 				<h2>Inquire</h2>
 				<p class="mb-8 mt-4">Fill out the form below to learn more about this piece.</p>
@@ -247,8 +245,14 @@
 communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
 				
 				</div>
+				{:else if error}
+				<h2>We're sorry, there appears to be an error. Please email info@gallerysonder.com with your inquiry.</h2>
+				{:else}
+				<h2>Thank you for reaching out!</h2>
+				{/if}
 				{/if}
 				</div>
+				
 			</ContentWidth>
 		</div>
 	{/if}

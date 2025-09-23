@@ -11,6 +11,7 @@
 
 
     let submitted = false;
+    let error = false;
 
 
 
@@ -72,34 +73,25 @@
     })
 
    
-const submitForm = async (formElement:HTMLFormElement) => {
+	const submitForm = async (formElement:HTMLFormElement) => {
   const formData = new FormData(formElement);
   
 
-  try {
-    const response = await fetch("/", {  // Always use "/"
+ 
+    const response = await fetch("/", { 
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
         //@ts-ignore
       body: new URLSearchParams(formData).toString()
     });
 
-    if(response.status === 200)
-        submitted=true;
-    
-    if (response.status === 405) {
-      console.error("405 Error - Form endpoint not accepting POST");
-      // Try fallback submission
-      formElement.submit();
-      console.log(new FormData(formElement))
-    }
+	console.log("response: "+response.toString())
+	submitted = true;
 
-    
-  } catch (error) {
-    console.error("Form submission failed:", error);
-  }
-};
- 
+	if (response.status !== 200)
+		error = true;
+
+}
  
 
 const triggerSubmitButton = () => {
@@ -141,7 +133,10 @@ const triggerSubmitButton = () => {
             <LinkArrowButton class="mt-6" text="Subscribe" click={triggerSubmitButton}/>
         </div>
         <p class="text-sm mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
-        {:else}
+        {:else if error}
+				<h2>We're sorry, there appears to be an error. Please email info@gallerysonder.com with your inquiry.</h2>
+				{:else}
+				
          <h2>Thank you for joining our email list</h2>
         {/if}
     </ContentWidth>
