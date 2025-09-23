@@ -116,7 +116,7 @@ const triggerSubmitButton = () => {
     console.log("email: " + emailValue);
     
     $hasNewsletterBeenCleared  = true;
-    $isNewsletterActive = false;
+
     
 };
     

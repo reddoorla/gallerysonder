@@ -31,12 +31,14 @@
   
 
   try {
-    const response = await fetch("/", {  // Always use "/"
+    const response = await fetch("/", { 
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
         //@ts-ignore
       body: new URLSearchParams(formData).toString()
     });
+
+	console.log("response: "+response)
     
     if (response.status === 405) {
       console.error("405 Error - Form endpoint not accepting POST");
