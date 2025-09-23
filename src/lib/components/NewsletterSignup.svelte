@@ -73,12 +73,14 @@
 
    
 const submitForm = async (formElement:HTMLFormElement) => {
-  const formData = new FormData(formElement).toString();
+  const formData = new FormData(formElement);
   
+
   try {
     const response = await fetch("/", {  // Always use "/"
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        //@ts-ignore
       body: new URLSearchParams(formData).toString()
     });
     
