@@ -119,7 +119,7 @@
 
 <PrismicPreview {repositoryName} />
 
-<form class="hidden" style="display: none;" name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyContactForm" data-sveltekit-reload="true">
+<form class="hidden" style="display: none;" name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyContactForm" >
 	<input type="hidden" name="form-name" value="contact" />
 	
 	<!-- UTM Parameters -->
@@ -148,7 +148,7 @@
 </form>
 
 
-<form class="hidden" style="display: none;" name="inquiry" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyInquiryForm" data-sveltekit-reload="true">
+<form class="hidden" style="display: none;" name="inquiry" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyInquiryForm" >
 	<input type="hidden" name="form-name" value="inquiry" />
 	
 	<!-- UTM Parameters -->
@@ -179,7 +179,7 @@
 	<button id="hiddenSubmitButton" type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
 </form>
 
-<form class="hidden" style="display: none;" name="news" method="POST" id="netlifyNewsletterSignup" data-netlify="true" data-netlify-honeypot="bot-field" data-sveltekit-reload="true">
+<form class="hidden" style="display: none;" name="news" method="POST" id="netlifyNewsletterSignup" data-netlify="true" data-netlify-honeypot="bot-field" >
     <input type="hidden" name="form-name" value="news"  />
     <p class="hidden">
         <label>
