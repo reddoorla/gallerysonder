@@ -117,7 +117,7 @@ const triggerSubmitButton = () => {
           Don’t fill this out if you’re human: <input name="bot-field" />
         </label>
     </p>
-    <input type="email" name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
+    <input type="email" name="email" placeholder="Enter Your Email" bind:value={emailValue} class="h-12 pl-2"/>
     <button type="submit" id="hiddenNewsSubmitButton"/>
 </form>
 
