@@ -26,6 +26,29 @@
 	let formMessage: string;
 	let formRole:string;
 
+	const submitForm = async (formElement:HTMLFormElement) => {
+  const formData = new FormData(formElement);
+  
+
+  try {
+    const response = await fetch("/", {  // Always use "/"
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        //@ts-ignore
+      body: new URLSearchParams(formData).toString()
+    });
+    
+    if (response.status === 405) {
+      console.error("405 Error - Form endpoint not accepting POST");
+      // Try fallback submission
+      formElement.submit();
+      console.log(new FormData(formElement))
+    }
+  } catch (error) {
+    console.error("Form submission failed:", error);
+  }
+};
+
 	const triggerSubmitButton = () => {
 		const hiddenForm = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
 
@@ -47,7 +70,7 @@
 			if (hiddenArtist&&$activeArtist) hiddenArtist.value = $activeArtist.data.full_name as string ;
 			if (hiddenRole) hiddenRole.value = formRole;
 
-			hiddenForm.submit();
+			submitForm(hiddenForm);
 			console.log('submitted inquiry');
 		}
 	};
