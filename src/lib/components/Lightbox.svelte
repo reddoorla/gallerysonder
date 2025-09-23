@@ -38,7 +38,7 @@
       body: new URLSearchParams(formData).toString()
     });
 
-	console.log("response: "+response)
+	console.log("response: "+response.toString())
     
     if (response.status === 405) {
       console.error("405 Error - Form endpoint not accepting POST");
