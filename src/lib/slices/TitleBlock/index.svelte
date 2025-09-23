@@ -43,7 +43,7 @@
       body: new URLSearchParams(formData).toString()
     });
 
-	console.log("response: "+response.toString())
+
 	submitted = true;
 
 	if (response.status !== 200)
