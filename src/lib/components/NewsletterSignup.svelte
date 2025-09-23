@@ -72,7 +72,25 @@
     })
 
    
-
+const submitForm = async (formElement:HTMLFormElement) => {
+  const formData = new FormData(formElement).toString();
+  
+  try {
+    const response = await fetch("/", {  // Always use "/"
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString()
+    });
+    
+    if (response.status === 405) {
+      console.error("405 Error - Form endpoint not accepting POST");
+      // Try fallback submission
+      formElement.submit();
+    }
+  } catch (error) {
+    console.error("Form submission failed:", error);
+  }
+};
  
  
 
@@ -85,7 +103,7 @@ const triggerSubmitButton = () => {
              hiddenEmail.value=emailValue;
         }
 
-    hiddenForm.requestSubmit();
+    submitForm(hiddenForm);
 
     console.log("email: " + emailValue);
     
