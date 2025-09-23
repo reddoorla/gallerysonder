@@ -180,13 +180,3 @@
 	<button id="hiddenSubmitButton" type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
 </form>
 
-	<form class="hidden" style="display: none;" name="news" method="post" id="newsletter-signup" data-netlify="true" data-netlify-honeypot="bot-field">
-    <input type="hidden" name="form-name" value="news" />
-    <p class="hidden">
-        <label>
-          Don’t fill this out if you’re human: <input name="bot-field" />
-        </label>
-    </p>
-    <input type="email" name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
-    <button type="submit" class="mt-6" id="hiddenNewsSubmitButton"/>
-</form>
