@@ -17,8 +17,6 @@
 
     $: {
         $isNewsletterActive;
-        if($hasNewsletterBeenCleared)
-            $isNewsletterActive=false;
         if(typeof document !=='undefined' && document.getElementsByTagName('body')){
             const body = document.getElementsByTagName('body')[0] as HTMLElement;
             if($isNewsletterActive){
@@ -54,7 +52,7 @@
 
     const checkPosition = () => {
 
-        if(typeof window !== 'undefined'&&typeof document !== 'undefined'){
+        if(typeof window !== 'undefined'&&typeof document !== 'undefined' && !$hasNewsletterBeenCleared){
             const maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             if(window.scrollY>lowestPoint)
                 lowestPoint=window.scrollY;
@@ -117,7 +115,7 @@ const triggerSubmitButton = () => {
 
 
 
-{#if $isNewsletterActive&&!$hasNewsletterBeenCleared}
+{#if $isNewsletterActive}
 <div class="w-screen h-screen fixed top-0 left-0 z-40  backdrop-blur" transition:fade >
     <div class="w-full h-full absolute top-0 left-0 opacity-95" style="background-color:{$backgroundColor}"></div>
     <ContentWidth  class="h-full relative flex flex-col items-start justify-center gap-10">
