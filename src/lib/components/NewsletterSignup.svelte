@@ -10,7 +10,7 @@
 	import { onMount } from "svelte";
 
 
-    
+    let submitted = false;
 
 
 
@@ -83,6 +83,9 @@ const submitForm = async (formElement:HTMLFormElement) => {
         //@ts-ignore
       body: new URLSearchParams(formData).toString()
     });
+
+    if(response.status === 200)
+        submitted=true;
     
     if (response.status === 405) {
       console.error("405 Error - Form endpoint not accepting POST");
@@ -90,6 +93,8 @@ const submitForm = async (formElement:HTMLFormElement) => {
       formElement.submit();
       console.log(new FormData(formElement))
     }
+
+    
   } catch (error) {
     console.error("Form submission failed:", error);
   }
@@ -112,6 +117,7 @@ const triggerSubmitButton = () => {
     
     $hasNewsletterBeenCleared  = true;
     $isNewsletterActive = false;
+    
 };
     
 
@@ -125,6 +131,7 @@ const triggerSubmitButton = () => {
     <ContentWidth  class="h-full relative flex flex-col items-start justify-center gap-10">
         <button on:click={()=>{$isNewsletterActive=false; $hasNewsletterBeenCleared=true}} class="absolute top-5 left-0 hover:opacity-80"><i class="fa-sharp fa-close fa-2xl text-black" /></button>
         <a href="/" class="absolute top-5 right-0 hover:opacity-80"><RotatingLogo class="h-6" /></a>
+        {#if !submitted}
         <div>
             <h2>Join Our Community</h2>
             <p>Sign up for our newsletter to receive updates  <br/> on exhibitions, artists, and community events. </p>
@@ -134,6 +141,9 @@ const triggerSubmitButton = () => {
             <LinkArrowButton class="mt-6" text="Subscribe" click={triggerSubmitButton}/>
         </div>
         <p class="text-sm mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
+        {:else}
+         <h2>Thank you for joining our email list</h2>
+        {/if}
     </ContentWidth>
     
 </div>
