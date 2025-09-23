@@ -9,6 +9,8 @@
 	import LinkArrowButton from "./Buttons/LinkArrowButton.svelte";
 	import { onMount } from "svelte";
 
+       let form:HTMLFormElement|null;
+
     $: {
         $isNewsletterActive;
         if($hasNewsletterBeenCleared)
@@ -61,14 +63,17 @@
         window.addEventListener('scroll', checkPosition);
     })
 
-    let submit = () => form.submit();
-    let form:HTMLFormElement;
+    form = document.querySelector("#newsletter-signup")
+
+    let submit = () => form?.submit();
+ 
 
 const triggerSubmitButton = () => {
-  const submitButton = form.querySelector('button');
+  const submitButton = form?.querySelector('button');
     if (submitButton) {
         submitButton.click();
     }
+    submit();
 
     console.log("hi");
     
@@ -99,15 +104,6 @@ const triggerSubmitButton = () => {
 </div>
 {/if}
 
-<form class="hidden" name="news" method="post" bind:this={form} data-netlify="true" data-netlify-honeypot="bot-field">
-    <input type="hidden" name="form-name" value="news" />
-    <p class="hidden">
-        <label>
-          Don’t fill this out if you’re human: <input name="bot-field" />
-        </label>
-    </p>
-    <input type="email" bind:value={emailValue} name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
-    <button class="mt-6" id="hiddenSubmitButton" on:click={submit}/>
-</form>
+
 
 
