@@ -64,6 +64,7 @@
 
     onMount(()=>{
         window.addEventListener('scroll', checkPosition);
+        const hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
 
 
     })
@@ -74,7 +75,7 @@
  
 
 const triggerSubmitButton = () => {
-     const hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
+     
         if (hiddenForm) {
              const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
              hiddenEmail.value=emailValue;
