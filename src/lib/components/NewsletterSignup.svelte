@@ -72,39 +72,43 @@
     })
 
    
-
- 
- 
-
-const triggerSubmitButton = async () => {
-  const hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
+const submitForm = async (formElement:HTMLFormElement) => {
+  const formData = new FormData(formElement).toString();
   
-  if (hiddenForm) {
-    const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
-    hiddenEmail.value = emailValue;
+  try {
+    const response = await fetch("/", {  // Always use "/"
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString()
+    });
     
-    // Create FormData from the form
-    const formData = new FormData(hiddenForm).toString();
-    
-    // Submit via fetch to bypass SvelteKit
-    try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      });
-      
-      if (response.ok) {
-        console.log("Newsletter signup successful");
-        $hasNewsletterBeenCleared = true;
-        $isNewsletterActive = false;
-      } else {
-        console.error('Form submission failed:', response.status);
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    if (response.status === 405) {
+      console.error("405 Error - Form endpoint not accepting POST");
+      // Try fallback submission
+      formElement.submit();
     }
+  } catch (error) {
+    console.error("Form submission failed:", error);
   }
+};
+ 
+ 
+
+const triggerSubmitButton = () => {
+
+    hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
+     
+        if (hiddenForm) {
+             const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
+             hiddenEmail.value=emailValue;
+        }
+
+    submitForm(hiddenForm);
+
+    console.log("email: " + emailValue);
+    
+    $hasNewsletterBeenCleared  = true;
+    $isNewsletterActive = false;
 };
     
 
