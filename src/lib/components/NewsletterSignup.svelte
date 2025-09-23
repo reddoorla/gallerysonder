@@ -9,7 +9,9 @@
 	import LinkArrowButton from "./Buttons/LinkArrowButton.svelte";
 	import { onMount } from "svelte";
 
-       let form:HTMLFormElement|null;
+       const hiddenForm = document.getElementById('netlifyContactForm') as HTMLFormElement;
+    
+
 
 
     $: {
@@ -63,21 +65,22 @@
     onMount(()=>{
         window.addEventListener('scroll', checkPosition);
 
-         if(window)
-        form = window.document.querySelector("#newsletter-signup")
+
     })
 
    
 
-    let submit = () => form?.submit();
+ 
  
 
 const triggerSubmitButton = () => {
-  const submitButton = form?.querySelector('button');
-    if (submitButton) {
-        submitButton.click();
-    }
-    submit();
+     const hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
+        if (hiddenForm) {
+             const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
+             hiddenEmail.value=emailValue;
+        }
+
+    hiddenForm.submit();
 
     console.log("hi");
     
@@ -110,17 +113,7 @@ const triggerSubmitButton = () => {
 </div>
 {/if}
 
-		<form class="hidden" style="display: none;" name="news" method="POST" id="netlifyNewsletterSignup" data-netlify="true" data-netlify-honeypot="bot-field">
-    <input type="hidden" name="form-name" value="news"  />
-    <p class="hidden">
-        <label>
-          Don’t fill this out if you’re human: <input name="bot-field" />
-        </label>
-    </p>
-    <input type="email" name="email" placeholder="Enter Your Email" bind:value={emailValue} class="h-12 pl-2"/>
-    <button type="submit" id="hiddenNewsSubmitButton"/>
-</form>
-
+	
 
 
 
