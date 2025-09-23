@@ -87,7 +87,7 @@ const triggerSubmitButton = () => {
 
     hiddenForm.submit();
 
-    console.log("hi");
+    console.log("email: " + emailValue);
     
     $hasNewsletterBeenCleared  = true;
     $isNewsletterActive = false;
