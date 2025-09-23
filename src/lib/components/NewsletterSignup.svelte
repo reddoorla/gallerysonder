@@ -9,7 +9,7 @@
 	import LinkArrowButton from "./Buttons/LinkArrowButton.svelte";
 	import { onMount } from "svelte";
 
-       const hiddenForm = document.getElementById('netlifyContactForm') as HTMLFormElement;
+
     
 
 
@@ -62,9 +62,11 @@
         }
     }
 
+    let hiddenForm:HTMLFormElement;
+
     onMount(()=>{
         window.addEventListener('scroll', checkPosition);
-        const hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
+        hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
 
 
     })
@@ -75,6 +77,8 @@
  
 
 const triggerSubmitButton = () => {
+
+    hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
      
         if (hiddenForm) {
              const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
