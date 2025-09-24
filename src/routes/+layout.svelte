@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
+	import { get } from 'svelte/store';
 	import { repositoryName } from '$lib/prismicio';
 	import logo from '$lib/assets/icons/SONDER_Logo.svg';
 	import VimeoPlayer from '$lib/components/VimeoPlayer.svelte';
@@ -34,6 +35,11 @@
 		content: 'none'
 	};
 
+	const areUtmParamsEmpty = () => {
+		const u = get(utmParams)
+		return !(u.campaign||u.content||u.medium||u.medium||u.source||u.term)		
+	}
+
 
 
 	onMount(() => {
@@ -42,6 +48,7 @@
 
 		// Extract UTM parameters from URL
 		const urlParams = $page.url.searchParams;
+
 		currentUtmParams = {
 			source: urlParams.get('utm_source') || 'none',
 			medium: urlParams.get('utm_medium') || 'none',
@@ -50,8 +57,9 @@
 			content: urlParams.get('utm_content') || 'none'
 		};
 
-		// Update the store
-		utmParams.set(currentUtmParams);
+		if(areUtmParamsEmpty())
+			utmParams.set(currentUtmParams);
+
 	});
 
 	onNavigate(() => {
@@ -186,6 +194,11 @@
           Don’t fill this out if you’re human: <input name="bot-field" />
         </label>
     </p>
+	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
+	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
+	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
+	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
+	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
     <input type="email" name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
     <button type="submit" id="hiddenNewsSubmitButton"/>
 </form>

@@ -36,7 +36,7 @@
   
 
  
-    const response = await fetch("/forms", { 
+    const response = await fetch("/", { 
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
         //@ts-ignore
@@ -57,6 +57,19 @@
     const hiddenForm = document.getElementById('netlifyContactForm') as HTMLFormElement;
     
     if (hiddenForm) {
+      
+      const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
+      const hiddenCompany = hiddenForm.querySelector('[name="company"]') as HTMLInputElement;
+      const hiddenPhone = hiddenForm.querySelector('[name="phone"]') as HTMLInputElement;
+      const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
+      const hiddenMessage = hiddenForm.querySelector('[name="message"]') as HTMLTextAreaElement;
+      
+  
+      if (hiddenName) hiddenName.value = formName;
+      if (hiddenCompany) hiddenCompany.value = formCompany;
+      if (hiddenPhone) hiddenPhone.value = formPhone;
+      if (hiddenEmail) hiddenEmail.value = formEmail;
+      if (hiddenMessage) hiddenMessage.value = formMessage;
 
       submitForm(hiddenForm);
       console.log('submitted');
