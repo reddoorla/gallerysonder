@@ -36,7 +36,7 @@
   
 
  
-    const response = await fetch("/", { 
+    const response = await fetch("/forms", { 
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
         //@ts-ignore
