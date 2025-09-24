@@ -4,49 +4,17 @@
     <title>Netlify Forms</title>
 </head>
 <body>
-    <!-- Your forms exactly as they appear in your Svelte component -->
     <form name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" style="display: none;">
         <input type="hidden" name="form-name" value="contact" />
-        <input type="hidden" name="utm_source" />
-        <input type="hidden" name="utm_medium" />
-        <input type="hidden" name="utm_campaign" />
-        <input type="hidden" name="utm_term" />
-        <input type="hidden" name="utm_content" />
-        <input type="text" name="name" required />
-        <input type="text" name="company" />
-        <input type="phone" name="phone" required />
-        <input type="email" name="email" required />
-        <textarea name="message" required></textarea>
-        <p style="display: none;">
-            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-        </p>
     </form>
 
     <form name="inquiry" method="post" data-netlify="true" data-netlify-honeypot="bot-field" style="display: none;">
         <input type="hidden" name="form-name" value="inquiry" />
-        <input type="hidden" name="utm_source" />
-        <input type="hidden" name="utm_medium" />
-        <input type="hidden" name="utm_campaign" />
-        <input type="hidden" name="utm_term" />
-        <input type="hidden" name="utm_content" />
-        <input type="text" name="name" required />
-        <input type="phone" name="phone" required />
-        <input type="email" name="email" required />
-        <textarea name="message" required></textarea>
-        <input name="piece" type="text"/>
-        <input name="artist" type="text"/>
-        <input name="role" type="text" />
-        <p style="display: none;">
-            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-        </p>
     </form>
 
     <form name="news" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" style="display: none;">
         <input type="hidden" name="form-name" value="news" />
         <input type="email" name="email" />
-        <p style="display: none;">
-            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-        </p>
     </form>
 </body>
 </html>
