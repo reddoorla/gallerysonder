@@ -33,7 +33,7 @@
   
 
  
-    const response = await fetch("/", { 
+    const response = await fetch("/forms", { 
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
         //@ts-ignore
@@ -50,27 +50,10 @@
 	const triggerSubmitButton = () => {
 		const hiddenForm = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
 
-		if (hiddenForm) {
-			const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
-			const hiddenPhone = hiddenForm.querySelector('[name="phone"]') as HTMLInputElement;
-			const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
-			const hiddenMessage = hiddenForm.querySelector('[name="message"]') as HTMLTextAreaElement;
-			const hiddenPiece = hiddenForm.querySelector('[name="piece"]') as HTMLInputElement;
-			const hiddenArtist = hiddenForm.querySelector('[name="artist"]') as HTMLInputElement;
-			const hiddenRole = hiddenForm.querySelector('[name="role"]') as HTMLInputElement;
 
-			if (hiddenName) hiddenName.value = formName;
-
-			if (hiddenPhone) hiddenPhone.value = formPhone;
-			if (hiddenEmail) hiddenEmail.value = formEmail;
-			if (hiddenMessage) hiddenMessage.value = formMessage;
-			if (hiddenPiece&&$activeArtwork) hiddenPiece.value = $activeArtwork.data.title as string+ ", " +$activeArtwork.data.year;
-			if (hiddenArtist&&$activeArtist) hiddenArtist.value = $activeArtist.data.full_name as string ;
-			if (hiddenRole) hiddenRole.value = formRole;
 
 			submitForm(hiddenForm);
-			console.log('submitted inquiry');
-		}
+			
 	};
 
 	const closeModal = () => {
