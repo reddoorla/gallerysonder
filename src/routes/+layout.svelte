@@ -194,12 +194,13 @@
           Don’t fill this out if you’re human: <input name="bot-field" />
         </label>
     </p>
+	<input type="email" name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
 	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
 	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
 	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
 	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-    <input type="email" name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
+    
     <button type="submit" id="hiddenNewsSubmitButton"/>
 </form>
 
