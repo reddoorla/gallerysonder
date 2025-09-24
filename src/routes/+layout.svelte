@@ -130,12 +130,7 @@
 <form class="hidden"  name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyContactForm" >
 	<input type="hidden" name="form-name" value="contact" />
 	
-	<!-- UTM Parameters -->
-	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
-	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
-	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
-	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
-	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
+
 	
 	<p>Name</p>
 	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
@@ -152,6 +147,13 @@
 	</p>
 	<p>Message</p>
 	<textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
+
+		<!-- UTM Parameters -->
+	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
+	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
+	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
+	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
+	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
 	<button id="hiddenSubmitButton" type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
 </form>
 
@@ -160,11 +162,7 @@
 	<input type="hidden" name="form-name" value="inquiry" />
 	
 	<!-- UTM Parameters -->
-	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
-	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
-	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
-	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
-	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
+
 	
 	<p>Name</p>
 	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
@@ -183,6 +181,12 @@
 	<input name="piece" type="text"/>
 	<input name="artist" type="text"/>
 	<input name="role" type="text" />
+
+		<input type="hidden" name="utm_source" value={currentUtmParams.source} />
+	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
+	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
+	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
+	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
 
 	<button id="hiddenSubmitButton" type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
 </form>
