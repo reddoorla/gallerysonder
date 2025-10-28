@@ -216,6 +216,7 @@
           Don’t fill this out if you’re human: <input name="bot-field" />
         </label>
 	 </p>
+	 <input type="hidden" name="form-name" value="rsvp" />
 	<input name="name" type='text'/>
 	<input type="email" name="email" />
 	<input type="text" name="event" />
