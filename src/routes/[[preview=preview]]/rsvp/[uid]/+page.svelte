@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import { page } from "$app/state";
     import ContentWidth from "$lib/components/ContentWidth.svelte";
-	import { PrismicRichText } from "@prismicio/svelte";
+	import { PrismicImage, PrismicRichText } from "@prismicio/svelte";
     
     let submitted = false;
     let error = false;
@@ -64,15 +64,15 @@
 </style>
 
 <section class="w-screen min-h-lvh h-full flex bg-black text-white relative">
-    <ContentWidth class="h-full flex flex-col md:flex-row items-start justify-start py-24 relative w-full">
+    <ContentWidth class="h-full flex flex-col md:flex-row items-start justify-start py-16 md:py-24 relative w-full">
         <div class="w-full md:w-1/2 flex flex-col items-start justify-start">
             <div class="text-white ml-0.5">{data.page.data.dates||""}</div>
             <h2 class="text-white ">{data.page.data.name||toTitleCase(data.page.uid)}</h2>
-            <div class="text-white mt-12">
+            <div class="text-white mt-4 md:mt-12">
                 <PrismicRichText field={data.page.data.body_text} />
             </div>
         </div>
-        <div class="w-full md:w-1/2 flex flex-col gap-2 items-start">
+        <div class="w-full md:w-1/2 flex flex-col gap-2 items-start mt-12 md:mt-0">
             {#if !submitted}
                 <p class="text-white">Name</p>
                 <input 
