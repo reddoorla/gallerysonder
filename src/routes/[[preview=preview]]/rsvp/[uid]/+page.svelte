@@ -121,9 +121,9 @@
                 </button>
                  <div class="text-white absolute bottom-0 left-0">By clicking submit you agree to receive emails under the terms of our privacy policy.</div>
             {:else if error}
-                <h3 class="text-white">We're sorry, there appears to be an error. Please email info@gallerysonder.com with your RSVP.</h3>
+                <h4 class="text-white">We're sorry, there appears to be an error. Please email info@gallerysonder.com with your RSVP.</h4>
             {:else}
-                <h3 class="text-white">Thank you for your RSVP!</h3>
+                <h4 class="text-white">Thank you for your RSVP!</h4>
             {/if}
         </div>
        
