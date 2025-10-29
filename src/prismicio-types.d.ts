@@ -1121,6 +1121,17 @@ interface RsvpDocumentData {
 	name: prismic.KeyTextField;
 
 	/**
+	 * image field in *rsvp*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rsvp.image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+
+	/**
 	 * body text field in *rsvp*
 	 *
 	 * - **Field Type**: Rich Text

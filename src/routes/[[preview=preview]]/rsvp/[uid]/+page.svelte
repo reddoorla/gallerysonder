@@ -1,7 +1,9 @@
 <script lang='ts'>
 	import { page } from "$app/state";
     import ContentWidth from "$lib/components/ContentWidth.svelte";
+	import { hasNewsletterBeenCleared } from "$lib/stores/hasNewsletterBeenCleared";
 	import { PrismicImage, PrismicRichText } from "@prismicio/svelte";
+	import { onMount } from "svelte";
     
     let submitted = false;
     let error = false;
@@ -54,6 +56,9 @@
             console.log('submitted');
         }
     };
+
+    
+    onMount(()=>$hasNewsletterBeenCleared=true)
 </script>
 
 <style>
@@ -68,6 +73,7 @@
         <div class="w-full md:w-1/2 flex flex-col items-start justify-start">
             <div class="text-white ml-0.5">{data.page.data.dates||""}</div>
             <h2 class="text-white ">{data.page.data.name||toTitleCase(data.page.uid)}</h2>
+            <PrismicImage field={data.page.data.image} class="w-full md:w-4/5 mt-4 rounded-sm" />
             <div class="text-white mt-4 md:mt-12">
                 <PrismicRichText field={data.page.data.body_text} />
             </div>
@@ -80,7 +86,7 @@
                     name="name" 
                     bind:value={formName} 
                     required 
-                    placeholder="first and last name" 
+                    placeholder="First and Last Name" 
                     class="w-full max-w-md border-1 border-white p-2 mb-4" 
                 />
                 
@@ -113,11 +119,11 @@
                 >
                     Submit RSVP
                 </button>
-                 <div class="text-white absolute bottom-0 right-0">By clicking submit you agree to receive emails under the terms of our privacy policy.</div>
+                 <div class="text-white absolute bottom-0 left-0">By clicking submit you agree to receive emails under the terms of our privacy policy.</div>
             {:else if error}
-                <h2 class="text-white">We're sorry, there appears to be an error. Please email info@gallerysonder.com with your RSVP.</h2>
+                <h3 class="text-white">We're sorry, there appears to be an error. Please email info@gallerysonder.com with your RSVP.</h3>
             {:else}
-                <h2 class="text-white">Thank you for your RSVP!</h2>
+                <h3 class="text-white">Thank you for your RSVP!</h3>
             {/if}
         </div>
        
