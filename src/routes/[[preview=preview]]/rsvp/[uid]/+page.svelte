@@ -73,7 +73,9 @@
         <div class="w-full md:w-1/2 flex flex-col items-start justify-start">
             <div class="text-white ml-0.5">{data.page.data.dates||""}</div>
             <h2 class="text-white ">{data.page.data.name||toTitleCase(data.page.uid)}</h2>
-            <PrismicImage field={data.page.data.image} class="w-full md:w-4/5 mt-4 rounded-sm" />
+           
+                <PrismicImage field={data.page.data.image} class="w-full md:w-4/5 mt-4 rounded-sm h-full max-h-[60vh] object-cover"/>
+          
             <div class="text-white mt-4 md:mt-12">
                 <PrismicRichText field={data.page.data.body_text} />
             </div>
