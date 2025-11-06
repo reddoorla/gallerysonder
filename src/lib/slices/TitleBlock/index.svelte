@@ -88,10 +88,24 @@
 </script>
 
 <style>
-	input, textarea{
-		background-color: rgba(255, 255, 255, 0.4);
-		border-radius: 2px;
-	}
+
+
+    input, textarea, select {
+        background-color: rgba(255, 255, 255, 0.4);
+        border-radius: 2px;
+    }
+    
+input[type="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+
 </style>
 
 

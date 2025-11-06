@@ -1103,6 +1103,114 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 	Lang
 >;
 
+type RsvpDocumentDataSlicesSlice = never;
+
+/**
+ * Content for rsvp documents
+ */
+interface RsvpDocumentData {
+	/**
+	 * event name field in *rsvp*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rsvp.name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name: prismic.KeyTextField;
+
+	/**
+	 * image field in *rsvp*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rsvp.image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+
+	/**
+	 * body text field in *rsvp*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rsvp.body_text
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	body_text: prismic.RichTextField;
+
+	/**
+	 * dates field in *rsvp*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rsvp.dates
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dates: prismic.KeyTextField;
+
+	/**
+	 * Slice Zone field in *rsvp*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rsvp.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<RsvpDocumentDataSlicesSlice> /**
+	 * Meta Description field in *rsvp*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: rsvp.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */;
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *rsvp*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rsvp.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	meta_image: prismic.ImageField<never>;
+
+	/**
+	 * Meta Title field in *rsvp*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: rsvp.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+}
+
+/**
+ * rsvp document from Prismic
+ *
+ * - **API ID**: `rsvp`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type RsvpDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<RsvpDocumentData>,
+	'rsvp',
+	Lang
+>;
+
 export type AllDocumentTypes =
 	| ArtistDocument
 	| ArtworkDocument
@@ -1110,7 +1218,8 @@ export type AllDocumentTypes =
 	| IntroImagesDocument
 	| NavDocument
 	| NewsDocument
-	| PageDocument;
+	| PageDocument
+	| RsvpDocument;
 
 /**
  * Primary content in *ImageGallery → Default → Primary*
@@ -2482,6 +2591,9 @@ declare module '@prismicio/client' {
 			PageDocumentData,
 			PageDocumentDataSectionsItem,
 			PageDocumentDataSlicesSlice,
+			RsvpDocument,
+			RsvpDocumentData,
+			RsvpDocumentDataSlicesSlice,
 			AllDocumentTypes,
 			ImageGallerySlice,
 			ImageGallerySliceDefaultPrimary,

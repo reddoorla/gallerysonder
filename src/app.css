@@ -4,7 +4,7 @@
 
 body {
 	background-color: black;
-
+	color:black;
 	transition-property: all;
 	transition-timing-function: cubic-bezier(0.5, 0, 0, 1);
 	transition-duration: 500ms;
@@ -25,7 +25,7 @@ h1 {
 }
 
 h2 {
-	color: #000;
+
 
 	font-feature-settings:
 		'clig' off,
@@ -111,7 +111,7 @@ h6 {
 }
 
 p, input, textarea, form button {
-	color: #000;
+
 	font-feature-settings:
 		'clig' off,
 		'liga' off;
@@ -119,7 +119,7 @@ p, input, textarea, form button {
 	/* Paragraph */
 	font-family: 'rig-sans';
 	overflow: hidden;
-	color: var(--Black, #000);
+
 	font-feature-settings:
 		'liga' off,
 		'clig' off;
@@ -132,7 +132,7 @@ p, input, textarea, form button {
 }
 
 div {
-	color: #000;
+
 
 	/* Paragraph 2 */
 	font-family: 'rig-sans';
@@ -144,7 +144,7 @@ div {
 }
 
 button {
-	color: #000;
+
 	font-family: 'commuters-sans';
 	font-size: 12px;
 	font-style: normal;
