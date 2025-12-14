@@ -5,6 +5,7 @@ import { type ArtistDocument, type ArtworkDocument } from '../../prismicio-types
 const getActiveArtwork = async (uid:string|null) => {
     if(uid){
         const client = createClient("gallerysonder")
+        activeArtist.set(null); // Reset artist to prevent stale data
         activeArtwork.set(await client.getByUID("artwork", uid));
         if(isFilled.contentRelationship(get(activeArtwork)?.data.artist)){
             //@ts-ignore
@@ -14,6 +15,7 @@ const getActiveArtwork = async (uid:string|null) => {
         }
     }else{
         activeArtwork.set(null)
+        activeArtist.set(null)
     }
 }
 
