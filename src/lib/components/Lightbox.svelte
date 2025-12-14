@@ -95,12 +95,12 @@
 			transition:fade
 		>
 			<ContentWidth class="w-full fixed top-0 h-16 flex items-center justify-between px-4 md:px-0 z-40">
-					<button class="h-6 bump" on:click={closeModal}
+					<button class="h-6" on:click={closeModal}
 						><i
 							class="text-black fa-sharp fa-solid fa-close fa-2xl hover:opacity-80 transition"
 						/></button
 					>
-					<a href="/" class="bump" on:click={closeModal}
+					<a href="/" class="" on:click={closeModal}
 						><RotatingLogo class="h-6 hover:opacity-80 transition" /></a
 					>
 				</ContentWidth>
