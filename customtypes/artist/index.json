@@ -23,7 +23,7 @@
 			"full_name": {
 				"type": "Text",
 				"config": {
-					"label": "Full Name",
+					"label": "full name",
 					"placeholder": ""
 				}
 			},

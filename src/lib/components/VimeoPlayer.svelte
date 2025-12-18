@@ -98,4 +98,4 @@
 	viewportWidth * 9
 		? 'h-screen min-w-full'
 		: 'w-screen min-h-full'} contrast-[1.15] -z-10"
-/>
+></div>

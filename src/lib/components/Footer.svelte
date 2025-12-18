@@ -9,7 +9,7 @@
 	import { backgroundColor } from '$lib/stores/backgroundColor';
 </script>
 
-<div aria-hidden class="w-full -z-10 -mt-[40vw] object-cover use-gpu">
+<div aria-hidden="true" class="w-full -z-10 -mt-[40vw] object-cover use-gpu">
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1081">
 		<path
 			class="transition-all duration-1000"
@@ -36,8 +36,9 @@
 				<a
 					href="https://www.instagram.com/gallerysonder/"
 					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75"
+					aria-label="Visit Gallery Sonder on Instagram"
 				>
-					<i class="fa-brands fa-instagram fa-2xl" />
+					<i class="fa-brands fa-instagram fa-2xl"></i>
 				</a>
 				
 			</div>

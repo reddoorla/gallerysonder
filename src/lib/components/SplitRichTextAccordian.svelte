@@ -88,10 +88,10 @@
           class="absolute bottom-0 left-0 w-full"
           transition:slide={{duration: 300, easing: cubicOut}}
         >
-          <div 
+          <div
             class="h-12 w-full transition-opacity duration-300"
             style="background: linear-gradient(to top, {$backgroundColor} 20%, rgba(255, 255, 255, 0) 100%)"
-          />
+          ></div>
         </div>
       {/if}
     {/if}

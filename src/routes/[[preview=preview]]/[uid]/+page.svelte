@@ -90,7 +90,7 @@
 			? 'opacity-55'
 			: 'opacity-20'}"
 		transition:fade
-	/>
+	></div>
 </div>
 
 
@@ -133,8 +133,8 @@
 {/key}
 
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
-	<div class="h-[65vh]" />
-	<div class="h-1" bind:this={theBottomOfTheTop} />
+	<div class="h-[65vh]"></div>
+	<div class="h-1" bind:this={theBottomOfTheTop}></div>
 
 	<SliceZone slices={data.page.data.slices} {components} />
 

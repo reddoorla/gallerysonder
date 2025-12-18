@@ -96,7 +96,7 @@ interface ArtistDocumentData {
 	background_image: prismic.ImageField<never>;
 
 	/**
-	 * Full Name field in *artist*
+	 * full name field in *artist*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -214,7 +214,7 @@ interface ArtistDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	slices: prismic.SliceZone<ArtistDocumentDataSlicesSlice> /**
+	slices: prismic.SliceZone<ArtistDocumentDataSlicesSlice>; /**
 	 * Meta Description field in *artist*
 	 *
 	 * - **Field Type**: Text
@@ -222,7 +222,7 @@ interface ArtistDocumentData {
 	 * - **API ID Path**: artist.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */;
+	 */
 	meta_description: prismic.KeyTextField;
 
 	/**
@@ -555,7 +555,7 @@ interface ExhibitDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	slices: prismic.SliceZone<ExhibitDocumentDataSlicesSlice> /**
+	slices: prismic.SliceZone<ExhibitDocumentDataSlicesSlice>; /**
 	 * Meta Description field in *exhibit*
 	 *
 	 * - **Field Type**: Text
@@ -563,7 +563,7 @@ interface ExhibitDocumentData {
 	 * - **API ID Path**: exhibit.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */;
+	 */
 	meta_description: prismic.KeyTextField;
 
 	/**
@@ -870,7 +870,7 @@ interface NewsDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	slices: prismic.SliceZone<NewsDocumentDataSlicesSlice> /**
+	slices: prismic.SliceZone<NewsDocumentDataSlicesSlice>; /**
 	 * Meta Description field in *news*
 	 *
 	 * - **Field Type**: Text
@@ -878,7 +878,7 @@ interface NewsDocumentData {
 	 * - **API ID Path**: news.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */;
+	 */
 	meta_description: prismic.KeyTextField;
 
 	/**
@@ -1054,7 +1054,7 @@ interface PageDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
+	slices: prismic.SliceZone<PageDocumentDataSlicesSlice>; /**
 	 * Meta Title field in *page*
 	 *
 	 * - **Field Type**: Text
@@ -1062,7 +1062,7 @@ interface PageDocumentData {
 	 * - **API ID Path**: page.meta_title
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */;
+	 */
 	meta_title: prismic.KeyTextField;
 
 	/**
@@ -1162,7 +1162,7 @@ interface RsvpDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	slices: prismic.SliceZone<RsvpDocumentDataSlicesSlice> /**
+	slices: prismic.SliceZone<RsvpDocumentDataSlicesSlice>; /**
 	 * Meta Description field in *rsvp*
 	 *
 	 * - **Field Type**: Text
@@ -1170,7 +1170,7 @@ interface RsvpDocumentData {
 	 * - **API ID Path**: rsvp.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */;
+	 */
 	meta_description: prismic.KeyTextField;
 
 	/**

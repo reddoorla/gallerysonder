@@ -90,7 +90,7 @@
 			? 'opacity-55'
 			: 'opacity-20'}"
 		transition:fade
-	/>
+	></div>
 </div>
 
 <!-- <div class="background-container">
@@ -136,8 +136,8 @@
 {/key}
 
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
-	<div class="h-screen mb-[40vw]" />
-	<div class="h-1" bind:this={theBottomOfTheTop} />
+	<div class="h-screen mb-[40vw]"></div>
+	<div class="h-1" bind:this={theBottomOfTheTop}></div>
 
 	<SliceZone slices={data.page.data.slices} {components} />
 

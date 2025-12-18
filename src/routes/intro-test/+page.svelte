@@ -241,7 +241,7 @@
 			? 'opacity-0'
 			: ''}"
 		style="left: {animatedOOffestLeft}px"
-	/>
+	></div>
 
 	<div
 		bind:this={animatedO}
@@ -251,7 +251,7 @@
 		style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex]
 			.image}); background-size: {IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex]
 			.scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px"
-	/>
+	></div>
 
 	<div
 		bind:this={verticalOpenWindow}
@@ -261,7 +261,7 @@
 		style="background-image: url({IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex]
 			.image}); background-size: {IMAGE_ARRAY_WITH_BG_SHIFTS[currentImageIndex]
 			.scale}vw; background-position: {bgPosition}; left: {animatedOOffestLeft}px; transition: max-height 1s ease-out, transform 1s ease-out; "
-	/>
+	></div>
 
 	<div
 		class="h-24 w-[120%] absolute top-[40vh] flex flex-row items-center gap-4 justify-center transition-transform duration-[750ms] {isMounted

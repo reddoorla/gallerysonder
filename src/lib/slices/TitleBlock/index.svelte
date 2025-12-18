@@ -88,24 +88,10 @@
 </script>
 
 <style>
-
-
-    input, textarea, select {
+    input, textarea {
         background-color: rgba(255, 255, 255, 0.4);
         border-radius: 2px;
     }
-    
-input[type="number"] {
-  -webkit-appearance: textfield;
-     -moz-appearance: textfield;
-          appearance: textfield;
-}
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none;
-}
-
-
 </style>
 
 
@@ -240,7 +226,7 @@ bind:this={shape}
 					</p>
 					
 					<p>Message</p>
-					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
+					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 	  
 				
                         <button type="submit" on:click={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
@@ -255,7 +241,7 @@ bind:this={shape}
 			   {/if}
 			<div class="flex flex-row gap-6">
 				{#if isFilled.link(slice.primary.instagram)}
-					<a href={slice.primary.instagram.url}><i class="fa-brands fa-instagram fa-lg"/></a>
+					<a href={slice.primary.instagram.url} aria-label="Visit Gallery Sonder on Instagram"><i class="fa-brands fa-instagram fa-lg"></i></a>
 				{/if}
 			</div>
 		{/if}

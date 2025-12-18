@@ -205,8 +205,8 @@
 	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
 	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-    
-    <button type="submit" id="hiddenNewsSubmitButton"/>
+
+    <button type="submit" id="hiddenNewsSubmitButton" aria-label="Submit newsletter signup"></button>
 </form>
 
 
@@ -226,6 +226,6 @@
 	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
 	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-	<button type="submit" id="hiddenRsvpSubmitButton"/>
+	<button type="submit" id="hiddenRsvpSubmitButton" aria-label="Submit RSVP"></button>
 </form>
 	

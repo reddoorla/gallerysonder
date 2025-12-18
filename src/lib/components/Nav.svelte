@@ -36,6 +36,7 @@
 				? 'brightness-0'
 				: ''}"
 			on:click={() => (showNav = !showNav)}
+			aria-label="Toggle navigation menu"
 		>
 			<svg
 				width="24"
@@ -74,8 +75,9 @@
 			<button
 				on:click={() => (showNav = false)}
 				class="absolute top-12 left-0 text-black bump hover:opacity-40"
+				aria-label="Close navigation menu"
 			>
-				<i class="fa-thin fa-sharp fa-close fa-2xl scale-200" />
+				<i class="fa-thin fa-sharp fa-close fa-2xl scale-200"></i>
 			</button>
 
 			<div
@@ -84,6 +86,7 @@
 				<a
 					href="https://www.instagram.com/gallerysonder/"
 					class="w-4 text-dark-primary hover:text-accent-pink active:text-black transition-colors bump scale-75"
+					aria-label="Visit Gallery Sonder on Instagram"
 				>
 					<i class="fa-brands fa-instagram fa-2xl"></i>
 				</a>

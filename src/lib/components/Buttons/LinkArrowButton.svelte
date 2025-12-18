@@ -30,7 +30,7 @@
 				? 'translate-x-2'
 				: ''}"
 		/>
-		<div class="absolute h-[1.5px] bg-black w-5 top-[9px] right-1" />
+		<div class="absolute h-[1.5px] bg-black w-5 top-[9px] right-1"></div>
 	</a>
 {:else}
 	<button
@@ -51,7 +51,7 @@
 				? 'translate-x-2'
 				: ''}"
 		/>
-		<div class="absolute h-[1.5px] bg-black w-5 top-[9px] right-1" />
+		<div class="absolute h-[1.5px] bg-black w-5 top-[9px] right-1"></div>
 	</button>
 {/if}
 

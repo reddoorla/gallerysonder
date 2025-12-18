@@ -97,7 +97,7 @@
 		? 'opacity-55'
 		: 'opacity-20'}"
 	transition:fade
-/>
+></div>
 </div>
 
 <div class="fixed w-screen h-screen-75 bottom-0">
@@ -140,8 +140,8 @@
 	<InnerPageNav {slicesSections} {sections} />
 {/key}
 <div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
-	<div class="h-screen lg:h-[20vh]" />
-	<div class="h-1" bind:this={theBottomOfTheTop} />
+	<div class="h-screen"></div>
+	<div class="h-1" bind:this={theBottomOfTheTop}></div>
 
 	<SliceZone slices={data.page.data.slices} {components} />
 

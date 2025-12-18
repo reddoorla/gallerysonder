@@ -62,7 +62,7 @@
 </script>
 
 <style>
-    input, textarea, select {
+    input {
         background-color: rgba(255, 255, 255, 0.4);
         border-radius: 2px;
     }
