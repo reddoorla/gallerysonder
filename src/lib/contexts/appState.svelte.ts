@@ -1,4 +1,4 @@
-import { getContext, setContext } from 'svelte';
+import { getContext, onMount, setContext } from 'svelte';
 import { createClient, isFilled } from '@prismicio/client';
 import { type ArtistDocument, type ArtworkDocument } from '../../prismicio-types';
 
@@ -69,16 +69,11 @@ export function createAppState(): AppState {
 
 	// Effect: Sync backgroundColor with backgroundColorDefault
 	// Replaces backgroundColor.ts:6-8
-	$effect(() => {
+	onMount(() => {
 		backgroundColor = backgroundColorDefault;
 	});
 
-	// Effect: Fetch artwork data when activeArtworkUid changes
-	// Replaces lightbox.ts:30-33 module-level subscription
-	$effect(() => {
-		const uid = activeArtworkUid;
-
-		async function fetchArtwork() {
+	async function fetchArtwork(uid:string) {
 			if (uid) {
 				const client = createClient('gallerysonder');
 				activeArtist = null; // Reset to prevent stale data
@@ -104,7 +99,13 @@ export function createAppState(): AppState {
 			}
 		}
 
-		fetchArtwork();
+
+	// Effect: Fetch artwork data when activeArtworkUid changes
+	// Replaces lightbox.ts:30-33 module-level subscription
+	$effect(() => {
+		activeArtworkUid;
+		console.log('fired with: '+activeArtworkUid)
+		fetchArtwork(activeArtworkUid);
 	});
 
 	// Return reactive state object with getters/setters

@@ -119,7 +119,7 @@ const triggerSubmitButton = () => {
     <div class="w-full h-full absolute top-0 left-0 opacity-95 transition-colors duration-1000" style="background-color:{appState.backgroundColor}"></div>
     <ContentWidth  class="h-full relative flex flex-col items-start justify-center gap-10">
         <button onclick={()=>{appState.isNewsletterActive=false; appState.hasNewsletterBeenCleared=true}} class="absolute top-12 left-0 hover:opacity-80" aria-label="Close newsletter signup"><i
-							class="text-black fa-sharp fa-solid fa-close fa-2xl hover:opacity-80 transition"
+							class="text-black fa-sharp fa-light fa-close fa-2xl hover:opacity-80 transition"
 						></i></button>
         <a href="/" class="absolute top-5 right-0 hover:opacity-80"><RotatingLogo class="h-6" /></a>
         {#if !submitted}
