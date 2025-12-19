@@ -11,22 +11,22 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
-	import { isIntroRunning } from '$lib/stores/intro';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 
 	import { fade } from 'svelte/transition';
 
-	export let data;
+	const appState = getAppState();
+
+	let { data } = $props();
 
 	let content = data.page.data;
 
-	let viewportWidth: number;
-	let viewportHeight: number;
+	let viewportWidth = $state(0);
+	let viewportHeight = $state(0);
 
-	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
+	let showEyebrow = $state(false);
 
-	let showEyebrow = false;
-
-	let theBottomOfTheTop: HTMLElement;
+	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
 
 	let slicesSections: string[] = [];
@@ -46,8 +46,8 @@
 		data.page.data.sections.forEach((section) => sections.push(section.section || ''));
 	}
 
-	let isLogoBlack = false;
-	let isBackgroundDark = false;
+	let isLogoBlack = $state(false);
+	let isBackgroundDark = $state(false);
 
 	const checkPosition = () => {
 		if (theBottomOfTheTop && theBottomOfTheTop.getBoundingClientRect().bottom < 0) {
@@ -57,26 +57,21 @@
 		}
 	};
 
-	onMount(() => {
-		const unsubscribe = isIntroRunning.subscribe((value) => {
-			if (!value) {
-				checkPosition();
-
-				setTimeout(() => (showEyebrow = true), 500);
-			}
-		});
-		refreshData();
-
-		window.addEventListener('scroll', checkPosition);
-		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
-		
-
-		return () => {
-			unsubscribe();
-		};
+	$effect(() => {
+		if (!appState.isIntroRunning) {
+			checkPosition();
+			setTimeout(() => (showEyebrow = true), 500);
+		}
 	});
 
-	afterNavigate(refreshData);
+	onMount(() => {
+		window.addEventListener('scroll', checkPosition);
+		appState.backgroundColorDefault = content.default_background_color || '#E4EEEA';
+
+		return () => {
+			window.removeEventListener('scroll', checkPosition);
+		};
+	});
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />

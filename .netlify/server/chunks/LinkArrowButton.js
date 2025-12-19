@@ -1,14 +1,12 @@
-import { U as getContext, T as escape_html } from "./context.js";
+import { g as getContext, e as escape_html } from "./context.js";
 import "clsx";
 import "@sveltejs/kit/internal";
 import "./exports.js";
 import "./utils.js";
 import "@sveltejs/kit/internal/server";
 import "./state.svelte.js";
-import { s as sanitize_props, b as attr_class, a as attr, c as stringify, l as bind_props } from "./index2.js";
+import { W as sanitize_props, X as attr_class, V as attr, Y as stringify, _ as bind_props } from "./index2.js";
 import { f as fallback } from "./utils2.js";
-import { w as writable, g as get } from "./index.js";
-import { createClient, isFilled } from "@prismicio/client";
 const getStores = () => {
   const stores$1 = getContext("__svelte__");
   return {
@@ -50,46 +48,7 @@ function LinkArrowButton($$renderer, $$props) {
     bind_props($$props, { text, href, click, opensNewTab });
   });
 }
-const backgroundColorDefault = writable("#E4EEEA");
-const backgroundColor = writable("#E4EEEA");
-backgroundColorDefault.subscribe((value) => {
-  backgroundColor.set(value);
-});
-const hasNewsletterBeenCleared = writable(false);
-const isNewsletterActive = writable(false);
-const getActiveArtwork = async (uid) => {
-  if (uid) {
-    const client = createClient("gallerysonder");
-    activeArtist.set(null);
-    activeArtwork.set(await client.getByUID("artwork", uid));
-    if (isFilled.contentRelationship(get(activeArtwork)?.data.artist)) {
-      const artistUID = get(activeArtwork)?.data.artist.uid;
-      if (artistUID)
-        activeArtist.set(await client.getByUID("artist", artistUID));
-    }
-  } else {
-    activeArtwork.set(null);
-    activeArtist.set(null);
-  }
-};
-const isLightboxActive = writable(false);
-const showInquiryForm = writable(false);
-const lightboxImageUrl = writable("");
-const activeArtworkUid = writable("");
-const activeArtwork = writable(null);
-const activeArtist = writable(null);
-activeArtworkUid.subscribe((uid) => {
-  getActiveArtwork(uid);
-});
 export {
   LinkArrowButton as L,
-  activeArtwork as a,
-  backgroundColor as b,
-  activeArtist as c,
-  isLightboxActive as d,
-  hasNewsletterBeenCleared as h,
-  isNewsletterActive as i,
-  lightboxImageUrl as l,
-  page as p,
-  showInquiryForm as s
+  page as p
 };

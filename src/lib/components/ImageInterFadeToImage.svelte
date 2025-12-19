@@ -29,12 +29,8 @@
 
 <a
 	class="relative z-40 {$$props.class || ''}"
-	on:mouseenter={() => (hovered = true)}
-	on:mouseleave={() => (hovered = false)}
-	on:mouseover
-	on:mouseout
-	on:focus
-	on:blur
+	onmouseenter={() => (hovered = true)}
+	onmouseleave={() => (hovered = false)}
 	{href}
 >
 	{#key hovered}

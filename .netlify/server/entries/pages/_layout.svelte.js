@@ -1,20 +1,19 @@
-import { h as head, a as attr, s as sanitize_props, b as attr_class, c as stringify, d as clsx, e as store_get, f as attr_style, u as unsubscribe_stores, g as store_set, j as attributes, k as ensure_array_like, l as bind_props, m as slot } from "../../chunks/index2.js";
+import { U as head, V as attr, W as sanitize_props, X as attr_class, Y as stringify, Z as clsx, _ as bind_props, $ as attr_style, a0 as attributes, a1 as ensure_array_like, a2 as store_get, a3 as unsubscribe_stores, a4 as slot } from "../../chunks/index2.js";
 import "@sveltejs/kit/internal";
 import "../../chunks/exports.js";
 import "../../chunks/utils.js";
 import "@sveltejs/kit/internal/server";
 import "../../chunks/state.svelte.js";
-import { getToolbarSrc, isFilled as isFilled$1 } from "@prismicio/client";
-import { i as isNewsletterActive, b as backgroundColor, L as LinkArrowButton, h as hasNewsletterBeenCleared, a as activeArtwork, s as showInquiryForm, c as activeArtist, l as lightboxImageUrl, p as page, d as isLightboxActive } from "../../chunks/lightbox.js";
+import { getToolbarSrc, isFilled } from "@prismicio/client";
+import { L as LinkArrowButton, p as page } from "../../chunks/LinkArrowButton.js";
 import { r as repositoryName } from "../../chunks/prismicio.js";
 import "@vimeo/player";
-import { i as isIntroRunning } from "../../chunks/intro.js";
-import { C as ContentWidth, P as PrismicImage, a as PrismicRichText } from "../../chunks/PrismicRichText.js";
+import { g as getAppState, C as ContentWidth, P as PrismicImage, a as PrismicRichText, s as setAppState } from "../../chunks/PrismicRichText.js";
 import { S } from "../../chunks/S.js";
 import { l as logoExtendedE } from "../../chunks/SONDER_E.js";
+import "clsx";
 import { useSwipe } from "svelte-gestures";
-import { isFilled } from "@prismicio/helpers";
-import { T as escape_html } from "../../chunks/context.js";
+import { e as escape_html } from "../../chunks/context.js";
 import { w as writable } from "../../chunks/index.js";
 function PrismicPreview($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
@@ -49,27 +48,36 @@ function RotatingLogo($$renderer, $$props) {
     $$renderer2.push(`<!----> <img${attr("src", logoArray[activeLogoIndex])} alt="sonder logo"${attr_class(`absolute top-0 left-0 hidden md:flex ${stringify($$sanitized_props.class || "")}`)}/></div>`);
   });
 }
+function Nav($$renderer, $$props) {
+  $$renderer.component(($$renderer2) => {
+    getAppState();
+    let isLogoBlack = $$props["isLogoBlack"];
+    let navProps = $$props["navProps"];
+    let showNav = false;
+    $$renderer2.push(`<div${attr_class(` w-screen fixed h-16 top-0 z-30 pointer-events-none ${stringify("mix-blend-normal")} `)}>`);
+    ContentWidth($$renderer2, {
+      class: "flex flex-row justify-between items-center h-full",
+      children: ($$renderer3) => {
+        $$renderer3.push(`<button${attr_class(`scale-105 text-white hover:text-accent-pink hover:mix-blend-normal pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all ${stringify(isLogoBlack || showNav ? "brightness-0" : "")}`)} aria-label="Toggle navigation menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 18C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H4C3.44772 16 3 16.4477 3 17C3 17.5523 3.44772 18 4 18H20ZM20 13C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H4C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H20ZM3 7C3 7.55228 3.44772 8 4 8H20C20.5523 8 21 7.55228 21 7C21 6.44772 20.5523 6 20 6H4C3.44772 6 3 6.44772 3 7Z" fill="white"></path></svg></button> <a href="/"${attr_class(`filter-to-accent-pink-on-hover transition-colors pointer-events-auto bump brightness-0 hover:mix-blend-normal ${stringify(isLogoBlack || showNav ? "" : "invert")}`)}>`);
+        RotatingLogo($$renderer3, { class: "h-6" });
+        $$renderer3.push(`<!----></a>`);
+      },
+      $$slots: { default: true }
+    });
+    $$renderer2.push(`<!----></div> `);
+    {
+      $$renderer2.push("<!--[!-->");
+    }
+    $$renderer2.push(`<!--]-->`);
+    bind_props($$props, { isLogoBlack, navProps });
+  });
+}
 function NewsletterSignup($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
-    var $$store_subs;
+    const appState = getAppState();
     let submitted = false;
     let error = false;
     let emailValue;
-    const enableScroll = () => {
-      if (window) {
-        window.onscroll = function() {
-        };
-      }
-    };
-    const disableScroll = () => {
-      if (window) {
-        const x = window.scrollX;
-        const y = window.scrollY;
-        window.onscroll = function() {
-          window.scrollTo(x, y);
-        };
-      }
-    };
     let hiddenForm;
     const submitForm = async (formElement) => {
       const formData = new FormData(formElement);
@@ -90,24 +98,11 @@ function NewsletterSignup($$renderer, $$props) {
       }
       submitForm(hiddenForm);
       console.log("email: " + emailValue);
-      store_set(hasNewsletterBeenCleared, true);
+      appState.hasNewsletterBeenCleared = true;
     };
-    {
-      store_get($$store_subs ??= {}, "$isNewsletterActive", isNewsletterActive);
-      if (typeof document !== "undefined" && document.getElementsByTagName("body")) {
-        const body = document.getElementsByTagName("body")[0];
-        if (store_get($$store_subs ??= {}, "$isNewsletterActive", isNewsletterActive)) {
-          body.style.overflow = "hidden";
-          disableScroll();
-        } else {
-          body.style.overflow = "auto";
-          enableScroll();
-        }
-      }
-    }
-    if (store_get($$store_subs ??= {}, "$isNewsletterActive", isNewsletterActive)) {
+    if (appState.isNewsletterActive) {
       $$renderer2.push("<!--[-->");
-      $$renderer2.push(`<div class="w-screen h-screen fixed top-0 left-0 z-40 backdrop-blur"><div class="w-full h-full absolute top-0 left-0 opacity-95"${attr_style(`background-color:${stringify(store_get($$store_subs ??= {}, "$backgroundColor", backgroundColor))}`)}></div> `);
+      $$renderer2.push(`<div class="w-screen h-screen fixed top-0 left-0 z-40 backdrop-blur"><div class="w-full h-full absolute top-0 left-0 opacity-95 transition-colors duration-1000"${attr_style(`background-color:${stringify(appState.backgroundColor)}`)}></div> `);
       ContentWidth($$renderer2, {
         class: "h-full relative flex flex-col items-start justify-center gap-10",
         children: ($$renderer3) => {
@@ -139,30 +134,13 @@ function NewsletterSignup($$renderer, $$props) {
       $$renderer2.push("<!--[!-->");
     }
     $$renderer2.push(`<!--]-->`);
-    if ($$store_subs) unsubscribe_stores($$store_subs);
   });
 }
 function Slideshow($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
-    var $$store_subs;
+    getAppState();
     let imageArray = [];
     let tripledImages = [];
-    const setImageArray = () => {
-      imageArray = [];
-      if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork)?.data.primary_image && isFilled.image(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.primary_image)) {
-        imageArray.push(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.primary_image);
-        if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork)?.data.secondary_images && store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.secondary_images.length > 0) {
-          store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.secondary_images.forEach((e) => {
-            if (e.image && isFilled.image(e.image)) {
-              imageArray.push(e.image);
-            }
-          });
-        }
-      }
-      tripledImages = [...imageArray, ...imageArray, ...imageArray];
-      console.log("Image Array:", imageArray);
-      console.log("Tripled Images:", tripledImages);
-    };
     let sliderIndex = 0;
     let isSlideAnimated = true;
     const SLIDER_TRANSITION_LENGTH_IN_MS = 2e3;
@@ -190,9 +168,6 @@ function Slideshow($$renderer, $$props) {
       if (event.detail.direction === "left") slideLeft();
       if (event.detail.direction === "right") slideRight();
     }
-    if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork)) {
-      setImageArray();
-    }
     $$renderer2.push(`<div${attributes({
       class: "w-full h-full overflow-hidden relative",
       ...useSwipe(handleSwipe, () => ({ touchAction: "pan-y" }))
@@ -216,12 +191,11 @@ function Slideshow($$renderer, $$props) {
       $$renderer2.push(`<div class="w-full h-full flex items-center justify-center"><p>No images available</p></div>`);
     }
     $$renderer2.push(`<!--]--></div>`);
-    if ($$store_subs) unsubscribe_stores($$store_subs);
   });
 }
 function Lightbox($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
-    var $$store_subs;
+    const appState = getAppState();
     let submitted = false;
     let error = false;
     let formName;
@@ -254,16 +228,16 @@ function Lightbox($$renderer, $$props) {
         if (hiddenPhone) hiddenPhone.value = formPhone;
         if (hiddenEmail) hiddenEmail.value = formEmail;
         if (hiddenMessage) hiddenMessage.value = formMessage;
-        if (hiddenPiece && store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork)) hiddenPiece.value = store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.title + ", " + store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.year;
-        if (hiddenArtist && store_get($$store_subs ??= {}, "$activeArtist", activeArtist)) hiddenArtist.value = store_get($$store_subs ??= {}, "$activeArtist", activeArtist).data.full_name;
+        if (hiddenPiece && appState.activeArtwork) hiddenPiece.value = appState.activeArtwork.data.title + ", " + appState.activeArtwork.data.year;
+        if (hiddenArtist && appState.activeArtist) hiddenArtist.value = appState.activeArtist.data.full_name;
         if (hiddenRole) hiddenRole.value = formRole;
         submitForm(hiddenForm);
         console.log("submitted inquiry");
       }
     };
-    if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork)) {
+    if (appState.activeArtwork) {
       $$renderer2.push("<!--[-->");
-      $$renderer2.push(`<div class="w-screen h-screen fixed top-0 left-0 flex justify-center items-start lg:items-center z-40 overflow-y-scroll md:overflow-hidden"${attr_style(`background-color:${stringify(store_get($$store_subs ??= {}, "$backgroundColor", backgroundColor))}`)}>`);
+      $$renderer2.push(`<div class="w-screen h-screen fixed top-0 left-0 flex justify-center items-start lg:items-center z-40 overflow-y-scroll md:overflow-hidden transition-colors duration-1000"${attr_style(`background-color:${stringify(appState.backgroundColor)}`)}>`);
       ContentWidth($$renderer2, {
         class: "w-full fixed top-0 h-16 flex items-center justify-between px-4 md:px-0 z-40",
         children: ($$renderer3) => {
@@ -277,67 +251,65 @@ function Lightbox($$renderer, $$props) {
       ContentWidth($$renderer2, {
         class: "min-h-screen h-screen w-full relative flex flex-col lg:flex-row justify-center items-start lg:items-center gap-6 lg:gap-0 overflow-y-scroll lg:overflow-hidden",
         children: ($$renderer3) => {
-          $$renderer3.push(`<div class="mt-20 md:mt-0 w-full lg:w-1/2 h-2/5 lg:h-4/5 relative flex items-center justify-center"><div${attr_class(`w-full ${stringify(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.orientation === "landscape" ? "aspect-[4/3] " : store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.orientation === "portrait" ? "md:w-auto md:aspect-[3/4] h-full" : "max-w-full h-full max-h-full")}`)}><i class="fa-regular fa-circle-notch fa-spin fa-2xl text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"></i> `);
-          if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.secondary_images[0] && isFilled$1.image(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.secondary_images[0].image) && store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.orientation !== "fit") {
+          $$renderer3.push(`<div class="mt-20 md:mt-0 w-full lg:w-1/2 h-2/5 lg:h-4/5 relative flex items-center justify-center"><div${attr_class(`w-full ${stringify(appState.activeArtwork.data.orientation === "landscape" ? "aspect-4/3 " : appState.activeArtwork.data.orientation === "portrait" ? "md:w-auto md:aspect-3/4 h-full" : "max-w-full h-full max-h-full")}`)}><i class="fa-regular fa-circle-notch fa-spin fa-2xl text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"></i> `);
+          if (appState.activeArtwork.data.secondary_images[0] && isFilled.image(appState.activeArtwork.data.secondary_images[0].image) && appState.activeArtwork.data.orientation !== "fit") {
             $$renderer3.push("<!--[-->");
             Slideshow($$renderer3);
           } else {
             $$renderer3.push("<!--[!-->");
             PrismicImage($$renderer3, {
-              class: `${stringify(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.orientation === "fit" ? "object-contain" : "object-cover")} w-full h-full z-10 relative`,
-              field: store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.primary_image
+              class: `${stringify(appState.activeArtwork.data.orientation === "fit" ? "object-contain" : "object-cover")} w-full h-full z-10 relative`,
+              field: appState.activeArtwork.data.primary_image
             });
           }
           $$renderer3.push(`<!--]--></div></div> <div class="w-full lg:w-1/2 lg:h-4/5 lg:p-16 lg:pr-0 flex flex-col items-start justify-center gap-6">`);
-          if (!store_get($$store_subs ??= {}, "$showInquiryForm", showInquiryForm)) {
+          if (!appState.showInquiryForm) {
             $$renderer3.push("<!--[-->");
-            if (store_get($$store_subs ??= {}, "$activeArtist", activeArtist)) {
+            if (appState.activeArtist) {
               $$renderer3.push("<!--[-->");
-              $$renderer3.push(`<a class="cursor-pointer hover:opacity-80 transition uppercase no-underline"${attr("href", `/artists/${stringify(store_get($$store_subs ??= {}, "$activeArtist", activeArtist).uid)}`)}><h5><b>${escape_html(store_get($$store_subs ??= {}, "$activeArtist", activeArtist).data.full_name)}</b></h5></a>`);
+              $$renderer3.push(`<a class="cursor-pointer hover:opacity-80 transition uppercase no-underline"${attr("href", `/artists/${stringify(appState.activeArtist.uid)}`)}><h5><b>${escape_html(appState.activeArtist.data.full_name)}</b></h5></a>`);
             } else {
               $$renderer3.push("<!--[!-->");
             }
             $$renderer3.push(`<!--]--> <div class="flex flex-col gap-1">`);
-            if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.title) {
+            if (appState.activeArtwork.data.title) {
               $$renderer3.push("<!--[-->");
-              $$renderer3.push(`<p><i>${escape_html(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.title)}</i></p>`);
+              $$renderer3.push(`<p><i>${escape_html(appState.activeArtwork.data.title)}</i></p>`);
             } else {
               $$renderer3.push("<!--[!-->");
             }
             $$renderer3.push(`<!--]--> `);
-            if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.year) {
+            if (appState.activeArtwork.data.year) {
               $$renderer3.push("<!--[-->");
-              $$renderer3.push(`<p>${escape_html(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.year)}</p>`);
+              $$renderer3.push(`<p>${escape_html(appState.activeArtwork.data.year)}</p>`);
             } else {
               $$renderer3.push("<!--[!-->");
             }
             $$renderer3.push(`<!--]--> `);
-            if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.medium) {
+            if (appState.activeArtwork.data.medium) {
               $$renderer3.push("<!--[-->");
-              $$renderer3.push(`<p>${escape_html(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.medium)}</p>`);
+              $$renderer3.push(`<p>${escape_html(appState.activeArtwork.data.medium)}</p>`);
             } else {
               $$renderer3.push("<!--[!-->");
             }
             $$renderer3.push(`<!--]--> `);
-            if (store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.dimensions) {
+            if (appState.activeArtwork.data.dimensions) {
               $$renderer3.push("<!--[-->");
-              $$renderer3.push(`<p>${escape_html(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.dimensions)}</p>`);
+              $$renderer3.push(`<p>${escape_html(appState.activeArtwork.data.dimensions)}</p>`);
             } else {
               $$renderer3.push("<!--[!-->");
             }
             $$renderer3.push(`<!--]--></div> `);
-            if (isFilled$1.richText(store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.body)) {
+            if (isFilled.richText(appState.activeArtwork.data.body)) {
               $$renderer3.push("<!--[-->");
               $$renderer3.push(`<div class="rich-text">`);
-              PrismicRichText($$renderer3, {
-                field: store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork).data.body
-              });
+              PrismicRichText($$renderer3, { field: appState.activeArtwork.data.body });
               $$renderer3.push(`<!----></div>`);
             } else {
               $$renderer3.push("<!--[!-->");
             }
             $$renderer3.push(`<!--]--> `);
-            if (!store_get($$store_subs ??= {}, "$showInquiryForm", showInquiryForm)) {
+            if (!appState.showInquiryForm) {
               $$renderer3.push("<!--[-->");
               $$renderer3.push(`<button class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer">Inquire</button>`);
             } else {
@@ -348,7 +320,7 @@ function Lightbox($$renderer, $$props) {
             $$renderer3.push("<!--[!-->");
           }
           $$renderer3.push(`<!--]--> `);
-          if (store_get($$store_subs ??= {}, "$showInquiryForm", showInquiryForm)) {
+          if (appState.showInquiryForm) {
             $$renderer3.push("<!--[-->");
             if (!submitted) {
               $$renderer3.push("<!--[-->");
@@ -418,19 +390,19 @@ communications from Gallery Sonder. You can unsubscribe or change your preferenc
       $$renderer2.push("<!--[!-->");
     }
     $$renderer2.push(`<!--]--> `);
-    if (!store_get($$store_subs ??= {}, "$activeArtwork", activeArtwork) && store_get($$store_subs ??= {}, "$lightboxImageUrl", lightboxImageUrl)) {
+    if (!appState.activeArtwork && appState.lightboxImageUrl) {
       $$renderer2.push("<!--[-->");
-      $$renderer2.push(`<div class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-90 flex justify-center items-center z-40"><button class="absolute w-full h-full" aria-label="Close image"></button> <div class="w-11/12 h-11/12 max-h-11/12 max-w-11/12 lg:w-4/5 lg:h-4/5 lg:max-w-4/5 lg:max-h-4/5"><img${attr("src", store_get($$store_subs ??= {}, "$lightboxImageUrl", lightboxImageUrl))} alt="lightbox" class="w-full h-full object-contain"/></div></div>`);
+      $$renderer2.push(`<div class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-90 flex justify-center items-center z-40"><button class="absolute w-full h-full" aria-label="Close image"></button> <div class="w-11/12 h-11/12 max-h-11/12 max-w-11/12 lg:w-4/5 lg:h-4/5 lg:max-w-4/5 lg:max-h-4/5"><img${attr("src", appState.lightboxImageUrl)} alt="lightbox" class="w-full h-full object-contain"/></div></div>`);
     } else {
       $$renderer2.push("<!--[!-->");
     }
     $$renderer2.push(`<!--]-->`);
-    if ($$store_subs) unsubscribe_stores($$store_subs);
   });
 }
 function CookieConsent($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
+    getAppState();
     const cookieConsent = writable(false);
     {
       $$renderer2.push("<!--[!-->");
@@ -450,6 +422,7 @@ function CookieConsent($$renderer, $$props) {
 function _layout($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
+    const appState = setAppState();
     let data = $$props["data"];
     let navDelayDone = false;
     let currentUtmParams = {
@@ -495,14 +468,16 @@ function _layout($$renderer, $$props) {
       $$renderer2.push("<!--[!-->");
     }
     $$renderer2.push(`<!--]--> `);
-    if (!store_get($$store_subs ??= {}, "$isIntroRunning", isIntroRunning) && navDelayDone) ;
-    else {
+    if (!appState.isIntroRunning && navDelayDone) {
+      $$renderer2.push("<!--[-->");
+      Nav($$renderer2, { isLogoBlack: false, navProps: data.nav.data.links });
+    } else {
       $$renderer2.push("<!--[!-->");
     }
     $$renderer2.push(`<!--]--> <!--[-->`);
     slot($$renderer2, $$props, "default", {});
     $$renderer2.push(`<!--]--></main> `);
-    if (store_get($$store_subs ??= {}, "$isLightboxActive", isLightboxActive)) {
+    if (appState.isLightboxActive) {
       $$renderer2.push("<!--[-->");
       Lightbox($$renderer2);
     } else {

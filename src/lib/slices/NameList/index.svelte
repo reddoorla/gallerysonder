@@ -5,16 +5,17 @@
 	import NameRevealOnHover from '$lib/components/NameRevealOnHover.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
-	import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import { onMount } from 'svelte';
-	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault';
-	
-	export let slice: NameListSlice;
-	
-	let shape: HTMLElement;
-	let shapeHeight: number;
-	let isLoading = true;
+
+	const appState = getAppState();
+
+	let { slice }: { slice: NameListSlice } = $props();
+
+	let shape = $state<HTMLElement | undefined>(undefined);
+	let shapeHeight = $state(0);
+	let isLoading = $state(true);
 	
 	interface ArtistItem {
 	  activeImage: string;
@@ -22,8 +23,8 @@
 	  link: LinkField;
 	  doubleHeight?: boolean;
 	}
-	
-	let artistItems: ArtistItem[] = [];
+
+	let artistItems = $state<ArtistItem[]>([]);
 	
 	async function fetchArtistItems() {
 	  const client = createClient('gallerysonder');
@@ -87,7 +88,7 @@
    <section
 	 class="w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
 	 id={slice.primary.sectionLabel}
-	 style="background-color:{$backgroundColor};"
+	 style="background-color:{appState.backgroundColor};"
    >
 	 {#if slice.primary.shape_top !== '0'}
 	   <div class="-translate-y-[99%]" bind:this={shape}>
@@ -108,8 +109,8 @@
 		 {#each artistItems as item, i}
 		   <NameRevealOnHover
 			 activeImage={item.activeImage}
-			 on:mouseover={() => backgroundColor.set(item.color)}
-			 on:mouseout={() => backgroundColor.set($backgroundColorDefault)}
+			 onmouseover={() => appState.backgroundColor = item.color}
+			 onmouseout={() => appState.backgroundColor = appState.backgroundColorDefault}
 			 href={isFilled.link(item.link) ? item.link.url : ''}
 			 class={item.doubleHeight?"h-11 sm:h-[66px] md:h-[110px] lg:h-[132px]":"h-4 sm:h-6 md:h-10 lg:h-12"}
 		   />

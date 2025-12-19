@@ -2,18 +2,19 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import VimeoPlayer from '$lib/components/VimeoPlayer.svelte';
-	import { isIntroRunning, hasIntroRun } from '$lib/stores/intro';
-	import { get } from 'svelte/store';
+	import { getAppState } from '$lib/contexts/appState.svelte';
+
+	const appState = getAppState();
 
 	// Configuration
 	const USE_INTRO = import.meta.env.VITE_USE_INTRO && import.meta.env.VITE_USE_INTRO !== 'false';
 	const INTRO_DURATION = 6000; // 6 seconds
-	
+
 	// State
 	let isVideoLoaded = !USE_INTRO;
 	let isPlaying = !USE_INTRO;
 	let isVideoDone = !USE_INTRO;
-	
+
 	// Vimeo player reference
 	interface VimeoComponent {
 		play: () => Promise<void>;
@@ -24,10 +25,12 @@
 
 	onMount(() => {
 		if (!USE_INTRO) {
-			isIntroRunning.set(true);
-            hasIntroRun.set(true);
-		}else if(!get(hasIntroRun)){
-            isIntroRunning.set(false)
+			// Skip intro: set isIntroRunning to false so nav shows
+			appState.isIntroRunning = false;
+            appState.hasIntroRun = true;
+		}else if(!appState.hasIntroRun){
+			// Start intro: set isIntroRunning to true to hide nav during intro
+            appState.isIntroRunning = true;
         }
 	});
 
@@ -35,11 +38,11 @@
 	const handleVideoReady = async () => {
 		await vimeoPlayer.play();
 		isVideoLoaded = true;
-		
+
 		setTimeout(async () => {
 			await vimeoPlayer.pause();
 			isVideoDone = true;
-			isIntroRunning.set(false);
+			appState.isIntroRunning = false;
 		}, INTRO_DURATION);
 	};
 
@@ -56,10 +59,6 @@
 		}
 	};
 
-	// Handle playing state change
-	const handlePlayingChange = (event: CustomEvent) => {
-		isPlaying = event.detail.isPlaying;
-	};
 </script>
 
 <style>
@@ -122,8 +121,8 @@
 			videoId="1032470650"
 			muted={true}
 			bind:isPlaying
-			on:playingChange={handlePlayingChange}
-			on:ready={handleVideoReady}
+			onReady={handleVideoReady}
+			onPlayingChange={(playing) => { isPlaying = playing; }}
 		/>
 	</div>
 
@@ -133,7 +132,7 @@
 </div>
 
 <!-- Main Content (shows after intro) -->
-{#if !$isIntroRunning && isVideoDone}
+{#if !appState.isIntroRunning && isVideoDone}
 	<div transition:fade>
 		<!-- Your main content goes here -->
 		<slot />

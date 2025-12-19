@@ -1,36 +1,33 @@
 <script lang="ts">
-    import { isNewsletterActive } from "$lib/stores/isNewsletterActive";
-    import { hasNewsletterBeenCleared } from "$lib/stores/hasNewsletterBeenCleared";
-    import { backgroundColor } from "$lib/stores/backgroundColor";
-	import { get } from "svelte/store";
+    import { getAppState } from "$lib/contexts/appState.svelte";
 	import ContentWidth from "./ContentWidth.svelte";
 	import { fade } from "svelte/transition";
 	import RotatingLogo from "./RotatingLogo.svelte";
 	import LinkArrowButton from "./Buttons/LinkArrowButton.svelte";
 	import { onMount } from "svelte";
 
-
-    let submitted = false;
-    let error = false;
+	const appState = getAppState();
 
 
+    let submitted = $state(false);
+    let error = $state(false);
 
-    $: {
-        $isNewsletterActive;
+	// Effect: Manage body overflow and scroll based on newsletter state
+	$effect(() => {
         if(typeof document !=='undefined' && document.getElementsByTagName('body')){
             const body = document.getElementsByTagName('body')[0] as HTMLElement;
-            if($isNewsletterActive){
+            if(appState.isNewsletterActive){
                 body.style.overflow = 'hidden'
                 disableScroll();
-                
+
             }else{
                 body.style.overflow = 'auto'
                 enableScroll();
             }
         }
-    }
+    });
 
-    let emailValue:string;
+    let emailValue=$state("");
 
     let lowestPoint = 0;
 
@@ -52,16 +49,16 @@
 
     const checkPosition = () => {
 
-        if(typeof window !== 'undefined'&&typeof document !== 'undefined' && !$hasNewsletterBeenCleared){
+        if(typeof window !== 'undefined'&&typeof document !== 'undefined' && !appState.hasNewsletterBeenCleared){
             const maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             if(window.scrollY>lowestPoint)
                 lowestPoint=window.scrollY;
-            if(lowestPoint/maxScroll>0.8&&window.scrollY/maxScroll<0.5&&!$hasNewsletterBeenCleared)
-                $isNewsletterActive=true;
+            if(lowestPoint/maxScroll>0.8&&window.scrollY/maxScroll<0.5&&!appState.hasNewsletterBeenCleared)
+                appState.isNewsletterActive=true;
         }
     }
 
-    let hiddenForm:HTMLFormElement;
+    let hiddenForm:HTMLFormElement|undefined = $state();
 
     onMount(()=>{
         window.addEventListener('scroll', checkPosition);
@@ -95,7 +92,7 @@
 const triggerSubmitButton = () => {
 
     hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
-     
+
         if (hiddenForm) {
              const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
              hiddenEmail.value=emailValue;
@@ -104,10 +101,10 @@ const triggerSubmitButton = () => {
     submitForm(hiddenForm);
 
     console.log("email: " + emailValue);
-    
-    $hasNewsletterBeenCleared  = true;
 
-    
+    appState.hasNewsletterBeenCleared  = true;
+
+
 };
     
 
@@ -115,11 +112,15 @@ const triggerSubmitButton = () => {
 
 
 
-{#if $isNewsletterActive}
+
+
+{#if appState.isNewsletterActive}
 <div class="w-screen h-screen fixed top-0 left-0 z-40  backdrop-blur" transition:fade >
-    <div class="w-full h-full absolute top-0 left-0 opacity-95" style="background-color:{$backgroundColor}"></div>
+    <div class="w-full h-full absolute top-0 left-0 opacity-95 transition-colors duration-1000" style="background-color:{appState.backgroundColor}"></div>
     <ContentWidth  class="h-full relative flex flex-col items-start justify-center gap-10">
-        <button on:click={()=>{$isNewsletterActive=false; $hasNewsletterBeenCleared=true}} class="absolute top-12 left-0 hover:opacity-80" aria-label="Close newsletter signup"><i class="fa-thin fa-sharp fa-close fa-2xl scale-200"></i></button>
+        <button onclick={()=>{appState.isNewsletterActive=false; appState.hasNewsletterBeenCleared=true}} class="absolute top-12 left-0 hover:opacity-80" aria-label="Close newsletter signup"><i
+							class="text-black fa-sharp fa-solid fa-close fa-2xl hover:opacity-80 transition"
+						></i></button>
         <a href="/" class="absolute top-5 right-0 hover:opacity-80"><RotatingLogo class="h-6" /></a>
         {#if !submitted}
         <div>
@@ -130,9 +131,9 @@ const triggerSubmitButton = () => {
             <input type="email" bind:value={emailValue} name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
             <LinkArrowButton class="mt-6" text="Subscribe" click={triggerSubmitButton}/>
         </div>
-        <p class="text-sm mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
+        <p class="text-xs mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
         {:else if error}
-				<h2>We're sorry, there appears to be an error. Please email info@gallerysonder.com with your inquiry.</h2>
+				<h2 transition:fade>We're sorry, there appears to be an error. Please email info@gallerysonder.com with your inquiry.</h2>
 				{:else}
 				
          <h2>Thank you for joining our email list</h2>

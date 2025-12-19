@@ -4,24 +4,26 @@
 	import { PrismicImage } from '@prismicio/svelte';
 	import type { ImageField } from '@prismicio/client';
 	import { isFilled } from '@prismicio/helpers';
-	import { activeArtwork } from '$lib/stores/lightbox';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { onMount } from 'svelte';
 
-	let viewportWidth: number;
-	let imageArray: ImageField[] = [];
-	let tripledImages: ImageField[] = [];
+	const appState = getAppState();
+
+	let viewportWidth = $state<number>(0);
+	let imageArray = $state<ImageField[]>([]);
+	let tripledImages = $state<ImageField[]>([]);
 
 	const setImageArray = () => {
 		imageArray = [];
 
-		if ($activeArtwork?.data.primary_image && isFilled.image($activeArtwork.data.primary_image)) {
-			imageArray.push($activeArtwork.data.primary_image);
+		if (appState.activeArtwork?.data.primary_image && isFilled.image(appState.activeArtwork.data.primary_image)) {
+			imageArray.push(appState.activeArtwork.data.primary_image);
 
 			if (
-				$activeArtwork?.data.secondary_images &&
-				$activeArtwork.data.secondary_images.length > 0
+				appState.activeArtwork?.data.secondary_images &&
+				appState.activeArtwork.data.secondary_images.length > 0
 			) {
-				$activeArtwork.data.secondary_images.forEach((e) => {
+				appState.activeArtwork.data.secondary_images.forEach((e) => {
 					if (e.image && isFilled.image(e.image)) {
 						imageArray.push(e.image);
 					}
@@ -34,12 +36,14 @@
 		console.log('Tripled Images:', tripledImages);
 	};
 
-	$: if ($activeArtwork) {
-		setImageArray();
-	}
+	$effect(() => {
+		if (appState.activeArtwork) {
+			setImageArray();
+		}
+	});
 
-	let sliderIndex = 0;
-	let isSlideAnimated = true;
+	let sliderIndex = $state(0);
+	let isSlideAnimated = $state(true);
 	const SLIDER_TRANSITION_LENGTH_IN_MS = 2000;
 
 	const resetSliderToStart = () => {
@@ -101,10 +105,10 @@
 		</div>
 
 		<div class="flex flex-row justify-between items-center absolute bottom-6 left-6 gap-12">
-			<button class="bump" on:click={slideRight} aria-label="Previous image">
+			<button class="bump" onclick={slideRight} aria-label="Previous image">
 				<i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl shadow-sm"></i>
 			</button>
-			<button class="bump" on:click={slideLeft} aria-label="Next image">
+			<button class="bump" onclick={slideLeft} aria-label="Next image">
 				<i class="fa-sharp fa-regular fa-arrow-right text-white fa-2xl shadow-sm"></i>
 			</button>
 		</div>

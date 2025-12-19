@@ -10,7 +10,7 @@ return {
 	assets: new Set([".DS_Store","android-chrome-192x192.png","android-chrome-512x512.png","apple-touch-icon.png","favicon-16x16.png","favicon-32x32.png","favicon.ico","favicon.png","forms.html","robots.txt","site.webmanifest"]),
 	mimeTypes: {".png":"image/png",".html":"text/html",".txt":"text/plain",".webmanifest":"application/manifest+json"},
 	_: {
-		client: {start:"_app/immutable/entry/start.BEVLLaa3.js",app:"_app/immutable/entry/app.CaPCauSz.js",imports:["_app/immutable/entry/start.BEVLLaa3.js","_app/immutable/chunks/CcoCqU0B.js","_app/immutable/chunks/CtH3rEmS.js","_app/immutable/entry/app.CaPCauSz.js","_app/immutable/chunks/CtH3rEmS.js","_app/immutable/chunks/DsnmJJEf.js","_app/immutable/chunks/BBQt5Ejc.js","_app/immutable/chunks/C9cfyg4u.js","_app/immutable/chunks/DJYKlU19.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.CJ7HPGk4.js",app:"_app/immutable/entry/app.hVdjLWLF.js",imports:["_app/immutable/entry/start.CJ7HPGk4.js","_app/immutable/chunks/CKza6y4e.js","_app/immutable/chunks/CO9sfcJX.js","_app/immutable/entry/app.hVdjLWLF.js","_app/immutable/chunks/CO9sfcJX.js","_app/immutable/chunks/DsnmJJEf.js","_app/immutable/chunks/DVair6XY.js","_app/immutable/chunks/JzFz2FpW.js","_app/immutable/chunks/n_9o9Bd3.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),
@@ -22,7 +22,8 @@ return {
 			__memo(() => import('./nodes/7.js')),
 			__memo(() => import('./nodes/8.js')),
 			__memo(() => import('./nodes/9.js')),
-			__memo(() => import('./nodes/10.js'))
+			__memo(() => import('./nodes/10.js')),
+			__memo(() => import('./nodes/11.js'))
 		],
 		remotes: {
 			
@@ -43,45 +44,52 @@ return {
 				endpoint: null
 			},
 			{
+				id: "/[[preview=preview]]/essays/[uid]",
+				pattern: /^(?:\/([^/]+))?\/essays\/([^/]+?)\/?$/,
+				params: [{"name":"preview","matcher":"preview","optional":true,"rest":false,"chained":true},{"name":"uid","optional":false,"rest":false,"chained":false}],
+				page: { layouts: [0,], errors: [1,], leaf: 5 },
+				endpoint: null
+			},
+			{
 				id: "/[[preview=preview]]/exhibitions/[uid]",
 				pattern: /^(?:\/([^/]+))?\/exhibitions\/([^/]+?)\/?$/,
 				params: [{"name":"preview","matcher":"preview","optional":true,"rest":false,"chained":true},{"name":"uid","optional":false,"rest":false,"chained":false}],
-				page: { layouts: [0,], errors: [1,], leaf: 5 },
+				page: { layouts: [0,], errors: [1,], leaf: 6 },
 				endpoint: null
 			},
 			{
 				id: "/intro-test",
 				pattern: /^\/intro-test\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 9 },
+				page: { layouts: [0,], errors: [1,], leaf: 10 },
 				endpoint: null
 			},
 			{
 				id: "/[[preview=preview]]/news/[uid]",
 				pattern: /^(?:\/([^/]+))?\/news\/([^/]+?)\/?$/,
 				params: [{"name":"preview","matcher":"preview","optional":true,"rest":false,"chained":true},{"name":"uid","optional":false,"rest":false,"chained":false}],
-				page: { layouts: [0,], errors: [1,], leaf: 6 },
+				page: { layouts: [0,], errors: [1,], leaf: 7 },
 				endpoint: null
 			},
 			{
 				id: "/[[preview=preview]]/rsvp",
 				pattern: /^(?:\/([^/]+))?\/rsvp\/?$/,
 				params: [{"name":"preview","matcher":"preview","optional":true,"rest":false,"chained":true}],
-				page: { layouts: [0,], errors: [1,], leaf: 7 },
+				page: { layouts: [0,], errors: [1,], leaf: 8 },
 				endpoint: null
 			},
 			{
 				id: "/[[preview=preview]]/rsvp/[uid]",
 				pattern: /^(?:\/([^/]+))?\/rsvp\/([^/]+?)\/?$/,
 				params: [{"name":"preview","matcher":"preview","optional":true,"rest":false,"chained":true},{"name":"uid","optional":false,"rest":false,"chained":false}],
-				page: { layouts: [0,], errors: [1,], leaf: 8 },
+				page: { layouts: [0,], errors: [1,], leaf: 9 },
 				endpoint: null
 			},
 			{
 				id: "/slice-simulator",
 				pattern: /^\/slice-simulator\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 10 },
+				page: { layouts: [0,], errors: [1,], leaf: 11 },
 				endpoint: null
 			},
 			{

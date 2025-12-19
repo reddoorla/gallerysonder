@@ -36,6 +36,10 @@ const routes = [
   {
     type: "exhibit",
     path: "/exhibitions/:uid"
+  },
+  {
+    type: "essay",
+    path: "/essays/:uid"
   }
 ];
 const createClient = ({ cookies, ...config2 } = {}) => {

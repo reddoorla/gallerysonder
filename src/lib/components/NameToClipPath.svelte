@@ -49,12 +49,8 @@
 	class="relative w-fit transition-transform duration-500 ease-fast-slow {active
 		? 'scale-[1.4] translate-x-[20%] md:translate-x-0 md:scale-100'
 		: ''} {$$props.class || ''}"
-	on:mouseenter={() => (active = true)}
-	on:mouseleave={() => (active = false)}
-	on:mouseover
-	on:mouseout
-	on:focus
-	on:blur
+	onmouseenter={() => (active = true)}
+	onmouseleave={() => (active = false)}
 	{href}
 >
 	<img

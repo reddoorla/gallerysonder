@@ -1,16 +1,17 @@
-import { a as attr, b as attr_class, l as bind_props, c as stringify } from "../../../../../chunks/index2.js";
+import { V as attr, X as attr_class, Y as stringify } from "../../../../../chunks/index2.js";
 import "@sveltejs/kit/internal";
 import "../../../../../chunks/exports.js";
 import "../../../../../chunks/utils.js";
 import "@sveltejs/kit/internal/server";
 import "../../../../../chunks/state.svelte.js";
-import { C as ContentWidth } from "../../../../../chunks/PrismicRichText.js";
+import { g as getAppState, C as ContentWidth } from "../../../../../chunks/PrismicRichText.js";
 import { S as SliceZone, c as components } from "../../../../../chunks/index3.js";
 import { I as InnerPageNav, F as Footer } from "../../../../../chunks/InnerPageNav.js";
-import { T as escape_html } from "../../../../../chunks/context.js";
+import { e as escape_html } from "../../../../../chunks/context.js";
 function _page($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
-    let data = $$props["data"];
+    getAppState();
+    let { data } = $$props;
     let content = data.page.data;
     let slicesSections = [];
     data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ""));
@@ -33,7 +34,6 @@ function _page($$renderer, $$props) {
     $$renderer2.push(`<!----> `);
     Footer($$renderer2);
     $$renderer2.push(`<!----></div>`);
-    bind_props($$props, { data });
   });
 }
 export {

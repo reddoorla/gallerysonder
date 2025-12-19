@@ -10,21 +10,29 @@
 	import type { LinkField, ImageField, KeyTextField } from '@prismicio/client';
 	import { onNavigate } from '$app/navigation';
 
-	export let slice: ImageGallerySlice;
+	let {
+		slice,
+		willBlur = false,
+		isRegular = true,
+		isList = false,
+		isTruncated = $bindable(false),
+		class: className = ''
+	}: {
+		slice: ImageGallerySlice;
+		willBlur?: boolean;
+		isRegular?: boolean;
+		isList?: boolean;
+		isTruncated?: boolean;
+		class?: string;
+	} = $props();
+	let isHoverArray = $state<boolean[]>([]);
+	let viewportWidth = $state(1024);
 
-	export let willBlur = false;
-	export let isRegular = true;
-	export let isList = false;
-
-	let isTruncated = slice.primary.show_more_button;
-	let isHoverArray: boolean[] = [];
-	let viewportWidth = 1024;
 
 
 
-
-	function handleHover(event: CustomEvent<boolean>, index: number) {
-		isHoverArray[index] = event.detail;
+	function handleHover(value: boolean, index: number) {
+		isHoverArray[index] = value;
 	}
 
 	interface GalleryItem {
@@ -40,8 +48,8 @@
 		willOpen: boolean;
 	} 
 
-	let galleryItems: GalleryItem[] = [];
-	let isLoading = true;
+	let galleryItems = $state<GalleryItem[]>([]);
+	let isLoading = $state(true);
 
 	async function fetchGalleryItems(items: ImageGallerySliceDefaultItem[]) {
 		const client = createClient('gallerysonder');
@@ -186,7 +194,7 @@
 		{/each}
 	</div>
 {:else if isList}
-	<div class="w-full flex flex-row flex-wrap items-center gap-8 justify-start {$$props.class || ''}">
+	<div class="w-full flex flex-row flex-wrap items-center gap-8 justify-start {className}">
 		{#each galleryItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
@@ -200,7 +208,7 @@
 						alt={item.title || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 						bind:isHover={isHoverArray[i]}
-						on:hover={(event) => handleHover(event, i)}
+						onHoverChange={(value) => handleHover(value, i)}
 						artworkUID={item.artUID}
 					/>
 					
@@ -231,7 +239,7 @@
 		{/each}
 	</div>
 {:else}
-	<div class="w-full flex flex-row flex-wrap items-center justify-start gap-y-10 {$$props.class || ''}">
+	<div class="w-full flex flex-row flex-wrap items-center justify-start gap-y-10 {className}">
 		{#each galleryItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
@@ -245,17 +253,17 @@
 						src={item.image.url || ''}
 						text={item.artistName || ''}
 						subtitle={
-							item.title && item.subtitleOne 
+							item.title && item.subtitleOne
 							? `<i>${item.title}</i>, ${item.subtitleOne}`
-							: item.title 
-							  ? `<i>${item.title}</i>` 
+							: item.title
+							  ? `<i>${item.title}</i>`
 							  : item.subtitleOne || ''}
 						alt={item.title || ''}
 						subtitleTwo={item.subtitleTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 						willOpen={item.willOpen}
 						bind:isHover={isHoverArray[i]}
-						on:hover={(event) => handleHover(event, i)}
+						onHoverChange={(value) => handleHover(value, i)}
 						artworkUID={item.artUID}
 					/>
 				</div>

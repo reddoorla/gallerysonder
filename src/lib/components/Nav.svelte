@@ -9,9 +9,9 @@
 	import NameRevealOnHover from './NameRevealOnHover.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 
-	import { backgroundColor } from '$lib/stores/backgroundColor';
-	import { hasNewsletterBeenCleared } from '$lib/stores/hasNewsletterBeenCleared';
-	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
+	import { getAppState } from '$lib/contexts/appState.svelte';
+
+	const appState = getAppState();
 
 	export let isLogoBlack: boolean;
 	export let navProps: NavDocumentDataLinksItem[];
@@ -35,7 +35,7 @@
 			showNav
 				? 'brightness-0'
 				: ''}"
-			on:click={() => (showNav = !showNav)}
+			onclick={() => (showNav = !showNav)}
 			aria-label="Toggle navigation menu"
 		>
 			<svg
@@ -55,7 +55,7 @@
 		</button>
 		<a
 			href="/"
-			class="filter-to-accent-pink-on-hover transition-colors pointer-events-auto bump brightness-0 hover:mix-blend-normal {isLogoBlack ||
+			class="filter-to-accent-pink-on-hover transition pointer-events-auto bump brightness-0 hover:mix-blend-normal {isLogoBlack ||
 			showNav
 				? ''
 				: 'invert'}"
@@ -67,13 +67,13 @@
 
 {#if showNav}
 	<div
-		class="h-screen w-screen fixed top-0 left-0 z-30 transition ease-fast-slow"
-		style="background-color:{$backgroundColor}"
+		class="h-screen w-screen fixed top-0 left-0 z-30 transition-colors duration-1000 ease-fast-slow"
+		style="background-color:{appState.backgroundColor}"
 		transition:slide
 	>
 		<ContentWidth class="flex flex-col gap-12 lg:gap-20 pb-16 pt-48 items-start justify-start h-full relative">
 			<button
-				on:click={() => (showNav = false)}
+				onclick={() => (showNav = false)}
 				class="absolute top-12 left-0 text-black bump hover:opacity-40"
 				aria-label="Close navigation menu"
 			>
@@ -95,8 +95,8 @@
 			{#each navProps as link}
 				<NameRevealOnHover
 					activeImage={link.active_link.url || ''}
-					on:mouseover={() => backgroundColor.set(link.active_color || '#E4EEEA')}
-					on:mouseout={() => backgroundColor.set('#E4EEEA')}
+					onmouseover={() => appState.backgroundColor = link.active_color || '#E4EEEA'}
+					onmouseout={() => appState.backgroundColor = '#E4EEEA'}
 					href={prismicH.isFilled.link(link.link) ? link.link.url : '#'}
 					class="h-4 sm:h-6 md:h-10 lg:h-12"
 					click={() => {
@@ -105,7 +105,7 @@
 				/>
 			{/each}
 
-			<LinkArrowButton class="" click={()=>{hasNewsletterBeenCleared.set(false); isNewsletterActive.set(true)}} text="Subscribe to our newsletter" />
+			<LinkArrowButton class="" click={()=>{appState.hasNewsletterBeenCleared = false; appState.isNewsletterActive = true}} text="Subscribe to our newsletter" />
 		</ContentWidth>
 	</div>
 {/if}

@@ -11,22 +11,22 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
-	import { isIntroRunning } from '$lib/stores/intro';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 
 	import { fade } from 'svelte/transition';
 
-	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
+	const appState = getAppState();
 
-	export let data;
+	let { data } = $props();
 
 	let content = data.page.data;
 
-	let viewportWidth: number;
-	let viewportHeight: number;
+	let viewportWidth = $state(0);
+	let viewportHeight = $state(0);
 
-	let showEyebrow = false;
+	let showEyebrow = $state(false);
 
-	let theBottomOfTheTop: HTMLElement;
+	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
 
 	let slicesSections: string[] = [];
@@ -35,7 +35,7 @@
 	let sections: string[] = [];
 	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
 
-	let isBackgroundDark = false;
+	let isBackgroundDark = $state(false);
 
 	const checkPosition = () => {
 		if (theBottomOfTheTop && theBottomOfTheTop.getBoundingClientRect().bottom < 0) {
@@ -45,33 +45,20 @@
 		}
 	};
 
-	onMount(() => {
-		const unsubscribe = isIntroRunning.subscribe((value) => {
-			if (!value) {
-				checkPosition();
-
-				setTimeout(() => (showEyebrow = true), 500);
-			}
-		});
-
-		window.addEventListener('scroll', checkPosition);
-
-		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
-
-		return () => {
-			unsubscribe();
-		};
+	$effect(() => {
+		if (!appState.isIntroRunning) {
+			checkPosition();
+			setTimeout(() => (showEyebrow = true), 500);
+		}
 	});
 
-	afterNavigate(() => {
-		data = { ...data };
-		content = data.page.data;
-		slicesSections = [];
-		sections = [];
-		data.page.data.slices.forEach((slice) =>
-			slicesSections.push(slice.primary?.sectionLabel || '')
-		);
-		data.page.data.sections.forEach((section) => sections.push(section.section || ''));
+	onMount(() => {
+		window.addEventListener('scroll', checkPosition);
+		appState.backgroundColorDefault = content.default_background_color || '#E4EEEA';
+
+		return () => {
+			window.removeEventListener('scroll', checkPosition);
+		};
 	});
 </script>
 

@@ -3,33 +3,33 @@
 
 	import type { TitleBlockSlice } from '../../../prismicio-types';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
-	import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import { isFilled } from '@prismicio/helpers';
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
 	import { slide } from 'svelte/transition';
-	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
-	import { hasNewsletterBeenCleared } from '$lib/stores/hasNewsletterBeenCleared';
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 
-	let viewportWidth: number;
-	let submitted = false;
-	let error = false;
+	const appState = getAppState();
 
-	export let slice: TitleBlockSlice;
+	let viewportWidth = $state(0);
+	let submitted = $state(false);
+	let error = $state(false);
 
-	let showFullBody = false;
-	let showContactForm = $page.url.searchParams.has('inquire');
+	let { slice }: { slice: TitleBlockSlice } = $props();
 
-	let formName:string;
-	let formCompany:string;
-	let formPhone:string;
-	let formEmail:string;
-	let formMessage:string;
+	let showFullBody = $state(false);
+	let showContactForm = $state($page.url.searchParams.has('inquire'));
+
+	let formName = $state('');
+	let formCompany = $state('');
+	let formPhone = $state('');
+	let formEmail = $state('');
+	let formMessage = $state('');
 
 	const submitForm = async (formElement:HTMLFormElement) => {
   const formData = new FormData(formElement);
@@ -77,12 +77,12 @@
   };
 
 
-	let shape:HTMLElement;
-	let shapeHeight:number;
+	let shape = $state<HTMLElement | undefined>(undefined);
+	let shapeHeight = $state(0);
 
 	onMount(()=>{
 		if(shape)
-			shapeHeight=shape.getBoundingClientRect().height	
+			shapeHeight=shape.getBoundingClientRect().height
 	}
 )
 </script>
@@ -106,7 +106,7 @@
 	data-slice-variation={slice.variation}
 
 	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""} {slice.primary.hide ? 'hidden' : ''}"
-	style="background-color: {$backgroundColor} "
+	style="background-color: {appState.backgroundColor} "
 >
 {#if slice.primary.shape_top !== '0'}<div
 class="-translate-y-[99%] "
@@ -200,7 +200,7 @@ bind:this={shape}
 				<LinkPlusToggle startsActive={showContactForm} text={slice.primary.button_text||'Inquire'} click={()=>{showContactForm=!showContactForm}} />
 			{/if}
 			{#if slice.primary.button_text}
-				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} click={()=>{$hasNewsletterBeenCleared=false;$isNewsletterActive=true;}} />
+				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} click={()=>{appState.hasNewsletterBeenCleared=false;appState.isNewsletterActive=true;}} />
 			{/if}
 			</div>
 			{#if showContactForm}
@@ -229,7 +229,7 @@ bind:this={shape}
 					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 	  
 				
-                        <button type="submit" on:click={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
+                        <button type="submit" onclick={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
                  
                
 			   	{:else if error}

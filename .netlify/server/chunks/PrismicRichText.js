@@ -1,8 +1,8 @@
-import { s as sanitize_props, b as attr_class, c as stringify, m as slot, a as attr, j as attributes, d as clsx, k as ensure_array_like } from "./index2.js";
+import { W as sanitize_props, X as attr_class, Y as stringify, a4 as slot, V as attr, a0 as attributes, Z as clsx, a1 as ensure_array_like } from "./index2.js";
 import "clsx";
+import { s as setContext, g as getContext, e as escape_html } from "./context.js";
 import { asTree } from "@prismicio/client/richtext";
 import { isFilled, asImagePixelDensitySrcSet, asImageWidthSrcSet, asLinkAttrs } from "@prismicio/client";
-import { T as escape_html } from "./context.js";
 function html(value) {
   var html2 = String(value ?? "");
   var open = "<!---->";
@@ -15,6 +15,115 @@ function ContentWidth($$renderer, $$props) {
     slot($$renderer2, $$props, "default", {});
     $$renderer2.push(`<!--]--></div>`);
   });
+}
+const APP_STATE_KEY = /* @__PURE__ */ Symbol("APP_STATE");
+function createAppState() {
+  let isIntroRunning = false;
+  let hasIntroRun = false;
+  let isModalActive = false;
+  let isNewsletterActive = false;
+  let hasNewsletterBeenCleared = false;
+  let backgroundColorDefault = "#E4EEEA";
+  let backgroundColor = "#E4EEEA";
+  let isLightboxActive = false;
+  let showInquiryForm = false;
+  let lightboxImageUrl = "";
+  let activeArtworkUid = "";
+  let activeArtwork = null;
+  let activeArtist = null;
+  let utmParams = { source: "", medium: "", campaign: "", term: "", content: "" };
+  return {
+    get isIntroRunning() {
+      return isIntroRunning;
+    },
+    set isIntroRunning(value) {
+      isIntroRunning = value;
+    },
+    get hasIntroRun() {
+      return hasIntroRun;
+    },
+    set hasIntroRun(value) {
+      hasIntroRun = value;
+    },
+    get isModalActive() {
+      return isModalActive;
+    },
+    set isModalActive(value) {
+      isModalActive = value;
+    },
+    get isNewsletterActive() {
+      return isNewsletterActive;
+    },
+    set isNewsletterActive(value) {
+      isNewsletterActive = value;
+    },
+    get hasNewsletterBeenCleared() {
+      return hasNewsletterBeenCleared;
+    },
+    set hasNewsletterBeenCleared(value) {
+      hasNewsletterBeenCleared = value;
+    },
+    get backgroundColorDefault() {
+      return backgroundColorDefault;
+    },
+    set backgroundColorDefault(value) {
+      backgroundColorDefault = value;
+    },
+    get backgroundColor() {
+      return backgroundColor;
+    },
+    set backgroundColor(value) {
+      backgroundColor = value;
+    },
+    get isLightboxActive() {
+      return isLightboxActive;
+    },
+    set isLightboxActive(value) {
+      isLightboxActive = value;
+    },
+    get showInquiryForm() {
+      return showInquiryForm;
+    },
+    set showInquiryForm(value) {
+      showInquiryForm = value;
+    },
+    get lightboxImageUrl() {
+      return lightboxImageUrl;
+    },
+    set lightboxImageUrl(value) {
+      lightboxImageUrl = value;
+    },
+    get activeArtworkUid() {
+      return activeArtworkUid;
+    },
+    set activeArtworkUid(value) {
+      activeArtworkUid = value;
+    },
+    get activeArtwork() {
+      return activeArtwork;
+    },
+    set activeArtwork(value) {
+      activeArtwork = value;
+    },
+    get activeArtist() {
+      return activeArtist;
+    },
+    set activeArtist(value) {
+      activeArtist = value;
+    },
+    get utmParams() {
+      return utmParams;
+    },
+    set utmParams(value) {
+      utmParams = value;
+    }
+  };
+}
+function setAppState() {
+  return setContext(APP_STATE_KEY, createAppState());
+}
+function getAppState() {
+  return getContext(APP_STATE_KEY);
 }
 function PrismicEmbed($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
@@ -353,5 +462,7 @@ export {
   ContentWidth as C,
   PrismicImage as P,
   PrismicRichText as a,
-  html as h
+  getAppState as g,
+  html as h,
+  setAppState as s
 };

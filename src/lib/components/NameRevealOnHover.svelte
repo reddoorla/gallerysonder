@@ -17,15 +17,11 @@
 {#if href}
 <a
 	class="relative transition duration-500 ease-fast-slow w-fit {active
-		? ''
+		? 'brightness-100'
 		: 'brightness-0'} {$$props.class || ''}"
-	on:mouseenter={() => (active = true)}
-	on:mouseleave={() => (active = false)}
-	on:mouseover
-	on:mouseout
-	on:focus
-	on:blur
-	on:click={click}
+	onmouseenter={() => (active = true)}
+	onmouseleave={() => (active = false)}
+	onclick={click}
 	{href}
 >
 	<img src={activeImage} alt="link to name" class={$$props.class || ''} />
@@ -34,15 +30,12 @@
 {:else}
 <button
 	class="relative transition duration-500 ease-fast-slow w-fit cursor-default {active
-		? ''
+		? 'brightness-100'
 		: 'brightness-0'} {$$props.class || ''}"
-	on:mouseenter={() => (active = true)}
-	on:mouseleave={() => (active = false)}
-	on:mouseover
-	on:mouseout
-	on:focus
-	on:blur
-	on:click={click}
+	onmouseenter={() => (active = true)}
+	onmouseleave={() => (active = false)}
+
+	onclick={click}
 >
 	<img src={activeImage} alt="link to name" class={$$props.class || ''} />
 </button>

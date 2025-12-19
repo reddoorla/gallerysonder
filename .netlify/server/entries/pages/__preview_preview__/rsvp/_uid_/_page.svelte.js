@@ -1,13 +1,14 @@
-import { l as bind_props, a as attr } from "../../../../../chunks/index2.js";
+import { V as attr } from "../../../../../chunks/index2.js";
+import { e as escape_html } from "../../../../../chunks/context.js";
 import "../../../../../chunks/client.js";
-import { C as ContentWidth, P as PrismicImage, a as PrismicRichText } from "../../../../../chunks/PrismicRichText.js";
-import { T as escape_html } from "../../../../../chunks/context.js";
+import { g as getAppState, C as ContentWidth, P as PrismicImage, a as PrismicRichText } from "../../../../../chunks/PrismicRichText.js";
 function _page($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
-    let formName;
-    let formEmail;
-    let formGuests;
-    let data = $$props["data"];
+    getAppState();
+    let formName = "";
+    let formEmail = "";
+    let formGuests = "";
+    let { data } = $$props;
     function toTitleCase(str) {
       return str.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
     }
@@ -32,7 +33,6 @@ function _page($$renderer, $$props) {
       $$slots: { default: true }
     });
     $$renderer2.push(`<!----></section>`);
-    bind_props($$props, { data });
   });
 }
 export {

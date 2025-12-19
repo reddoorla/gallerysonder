@@ -2,20 +2,29 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import ContentWidth from './ContentWidth.svelte';
-	import { isModalActive } from '$lib/stores/isModalActive';
+	import { getAppState } from '$lib/contexts/appState.svelte';
+	import { preventDefault } from 'svelte/legacy';
 
-	let sliceRefs: HTMLElement[];
-	export let sections: string[] = [];
-	export let slicesSections: string[];
+	const appState = getAppState();
+
+	let sliceRefs = $state<HTMLElement[]>([]);
+
+	let {
+		sections = [],
+		slicesSections
+	}: {
+		sections?: string[];
+		slicesSections: string[];
+	} = $props();
 
 	const formattedSections = sections.map(section => section);
 	const formattedSlicesSections = slicesSections.map(section => section);
 
-	let fixedNav: HTMLElement;
+	let fixedNav = $state<HTMLElement | undefined>(undefined);
 
-	let isFixedNavShown = false;
-	let activeSection = '';
-	let viewportWidth: number;
+	let isFixedNavShown = $state(false);
+	let activeSection = $state('');
+	let viewportWidth = $state(0);
 
 	const findTopOfSection = (section: string) => {
 		for (let i = 0; i < sliceRefs.length; i++) {
@@ -33,10 +42,12 @@
 					(slice) => slice.getBoundingClientRect().bottom > window.innerHeight / 2
 				)
 			];
-		isFixedNavShown =
-			fixedNav?.getBoundingClientRect().top > sliceRefs[0]?.getBoundingClientRect().top &&
-			fixedNav?.getBoundingClientRect().bottom <
-				sliceRefs[sliceRefs.length - 1]?.getBoundingClientRect().bottom;
+		if (fixedNav && sliceRefs[0] && sliceRefs[sliceRefs.length - 1]) {
+			isFixedNavShown =
+				fixedNav.getBoundingClientRect().top > sliceRefs[0].getBoundingClientRect().top &&
+				fixedNav.getBoundingClientRect().bottom <
+					sliceRefs[sliceRefs.length - 1].getBoundingClientRect().bottom;
+		}
 	};
 
 	onMount(() => {
@@ -61,7 +72,7 @@
 	>
 		<div
 			bind:this={fixedNav}
-			class="absolute top-2 lg:top-1/2 lg:-translate-y-4 lg:left-[7px] lg:-translate-x-1/2 lg:rotate-90 flex flex-row gap-4 transition {isFixedNavShown && !$isModalActive
+			class="absolute top-2 lg:top-1/2 lg:-translate-y-4 lg:left-[7px] lg:-translate-x-1/2 lg:rotate-90 flex flex-row gap-4 transition {isFixedNavShown && !appState.isModalActive
 				? 'pointer-events-auto transition-opacity'
 				: 'pointer-events-none opacity-0'}"
 		>
@@ -72,8 +83,8 @@
                     {isFixedNavShown ? '' : 'pointer-events-none'}"
 						class:active={section === activeSection}
 						href="#{section}"
-						on:click|preventDefault={() =>
-							findTopOfSection(section).scrollIntoView({ behavior: 'smooth' })}
+						onclick={(e) => {e.preventDefault();
+							findTopOfSection(section).scrollIntoView({ behavior: 'smooth' })}}
 					>
 						{section}
 					</a>

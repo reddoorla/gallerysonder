@@ -1,18 +1,20 @@
 <script lang='ts'>
 	import { page } from "$app/state";
     import ContentWidth from "$lib/components/ContentWidth.svelte";
-	import { hasNewsletterBeenCleared } from "$lib/stores/hasNewsletterBeenCleared";
+	import { getAppState } from "$lib/contexts/appState.svelte";
 	import { PrismicImage, PrismicRichText } from "@prismicio/svelte";
 	import { onMount } from "svelte";
-    
-    let submitted = false;
-    let error = false;
-    
-    let formName: string;
-    let formEmail: string;
-    let formGuests: string;
 
-    export let data;
+	const appState = getAppState();
+
+    let submitted = $state(false);
+    let error = $state(false);
+
+    let formName = $state('');
+    let formEmail = $state('');
+    let formGuests = $state('');
+
+    let { data } = $props();
 
     function toTitleCase(str:string) {
   return str.replace(
@@ -57,8 +59,10 @@
         }
     };
 
-    
-    onMount(()=>$hasNewsletterBeenCleared=true)
+
+    onMount(() => {
+		appState.hasNewsletterBeenCleared = true;
+	});
 </script>
 
 <style>
@@ -116,7 +120,7 @@
                 
                 <button 
                     type="submit" 
-                    on:click={triggerSubmitButton} 
+                    onclick={triggerSubmitButton} 
                     class="text-black border-b-2 bg-white hover:bg-gray-200 p-3 font-bold border-black cursor-pointer"
                 >
                     Submit RSVP

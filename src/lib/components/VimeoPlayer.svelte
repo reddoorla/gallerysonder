@@ -1,16 +1,26 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import VimeoPlayer from '@vimeo/player';
-	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
-
-	export let videoId: string;
-	export let autoplay = false;
-	export let muted = true;
-	export let loop = false;
-	export let background = true;
-	export let isPlaying = false;
+	let {
+		videoId,
+		autoplay = false,
+		muted = true,
+		loop = false,
+		background = true,
+		isPlaying = $bindable(false),
+		onReady = undefined,
+		onPlayingChange = undefined
+	}: {
+		videoId: string;
+		autoplay?: boolean;
+		muted?: boolean;
+		loop?: boolean;
+		background?: boolean;
+		isPlaying?: boolean;
+		onReady?: (() => void) | undefined;
+		onPlayingChange?: ((playing: boolean) => void) | undefined;
+	} = $props();
 
 	let player: any | undefined;
 	let playerContainer: HTMLElement;
@@ -31,21 +41,21 @@
 		player = new VimeoPlayer(playerContainer, options);
 
 		player.ready().then(() => {
-			dispatch('ready');
+			onReady?.();
 			if (autoplay) {
 				isPlaying = true;
-				dispatch('playingChange', { isPlaying });
+				onPlayingChange?.(isPlaying);
 			}
 		});
 
 		player.on('play', () => {
 			isPlaying = true;
-			dispatch('playingChange', { isPlaying });
+			onPlayingChange?.(isPlaying);
 		});
 
 		player.on('pause', () => {
 			isPlaying = false;
-			dispatch('playingChange', { isPlaying });
+			onPlayingChange?.(isPlaying);
 		});
 	};
 

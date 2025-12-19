@@ -2,16 +2,18 @@
 <script lang='ts'>
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
-  import { backgroundColor } from '$lib/stores/backgroundColor';
+  import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from './ContentWidth.svelte';
 	import { fade, fly } from 'svelte/transition';
+
+	const appState = getAppState();
 
         //@ts-nocheck
   // Cookie consent store - simplified to just accepted/rejected
   export const cookieConsent = writable(false);
 
-  let showModal = false;
-  let hasConsented = false;
+  let showModal = $state(false);
+  let hasConsented = $state(false);
 
   // Check if user has already made a choice
   onMount(() => {
@@ -98,18 +100,18 @@
   <div class='w-full h-full absolute top-0 left-0 blur-sm backdrop-blur-sm bg-black/40'></div>
     <ContentWidth class="relative z-10 flex justify-center md:justify-end h-full flex-col pb-5">
       
-      <div class="z-20 relative flex flex-col items-start px-5 pt-10 w-full" style="background-color: {$backgroundColor}" >
+      <div class="z-20 relative flex flex-col items-start px-5 pt-10 w-full" style="background-color: {appState.backgroundColor}" >
         <p>We use cookies to track website usage and personalize content. 
         </p>
         <p>Click 'Accept' to allow all cookies or 'Reject' to limit to necessaries.
         </p>
       </div>
 
-      <div class="z-20 relative flex flex-row gap-3 px-5 pt-5 pb-10 w-full" style="background-color: {$backgroundColor}">
-         <button class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer" on:click={acceptCookies}>
+      <div class="z-20 relative flex flex-row gap-3 px-5 pt-5 pb-10 w-full" style="background-color: {appState.backgroundColor}">
+         <button class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer" onclick={acceptCookies}>
           Accept
         </button>
-        <button on:click={rejectCookies} class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer"
+        <button onclick={rejectCookies} class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer"
 						>REJECT</button>
        
       </div>

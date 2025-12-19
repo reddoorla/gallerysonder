@@ -1,5 +1,6 @@
 import { n as noop } from "./utils2.js";
-import { a3 as safe_not_equal, $ as subscribe_to_store } from "./context.js";
+import { b as safe_not_equal } from "./context.js";
+import "clsx";
 const subscriber_queue = [];
 function readable(value, start) {
   return {
@@ -53,13 +54,7 @@ function writable(value, start = noop) {
   }
   return { set, update, subscribe };
 }
-function get(store) {
-  let value;
-  subscribe_to_store(store, (_) => value = _)();
-  return value;
-}
 export {
-  get as g,
   readable as r,
   writable as w
 };

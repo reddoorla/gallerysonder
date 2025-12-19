@@ -5,37 +5,35 @@
 	import Gallery from '$lib/components/Gallery.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 
-	import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { PrismicRichText } from '@prismicio/svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import { isFilled } from '@prismicio/helpers';
 	import { onMount } from 'svelte';
 	import { onNavigate } from '$app/navigation';
 
+	const appState = getAppState();
 
-	let viewportWidth: number;
+	let { slice }: { slice: ImageGallerySlice } = $props();
 
-	let shape:HTMLElement;
-	let shapeHeight:number;
+	let viewportWidth = $state(0);
 
-	
+	let shape = $state<HTMLElement | undefined>(undefined);
+	let shapeHeight = $state(0);
+
+	let isTruncated = $state(!!slice.primary.show_more_button);
 
 	onMount(()=>{
 		if(shape)
-			shapeHeight=shape.getBoundingClientRect().height	
+			shapeHeight=shape.getBoundingClientRect().height
 	}
 )
 
 onNavigate(()=>{
 		if(shape)
-			shapeHeight=shape.getBoundingClientRect().height	
+			shapeHeight=shape.getBoundingClientRect().height
 	}
 )
-
-	export let slice: ImageGallerySlice;
-
-
-	let isTruncated = slice.primary.show_more_button;
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
@@ -48,7 +46,7 @@ onNavigate(()=>{
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
 	class="w-screen  use-gpu transition duration-1000 {slice.primary.hide ? 'hidden' : ''}"
-	style="background-color: {$backgroundColor}"
+	style="background-color: {appState.backgroundColor}"
 >
 	{#if slice.primary.shape_top !== '0'}<div
 			class="-translate-y-[98%]" 

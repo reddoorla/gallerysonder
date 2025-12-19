@@ -11,43 +11,29 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
-	import { isIntroRunning } from '$lib/stores/intro';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 
 	import { fade } from 'svelte/transition';
 
-	export let data;
+	const appState = getAppState();
 
-	let content = data.page.data;
+	let { data } = $props();
 
-	let viewportWidth: number;
-	let viewportHeight: number;
+	let content = $derived(data.page.data);
 
-	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
+	let viewportWidth = $state(0);
+	let viewportHeight = $state(0);
+
+	let showEyebrow = $state(false);
+
+	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
 
-	let showEyebrow = false;
+	let slicesSections = $derived(data.page.data.slices.map((slice) => slice.primary?.sectionLabel || ''));
 
-	let theBottomOfTheTop: HTMLElement;
+	let sections = $derived(data.page.data.sections.map((section) => section.section || ''));
 
-
-	let slicesSections: string[] = [];
-	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
-
-	let sections: string[] = [];
-	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
-
-	const refreshData = () => {
-		data = { ...data };
-		content = data.page.data;
-		slicesSections = [];
-		sections = [];
-		data.page.data.slices.forEach((slice) =>
-			slicesSections.push(slice.primary?.sectionLabel || '')
-		);
-		data.page.data.sections.forEach((section) => sections.push(section.section || ''));
-	}
-
-	let isBackgroundDark = false;
+	let isBackgroundDark = $state(false);
 
 	const checkPosition = () => {
 		if (theBottomOfTheTop && theBottomOfTheTop.getBoundingClientRect().bottom < 0) {
@@ -57,26 +43,21 @@
 		}
 	};
 
-	onMount(() => {
-		const unsubscribe = isIntroRunning.subscribe((value) => {
-			if (!value) {
-				checkPosition();
-
-				setTimeout(() => (showEyebrow = true), 1000);
-			}
-		});
-		refreshData();
-
-		window.addEventListener('scroll', checkPosition);
-		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
-		
-
-		return () => {
-			unsubscribe();
-		};
+	$effect(() => {
+		if (!appState.isIntroRunning) {
+			checkPosition();
+			setTimeout(() => (showEyebrow = true), 1000);
+		}
 	});
 
-	afterNavigate(refreshData);
+	onMount(() => {
+		window.addEventListener('scroll', checkPosition);
+		appState.backgroundColorDefault = content.default_background_color || '#E4EEEA';
+
+		return () => {
+			window.removeEventListener('scroll', checkPosition);
+		};
+	});
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />

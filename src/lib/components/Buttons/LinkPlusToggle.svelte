@@ -15,9 +15,9 @@
 
 {#if href}
 	<a
-		on:mouseenter={() => (isLinkArrowActive = true)}
-		on:mouseleave={() => (isLinkArrowActive = false)}
-		on:click={() => {
+		onmouseenter={() => (isLinkArrowActive = true)}
+		onmouseleave={() => (isLinkArrowActive = false)}
+		onclick={() => {
 			isLinkArrowActive = false;
 			isRotated = !isRotated;
 			click();
@@ -37,9 +37,9 @@
 	</a>
 {:else}
 	<button
-		on:mouseenter={() => (isLinkArrowActive = true)}
-		on:mouseleave={() => (isLinkArrowActive = false)}
-		on:click={() => {
+		onmouseenter={() => (isLinkArrowActive = true)}
+		onmouseleave={() => (isLinkArrowActive = false)}
+		onclick={() => {
 			isLinkArrowActive = false;
 			isRotated = !isRotated;
 			click();
