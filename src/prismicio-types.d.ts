@@ -399,6 +399,190 @@ export type ArtworkDocument<Lang extends string = string> = prismic.PrismicDocum
 >;
 
 /**
+ * Item in *essay → sections*
+ */
+export interface EssayDocumentDataSectionsItem {
+	/**
+	 * section field in *essay → sections*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.sections[].section
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	section: prismic.KeyTextField;
+}
+
+type EssayDocumentDataSlicesSlice =
+	| QuoteBlockSlice
+	| VideoBlockSlice
+	| ImageGallerySlice
+	| RichTextSlice
+	| TitleBlockSlice
+	| NameListSlice;
+
+/**
+ * Content for essay documents
+ */
+interface EssayDocumentData {
+	/**
+	 * dates field in *essay*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.dates
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dates: prismic.KeyTextField;
+
+	/**
+	 * artist field in *essay*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.artist
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	artist: prismic.ContentRelationshipField<'artist'>;
+
+	/**
+	 * background image field in *essay*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.background_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	background_image: prismic.ImageField<never>;
+
+	/**
+	 * title_line_one field in *essay*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.title_line_one
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title_line_one: prismic.KeyTextField;
+
+	/**
+	 * title_line_two field in *essay*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.title_line_two
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title_line_two: prismic.KeyTextField;
+
+	/**
+	 * title_line_three field in *essay*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.title_line_three
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title_line_three: prismic.KeyTextField;
+
+	/**
+	 * default background color field in *essay*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.default_background_color
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 */
+	default_background_color: prismic.ColorField;
+
+	/**
+	 * nav image field in *essay*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.nav_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	nav_image: prismic.ImageField<never>;
+
+	/**
+	 * sections field in *essay*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.sections[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	sections: prismic.GroupField<Simplify<EssayDocumentDataSectionsItem>>;
+
+	/**
+	 * Slice Zone field in *essay*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<EssayDocumentDataSlicesSlice>; /**
+	 * meta description field in *essay*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: essay.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *essay*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: essay.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	meta_image: prismic.ImageField<never>;
+
+	/**
+	 * Meta Title field in *essay*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: essay.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+}
+
+/**
+ * essay document from Prismic
+ *
+ * - **API ID**: `essay`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type EssayDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<EssayDocumentData>,
+	'essay',
+	Lang
+>;
+
+/**
  * Item in *exhibit → sections*
  */
 export interface ExhibitDocumentDataSectionsItem {
@@ -1214,6 +1398,7 @@ export type RsvpDocument<Lang extends string = string> = prismic.PrismicDocument
 export type AllDocumentTypes =
 	| ArtistDocument
 	| ArtworkDocument
+	| EssayDocument
 	| ExhibitDocument
 	| IntroImagesDocument
 	| NavDocument
@@ -2573,6 +2758,10 @@ declare module '@prismicio/client' {
 			ArtworkDocument,
 			ArtworkDocumentData,
 			ArtworkDocumentDataSecondaryImagesItem,
+			EssayDocument,
+			EssayDocumentData,
+			EssayDocumentDataSectionsItem,
+			EssayDocumentDataSlicesSlice,
 			ExhibitDocument,
 			ExhibitDocumentData,
 			ExhibitDocumentDataSectionsItem,

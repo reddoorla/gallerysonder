@@ -32,6 +32,10 @@ const routes = [
 	{
 		type: 'exhibit',
 		path: '/exhibitions/:uid'
+	},
+	{
+		type: 'essay',
+		path: '/essays/:uid'
 	}
 ];
 
