@@ -12,6 +12,7 @@
 	let viewportWidth = $state<number>(0);
 	let imageArray = $state<ImageField[]>([]);
 	let tripledImages = $state<ImageField[]>([]);
+	let lastProcessedArtworkId = '';
 
 	const setImageArray = () => {
 		imageArray = [];
@@ -32,12 +33,15 @@
 		}
 
 		tripledImages = [...imageArray, ...imageArray, ...imageArray];
-		console.log('Image Array:', imageArray);
-		console.log('Tripled Images:', tripledImages);
+		// console.log('Image Array:', imageArray);
+		// console.log('Tripled Images:', tripledImages);
 	};
 
 	$effect(() => {
-		if (appState.activeArtwork) {
+		const artwork = appState.activeArtwork;
+		// Only update if we have a new artwork with a different ID
+		if (artwork && artwork.id !== lastProcessedArtworkId) {
+			lastProcessedArtworkId = artwork.id;
 			setImageArray();
 		}
 	});
@@ -61,13 +65,13 @@
 	const slideRight = () => {
 		sliderIndex--;
 		if (sliderIndex < 0) resetSliderToEnd();
-		console.log('Current slide index:', sliderIndex);
+		// console.log('Current slide index:', sliderIndex);
 	};
 
 	const slideLeft = () => {
 		sliderIndex++;
 		if (sliderIndex >= imageArray.length) resetSliderToStart();
-		console.log('Current slide index:', sliderIndex);
+		// console.log('Current slide index:', sliderIndex);
 	};
 
 	function handleSwipe(event: SwipeCustomEvent) {
@@ -77,7 +81,7 @@
 
 	onMount(() => {
 		setImageArray();
-		console.log('Component mounted, images initialized');
+		// console.log('Component mounted, images initialized');
 	});
 </script>
 

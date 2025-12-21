@@ -58,6 +58,10 @@ export function createAppState(): AppState {
 	let activeArtwork = $state<ArtworkDocument<string> | null>(null);
 	let activeArtist = $state<ArtistDocument<string> | null>(null);
 
+	// Track fetching state to prevent duplicate calls
+	let lastFetchedUid = '';
+	let isFetching = false;
+
 	// Analytics
 	let utmParams = $state({
 		source: '',
@@ -74,38 +78,58 @@ export function createAppState(): AppState {
 	});
 
 	async function fetchArtwork(uid:string) {
-			if (uid) {
+			if (uid && uid !== lastFetchedUid && !isFetching) {
+				// console.log('[fetchArtwork] Starting fetch for:', uid);
+				isFetching = true;
+				lastFetchedUid = uid;
 				const client = createClient('gallerysonder');
 				activeArtist = null; // Reset to prevent stale data
+				activeArtwork = null; // Reset to show loading state
 
 				try {
 					const artwork = await client.getByUID('artwork', uid);
+					// console.log('[fetchArtwork] Artwork fetched successfully:', uid);
 					activeArtwork = artwork;
 
 					if (isFilled.contentRelationship(artwork?.data.artist)) {
 						const artistUID = artwork?.data.artist.uid;
 						if (artistUID) {
 							activeArtist = await client.getByUID('artist', artistUID);
+							// console.log('[fetchArtwork] Artist fetched successfully:', artistUID);
 						}
 					}
 				} catch (error) {
-					console.error('Error fetching artwork:', error);
+					console.error('[fetchArtwork] Error fetching artwork:', error);
 					activeArtwork = null;
 					activeArtist = null;
+				} finally {
+					isFetching = false;
+					// console.log('[fetchArtwork] Fetch complete for:', uid);
 				}
-			} else {
+			} else if (!uid) {
+				// console.log('[fetchArtwork] Clearing artwork data');
+				lastFetchedUid = '';
 				activeArtwork = null;
 				activeArtist = null;
+			} else {
+				// console.log('[fetchArtwork] Skipping fetch - already fetched or in progress:', uid);
 			}
 		}
 
 
 	// Effect: Fetch artwork data when activeArtworkUid changes
 	// Replaces lightbox.ts:30-33 module-level subscription
+	// let effectRunCount = 0;
 	$effect(() => {
-		activeArtworkUid;
-		console.log('fired with: '+activeArtworkUid)
-		fetchArtwork(activeArtworkUid);
+		// effectRunCount++;
+		const uid = activeArtworkUid;
+		// console.log(`[Effect #${effectRunCount}] activeArtworkUid changed to:`, uid);
+		if (uid) {
+			fetchArtwork(uid);
+		} else {
+			// Clear data when closing lightbox
+			fetchArtwork('');
+		}
 	});
 
 	// Return reactive state object with getters/setters

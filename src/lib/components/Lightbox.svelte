@@ -85,7 +85,7 @@
 		transition:fade
 	>
 		<ContentWidth
-			class="w-full fixed top-0 h-16 flex items-center justify-between px-4 md:px-0 z-40"
+			class="w-full absolute top-0 h-16 flex items-center justify-between px-[4%] xl:px-0 z-40"
 		>
 			<button class="h-6" onclick={closeModal} aria-label="Close modal">
 				<i class="text-black fa-sharp fa-light fa-close fa-2xl hover:opacity-80 transition"></i>
@@ -97,7 +97,7 @@
 		<ContentWidth
 			class="min-h-screen h-screen w-full relative flex flex-col lg:flex-row justify-center items-start lg:items-center gap-6 lg:gap-0 overflow-y-scroll lg:overflow-hidden"
 		>
-			{#if !appState.activeArtwork}
+			{#if !appState.activeArtwork || !appState.activeArtwork.data}
 				<div class="w-full h-full flex items-center justify-center">
 					<i class="fa-regular fa-circle-notch fa-spin fa-2xl text-black/80"></i>
 				</div>
@@ -222,7 +222,7 @@
 									<select
 										name="role"
 										id="role"
-										class="bg-white border-2 border-mid p-2 mb-8 cursor-pointer"
+										class="border-2 border-mid p-2 mb-8 cursor-pointer"
 										bind:value={formRole}
 									>
 										<option value="First Time Buyer">First Time Buyer</option>
