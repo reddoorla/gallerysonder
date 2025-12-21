@@ -1,4 +1,3 @@
-<!-- CookieConsent.svelte -->
 <script lang='ts'>
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
@@ -9,21 +8,18 @@
 	const appState = getAppState();
 
         //@ts-nocheck
-  // Cookie consent store - simplified to just accepted/rejected
   export const cookieConsent = writable(false);
 
   let showModal = $state(false);
   let hasConsented = $state(false);
 
-  // Check if user has already made a choice
   onMount(() => {
     const consent = localStorage.getItem('cookieConsent');
     if (consent !== null) {
       const accepted = consent === 'true';
       cookieConsent.set(accepted);
       hasConsented = true;
-      
-      // Initialize tracking if accepted
+
       if (accepted) {
         initializeFacebookPixel();
         
@@ -39,12 +35,7 @@
 
   });
 
-
-
-    
-
   function initializeFacebookPixel() {
-    // Your existing Facebook Pixel code
 //@ts-ignore
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
     //@ts-ignore
@@ -67,8 +58,8 @@
     if (document.getElementsByTagName('body'))
 			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
   }
-  // @ts-ignore
-  function saveConsent(accepted) {
+
+  function saveConsent(accepted: boolean) {
     localStorage.setItem('cookieConsent', accepted.toString());
     localStorage.setItem('cookieConsentDate', new Date().toISOString());
     cookieConsent.set(accepted);
@@ -83,14 +74,8 @@
     showModal = true;
     cookieConsent.set(false);
   }
-
-
-  
 </script>
 
-
-
-<!-- Cookie Consent Modal -->
 {#if showModal}
 
   <div 
@@ -121,7 +106,6 @@
   </div>
 {/if}
 
-<!-- Facebook Pixel NoScript (only if cookies accepted) -->
 {#if $cookieConsent}
   <noscript>
     <img 

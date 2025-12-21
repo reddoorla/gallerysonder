@@ -36,14 +36,12 @@
 		  link: item.artist_page || { link_type: "Web", url: '' },
 		  doubleHeight: item.doubleheight || false
 		};
-		
-		// If we have an artist content relationship, fetch and use its data
+
 		if (isFilled.contentRelationship(item.artist) && item.artist.uid) {
 		  try {
 			const fetchedArtist = (await client.getByUID('artist', item.artist.uid)).data;
 			console.log('Fetched artist data:', fetchedArtist);
-			
-			// Use fetched data if the direct inputs are empty
+
 			if (!isFilled.image(item.artist_active_image) && isFilled.image(fetchedArtist.nav_image)) {
 			  artistData.activeImage = fetchedArtist.nav_image.url;
 			}
@@ -52,9 +50,6 @@
 			  artistData.color = fetchedArtist.artist_color;
 			}
 
-			
-			
-			// If no direct link provided, create one to the artist page
 			if (!isFilled.link(item.artist_page)) {
 			  artistData.link = {
              link_type: "Web",

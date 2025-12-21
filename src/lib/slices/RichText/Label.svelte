@@ -1,5 +1,4 @@
 <script>
-	/** @type {import("@prismicio/client").RTLabelNode} */
 	let { node } = $props();
 </script>
 

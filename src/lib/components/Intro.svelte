@@ -6,16 +6,13 @@
 
 	const appState = getAppState();
 
-	// Configuration
 	const USE_INTRO = import.meta.env.VITE_USE_INTRO && import.meta.env.VITE_USE_INTRO !== 'false';
-	const INTRO_DURATION = 6000; // 6 seconds
+	const INTRO_DURATION = 6000;
 
-	// State
 	let isVideoLoaded = !USE_INTRO;
 	let isPlaying = !USE_INTRO;
 	let isVideoDone = !USE_INTRO;
 
-	// Vimeo player reference
 	interface VimeoComponent {
 		play: () => Promise<void>;
 		pause: () => Promise<void>;
@@ -25,16 +22,13 @@
 
 	onMount(() => {
 		if (!USE_INTRO) {
-			// Skip intro: set isIntroRunning to false so nav shows
 			appState.isIntroRunning = false;
             appState.hasIntroRun = true;
 		}else if(!appState.hasIntroRun){
-			// Start intro: set isIntroRunning to true to hide nav during intro
             appState.isIntroRunning = true;
         }
 	});
 
-	// Handle video ready event
 	const handleVideoReady = async () => {
 		await vimeoPlayer.play();
 		isVideoLoaded = true;
@@ -46,7 +40,6 @@
 		}, INTRO_DURATION);
 	};
 
-	// Toggle playback control
 	const togglePlayback = async () => {
 		try {
 			if (isPlaying) {

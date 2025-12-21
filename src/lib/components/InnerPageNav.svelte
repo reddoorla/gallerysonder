@@ -31,7 +31,6 @@
 			if (formattedSlicesSections[i] === section) return sliceRefs[i];
 		}
 
-		console.log('find top of section error looking for ' + section);
 		return sliceRefs[0];
 	};
 

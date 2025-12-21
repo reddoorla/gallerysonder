@@ -17,7 +17,6 @@
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import Analytics from '$lib/components/Analytics.svelte';
 
-	// Initialize app state context
 	const appState = setAppState();
 
 	let { data } = $props();
@@ -25,7 +24,6 @@
 	let isTransitioning = $state(false);
 	let navDelayDone = $state(false);
 
-	// UTM parameters
 	let currentUtmParams = {
 		source: 'none',
 		medium: 'none',
@@ -45,7 +43,6 @@
 
 		setTimeout(()=>navDelayDone=true, 500)
 
-		// Extract UTM parameters from URL
 		const urlParams = $page.url.searchParams;
 
 		currentUtmParams = {
@@ -92,9 +89,6 @@
 
 <CookieConsent />
 <Analytics />
-
-
-
 
 <main>
 
@@ -159,10 +153,7 @@
 
 <form class="hidden"  name="inquiry" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyInquiryForm" >
 	<input type="hidden" name="form-name" value="inquiry" />
-	
-	<!-- UTM Parameters -->
 
-	
 	<p>Name</p>
 	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
 	<p>Phone</p>

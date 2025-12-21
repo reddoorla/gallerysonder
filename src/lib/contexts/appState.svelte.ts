@@ -5,20 +5,16 @@ import { type ArtistDocument, type ArtworkDocument } from '../../prismicio-types
 const APP_STATE_KEY = Symbol('APP_STATE');
 
 export interface AppState {
-	// Intro state
 	isIntroRunning: boolean;
 	hasIntroRun: boolean;
 
-	// Modal & UI state
 	isModalActive: boolean;
 	isNewsletterActive: boolean;
 	hasNewsletterBeenCleared: boolean;
 
-	// Background colors
 	backgroundColorDefault: string;
 	backgroundColor: string;
 
-	// Lightbox state
 	isLightboxActive: boolean;
 	showInquiryForm: boolean;
 	lightboxImageUrl: string;
@@ -26,7 +22,7 @@ export interface AppState {
 	activeArtwork: ArtworkDocument<string> | null;
 	activeArtist: ArtistDocument<string> | null;
 
-	// Analytics
+
 	utmParams: {
 		source: string;
 		medium: string;
@@ -37,20 +33,16 @@ export interface AppState {
 }
 
 export function createAppState(): AppState {
-	// Intro state
 	let isIntroRunning = $state(false);
 	let hasIntroRun = $state(false);
 
-	// Modal & UI state
 	let isModalActive = $state(false);
 	let isNewsletterActive = $state(false);
 	let hasNewsletterBeenCleared = $state(false);
 
-	// Background colors
 	let backgroundColorDefault = $state('#E4EEEA');
 	let backgroundColor = $state('#E4EEEA');
 
-	// Lightbox state
 	let isLightboxActive = $state(false);
 	let showInquiryForm = $state(false);
 	let lightboxImageUrl = $state('');
@@ -58,11 +50,9 @@ export function createAppState(): AppState {
 	let activeArtwork = $state<ArtworkDocument<string> | null>(null);
 	let activeArtist = $state<ArtistDocument<string> | null>(null);
 
-	// Track fetching state to prevent duplicate calls
 	let lastFetchedUid = '';
 	let isFetching = false;
 
-	// Analytics
 	let utmParams = $state({
 		source: '',
 		medium: '',
@@ -71,8 +61,6 @@ export function createAppState(): AppState {
 		content: ''
 	});
 
-	// Effect: Sync backgroundColor with backgroundColorDefault
-	// Replaces backgroundColor.ts:6-8
 	onMount(() => {
 		backgroundColor = backgroundColorDefault;
 	});
@@ -83,8 +71,8 @@ export function createAppState(): AppState {
 				isFetching = true;
 				lastFetchedUid = uid;
 				const client = createClient('gallerysonder');
-				activeArtist = null; // Reset to prevent stale data
-				activeArtwork = null; // Reset to show loading state
+				activeArtist = null;
+				activeArtwork = null;
 
 				try {
 					const artwork = await client.getByUID('artwork', uid);
@@ -117,22 +105,16 @@ export function createAppState(): AppState {
 		}
 
 
-	// Effect: Fetch artwork data when activeArtworkUid changes
-	// Replaces lightbox.ts:30-33 module-level subscription
-	// let effectRunCount = 0;
 	$effect(() => {
-		// effectRunCount++;
 		const uid = activeArtworkUid;
 		// console.log(`[Effect #${effectRunCount}] activeArtworkUid changed to:`, uid);
 		if (uid) {
 			fetchArtwork(uid);
 		} else {
-			// Clear data when closing lightbox
 			fetchArtwork('');
 		}
 	});
 
-	// Return reactive state object with getters/setters
 	return {
 		get isIntroRunning() {
 			return isIntroRunning;

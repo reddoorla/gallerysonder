@@ -39,7 +39,6 @@
 
 	$effect(() => {
 		const artwork = appState.activeArtwork;
-		// Only update if we have a new artwork with a different ID
 		if (artwork && artwork.id !== lastProcessedArtworkId) {
 			lastProcessedArtworkId = artwork.id;
 			setImageArray();

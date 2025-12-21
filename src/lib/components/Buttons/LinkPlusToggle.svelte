@@ -75,12 +75,11 @@
 			'clig' off,
 			'liga' off;
 
-		/* Button - all caps */
 		font-family: 'commuters-sans';
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 700;
-		line-height: 150%; /* 21px */
+		line-height: 150%;
 		letter-spacing: 1.5px;
 		text-transform: uppercase;
 	}

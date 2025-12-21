@@ -50,7 +50,6 @@
 		}
 	};
 
-
 const openModal = () => {
 
 
@@ -72,7 +71,6 @@ setTimeout(()=>{
 
 };
 
-	// Effect: Add scroll listener for clip-path animation
 	$effect(() => {
 		if (typeof window !== 'undefined') {
 			window.addEventListener('scroll', checkPosition);

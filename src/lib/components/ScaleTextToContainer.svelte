@@ -24,8 +24,7 @@
 			);
 			return (fontSizeValue / 100) * parentFontSize;
 		} else {
-			// Handle other units or fallback to a default value
-			return 16; // Default font size in pixels
+			return 16;
 		}
 	}
 

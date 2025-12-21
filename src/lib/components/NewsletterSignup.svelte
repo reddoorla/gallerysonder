@@ -12,7 +12,6 @@
     let submitted = $state(false);
     let error = $state(false);
 
-	// Effect: Manage body overflow and scroll based on newsletter state
 	$effect(() => {
         if(typeof document !=='undefined' && document.getElementsByTagName('body')){
             const body = document.getElementsByTagName('body')[0] as HTMLElement;
