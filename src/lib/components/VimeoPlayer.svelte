@@ -95,8 +95,8 @@
 		createPlayer();
 	};
 
-	let viewportHeight: number;
-	let viewportWidth: number;
+	let viewportHeight=$state(900);
+	let viewportWidth = $state(1600);
 </script>
 
 <svelte:window bind:innerHeight={viewportHeight} bind:innerWidth={viewportWidth} />

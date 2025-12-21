@@ -20,10 +20,10 @@
 	// Initialize app state context
 	const appState = setAppState();
 
+	let { data } = $props();
 
-	export let data;
-	let isTransitioning = false;
-	let navDelayDone = false;
+	let isTransitioning = $state(false);
+	let navDelayDone = $state(false);
 
 	// UTM parameters
 	let currentUtmParams = {

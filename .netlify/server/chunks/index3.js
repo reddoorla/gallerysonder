@@ -1,8 +1,7 @@
-import { a1 as ensure_array_like, a5 as spread_props, W as sanitize_props, X as attr_class, V as attr, Y as stringify, _ as bind_props, $ as attr_style, a4 as slot, Z as clsx, a2 as store_get, a3 as unsubscribe_stores, a0 as attributes } from "./index2.js";
+import { $ as ensure_array_like, a5 as spread_props, W as attr_class, V as attr, X as stringify, a2 as bind_props, Z as attr_style, a3 as slot, Y as clsx, a0 as store_get, a1 as unsubscribe_stores, _ as attributes } from "./index2.js";
 import "clsx";
 import { g as getAppState, C as ContentWidth, a as PrismicRichText, h as html, P as PrismicImage } from "./PrismicRichText.js";
 import { L as LinkArrowButton, p as page } from "./LinkArrowButton.js";
-import { f as fallback } from "./utils2.js";
 import { e as escape_html } from "./context.js";
 import "@sveltejs/kit/internal";
 import "./exports.js";
@@ -62,23 +61,24 @@ function SliceZone($$renderer, $$props) {
   });
 }
 function LinkPlusToggle($$renderer, $$props) {
-  const $$sanitized_props = sanitize_props($$props);
   $$renderer.component(($$renderer2) => {
-    let text = fallback($$props["text"], "");
-    let href = fallback($$props["href"], "");
-    let click = fallback($$props["click"], () => {
-    });
-    let togglable = fallback($$props["togglable"], true);
-    let startsActive = fallback($$props["startsActive"], false);
+    let {
+      text = "",
+      href = "",
+      onclick = () => {
+      },
+      togglable = true,
+      startsActive = false,
+      class: className = ""
+    } = $$props;
     if (href) {
       $$renderer2.push("<!--[-->");
-      $$renderer2.push(`<a${attr_class(`relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit ${stringify($$sanitized_props.class || "")}`)}${attr("href", href)}><span class="h-5 uppercase no-underline svelte-ub3v0a">${escape_html(text)}</span> <i${attr_class(`fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 ${stringify("")} ${stringify("")}`)}></i></a>`);
+      $$renderer2.push(`<a${attr_class(`relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit ${stringify(className)}`)}${attr("href", href)}><span class="h-5 uppercase no-underline svelte-ub3v0a">${escape_html(text)}</span> <i${attr_class(`fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 ${stringify("")} ${stringify("")}`)}></i></a>`);
     } else {
       $$renderer2.push("<!--[!-->");
-      $$renderer2.push(`<button${attr_class(`relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit ${stringify($$sanitized_props.class || "")}`)}><span class="h-5 uppercase no-underline svelte-ub3v0a">${escape_html(text)}</span> <i${attr_class(`fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 ${stringify("")} ${stringify("")}`)}></i></button>`);
+      $$renderer2.push(`<button${attr_class(`relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit ${stringify(className)}`)}><span class="h-5 uppercase no-underline svelte-ub3v0a">${escape_html(text)}</span> <i${attr_class(`fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 ${stringify("")} ${stringify("")}`)}></i></button>`);
     }
     $$renderer2.push(`<!--]-->`);
-    bind_props($$props, { text, href, click, togglable, startsActive });
   });
 }
 function Gallery($$renderer, $$props) {
@@ -104,7 +104,7 @@ function Gallery($$renderer, $$props) {
         $$renderer3.push("<!--[-->");
         LinkPlusToggle($$renderer3, {
           text: isTruncated ? "Show More" : "Show Less",
-          click: () => isTruncated = !isTruncated,
+          onclick: () => isTruncated = !isTruncated,
           class: "mt-8"
         });
       } else {
@@ -524,7 +524,6 @@ function TitleBlock($$renderer, $$props) {
                   }
                   $$renderer4.push(`<!----></div> `);
                   LinkPlusToggle($$renderer4, {
-                    click: () => showFullBody = !showFullBody,
                     text: showFullBody ? "Show Less" : "Read More"
                   });
                   $$renderer4.push(`<!---->`);
@@ -585,10 +584,7 @@ function TitleBlock($$renderer, $$props) {
                   $$renderer4.push("<!--[-->");
                   LinkPlusToggle($$renderer4, {
                     startsActive: showContactForm,
-                    text: slice.primary.button_text || "Inquire",
-                    click: () => {
-                      showContactForm = !showContactForm;
-                    }
+                    text: slice.primary.button_text || "Inquire"
                   });
                 } else {
                   $$renderer4.push("<!--[!-->");
@@ -598,11 +594,7 @@ function TitleBlock($$renderer, $$props) {
                   $$renderer4.push("<!--[-->");
                   LinkPlusToggle($$renderer4, {
                     togglable: false,
-                    text: slice.primary.button_two_text || "Newsletter",
-                    click: () => {
-                      appState.hasNewsletterBeenCleared = false;
-                      appState.isNewsletterActive = true;
-                    }
+                    text: slice.primary.button_two_text || "Newsletter"
                   });
                 } else {
                   $$renderer4.push("<!--[!-->");

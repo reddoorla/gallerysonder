@@ -157,7 +157,7 @@ bind:this={shape}
 							  {/key}
 						  </div>
 							<LinkPlusToggle
-								click={() => (showFullBody = !showFullBody)}
+								onclick={() => (showFullBody = !showFullBody)}
 								text={showFullBody ? 'Show Less' : 'Read More'}
 							/>
 							
@@ -197,10 +197,10 @@ bind:this={shape}
 			{/if}
 			<div class="flex flex-row gap-6 mb-8">
 			{#if slice.primary.button_text}
-				<LinkPlusToggle startsActive={showContactForm} text={slice.primary.button_text||'Inquire'} click={()=>{showContactForm=!showContactForm}} />
+				<LinkPlusToggle startsActive={showContactForm} text={slice.primary.button_text||'Inquire'} onclick={()=>{showContactForm=!showContactForm}} />
 			{/if}
 			{#if slice.primary.button_text}
-				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} click={()=>{appState.hasNewsletterBeenCleared=false;appState.isNewsletterActive=true;}} />
+				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} onclick={()=>{appState.hasNewsletterBeenCleared=false;appState.isNewsletterActive=true;}} />
 			{/if}
 			</div>
 			{#if showContactForm}

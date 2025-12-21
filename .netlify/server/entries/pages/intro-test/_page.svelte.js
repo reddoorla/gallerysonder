@@ -1,4 +1,4 @@
-import { a2 as store_get, U as head, V as attr, X as attr_class, $ as attr_style, Y as stringify, a3 as unsubscribe_stores, Z as clsx } from "../../../chunks/index2.js";
+import { a0 as store_get, U as head, V as attr, W as attr_class, Z as attr_style, X as stringify, a1 as unsubscribe_stores, Y as clsx } from "../../../chunks/index2.js";
 import { w as writable } from "../../../chunks/index.js";
 import { n as noop } from "../../../chunks/utils2.js";
 import "clsx";

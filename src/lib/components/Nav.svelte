@@ -103,7 +103,7 @@
 					onmouseout={() => (appState.backgroundColor = '#E4EEEA')}
 					href={prismicH.isFilled.link(link.link) ? link.link.url : '#'}
 					class="h-4 sm:h-6 md:h-10 lg:h-12"
-					click={() => {
+					onclick={() => {
 						(setTimeout(() => (showNav = false)), 300);
 					}}
 				/>
@@ -111,7 +111,7 @@
 
 			<LinkArrowButton
 				class=""
-				click={() => {
+				onclick={() => {
 					appState.hasNewsletterBeenCleared = false;
 					appState.isNewsletterActive = true;
 				}}

@@ -221,7 +221,7 @@ setTimeout(()=>{
 					<div class="  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}">
-		<LinkArrowButton text="INQUIRE" class="origin-left scale-75 mt-1" click={()=>{openModal();appState.showInquiryForm = true}} />
+		<LinkArrowButton text="INQUIRE" class="origin-left scale-75 mt-1" onclick={()=>{openModal();appState.showInquiryForm = true}} />
 					</div>
 		{/if}
 			
@@ -252,7 +252,7 @@ setTimeout(()=>{
 					<div class="  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}">
-		<LinkArrowButton text="INQUIRE" class="scale-75 origin-left mt-1 " click={()=>{openModal();appState.showInquiryForm = true}} />
+		<LinkArrowButton text="INQUIRE" class="scale-75 origin-left mt-1 " onclick={()=>{openModal();appState.showInquiryForm = true}} />
 					</div>
 		{/if}
 		{/if}

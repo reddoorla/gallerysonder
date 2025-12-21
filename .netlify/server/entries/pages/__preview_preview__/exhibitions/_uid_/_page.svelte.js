@@ -1,4 +1,4 @@
-import { V as attr, X as attr_class, Y as stringify } from "../../../../../chunks/index2.js";
+import { V as attr, W as attr_class, X as stringify } from "../../../../../chunks/index2.js";
 import "@sveltejs/kit/internal";
 import "../../../../../chunks/exports.js";
 import "../../../../../chunks/utils.js";

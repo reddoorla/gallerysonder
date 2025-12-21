@@ -109,7 +109,7 @@
 	{#if !isVideoLoaded}
 		<div class="w-screen h-screen absolute top-0 left-0 bg-black flex flex-col items-center text-center justify-center gap-10 z-20">
 			<div class="loading-text">Loading Your</div>
-			<div class="h-12 w-[382px] gradient-logo clip-by-logo"></div>
+			<div class="h-12 w-95.5 gradient-logo clip-by-logo"></div>
 			<div class="loading-text">Experience</div>
 		</div>
 	{/if}

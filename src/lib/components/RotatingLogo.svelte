@@ -11,10 +11,12 @@
 
 	import { onMount } from 'svelte';
 
-	let innerWidth: number;
+	let { class: className = '' } = $props();
+
+	let innerWidth = $state<number>(0);
 	const logoArray = [logoExtendedO, logoExtendedN, logoExtendedD, logoExtendedE, logoExtendedR];
 
-	let activeLogoIndex = 0;
+	let activeLogoIndex = $state(0);
 
 	onMount(() => {
 		let logoInterval = setInterval(() => {
@@ -28,12 +30,12 @@
 </script>
 
 <svelte:window bind:innerWidth />
-<div class="relative {$$props.class || ''}">
+<div class="relative {className}">
 	{#key activeLogoIndex}
 		<img
 			src={innerWidth > 768 ? logoArray[activeLogoIndex] : sonderS}
 			alt="sonder logo"
-			class={$$props.class || ''}
+			class={className}
 			in:fade={{ duration: 400, delay: 400 }}
 			out:fade={{ duration: 400 }}
 		/>
@@ -41,6 +43,6 @@
 	<img
 		src={logoArray[activeLogoIndex]}
 		alt="sonder logo"
-		class="absolute top-0 left-0 hidden md:flex {$$props.class || ''}"
+		class="absolute top-0 left-0 hidden md:flex {className}"
 	/>
 </div>

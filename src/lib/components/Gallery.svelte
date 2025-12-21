@@ -273,5 +273,5 @@
 {/if}
 
 {#if slice.primary.show_more_button && galleryItems.length > 4}
-	<LinkPlusToggle text={isTruncated ? 'Show More' : 'Show Less'} click={() => isTruncated = !isTruncated} class="mt-8" />
+	<LinkPlusToggle text={isTruncated ? 'Show More' : 'Show Less'} onclick={() => isTruncated = !isTruncated} class="mt-8" />
 {/if}

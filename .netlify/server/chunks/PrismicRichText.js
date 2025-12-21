@@ -1,4 +1,4 @@
-import { W as sanitize_props, X as attr_class, Y as stringify, a4 as slot, V as attr, a0 as attributes, Z as clsx, a1 as ensure_array_like } from "./index2.js";
+import { W as attr_class, a3 as slot, X as stringify, V as attr, _ as attributes, Y as clsx, $ as ensure_array_like } from "./index2.js";
 import "clsx";
 import { s as setContext, g as getContext, e as escape_html } from "./context.js";
 import { asTree } from "@prismicio/client/richtext";
@@ -9,12 +9,12 @@ function html(value) {
   return open + html2 + "<!---->";
 }
 function ContentWidth($$renderer, $$props) {
-  const $$sanitized_props = sanitize_props($$props);
-  $$renderer.component(($$renderer2) => {
-    $$renderer2.push(`<div${attr_class(`max-w-[1220px] xxl:max-w-[1640px] xl:mx-auto mx-[4%] ${stringify($$sanitized_props.class || "flex flex-col items-center justify-center my-16 relative")}`)}><!--[-->`);
-    slot($$renderer2, $$props, "default", {});
-    $$renderer2.push(`<!--]--></div>`);
-  });
+  let {
+    class: className = "flex flex-col items-center justify-center my-16 relative"
+  } = $$props;
+  $$renderer.push(`<div${attr_class(`max-w-[1220px] xxl:max-w-[1640px] xl:mx-auto mx-[4%] ${stringify(className)}`)}><!--[-->`);
+  slot($$renderer, $$props, "default", {});
+  $$renderer.push(`<!--]--></div>`);
 }
 const APP_STATE_KEY = /* @__PURE__ */ Symbol("APP_STATE");
 function createAppState() {

@@ -234,7 +234,7 @@
 									</select>
 								</div>
 
-								<LinkArrowButton class="uppercase" click={triggerSubmitButton} text="Submit" />
+								<LinkArrowButton class="uppercase" onclick={triggerSubmitButton} text="Submit" />
 
 								<div class="text-xs mt-12 mb-24">
 									By signing up, you agree to the Terms of Use and Privacy Policy to receive

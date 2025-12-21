@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+	let { class: className = '' } = $props();
+
 	let parent: HTMLElement;
 	let nodes: HTMLElement[] = [];
 	let scale = 1;
-
-	import { onMount } from 'svelte';
 
 	function getFontSizeInPixels(element: Element): number {
 		const computedStyle = window.getComputedStyle(element);
@@ -51,7 +53,7 @@
 		};
 	});
 
-	$: {
+	$effect(() => {
 		windowWidth;
 		if (parent) {
 			nodes = [...parent?.children] as HTMLElement[];
@@ -66,10 +68,10 @@
 				node.style.fontSize = getFontSizeInPixels(node) * scale + 'px';
 			});
 		}
-	}
+	});
 </script>
 
-<div bind:this={parent} class="parent transition-all {$$props.class || ''}" style="">
+<div bind:this={parent} class="parent transition-all {className}" style="">
 	<slot />
 </div>
 

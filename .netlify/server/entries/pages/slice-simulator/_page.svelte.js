@@ -1,6 +1,6 @@
 import "clsx";
 import { i as invalid_default_snippet } from "../../../chunks/context.js";
-import { W as sanitize_props, X as attr_class, $ as attr_style, Y as stringify, Z as clsx, a4 as slot, _ as bind_props } from "../../../chunks/index2.js";
+import { a4 as sanitize_props, W as attr_class, Z as attr_style, X as stringify, Y as clsx, a3 as slot, a2 as bind_props } from "../../../chunks/index2.js";
 import { getDefaultProps, getDefaultSlices, getDefaultMessage, SimulatorManager, StateEventType, simulatorClass, simulatorRootClass } from "@prismicio/simulator/kit";
 import { f as fallback } from "../../../chunks/utils2.js";
 import { h as html } from "../../../chunks/PrismicRichText.js";

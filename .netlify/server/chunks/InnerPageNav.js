@@ -1,4 +1,4 @@
-import { V as attr, $ as attr_style, Y as stringify, X as attr_class, a1 as ensure_array_like } from "./index2.js";
+import { V as attr, Z as attr_style, X as stringify, W as attr_class, $ as ensure_array_like } from "./index2.js";
 import { g as getAppState, C as ContentWidth } from "./PrismicRichText.js";
 import { L as LinkArrowButton } from "./LinkArrowButton.js";
 import { l as logoExtendedE } from "./SONDER_E.js";
@@ -14,7 +14,7 @@ function Footer($$renderer, $$props) {
         LinkArrowButton($$renderer3, {
           text: "Subscribe to our newsletter",
           class: "brightness-0 invert ml-0 md:ml-2 mt-4 text-left md:mt-10",
-          click: () => {
+          onclick: () => {
             appState.hasNewsletterBeenCleared = false;
             appState.isNewsletterActive = true;
           }

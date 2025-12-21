@@ -129,7 +129,7 @@ const triggerSubmitButton = () => {
         </div>
         <div>
             <input type="email" bind:value={emailValue} name="email" placeholder="Enter Your Email" class="h-12 pl-2"/>
-            <LinkArrowButton class="mt-6" text="Subscribe" click={triggerSubmitButton}/>
+            <LinkArrowButton class="mt-6" text="Subscribe" onclick={triggerSubmitButton}/>
         </div>
         <p class="text-xs mt-24">By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.</p>
         {:else if error}

@@ -1,11 +1,10 @@
-import { X as attr_class, _ as bind_props, Y as stringify, W as sanitize_props, a4 as slot, $ as attr_style, V as attr } from "../../../chunks/index2.js";
+import { W as attr_class, a2 as bind_props, X as stringify, a3 as slot, Z as attr_style, V as attr } from "../../../chunks/index2.js";
 import { g as getAppState, C as ContentWidth } from "../../../chunks/PrismicRichText.js";
 /* empty css                                                                 */
 import { S as SliceZone, c as components } from "../../../chunks/index3.js";
 import { I as InnerPageNav, F as Footer } from "../../../chunks/InnerPageNav.js";
 import { a as ssr_context, e as escape_html } from "../../../chunks/context.js";
 import "clsx";
-import { f as fallback } from "../../../chunks/utils2.js";
 import "@vimeo/player";
 function onDestroy(fn) {
   /** @type {SSRContext} */
@@ -47,19 +46,21 @@ function VimeoPlayer_1($$renderer, $$props) {
   });
 }
 function ScaleTextToContainer($$renderer, $$props) {
-  const $$sanitized_props = sanitize_props($$props);
   $$renderer.component(($$renderer2) => {
-    $$renderer2.push(`<div${attr_class(`parent transition-all ${stringify($$sanitized_props.class || "")}`, "svelte-110ckip")} style=""><!--[-->`);
+    let { class: className = "" } = $$props;
+    $$renderer2.push(`<div${attr_class(`parent transition-all ${stringify(className)}`, "svelte-110ckip")} style=""><!--[-->`);
     slot($$renderer2, $$props, "default", {});
     $$renderer2.push(`<!--]--></div>`);
   });
 }
 function AnimateIn($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
+    let {
+      style = "",
+      transitionDelayMax = 400,
+      transitionDuration = 2400
+    } = $$props;
     let transitionDelay = 0;
-    let style = fallback($$props["style"], "");
-    let transitionDelayMax = fallback($$props["transitionDelayMax"], 400);
-    let transitionDuration = fallback($$props["transitionDuration"], 2400);
     const checkViewport = () => {
     };
     onDestroy(() => {
@@ -70,7 +71,6 @@ function AnimateIn($$renderer, $$props) {
     $$renderer2.push(`<div${attr_class(`transition ease-fast-slow ${stringify("opacity-0 translate-y-[50%]")}`)}${attr_style(`transition-delay:${stringify(transitionDelay)}ms; transition-duration:${stringify(transitionDuration)}ms; ${stringify(style)}`)}><!--[-->`);
     slot($$renderer2, $$props, "default", {});
     $$renderer2.push(`<!--]--></div>`);
-    bind_props($$props, { style, transitionDelayMax, transitionDuration });
   });
 }
 function Intro($$renderer, $$props) {

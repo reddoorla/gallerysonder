@@ -3,7 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import ContentWidth from './ContentWidth.svelte';
 	import { getAppState } from '$lib/contexts/appState.svelte';
-	import { preventDefault } from 'svelte/legacy';
+
 
 	const appState = getAppState();
 
@@ -72,7 +72,7 @@
 	>
 		<div
 			bind:this={fixedNav}
-			class="absolute top-2 lg:top-1/2 lg:-translate-y-4 lg:left-[7px] lg:-translate-x-1/2 lg:rotate-90 flex flex-row gap-4 transition {isFixedNavShown && !appState.isModalActive
+			class="absolute top-2 lg:top-1/2 lg:-translate-y-4 lg:left-1.75 lg:-translate-x-1/2 lg:rotate-90 flex flex-row gap-4 transition {isFixedNavShown && !appState.isModalActive
 				? 'pointer-events-auto transition-opacity'
 				: 'pointer-events-none opacity-0'}"
 		>

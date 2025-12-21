@@ -1,11 +1,21 @@
 <script lang="ts">
 	import linkArrow from '$lib/assets/icons/sonderArrowRight.svg';
-	export let text = '';
-	export let href = '';
-	export let click = () => {};
-	export let opensNewTab = false;
 
-	let isLinkArrowActive = false;
+	let {
+		text = '',
+		href = '',
+		onclick = () => {},
+		opensNewTab = false,
+		class: className = ''
+	}: {
+		text?: string;
+		href?: string;
+		onclick?: () => void;
+		opensNewTab?: boolean;
+		class?: string;
+	} = $props();
+
+	let isLinkArrowActive = $state(false);
 </script>
 
 {#if href}
@@ -14,11 +24,10 @@
 		onmouseleave={() => (isLinkArrowActive = false)}
 		onclick={() => {
 			isLinkArrowActive = false;
-			click();
+			onclick();
 		}}
-		
-		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {$$props.class ||
-			''}"
+
+		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {className}"
 		target="{opensNewTab?'_blank':""}"
 		{href}
 	>
@@ -38,10 +47,9 @@
 		onmouseleave={() => (isLinkArrowActive = false)}
 		onclick={() => {
 			isLinkArrowActive = false;
-			click();
+			onclick();
 		}}
-		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {$$props.class ||
-			''}"
+		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {className}"
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
 		<img

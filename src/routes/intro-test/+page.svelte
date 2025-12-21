@@ -108,29 +108,29 @@
 		}
 	];
 
-	let innerWidth: number;
+	let innerWidth = $state<number>(0);
 
-	let currentPathIndex = 0;
-	let currentImageIndex = 0;
+	let currentPathIndex = $state(0);
+	let currentImageIndex = $state(0);
 
-	let originalS: HTMLElement;
-	let originalO: HTMLElement;
-	let originalR: HTMLElement;
-	let animatedO: HTMLElement;
-	let verticalOpenWindow: HTMLElement;
+	let originalS = $state<HTMLElement | undefined>(undefined);
+	let originalO = $state<HTMLElement | undefined>(undefined);
+	let originalR = $state<HTMLElement | undefined>(undefined);
+	let animatedO = $state<HTMLElement | undefined>(undefined);
+	let verticalOpenWindow = $state<HTMLElement | undefined>(undefined);
 
-	let animatedOOffestLeft = 0;
-	let originalSOffsetLeft = 0;
+	let animatedOOffestLeft = $state(0);
+	let originalSOffsetLeft = $state(0);
 	let NDERwidth = 720;
-	let animatedOWidth: number;
-	let isOCentered = false;
-	let bgPosition = '0px 0px';
-	let hideO = false;
+	let animatedOWidth = $state<number>(0);
+	let isOCentered = $state(false);
+	let bgPosition = $state('0px 0px');
+	let hideO = $state(false);
 
-	let isMounted = false;
-	let isGrowPhase = false;
-	let isHorizontalOpenPhase = false;
-	let isVerticalOpenPhase = false;
+	let isMounted = $state(false);
+	let isGrowPhase = $state(false);
+	let isHorizontalOpenPhase = $state(false);
+	let isVerticalOpenPhase = $state(false);
 
 	//hide tail by transitioning to the image with a black in between
 	let O_paths: string[] = [];
@@ -162,9 +162,9 @@
 		return 0;
 	}
 
-	let pathWidth = 48;
+	let pathWidth = $state(48);
 
-	$: {
+	$effect(() => {
 		pathWidth = calculatePathWidth($tweenedPath);
 		if (originalO) {
 			const rect = originalO.getBoundingClientRect();
@@ -195,7 +195,7 @@
 			isVerticalOpenPhase = true;
 			isHorizontalOpenPhase = false;
 		}
-	}
+	});
 
 	onMount(() => {
 		isMounted = true;
