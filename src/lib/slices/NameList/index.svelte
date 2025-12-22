@@ -1,13 +1,14 @@
 <script lang="ts">
 	import type { NameListSlice } from '../../../prismicio-types';
 	import * as prismicHelpers from '@prismicio/helpers';
-	import { asLink, createClient, isFilled, type LinkField } from '@prismicio/client';
+	import { asLink, isFilled, type LinkField } from '@prismicio/client';
 	import NameRevealOnHover from '$lib/components/NameRevealOnHover.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import { onMount } from 'svelte';
+	import { fetchFromRelationship } from '$lib/utils/prismic';
 
 	const appState = getAppState();
 
@@ -27,8 +28,6 @@
 	let artistItems = $state<ArtistItem[]>([]);
 	
 	async function fetchArtistItems() {
-	  const client = createClient('gallerysonder');
-	  
 	  for (const item of slice.items) {
 		let artistData = {
 		  activeImage: item.artist_active_image.url || '',
@@ -37,33 +36,30 @@
 		  doubleHeight: item.doubleheight || false
 		};
 
-		if (isFilled.contentRelationship(item.artist) && item.artist.uid) {
-		  try {
-			const fetchedArtist = (await client.getByUID('artist', item.artist.uid)).data;
-			console.log('Fetched artist data:', fetchedArtist);
+		const fetchedArtist = await fetchFromRelationship<any>(item.artist, 'artist');
 
-			if (!isFilled.image(item.artist_active_image) && isFilled.image(fetchedArtist.nav_image)) {
-			  artistData.activeImage = fetchedArtist.nav_image.url;
-			}
-			
-			if (!item.artist_color && fetchedArtist.artist_color) {
-			  artistData.color = fetchedArtist.artist_color;
-			}
+		if (fetchedArtist) {
+		  console.log('Fetched artist data:', fetchedArtist);
 
-			if (!isFilled.link(item.artist_page)) {
-			  artistData.link = {
-             link_type: "Web",
-             url: '/artists/' + item.artist.uid
-           };
-			}
-		  } catch (error) {
-			console.error('Error fetching artist data:', error);
+		  if (!isFilled.image(item.artist_active_image) && isFilled.image(fetchedArtist.nav_image)) {
+			artistData.activeImage = fetchedArtist.nav_image.url;
+		  }
+
+		  if (!item.artist_color && fetchedArtist.artist_color) {
+			artistData.color = fetchedArtist.artist_color;
+		  }
+
+		  if (!isFilled.link(item.artist_page) && item.artist.uid) {
+			artistData.link = {
+			  link_type: "Web",
+			  url: '/artists/' + item.artist.uid
+			};
 		  }
 		}
-		
+
 		artistItems.push(artistData);
 	  }
-	  
+
 	  isLoading = false;
 	}
 	

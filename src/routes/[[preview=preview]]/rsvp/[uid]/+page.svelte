@@ -4,6 +4,7 @@
 	import { getAppState } from "$lib/contexts/appState.svelte";
 	import { PrismicImage, PrismicRichText } from "@prismicio/svelte";
 	import { onMount } from "svelte";
+	import { populateHiddenForm, submitNetlifyForm } from "$lib/utils/forms";
 
 	const appState = getAppState();
 
@@ -22,39 +23,22 @@
     text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
   );
 }
-    
-    const submitForm = async (formElement: HTMLFormElement) => {
-        const formData = new FormData(formElement);
-        
-        const response = await fetch("/forms", { 
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            //@ts-ignore
-            body: new URLSearchParams(formData).toString()
-        });
-        
-        submitted = true;
-        
-        if (response.status !== 200)
-            error = true;
-    };
-    
-    const triggerSubmitButton = () => {
-        const hiddenForm = document.getElementById('netlifyRsvpForm') as HTMLFormElement;
-        
-        if (hiddenForm) {
-            const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
-            const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
-            const hiddenGuests = hiddenForm.querySelector('[name="guests"]') as HTMLInputElement;
-            const hiddenEvent = hiddenForm.querySelector('[name="event"]') as HTMLInputElement;
 
-            
-            if (hiddenName) hiddenName.value = formName;
-            if (hiddenEmail) hiddenEmail.value = formEmail;
-            if (hiddenGuests) hiddenGuests.value = formGuests;
-            if (hiddenEvent) hiddenEvent.value = data.page.data.name as string || data.page.uid
-            
-            submitForm(hiddenForm);
+    const triggerSubmitButton = async () => {
+        const populated = populateHiddenForm('netlifyRsvpForm', {
+            name: formName,
+            email: formEmail,
+            guests: formGuests,
+            event: (data.page.data.name as string) || data.page.uid
+        });
+
+        if (populated) {
+            const form = document.getElementById('netlifyRsvpForm') as HTMLFormElement;
+            const result = await submitNetlifyForm(form);
+
+            submitted = true;
+            error = !result.success;
+
             console.log('submitted');
         }
     };

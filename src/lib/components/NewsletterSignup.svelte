@@ -5,6 +5,7 @@
 	import RotatingLogo from "./RotatingLogo.svelte";
 	import LinkArrowButton from "./Buttons/LinkArrowButton.svelte";
 	import { onMount } from "svelte";
+	import { populateHiddenForm, submitNetlifyForm } from "$lib/utils/forms";
 
 	const appState = getAppState();
 
@@ -12,17 +13,13 @@
     let submitted = $state(false);
     let error = $state(false);
 
-	$effect(() => {
-        if(typeof document !=='undefined' && document.getElementsByTagName('body')){
-            const body = document.getElementsByTagName('body')[0] as HTMLElement;
-            if(appState.isNewsletterActive){
-                body.style.overflow = 'hidden'
-                disableScroll();
-
-            }else{
-                body.style.overflow = 'auto'
-                enableScroll();
-            }
+	$effect(function manageScrollLockForNewsletter() {
+        if(appState.isNewsletterActive){
+            appState.lockBodyScroll();
+            disableScroll();
+        }else{
+            appState.unlockBodyScroll();
+            enableScroll();
         }
     });
 
@@ -66,44 +63,18 @@
 
     })
 
-   
-	const submitForm = async (formElement:HTMLFormElement) => {
-  const formData = new FormData(formElement);
-  
 
- 
-    const response = await fetch("/forms", { 
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        //@ts-ignore
-      body: new URLSearchParams(formData).toString()
-    });
+const triggerSubmitButton = async () => {
+    if (populateHiddenForm('netlifyNewsletterSignup', { email: emailValue })) {
+        const form = document.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
+        const result = await submitNetlifyForm(form);
 
+        submitted = true;
+        error = !result.success;
 
-	submitted = true;
-
-	if (response.status !== 200)
-		error = true;
-
-}
- 
-
-const triggerSubmitButton = () => {
-
-    hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
-
-        if (hiddenForm) {
-             const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
-             hiddenEmail.value=emailValue;
-        }
-
-    submitForm(hiddenForm);
-
-    console.log("email: " + emailValue);
-
-    appState.hasNewsletterBeenCleared  = true;
-
-
+        console.log("email: " + emailValue);
+        appState.hasNewsletterBeenCleared = true;
+    }
 };
     
 

@@ -27,7 +27,7 @@
 
 	let active = $state(false);
 
-	$effect(() => {
+	$effect(function updateBackgroundColorOnActive() {
 		if (active) {
 			activeBackgroundColor = setBackgroundColor;
 		} else {

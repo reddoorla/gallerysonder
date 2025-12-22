@@ -52,7 +52,7 @@
 		};
 	});
 
-	$effect(() => {
+	$effect(function scaleTextToFitContainer() {
 		windowWidth;
 		if (parent) {
 			nodes = [...parent?.children] as HTMLElement[];

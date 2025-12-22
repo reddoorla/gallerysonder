@@ -44,7 +44,7 @@
 		}
 	};
 
-	$effect(() => {
+	$effect(function animatePageElementsAfterIntro() {
 		if (!appState.isIntroRunning) {
 			checkPosition();
 			setTimeout(() => (showPresentedArtist = true), 500);

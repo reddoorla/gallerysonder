@@ -37,7 +37,7 @@
 		// console.log('Tripled Images:', tripledImages);
 	};
 
-	$effect(() => {
+	$effect(function updateImageArrayOnArtworkChange() {
 		const artwork = appState.activeArtwork;
 		if (artwork && artwork.id !== lastProcessedArtworkId) {
 			lastProcessedArtworkId = artwork.id;

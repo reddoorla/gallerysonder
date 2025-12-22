@@ -13,6 +13,7 @@
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { populateHiddenForm, submitNetlifyForm } from '$lib/utils/forms';
 
 	const appState = getAppState();
 
@@ -31,50 +32,25 @@
 	let formEmail = $state('');
 	let formMessage = $state('');
 
-	const submitForm = async (formElement:HTMLFormElement) => {
-  const formData = new FormData(formElement);
-  
+	const triggerSubmitButton = async () => {
+		const populated = populateHiddenForm('netlifyContactForm', {
+			name: formName,
+			company: formCompany,
+			phone: formPhone,
+			email: formEmail,
+			message: formMessage
+		});
 
- 
-    const response = await fetch("/forms", { 
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        //@ts-ignore
-      body: new URLSearchParams(formData).toString()
-    });
+		if (populated) {
+			const form = document.getElementById('netlifyContactForm') as HTMLFormElement;
+			const result = await submitNetlifyForm(form);
 
+			submitted = true;
+			error = !result.success;
 
-	submitted = true;
-
-	if (response.status !== 200)
-		error = true;
-
-}
-
-
-	const triggerSubmitButton = () => {
-   
-    const hiddenForm = document.getElementById('netlifyContactForm') as HTMLFormElement;
-    
-    if (hiddenForm) {
-      
-      const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
-      const hiddenCompany = hiddenForm.querySelector('[name="company"]') as HTMLInputElement;
-      const hiddenPhone = hiddenForm.querySelector('[name="phone"]') as HTMLInputElement;
-      const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
-      const hiddenMessage = hiddenForm.querySelector('[name="message"]') as HTMLTextAreaElement;
-      
-  
-      if (hiddenName) hiddenName.value = formName;
-      if (hiddenCompany) hiddenCompany.value = formCompany;
-      if (hiddenPhone) hiddenPhone.value = formPhone;
-      if (hiddenEmail) hiddenEmail.value = formEmail;
-      if (hiddenMessage) hiddenMessage.value = formMessage;
-
-      submitForm(hiddenForm);
-      console.log('submitted');
-    }
-  };
+			console.log('submitted');
+		}
+	};
 
 
 	let shape = $state<HTMLElement | undefined>(undefined);

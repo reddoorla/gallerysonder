@@ -5,10 +5,11 @@
 	import * as prismicHelpers from '@prismicio/helpers';
 	import { slide } from 'svelte/transition';
 	import LinkPlusToggle from './Buttons/LinkPlusToggle.svelte';
-	import { asLink, createClient, isFilled } from '@prismicio/client';
+	import { asLink, isFilled } from '@prismicio/client';
 	import { onMount } from 'svelte';
 	import type { LinkField, ImageField, KeyTextField } from '@prismicio/client';
 	import { onNavigate } from '$app/navigation';
+	import { fetchFromRelationship } from '$lib/utils/prismic';
 
 	let {
 		slice,
@@ -52,9 +53,8 @@
 	let isLoading = $state(true);
 
 	async function fetchGalleryItems(items: ImageGallerySliceDefaultItem[]) {
-		const client = createClient('gallerysonder');
 		galleryItems = [];
-	
+
 		for (const item of items) {
 			let itemData = {
 				artistName: item.artist_name,
@@ -68,75 +68,79 @@
 				artUID: '',
 				willOpen : slice.primary.will_open
 			}
-			
-			if(isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
-				const fetchedContent = (await client.getByUID('artwork', item.artwork.uid)).data
-				itemData.artUID = item.artwork.uid;
-	
 
-				if(!itemData.artistName && isFilled.contentRelationship(fetchedContent.artist) && fetchedContent.artist.uid) {
-					const artistContent = (await client.getByUID('artist', fetchedContent.artist.uid)).data
-					itemData.artistName = artistContent.full_name
-				}
-				itemData.title = fetchedContent.title
-				if(!isFilled.image(itemData.image))
-					itemData.image = fetchedContent.primary_image
-				if(!itemData.subtitleOne)
-					itemData.subtitleOne = fetchedContent.year
-				
-				if(!itemData.subtitleTwo) {
-					itemData.subtitleTwo = fetchedContent.medium
+			if(isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
+				const fetchedContent = await fetchFromRelationship<any>(item.artwork, 'artwork');
+
+				if (fetchedContent) {
+					itemData.artUID = item.artwork.uid;
+
+					if(!itemData.artistName && isFilled.contentRelationship(fetchedContent.artist)) {
+						const artistContent = await fetchFromRelationship<any>(fetchedContent.artist, 'artist');
+						if (artistContent) {
+							itemData.artistName = artistContent.full_name;
+						}
+					}
+					itemData.title = fetchedContent.title;
+					if(!isFilled.image(itemData.image))
+						itemData.image = fetchedContent.primary_image;
+					if(!itemData.subtitleOne)
+						itemData.subtitleOne = fetchedContent.year;
+
 					if(!itemData.subtitleTwo) {
-						itemData.subtitleTwo = fetchedContent.dimensions
-					} else if(fetchedContent.dimensions) {
-						itemData.subtitleTwo = itemData.subtitleTwo + '<br/>' + fetchedContent.dimensions
+						itemData.subtitleTwo = fetchedContent.medium;
+						if(!itemData.subtitleTwo) {
+							itemData.subtitleTwo = fetchedContent.dimensions;
+						} else if(fetchedContent.dimensions) {
+							itemData.subtitleTwo = itemData.subtitleTwo + '<br/>' + fetchedContent.dimensions;
+						}
 					}
 				}
 			} else if(isFilled.contentRelationship(item.exhibition) && item.exhibition.uid){
-				const fetchedContent = (await client.getByUID('exhibit', item.exhibition.uid)).data
+				const fetchedContent = await fetchFromRelationship<any>(item.exhibition, 'exhibit');
 
-				itemData.willOpen=false;
+				if (fetchedContent) {
+					itemData.willOpen=false;
 
-				if(!itemData.eyebrow)
-					itemData.eyebrow=fetchedContent.dates
+					if(!itemData.eyebrow)
+						itemData.eyebrow=fetchedContent.dates;
 
-				if(!itemData.artistName) {
-					itemData.artistName = fetchedContent.artist;
-				}
-				itemData.title = fetchedContent.title
-				if(!isFilled.image(itemData.image)&&isFilled.image(fetchedContent.primary_image))
-					itemData.image = fetchedContent.primary_image
-				if(!itemData.subtitleOne)
-					itemData.subtitleOne = fetchedContent.short_description
-				if(!itemData.buttonText)
-					itemData.buttonText="Explore"
-				if(!isFilled.link(itemData.buttonLink))
-					itemData.buttonLink = {
-						link_type: "Web",
-						url:"/exhibitions/"+item.exhibition.uid
+					if(!itemData.artistName) {
+						itemData.artistName = fetchedContent.artist;
+					}
+					itemData.title = fetchedContent.title;
+					if(!isFilled.image(itemData.image)&&isFilled.image(fetchedContent.primary_image))
+						itemData.image = fetchedContent.primary_image;
+					if(!itemData.subtitleOne)
+						itemData.subtitleOne = fetchedContent.short_description;
+					if(!itemData.buttonText)
+						itemData.buttonText="Explore";
+					if(!isFilled.link(itemData.buttonLink))
+						itemData.buttonLink = {
+							link_type: "Web",
+							url:"/exhibitions/"+item.exhibition.uid
+						};
 				}
 			} else if(isFilled.contentRelationship(item.news) && item.news.uid) {
-				const fetchedContent = (await client.getByUID('news', item.news.uid)).data
+				const fetchedContent = await fetchFromRelationship<any>(item.news, 'news');
 
-				itemData.willOpen = false;
+				if (fetchedContent) {
+					itemData.willOpen = false;
+					itemData.title = fetchedContent.full_name;
+					if(!isFilled.image(itemData.image))
+						itemData.image = fetchedContent.nav_image || fetchedContent.background_image;
 
-			
-				itemData.title = fetchedContent.full_name
-				if(!isFilled.image(itemData.image))
-					itemData.image = fetchedContent.nav_image || fetchedContent.background_image
-				
-				if(!isFilled.link(itemData.buttonLink))
-					itemData.buttonLink = {
-						link_type: "Web",
-						url:"/news/"+item.news.uid
-				
+					if(!isFilled.link(itemData.buttonLink))
+						itemData.buttonLink = {
+							link_type: "Web",
+							url:"/news/"+item.news.uid
+						};
+				}
 			}
-		}
-	
 
 			galleryItems.push(itemData);
 		}
-		
+
 		isHoverArray = new Array(galleryItems.length).fill(false);
 		isLoading = false;
 	}

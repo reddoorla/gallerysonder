@@ -25,8 +25,7 @@
         
       }
     } else {
-       if (document.getElementsByTagName('body'))
-			    (document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
+       appState.lockBodyScroll();
 
         setTimeout(()=>{
           showModal = true;
@@ -48,15 +47,13 @@
     saveConsent(true);
     initializeFacebookPixel();
     showModal = false;
-    if (document.getElementsByTagName('body'))
-			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
+    appState.unlockBodyScroll();
   }
 
   function rejectCookies() {
     saveConsent(false);
     showModal = false;
-    if (document.getElementsByTagName('body'))
-			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
+    appState.unlockBodyScroll();
   }
 
   function saveConsent(accepted: boolean) {

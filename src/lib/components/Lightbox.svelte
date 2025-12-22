@@ -7,6 +7,7 @@
 	import { isFilled } from '@prismicio/client';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import Slideshow from './Slideshow.svelte';
+	import { populateHiddenForm, submitNetlifyForm } from '$lib/utils/forms';
 
 	const appState = getAppState();
 
@@ -21,46 +22,32 @@
 	let formMessage = $state('');
 	let formRole = $state('');
 
-	const submitForm = async (formElement: HTMLFormElement) => {
-		const formData = new FormData(formElement);
+	const triggerSubmitButton = async () => {
+		const fieldValues: Record<string, string> = {
+			name: formName,
+			phone: formPhone,
+			email: formEmail,
+			message: formMessage,
+			role: formRole
+		};
 
-		const response = await fetch('/forms', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-			//@ts-ignore
-			body: new URLSearchParams(formData).toString()
-		});
+		if (appState.activeArtwork) {
+			fieldValues.piece = `${appState.activeArtwork.data.title}, ${appState.activeArtwork.data.year}`;
+		}
 
-		submitted = true;
+		if (appState.activeArtist) {
+			fieldValues.artist = appState.activeArtist.data.full_name as string;
+		}
 
-		if (response.status !== 200) error = true;
-	};
+		const populated = populateHiddenForm('netlifyInquiryForm', fieldValues);
 
-	const triggerSubmitButton = () => {
-		const hiddenForm = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
+		if (populated) {
+			const form = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
+			const result = await submitNetlifyForm(form);
 
-		if (hiddenForm) {
-			const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
-			const hiddenPhone = hiddenForm.querySelector('[name="phone"]') as HTMLInputElement;
-			const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
-			const hiddenMessage = hiddenForm.querySelector('[name="message"]') as HTMLTextAreaElement;
-			const hiddenPiece = hiddenForm.querySelector('[name="piece"]') as HTMLInputElement;
-			const hiddenArtist = hiddenForm.querySelector('[name="artist"]') as HTMLInputElement;
-			const hiddenRole = hiddenForm.querySelector('[name="role"]') as HTMLInputElement;
+			submitted = true;
+			error = !result.success;
 
-			if (hiddenName) hiddenName.value = formName;
-
-			if (hiddenPhone) hiddenPhone.value = formPhone;
-			if (hiddenEmail) hiddenEmail.value = formEmail;
-			if (hiddenMessage) hiddenMessage.value = formMessage;
-			if (hiddenPiece && appState.activeArtwork)
-				hiddenPiece.value =
-					(appState.activeArtwork.data.title as string) + ', ' + appState.activeArtwork.data.year;
-			if (hiddenArtist && appState.activeArtist)
-				hiddenArtist.value = appState.activeArtist.data.full_name as string;
-			if (hiddenRole) hiddenRole.value = formRole;
-
-			submitForm(hiddenForm);
 			console.log('submitted inquiry');
 		}
 	};
@@ -71,8 +58,7 @@
 		appState.isLightboxActive = false;
 		appState.lightboxImageUrl = '';
 		appState.activeArtworkUid = '';
-		if (document.getElementsByTagName('body'))
-			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
+		appState.unlockBodyScroll();
 	};
 </script>
 

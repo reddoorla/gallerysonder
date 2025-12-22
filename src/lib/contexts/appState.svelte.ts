@@ -1,6 +1,7 @@
 import { getContext, onMount, setContext } from 'svelte';
-import { createClient, isFilled } from '@prismicio/client';
+import { isFilled } from '@prismicio/client';
 import { type ArtistDocument, type ArtworkDocument } from '../../prismicio-types';
+import { getPrismicClient } from '$lib/utils/prismic';
 
 const APP_STATE_KEY = Symbol('APP_STATE');
 
@@ -30,6 +31,9 @@ export interface AppState {
 		term: string;
 		content: string;
 	};
+
+	lockBodyScroll: () => void;
+	unlockBodyScroll: () => void;
 }
 
 export function createAppState(): AppState {
@@ -70,7 +74,7 @@ export function createAppState(): AppState {
 				// console.log('[fetchArtwork] Starting fetch for:', uid);
 				isFetching = true;
 				lastFetchedUid = uid;
-				const client = createClient('gallerysonder');
+				const client = getPrismicClient();
 				activeArtist = null;
 				activeArtwork = null;
 
@@ -105,7 +109,7 @@ export function createAppState(): AppState {
 		}
 
 
-	$effect(() => {
+	$effect(function syncArtworkDataWithUid() {
 		const uid = activeArtworkUid;
 		// console.log(`[Effect #${effectRunCount}] activeArtworkUid changed to:`, uid);
 		if (uid) {
@@ -114,6 +118,18 @@ export function createAppState(): AppState {
 			fetchArtwork('');
 		}
 	});
+
+	const lockBodyScroll = () => {
+		if (typeof document !== 'undefined' && document.body) {
+			document.body.style.overflow = 'hidden';
+		}
+	};
+
+	const unlockBodyScroll = () => {
+		if (typeof document !== 'undefined' && document.body) {
+			document.body.style.overflow = 'auto';
+		}
+	};
 
 	return {
 		get isIntroRunning() {
@@ -212,7 +228,10 @@ export function createAppState(): AppState {
 		},
 		set utmParams(value) {
 			utmParams = value;
-		}
+		},
+
+		lockBodyScroll,
+		unlockBodyScroll
 	};
 }
 

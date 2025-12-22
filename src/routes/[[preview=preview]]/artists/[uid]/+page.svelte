@@ -43,7 +43,7 @@
 		}
 	};
 
-	$effect(() => {
+	$effect(function animatePageElementsAfterIntro() {
 		if (!appState.isIntroRunning) {
 			checkPosition();
 			setTimeout(() => (showEyebrow = true), 1000);

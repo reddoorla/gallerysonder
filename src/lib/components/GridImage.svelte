@@ -36,7 +36,7 @@
 	let innerHeight = $state<number>(0);
 
 	let insetPercent = $state(25);
-	let linkRef: HTMLElement;
+	let linkRef: HTMLElement|undefined=$state();
 
 	const checkPosition = () => {
 		if (linkRef) {
@@ -64,14 +64,12 @@ const openModal = () => {
 	appState.isLightboxActive = true;
 
 setTimeout(()=>{
-	if (document.getElementsByTagName('body'))
-		(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
-
+	appState.lockBodyScroll();
 }, 500)
 
 };
 
-	$effect(() => {
+	$effect(function attachScrollListenerForInsetAnimation() {
 		if (typeof window !== 'undefined') {
 			window.addEventListener('scroll', checkPosition);
 

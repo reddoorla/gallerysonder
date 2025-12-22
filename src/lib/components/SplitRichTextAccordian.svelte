@@ -54,7 +54,7 @@
     onNavigate(()=>splitContent());
     onMount(()=>{setTimeout(()=>splitContent(),25)});
 
-    $effect(() => {
+    $effect(function splitContentWhenDivLoads() {
 		if (contentDiv) splitContent();
 	});
   </script>

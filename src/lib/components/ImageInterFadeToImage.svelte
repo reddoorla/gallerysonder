@@ -26,7 +26,7 @@
 	let hovered = $state(false);
 	let showIntermediate = $state(false);
 
-	$effect(() => {
+	$effect(function updateBackgroundAndIntermediateOnHover() {
 		if (hovered) {
 			activeBackgroundColor = setBackgroundColor;
 		} else {
