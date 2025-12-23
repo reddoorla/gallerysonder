@@ -54,9 +54,16 @@
 
 		const startMonthName = monthNames[parseInt(startMonth) - 1];
 		const endMonthName = monthNames[parseInt(endMonth) - 1];
-		const fullYear = `20${endYear}`;
+		const startFullYear = `20${startYear}`;
+		const endFullYear = `20${endYear}`;
 
-		return `${parseInt(startDay)} ${startMonthName} - ${parseInt(endDay)} ${endMonthName} ${fullYear}`;
+		// If years are different, show both years
+		if (startYear !== endYear) {
+			return `${parseInt(startDay)} ${startMonthName} ${startFullYear} - ${parseInt(endDay)} ${endMonthName} ${endFullYear}`;
+		}
+
+		// Same year, only show year at the end
+		return `${parseInt(startDay)} ${startMonthName} - ${parseInt(endDay)} ${endMonthName} ${endFullYear}`;
 	}
 
 	interface GalleryItem {
