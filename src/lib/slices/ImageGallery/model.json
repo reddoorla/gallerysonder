@@ -181,14 +181,14 @@
         "subtitle": {
           "type": "Text",
           "config": {
-            "label": "subtitle",
+            "label": "Body One",
             "placeholder": ""
           }
         },
         "subtitle_two": {
           "type": "Text",
           "config": {
-            "label": "subtitle Two",
+            "label": "Body Two",
             "placeholder": ""
           }
         },

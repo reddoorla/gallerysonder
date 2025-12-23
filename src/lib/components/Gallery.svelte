@@ -41,8 +41,8 @@
 		titleTwo: string|KeyTextField;
 		eyebrow: string|KeyTextField;
 		image: ImageField<never>;
-		subtitleOne: string|KeyTextField;
-		subtitleTwo: string|KeyTextField;
+		bodyOne: string|KeyTextField;
+		bodyTwo: string|KeyTextField;
 		buttonText: string|KeyTextField;
 		buttonLink: LinkField;
 		artUID: string;
@@ -60,7 +60,7 @@
 			let artist = '';
 			let title = '';
 
-			// Manual overrides from CMS (renamed fields)
+			// Manual overrides from CMS
 			let manualTitleOne = item.title_one;
 			let manualTitleTwo = item.title_two;
 
@@ -69,8 +69,8 @@
 				titleTwo: '',
 				eyebrow: item.eyebrow,
 				image: item.image,
-				subtitleOne: item.subtitle,
-				subtitleTwo: item.subtitle_two,
+				bodyOne: item.subtitle,
+				bodyTwo: item.subtitle_two,
 				buttonText: item.button_text,
 				buttonLink: item.link,
 				artUID: '',
@@ -92,15 +92,15 @@
 					title = fetchedContent.title;
 					if(!isFilled.image(itemData.image))
 						itemData.image = fetchedContent.primary_image;
-					if(!itemData.subtitleOne)
-						itemData.subtitleOne = fetchedContent.year;
+					if(!itemData.bodyOne)
+						itemData.bodyOne = fetchedContent.year;
 
-					if(!itemData.subtitleTwo) {
-						itemData.subtitleTwo = fetchedContent.medium;
-						if(!itemData.subtitleTwo) {
-							itemData.subtitleTwo = fetchedContent.dimensions;
+					if(!itemData.bodyTwo) {
+						itemData.bodyTwo = fetchedContent.medium;
+						if(!itemData.bodyTwo) {
+							itemData.bodyTwo = fetchedContent.dimensions;
 						} else if(fetchedContent.dimensions) {
-							itemData.subtitleTwo = itemData.subtitleTwo + '<br/>' + fetchedContent.dimensions;
+							itemData.bodyTwo = itemData.bodyTwo + '<br/>' + fetchedContent.dimensions;
 						}
 					}
 				}
@@ -119,8 +119,8 @@
 					title = fetchedContent.title;
 					if(!isFilled.image(itemData.image)&&isFilled.image(fetchedContent.primary_image))
 						itemData.image = fetchedContent.primary_image;
-					if(!itemData.subtitleOne)
-						itemData.subtitleOne = fetchedContent.short_description;
+					if(!itemData.bodyOne)
+						itemData.bodyOne = fetchedContent.short_description;
 					if(!itemData.buttonText)
 						itemData.buttonText="Explore";
 					if(!isFilled.link(itemData.buttonLink))
@@ -205,11 +205,11 @@
 					{#if item.titleTwo}
 						<h6 class="font-bold">{item.titleTwo}</h6>
 					{/if}
-					{#if item.subtitleOne}
-						<p>{item.subtitleOne}</p>
+					{#if item.bodyOne}
+						<p class="mt-2">{item.bodyOne}</p>
 					{/if}
-					{#if item.subtitleTwo}
-						<p>{item.subtitleTwo}</p>
+					{#if item.bodyTwo}
+						<p>{item.bodyTwo}</p>
 					{/if}
 					{#if prismicHelpers.isFilled.link(item.buttonLink)}
 						<LinkArrowButton
@@ -250,11 +250,11 @@
 					{#if item.titleTwo}
 						<h5 class="mt-2 uppercase italic">{item.titleTwo}</h5>
 					{/if}
-					{#if item.subtitleOne}
-						<p class="mt-2">{item.subtitleOne}</p>
+					{#if item.bodyOne}
+						<p class="mt-2">{item.bodyOne}</p>
 					{/if}
-					{#if item.subtitleTwo}
-						<p class="mt-2">{item.subtitleTwo}</p>
+					{#if item.bodyTwo}
+						<p class="mt-2">{item.bodyTwo}</p>
 					{/if}
 					{#if prismicHelpers.isFilled.link(item.buttonLink)}
 						<LinkArrowButton
@@ -282,13 +282,13 @@
 						src={item.image.url || ''}
 						text={item.titleOne || ''}
 						subtitle={
-							item.titleTwo && item.subtitleOne
-							? `<i>${item.titleTwo}</i>, ${item.subtitleOne}`
+							item.titleTwo && item.bodyOne
+							? `<i>${item.titleTwo}</i>, ${item.bodyOne}`
 							: item.titleTwo
 							  ? `<i>${item.titleTwo}</i>`
-							  : item.subtitleOne || ''}
+							  : item.bodyOne || ''}
 						alt={item.titleOne || item.titleTwo || ''}
-						subtitleTwo={item.subtitleTwo || ''}
+						subtitleTwo={item.bodyTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 						willOpen={item.willOpen}
 						bind:isHover={isHoverArray[i]}

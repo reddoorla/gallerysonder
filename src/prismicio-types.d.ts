@@ -1612,7 +1612,7 @@ export interface ImageGallerySliceDefaultItem {
 	title_two: prismic.KeyTextField;
 
 	/**
-	 * subtitle field in *ImageGallery → Items*
+	 * Body One field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -1622,7 +1622,7 @@ export interface ImageGallerySliceDefaultItem {
 	subtitle: prismic.KeyTextField;
 
 	/**
-	 * subtitle Two field in *ImageGallery → Items*
+	 * Body Two field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
