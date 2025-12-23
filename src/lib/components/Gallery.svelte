@@ -36,6 +36,29 @@
 		isHoverArray[index] = value;
 	}
 
+	function formatDateRange(dateStr: string | KeyTextField): string {
+		if (!dateStr || typeof dateStr !== 'string') return dateStr as string;
+
+		// Match format: 04.25.25 - 05.25.25
+		const dateRangePattern = /^(\d{2})\.(\d{2})\.(\d{2})\s*-\s*(\d{2})\.(\d{2})\.(\d{2})$/;
+		const match = dateStr.match(dateRangePattern);
+
+		if (!match) return dateStr;
+
+		const [_, startMonth, startDay, startYear, endMonth, endDay, endYear] = match;
+
+		const monthNames = [
+			'January', 'February', 'March', 'April', 'May', 'June',
+			'July', 'August', 'September', 'October', 'November', 'December'
+		];
+
+		const startMonthName = monthNames[parseInt(startMonth) - 1];
+		const endMonthName = monthNames[parseInt(endMonth) - 1];
+		const fullYear = `20${endYear}`;
+
+		return `${parseInt(startDay)} ${startMonthName} - ${parseInt(endDay)} ${endMonthName} ${fullYear}`;
+	}
+
 	interface GalleryItem {
 		titleOne: string|KeyTextField;
 		titleTwo: string|KeyTextField;
@@ -197,7 +220,7 @@
 
 				<div class="w-1/2 h-full flex flex-col gap-2">
 					{#if item.eyebrow}
-						<h6 class="tracking-[1.5px]">{item.eyebrow}</h6>
+						<h6 class="tracking-[1.5px]">{formatDateRange(item.eyebrow)}</h6>
 					{/if}
 					{#if item.titleOne}
 						<h3>{item.titleOne}</h3>
@@ -242,7 +265,7 @@
 					/>
 					
 					{#if item.eyebrow}
-						<span class="tracking-widest mt-2">{item.eyebrow}</span>
+						<span class="tracking-widest mt-2">{formatDateRange(item.eyebrow)}</span>
 					{/if}
 					{#if item.titleOne}
 						<span class="mt-2 uppercase">{item.titleOne}</span>
