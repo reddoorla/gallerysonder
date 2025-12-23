@@ -37,9 +37,9 @@
 	}
 
 	interface GalleryItem {
-		artistName: string|KeyTextField;
+		titleOne: string|KeyTextField;
+		titleTwo: string|KeyTextField;
 		eyebrow: string|KeyTextField;
-		title: string|KeyTextField;
 		image: ImageField<never>;
 		subtitleOne: string|KeyTextField;
 		subtitleTwo: string|KeyTextField;
@@ -56,10 +56,18 @@
 		galleryItems = [];
 
 		for (const item of items) {
+			// Temp variables for fetching artist and title data
+			let artist = '';
+			let title = '';
+
+			// Manual overrides from CMS (renamed fields)
+			let manualTitleOne = item.title_one;
+			let manualTitleTwo = item.title_two;
+
 			let itemData = {
-				artistName: item.artist_name,
+				titleOne: '',
+				titleTwo: '',
 				eyebrow: item.eyebrow,
-				title: item.title,
 				image: item.image,
 				subtitleOne: item.subtitle,
 				subtitleTwo: item.subtitle_two,
@@ -75,13 +83,13 @@
 				if (fetchedContent) {
 					itemData.artUID = item.artwork.uid;
 
-					if(!itemData.artistName && isFilled.contentRelationship(fetchedContent.artist)) {
+					if(!artist && isFilled.contentRelationship(fetchedContent.artist)) {
 						const artistContent = await fetchFromRelationship<any>(fetchedContent.artist, 'artist');
 						if (artistContent) {
-							itemData.artistName = artistContent.full_name;
+							artist = artistContent.full_name;
 						}
 					}
-					itemData.title = fetchedContent.title;
+					title = fetchedContent.title;
 					if(!isFilled.image(itemData.image))
 						itemData.image = fetchedContent.primary_image;
 					if(!itemData.subtitleOne)
@@ -105,10 +113,10 @@
 					if(!itemData.eyebrow)
 						itemData.eyebrow=fetchedContent.dates;
 
-					if(!itemData.artistName) {
-						itemData.artistName = fetchedContent.artist;
+					if(!artist) {
+						artist = fetchedContent.artist;
 					}
-					itemData.title = fetchedContent.title;
+					title = fetchedContent.title;
 					if(!isFilled.image(itemData.image)&&isFilled.image(fetchedContent.primary_image))
 						itemData.image = fetchedContent.primary_image;
 					if(!itemData.subtitleOne)
@@ -126,7 +134,7 @@
 
 				if (fetchedContent) {
 					itemData.willOpen = false;
-					itemData.title = fetchedContent.full_name;
+					title = fetchedContent.full_name;
 					if(!isFilled.image(itemData.image))
 						itemData.image = fetchedContent.nav_image || fetchedContent.background_image;
 
@@ -136,6 +144,22 @@
 							url:"/news/"+item.news.uid
 						};
 				}
+			}
+
+			// Apply titleOne and titleTwo logic
+			// If manual overrides exist, use them; otherwise compute from artist/title
+			if (manualTitleOne) {
+				itemData.titleOne = manualTitleOne;
+			} else {
+				// If artist exists, titleOne = artist; otherwise titleOne = title
+				itemData.titleOne = artist || title;
+			}
+
+			if (manualTitleTwo) {
+				itemData.titleTwo = manualTitleTwo;
+			} else {
+				// If artist exists, titleTwo = title; otherwise titleTwo is empty
+				itemData.titleTwo = artist ? title : '';
 			}
 
 			galleryItems.push(itemData);
@@ -164,22 +188,22 @@
 					<GridImage
 						class="w-full aspect-[8/5]"
 						src={item.image.url || ''}
-						alt={item.title || ''}
+						alt={item.titleOne || item.titleTwo || ''}
 						willOpen={item.willOpen}
 						artworkUID={item.artUID}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 					/>
 				</button>
 
-				<div class="w-1/2 h-full flex flex-col gap-4">
+				<div class="w-1/2 h-full flex flex-col gap-2">
 					{#if item.eyebrow}
-						<span class="tracking-widest">{item.eyebrow}</span>
+						<h6 class="tracking-[1.5px]">{item.eyebrow}</h6>
 					{/if}
-					{#if item.artistName}
-						<h6>{item.artistName}</h6>
+					{#if item.titleOne}
+						<h3>{item.titleOne}</h3>
 					{/if}
-					{#if item.title}
-						<h3 class="italic">{item.title}</h3>
+					{#if item.titleTwo}
+						<h6 class="font-bold">{item.titleTwo}</h6>
 					{/if}
 					{#if item.subtitleOne}
 						<p>{item.subtitleOne}</p>
@@ -191,6 +215,7 @@
 						<LinkArrowButton
 							text={item.buttonText || "explore"}
 							href={item.buttonLink.url}
+							class="mt-4"
 						/>
 					{/if}
 				</div>
@@ -209,7 +234,7 @@
 					<GridImage
 						class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 						src={item.image.url || ''}
-						alt={item.title || ''}
+						alt={item.titleOne || item.titleTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 						bind:isHover={isHoverArray[i]}
 						onHoverChange={(value) => handleHover(value, i)}
@@ -219,11 +244,11 @@
 					{#if item.eyebrow}
 						<span class="tracking-widest mt-2">{item.eyebrow}</span>
 					{/if}
-					{#if item.artistName}
-						<span class="mt-2 uppercase">{item.artistName}</span>
+					{#if item.titleOne}
+						<span class="mt-2 uppercase">{item.titleOne}</span>
 					{/if}
-					{#if item.title}
-						<h5 class="mt-2 uppercase italic">{item.title}</h5>
+					{#if item.titleTwo}
+						<h5 class="mt-2 uppercase italic">{item.titleTwo}</h5>
 					{/if}
 					{#if item.subtitleOne}
 						<p class="mt-2">{item.subtitleOne}</p>
@@ -255,14 +280,14 @@
 					<GridImage
 						class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 						src={item.image.url || ''}
-						text={item.artistName || ''}
+						text={item.titleOne || ''}
 						subtitle={
-							item.title && item.subtitleOne
-							? `<i>${item.title}</i>, ${item.subtitleOne}`
-							: item.title
-							  ? `<i>${item.title}</i>`
+							item.titleTwo && item.subtitleOne
+							? `<i>${item.titleTwo}</i>, ${item.subtitleOne}`
+							: item.titleTwo
+							  ? `<i>${item.titleTwo}</i>`
 							  : item.subtitleOne || ''}
-						alt={item.title || ''}
+						alt={item.titleOne || item.titleTwo || ''}
 						subtitleTwo={item.subtitleTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 						willOpen={item.willOpen}

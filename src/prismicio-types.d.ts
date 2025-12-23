@@ -1582,14 +1582,14 @@ export interface ImageGallerySliceDefaultItem {
 	eyebrow: prismic.KeyTextField;
 
 	/**
-	 * artist name field in *ImageGallery → Items*
+	 * Title One (manual override) field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].artist_name
+	 * - **API ID Path**: image_gallery.items[].title_one
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	artist_name: prismic.KeyTextField;
+	title_one: prismic.KeyTextField;
 
 	/**
 	 * image field in *ImageGallery → Items*
@@ -1602,14 +1602,14 @@ export interface ImageGallerySliceDefaultItem {
 	image: prismic.ImageField<never>;
 
 	/**
-	 * title field in *ImageGallery → Items*
+	 * Title Two (manual override) field in *ImageGallery → Items*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.items[].title
+	 * - **API ID Path**: image_gallery.items[].title_two
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	title: prismic.KeyTextField;
+	title_two: prismic.KeyTextField;
 
 	/**
 	 * subtitle field in *ImageGallery → Items*

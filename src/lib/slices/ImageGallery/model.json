@@ -156,10 +156,10 @@
             "placeholder": "manual"
           }
         },
-        "artist_name": {
+        "title_one": {
           "type": "Text",
           "config": {
-            "label": "artist name",
+            "label": "Title One (manual override)",
             "placeholder": ""
           }
         },
@@ -171,10 +171,10 @@
             "thumbnails": []
           }
         },
-        "title": {
+        "title_two": {
           "type": "Text",
           "config": {
-            "label": "title",
+            "label": "Title Two (manual override)",
             "placeholder": ""
           }
         },
