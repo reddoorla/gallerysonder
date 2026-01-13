@@ -2,22 +2,28 @@
 <script lang="ts">
     import { slide } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
-    import { backgroundColor } from '$lib/stores/backgroundColor';
+    import { getAppState } from '$lib/contexts/appState.svelte';
 	import { onNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
-    
+
+	const appState = getAppState();
+
     interface HTMLElementWithOuterHTML extends HTMLElement {
       outerHTML: string;
     }
-    
-    export let showFullBody: boolean = false;
- 
-    export let maxHeight: number = 400;
-    
-    let contentDiv: HTMLElement | null = null;
-    let visibleContent: HTMLElementWithOuterHTML[] = [];
-    let hiddenContent: HTMLElementWithOuterHTML[] = [];
-    let shouldShowGradient: boolean = false;
+
+    let {
+		showFullBody = $bindable(false),
+		maxHeight = 400
+	}: {
+		showFullBody?: boolean;
+		maxHeight?: number;
+	} = $props();
+
+    let contentDiv = $state<HTMLElement | null>(null);
+    let visibleContent = $state<HTMLElementWithOuterHTML[]>([]);
+    let hiddenContent = $state<HTMLElementWithOuterHTML[]>([]);
+    let shouldShowGradient = $state(false);
     
     function splitContent(): void {
       if (!contentDiv) return;
@@ -47,8 +53,10 @@
 
     onNavigate(()=>splitContent());
     onMount(()=>{setTimeout(()=>splitContent(),25)});
-    
-    $: if (contentDiv) splitContent();
+
+    $effect(function splitContentWhenDivLoads() {
+		if (contentDiv) splitContent();
+	});
   </script>
   
   <div class="relative">
@@ -88,10 +96,10 @@
           class="absolute bottom-0 left-0 w-full"
           transition:slide={{duration: 300, easing: cubicOut}}
         >
-          <div 
+          <div
             class="h-12 w-full transition-opacity duration-300"
-            style="background: linear-gradient(to top, {$backgroundColor} 20%, rgba(255, 255, 255, 0) 100%)"
-          />
+            style="background: linear-gradient(to top, {appState.backgroundColor} 20%, rgba(255, 255, 255, 0) 100%)"
+          ></div>
         </div>
       {/if}
     {/if}

@@ -2,19 +2,17 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import VimeoPlayer from '$lib/components/VimeoPlayer.svelte';
-	import { isIntroRunning, hasIntroRun } from '$lib/stores/intro';
-	import { get } from 'svelte/store';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 
-	// Configuration
+	const appState = getAppState();
+
 	const USE_INTRO = import.meta.env.VITE_USE_INTRO && import.meta.env.VITE_USE_INTRO !== 'false';
-	const INTRO_DURATION = 6000; // 6 seconds
-	
-	// State
+	const INTRO_DURATION = 6000;
+
 	let isVideoLoaded = !USE_INTRO;
 	let isPlaying = !USE_INTRO;
 	let isVideoDone = !USE_INTRO;
-	
-	// Vimeo player reference
+
 	interface VimeoComponent {
 		play: () => Promise<void>;
 		pause: () => Promise<void>;
@@ -24,26 +22,24 @@
 
 	onMount(() => {
 		if (!USE_INTRO) {
-			isIntroRunning.set(true);
-            hasIntroRun.set(true);
-		}else if(!get(hasIntroRun)){
-            isIntroRunning.set(false)
+			appState.isIntroRunning = false;
+            appState.hasIntroRun = true;
+		}else if(!appState.hasIntroRun){
+            appState.isIntroRunning = true;
         }
 	});
 
-	// Handle video ready event
 	const handleVideoReady = async () => {
 		await vimeoPlayer.play();
 		isVideoLoaded = true;
-		
+
 		setTimeout(async () => {
 			await vimeoPlayer.pause();
 			isVideoDone = true;
-			isIntroRunning.set(false);
+			appState.isIntroRunning = false;
 		}, INTRO_DURATION);
 	};
 
-	// Toggle playback control
 	const togglePlayback = async () => {
 		try {
 			if (isPlaying) {
@@ -56,10 +52,6 @@
 		}
 	};
 
-	// Handle playing state change
-	const handlePlayingChange = (event: CustomEvent) => {
-		isPlaying = event.detail.isPlaying;
-	};
 </script>
 
 <style>
@@ -110,7 +102,7 @@
 	{#if !isVideoLoaded}
 		<div class="w-screen h-screen absolute top-0 left-0 bg-black flex flex-col items-center text-center justify-center gap-10 z-20">
 			<div class="loading-text">Loading Your</div>
-			<div class="h-12 w-[382px] gradient-logo clip-by-logo"/>
+			<div class="h-12 w-95.5 gradient-logo clip-by-logo"></div>
 			<div class="loading-text">Experience</div>
 		</div>
 	{/if}
@@ -122,18 +114,18 @@
 			videoId="1032470650"
 			muted={true}
 			bind:isPlaying
-			on:playingChange={handlePlayingChange}
-			on:ready={handleVideoReady}
+			onReady={handleVideoReady}
+			onPlayingChange={(playing) => { isPlaying = playing; }}
 		/>
 	</div>
 
 	<!-- Background Overlays -->
-	<div class="bg-black {isVideoDone ? 'opacity-0' : ''} w-full h-full absolute left-0 -z-20 top-0" />
-	<div class="bg-black {isVideoDone ? 'opacity-20' : 'opacity-0'} w-full h-full absolute left-0 top-0 transition-opacity duration-1000" />
+	<div class="bg-black {isVideoDone ? 'opacity-0' : ''} w-full h-full absolute left-0 -z-20 top-0"></div>
+	<div class="bg-black {isVideoDone ? 'opacity-20' : 'opacity-0'} w-full h-full absolute left-0 top-0 transition-opacity duration-1000"></div>
 </div>
 
 <!-- Main Content (shows after intro) -->
-{#if !$isIntroRunning && isVideoDone}
+{#if !appState.isIntroRunning && isVideoDone}
 	<div transition:fade>
 		<!-- Your main content goes here -->
 		<slot />

@@ -1,26 +1,42 @@
 <script lang="ts">
 	import onShowOne from '$lib/assets/images/homeImages/onShow/sonderOnShow1.jpg';
-	import { onMount, createEventDispatcher } from 'svelte';
-	import { isModalActive } from '$lib/stores/isModalActive';
-	import { activeArtworkUid, isLightboxActive, lightboxImageUrl, showInquiryForm } from '$lib/stores/lightbox';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 
-	export let src = onShowOne;
-	export let href = '';
-	export let text = '';
-	export let alt = 'gallery image';
-	export let subtitle = '';
-	export let subtitleTwo =''
-	export let isHover = false;
-	export let willOpen = false;
-	export let artworkUID = '';
+	const appState = getAppState();
+
+	let {
+		src = onShowOne,
+		href = '',
+		text = '',
+		alt = 'gallery image',
+		subtitle = '',
+		subtitleTwo = '',
+		isHover = $bindable(false),
+		onHoverChange = undefined as ((value: boolean) => void) | undefined,
+		willOpen = false,
+		artworkUID = '',
+		class: className = 'w-full'
+	}: {
+		src?: string;
+		href?: string;
+		text?: string;
+		alt?: string;
+		subtitle?: string;
+		subtitleTwo?: string;
+		isHover?: boolean;
+		onHoverChange?: ((value: boolean) => void) | undefined;
+		willOpen?: boolean;
+		artworkUID?: string;
+		class?: string;
+	} = $props();
 
 
-	let innerWidth: number;
-	let innerHeight: number;
+	let innerWidth = $state<number>(0);
+	let innerHeight = $state<number>(0);
 
-	let insetPercent = 25;
-	let linkRef: HTMLElement;
+	let insetPercent = $state(25);
+	let linkRef: HTMLElement|undefined=$state();
 
 	const checkPosition = () => {
 		if (linkRef) {
@@ -34,34 +50,38 @@
 		}
 	};
 
-
 const openModal = () => {
+
+
 	if(artworkUID){
-		activeArtworkUid.set(artworkUID);
+		appState.activeArtworkUid = artworkUID;
 	}else{
-		lightboxImageUrl.set(src);
+		appState.lightboxImageUrl = src;
 	}
 
-	//isModalActive.set(true);
-	isLightboxActive.set(true);
-setTimeout(()=>{
-	if (document.getElementsByTagName('body'))
-		(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
-
-}, 500)	
 	
+
+	appState.isLightboxActive = true;
+
+setTimeout(()=>{
+	appState.lockBodyScroll();
+}, 500)
+
 };
 
+	$effect(function attachScrollListenerForInsetAnimation() {
+		if (typeof window !== 'undefined') {
+			window.addEventListener('scroll', checkPosition);
 
-	onMount(() => {
-		window.addEventListener('scroll', checkPosition);
+			return () => {
+				window.removeEventListener('scroll', checkPosition);
+			};
+		}
 	});
-
-	const dispatch = createEventDispatcher();
 
 	function onHover(state: boolean) {
 		isHover = state;
-		dispatch('hover', isHover);
+		onHoverChange?.(isHover);
 	}
 </script>
 
@@ -71,10 +91,10 @@ setTimeout(()=>{
 <a
 	bind:this={linkRef}
 	{href}
-	class="flex-grow-0 flex flex-col items-left clip-transition no-underline {href?"":"pointer-events-none"} {$$props.class || 'w-full'}"
+	class="flex-grow-0 flex flex-col items-left clip-transition no-underline {href?"":"pointer-events-none"} {className}"
 	aria-hidden={href?false:true}
-	on:mouseenter={() => onHover(true)}
-	on:mouseleave={() => onHover(false)}
+	onmouseenter={() => onHover(true)}
+	onmouseleave={() => onHover(false)}
 >
 	<img
 		{src}
@@ -145,12 +165,12 @@ setTimeout(()=>{
 	{/if}
 </a>
 {:else}
-	<button 
+	<button
 		bind:this={linkRef}
-		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline {$$props.class || 'w-full'}"
-		on:mouseenter={() => onHover(true)}
-		on:mouseleave={() => onHover(false)}
-		on:click={openModal}
+		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline {className}"
+		onmouseenter={() => onHover(true)}
+		onmouseleave={() => onHover(false)}
+		onclick={openModal}
 	>
 	<img
 			{src}
@@ -197,7 +217,7 @@ setTimeout(()=>{
 					<div class="  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}">
-		<LinkArrowButton text="INQUIRE" class="origin-left scale-75 mt-1" click={()=>{openModal();showInquiryForm.set(true)}} />
+		<LinkArrowButton text="INQUIRE" class="origin-left scale-75 mt-1" onclick={()=>{openModal();appState.showInquiryForm = true}} />
 					</div>
 		{/if}
 			
@@ -228,7 +248,7 @@ setTimeout(()=>{
 					<div class="  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
 					: 'opacity-0 pointer-events-none delay-0'}">
-		<LinkArrowButton text="INQUIRE" class="scale-75 origin-left mt-1 " click={()=>{openModal();showInquiryForm.set(true)}} />
+		<LinkArrowButton text="INQUIRE" class="scale-75 origin-left mt-1 " onclick={()=>{openModal();appState.showInquiryForm = true}} />
 					</div>
 		{/if}
 		{/if}

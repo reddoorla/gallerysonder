@@ -1,34 +1,31 @@
-<!-- CookieConsent.svelte -->
 <script lang='ts'>
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
-  import { backgroundColor } from '$lib/stores/backgroundColor';
+  import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from './ContentWidth.svelte';
 	import { fade, fly } from 'svelte/transition';
 
+	const appState = getAppState();
+
         //@ts-nocheck
-  // Cookie consent store - simplified to just accepted/rejected
   export const cookieConsent = writable(false);
 
-  let showModal = false;
-  let hasConsented = false;
+  let showModal = $state(false);
+  let hasConsented = $state(false);
 
-  // Check if user has already made a choice
   onMount(() => {
     const consent = localStorage.getItem('cookieConsent');
     if (consent !== null) {
       const accepted = consent === 'true';
       cookieConsent.set(accepted);
       hasConsented = true;
-      
-      // Initialize tracking if accepted
+
       if (accepted) {
         initializeFacebookPixel();
         
       }
     } else {
-       if (document.getElementsByTagName('body'))
-			    (document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
+       appState.lockBodyScroll();
 
         setTimeout(()=>{
           showModal = true;
@@ -37,12 +34,7 @@
 
   });
 
-
-
-    
-
   function initializeFacebookPixel() {
-    // Your existing Facebook Pixel code
 //@ts-ignore
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
     //@ts-ignore
@@ -55,18 +47,16 @@
     saveConsent(true);
     initializeFacebookPixel();
     showModal = false;
-    if (document.getElementsByTagName('body'))
-			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
+    appState.unlockBodyScroll();
   }
 
   function rejectCookies() {
     saveConsent(false);
     showModal = false;
-    if (document.getElementsByTagName('body'))
-			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
+    appState.unlockBodyScroll();
   }
-  // @ts-ignore
-  function saveConsent(accepted) {
+
+  function saveConsent(accepted: boolean) {
     localStorage.setItem('cookieConsent', accepted.toString());
     localStorage.setItem('cookieConsentDate', new Date().toISOString());
     cookieConsent.set(accepted);
@@ -81,14 +71,8 @@
     showModal = true;
     cookieConsent.set(false);
   }
-
-
-  
 </script>
 
-
-
-<!-- Cookie Consent Modal -->
 {#if showModal}
 
   <div 
@@ -98,18 +82,18 @@
   <div class='w-full h-full absolute top-0 left-0 blur-sm backdrop-blur-sm bg-black/40'></div>
     <ContentWidth class="relative z-10 flex justify-center md:justify-end h-full flex-col pb-5">
       
-      <div class="z-20 relative flex flex-col items-start px-5 pt-10 w-full" style="background-color: {$backgroundColor}" >
+      <div class="z-20 relative flex flex-col items-start px-5 pt-10 w-full" style="background-color: {appState.backgroundColor}" >
         <p>We use cookies to track website usage and personalize content. 
         </p>
         <p>Click 'Accept' to allow all cookies or 'Reject' to limit to necessaries.
         </p>
       </div>
 
-      <div class="z-20 relative flex flex-row gap-3 px-5 pt-5 pb-10 w-full" style="background-color: {$backgroundColor}">
-         <button class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer" on:click={acceptCookies}>
+      <div class="z-20 relative flex flex-row gap-3 px-5 pt-5 pb-10 w-full" style="background-color: {appState.backgroundColor}">
+         <button class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer" onclick={acceptCookies}>
           Accept
         </button>
-        <button on:click={rejectCookies} class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer"
+        <button onclick={rejectCookies} class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer"
 						>REJECT</button>
        
       </div>
@@ -119,7 +103,6 @@
   </div>
 {/if}
 
-<!-- Facebook Pixel NoScript (only if cookies accepted) -->
 {#if $cookieConsent}
   <noscript>
     <img 

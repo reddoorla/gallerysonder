@@ -1,49 +1,55 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import SonderLogoActive from '$lib/assets/icons/sonderLogosExtended/SONDER_O.svg';
 
-	export let activeImage = SonderLogoActive;
-	export let href = '';
-	export let click = () => {};
+	let {
+		activeImage = SonderLogoActive,
+		href = '',
+		onclick = () => {},
+		onmouseover = () => {},
+		onmouseout = () => {},
+		class: className = ''
+	}: {
+		activeImage?: string;
+		href?: string;
+		onclick?: () => void;
+		onmouseover?: () => void;
+		onmouseout?: () => void;
+		class?: string;
+	} = $props();
 
-	let viewportWidth: number;
-	let viewportHeight: number;
+	let viewportWidth = $state<number>(0);
+	let viewportHeight = $state<number>(0);
 
-	let active = false;
+	let active = $state(false);
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
 {#if href}
-<a
-	class="relative transition duration-500 ease-fast-slow w-fit {active
-		? ''
-		: 'brightness-0'} {$$props.class || ''}"
-	on:mouseenter={() => (active = true)}
-	on:mouseleave={() => (active = false)}
-	on:mouseover
-	on:mouseout
-	on:focus
-	on:blur
-	on:click={click}
-	{href}
->
-	<img src={activeImage} alt="link to name" class={$$props.class || ''} />
-</a>
-
+	<a
+		class="relative transition duration-500 ease-fast-slow w-fit {active
+			? 'brightness-100'
+			: 'brightness-0'} {className}"
+		onmouseenter={() => (active = true)}
+		onmouseleave={() => (active = false)}
+		{onmouseover}
+		{onmouseout}
+		{onclick}
+		{href}
+	>
+		<img src={activeImage} alt="link to name" class={className} />
+	</a>
 {:else}
-<button
-	class="relative transition duration-500 ease-fast-slow w-fit cursor-default {active
-		? ''
-		: 'brightness-0'} {$$props.class || ''}"
-	on:mouseenter={() => (active = true)}
-	on:mouseleave={() => (active = false)}
-	on:mouseover
-	on:mouseout
-	on:focus
-	on:blur
-	on:click={click}
->
-	<img src={activeImage} alt="link to name" class={$$props.class || ''} />
-</button>
+	<button
+		class="relative transition duration-500 ease-fast-slow w-fit cursor-default {active
+			? 'brightness-100'
+			: 'brightness-0'} {className}"
+		onmouseenter={() => (active = true)}
+		onmouseleave={() => (active = false)}
+		{onmouseover}
+		{onmouseout}
+		{onclick}
+	>
+		<img src={activeImage} alt="link to name" class={className} />
+	</button>
 {/if}

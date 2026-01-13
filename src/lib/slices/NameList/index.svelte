@@ -1,20 +1,22 @@
 <script lang="ts">
 	import type { NameListSlice } from '../../../prismicio-types';
 	import * as prismicHelpers from '@prismicio/helpers';
-	import { asLink, createClient, isFilled, type LinkField } from '@prismicio/client';
+	import { asLink, isFilled, type LinkField } from '@prismicio/client';
 	import NameRevealOnHover from '$lib/components/NameRevealOnHover.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
-	import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import { onMount } from 'svelte';
-	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault';
-	
-	export let slice: NameListSlice;
-	
-	let shape: HTMLElement;
-	let shapeHeight: number;
-	let isLoading = true;
+	import { fetchFromRelationship } from '$lib/utils/prismic';
+
+	const appState = getAppState();
+
+	let { slice }: { slice: NameListSlice } = $props();
+
+	let shape = $state<HTMLElement | undefined>(undefined);
+	let shapeHeight = $state(0);
+	let isLoading = $state(true);
 	
 	interface ArtistItem {
 	  activeImage: string;
@@ -22,12 +24,10 @@
 	  link: LinkField;
 	  doubleHeight?: boolean;
 	}
-	
-	let artistItems: ArtistItem[] = [];
+
+	let artistItems = $state<ArtistItem[]>([]);
 	
 	async function fetchArtistItems() {
-	  const client = createClient('gallerysonder');
-	  
 	  for (const item of slice.items) {
 		let artistData = {
 		  activeImage: item.artist_active_image.url || '',
@@ -35,39 +35,31 @@
 		  link: item.artist_page || { link_type: "Web", url: '' },
 		  doubleHeight: item.doubleheight || false
 		};
-		
-		// If we have an artist content relationship, fetch and use its data
-		if (isFilled.contentRelationship(item.artist) && item.artist.uid) {
-		  try {
-			const fetchedArtist = (await client.getByUID('artist', item.artist.uid)).data;
-			console.log('Fetched artist data:', fetchedArtist);
-			
-			// Use fetched data if the direct inputs are empty
-			if (!isFilled.image(item.artist_active_image) && isFilled.image(fetchedArtist.nav_image)) {
-			  artistData.activeImage = fetchedArtist.nav_image.url;
-			}
-			
-			if (!item.artist_color && fetchedArtist.artist_color) {
-			  artistData.color = fetchedArtist.artist_color;
-			}
 
-			
-			
-			// If no direct link provided, create one to the artist page
-			if (!isFilled.link(item.artist_page)) {
-			  artistData.link = {
-             link_type: "Web",
-             url: '/artists/' + item.artist.uid
-           };
-			}
-		  } catch (error) {
-			console.error('Error fetching artist data:', error);
+		const fetchedArtist = await fetchFromRelationship<any>(item.artist, 'artist');
+
+		if (fetchedArtist) {
+		  console.log('Fetched artist data:', fetchedArtist);
+
+		  if (!isFilled.image(item.artist_active_image) && isFilled.image(fetchedArtist.nav_image)) {
+			artistData.activeImage = fetchedArtist.nav_image.url;
+		  }
+
+		  if (!item.artist_color && fetchedArtist.artist_color) {
+			artistData.color = fetchedArtist.artist_color;
+		  }
+
+		  if (!isFilled.link(item.artist_page) && item.artist.uid) {
+			artistData.link = {
+			  link_type: "Web",
+			  url: '/artists/' + item.artist.uid
+			};
 		  }
 		}
-		
+
 		artistItems.push(artistData);
 	  }
-	  
+
 	  isLoading = false;
 	}
 	
@@ -87,7 +79,7 @@
    <section
 	 class="w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
 	 id={slice.primary.sectionLabel}
-	 style="background-color:{$backgroundColor};"
+	 style="background-color:{appState.backgroundColor};"
    >
 	 {#if slice.primary.shape_top !== '0'}
 	   <div class="-translate-y-[99%]" bind:this={shape}>
@@ -108,8 +100,8 @@
 		 {#each artistItems as item, i}
 		   <NameRevealOnHover
 			 activeImage={item.activeImage}
-			 on:mouseover={() => backgroundColor.set(item.color)}
-			 on:mouseout={() => backgroundColor.set($backgroundColorDefault)}
+			 onmouseover={() => appState.backgroundColor = item.color}
+			 onmouseout={() => appState.backgroundColor = appState.backgroundColorDefault}
 			 href={isFilled.link(item.link) ? item.link.url : ''}
 			 class={item.doubleHeight?"h-11 sm:h-[66px] md:h-[110px] lg:h-[132px]":"h-4 sm:h-6 md:h-10 lg:h-12"}
 		   />

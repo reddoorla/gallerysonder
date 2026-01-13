@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
-	import { get } from 'svelte/store';
 	import { repositoryName } from '$lib/prismicio';
 	import logo from '$lib/assets/icons/SONDER_Logo.svg';
 	import VimeoPlayer from '$lib/components/VimeoPlayer.svelte';
@@ -10,23 +9,21 @@
 	import { fade } from 'svelte/transition';
 	import Nav from '$lib/components/Nav.svelte';
 
-	import { isIntroRunning } from '$lib/stores/intro';
+	import { setAppState } from '$lib/contexts/appState.svelte';
 
 	import { onNavigate } from '$app/navigation';
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
-	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
-	import { isLightboxActive } from '$lib/stores/lightbox';
 	import Lightbox from '$lib/components/Lightbox.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import Analytics from '$lib/components/Analytics.svelte';
-	import { utmParams } from '$lib/stores/analyticsData.js';
 
+	const appState = setAppState();
 
-	export let data;
-	let isTransitioning = false;
-	let navDelayDone = false;
+	let { data } = $props();
 
-	// UTM parameters
+	let isTransitioning = $state(false);
+	let navDelayDone = $state(false);
+
 	let currentUtmParams = {
 		source: 'none',
 		medium: 'none',
@@ -36,17 +33,16 @@
 	};
 
 	const areUtmParamsEmpty = () => {
-		const u = get(utmParams)
-		return !(u.campaign||u.content||u.medium||u.medium||u.source||u.term)		
+		const u = appState.utmParams;
+		return !(u.campaign||u.content||u.medium||u.medium||u.source||u.term)
 	}
 
 
 
 	onMount(() => {
-	
+
 		setTimeout(()=>navDelayDone=true, 500)
 
-		// Extract UTM parameters from URL
 		const urlParams = $page.url.searchParams;
 
 		currentUtmParams = {
@@ -58,13 +54,13 @@
 		};
 
 		if(areUtmParamsEmpty())
-			utmParams.set(currentUtmParams);
+			appState.utmParams = currentUtmParams;
 
 	});
 
 	onNavigate(() => {
 		isTransitioning = true;
-		isNewsletterActive.set(false);
+		appState.isNewsletterActive = false;
 
 		setTimeout(() => {
 			isTransitioning = false;
@@ -94,9 +90,6 @@
 <CookieConsent />
 <Analytics />
 
-
-
-
 <main>
 
 
@@ -109,7 +102,7 @@
 
 	
 
-		{#if !$isIntroRunning&&navDelayDone}
+		{#if !appState.isIntroRunning&&navDelayDone}
 			<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 		{/if}
 		<slot />
@@ -119,11 +112,11 @@
 	
 </main>
 
-		{#if $isLightboxActive}
-		
+
+
 			<Lightbox />
-		
-		{/if}
+
+
 
 <PrismicPreview {repositoryName} />
 
@@ -160,10 +153,7 @@
 
 <form class="hidden"  name="inquiry" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyInquiryForm" >
 	<input type="hidden" name="form-name" value="inquiry" />
-	
-	<!-- UTM Parameters -->
 
-	
 	<p>Name</p>
 	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
 	<p>Phone</p>
@@ -205,8 +195,8 @@
 	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
 	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-    
-    <button type="submit" id="hiddenNewsSubmitButton"/>
+
+    <button type="submit" id="hiddenNewsSubmitButton" aria-label="Submit newsletter signup"></button>
 </form>
 
 
@@ -226,6 +216,6 @@
 	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
 	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-	<button type="submit" id="hiddenRsvpSubmitButton"/>
+	<button type="submit" id="hiddenRsvpSubmitButton" aria-label="Submit RSVP"></button>
 </form>
 	

@@ -5,32 +5,32 @@
 	import placeholderThumbnail from '$lib/assets/images/homeImages/galleryImage.jpg';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 
-	import { backgroundColor } from '$lib/stores/backgroundColor';
-	import { swipe } from 'svelte-gestures';
+	import { getAppState } from '$lib/contexts/appState.svelte';
+	import { useSwipe, type SwipeCustomEvent } from 'svelte-gestures';
 	import { fade } from 'svelte/transition';
 	import { PrismicImage } from '@prismicio/svelte';
 	import type { ImageField } from '@prismicio/client';
-	import { isModalActive } from '$lib/stores/isModalActive';
 	import { isFilled } from '@prismicio/helpers';
 
+	const appState = getAppState();
 
-	let viewportWidth: number;
-	let viewportHeight: number;
+	let viewportWidth = $state(0);
+	let viewportHeight = $state(0);
 
-	export let slice: VideoBlockSlice;
+	let { slice }: { slice: VideoBlockSlice } = $props();
 
-	let showModal = false;
+	let showModal = $state(false);
 
 	const openModal = () => {
 		showModal = true;
-		isModalActive.set(true);
+		appState.isModalActive = true;
 		if (document.getElementsByTagName('body'))
 			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
 	};
 
 	const closeModal = () => {
 		showModal = false;
-		isModalActive.set(false)
+		appState.isModalActive = false;
 		if (document.getElementsByTagName('body'))
 			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
 	};
@@ -46,8 +46,8 @@
 		imageArray.forEach((item)=>tripledImages.push(item.image))
 		tripledImages=tripledImages.concat(tripledImages).concat(tripledImages)
 	}
-	let sliderIndex = 0;
-	let isSlideAnimated = true;
+	let sliderIndex = $state(0);
+	let isSlideAnimated = $state(true);
 
 	const SLIDER_TRANSITION_LENGTH_IN_MS = 2000;
 
@@ -74,13 +74,10 @@
 		if (sliderIndex == imageArray.length) resetSliderToStart();
 	};
 
-	const handleSwipe = (
-		e: CustomEvent<{ direction: 'left' | 'top' | 'right' | 'bottom'; target: EventTarget }>
-	) => {
-		if (e.detail.direction === 'left') slideLeft();
-
-		if (e.detail.direction === 'right') slideRight();
-	};
+	function handleSwipe(event: SwipeCustomEvent) {
+		if (event.detail.direction === 'left') slideLeft();
+		if (event.detail.direction === 'right') slideRight();
+	}
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
@@ -90,7 +87,7 @@
 	class="w-full {slice.primary.hide ? 'hidden' : ''}"
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	style="background-color: {$backgroundColor}"
+	style="background-color: {appState.backgroundColor}"
 >
 {#if slice.primary.shape_top !== '0'}<div
 			class="-translate-y-[99%]"
@@ -104,7 +101,7 @@
 			<h5 class="mt-8 mb-4 md:mt-16 md:mb-12 uppercase"><b>{slice.primary.eyebrow||''}</b></h5>
 		{/if}
 		{#if slice.variation === 'default'&&slice.primary.vimeo_id}
-			<button class="w-full aspect-video relative mt-16" on:click={openModal}>
+			<button class="w-full aspect-video relative mt-16" onclick={openModal} aria-label="Play video">
 				<img
 					src={slice.primary.placeholder_image.url }
 					alt="video thumbnail placeholder"
@@ -139,8 +136,7 @@
 		{:else if slice.variation === 'slideshow'}
 			<div
 				class="w-full aspect-square md:aspect-video overflow-hidden relative mt-16"
-				use:swipe={{ touchAction: 'pan-y' }}
-				on:swipe={handleSwipe}
+				{...useSwipe(handleSwipe, () => ({ touchAction: 'pan-y' }))}
 			>
 				<div
 					style="width: {tripledImages.length * 100}%; transform:translateX({((-sliderIndex / tripledImages.length) - (1/3 )) * 100}%);"
@@ -162,16 +158,16 @@
 				<div
 					class="flex flex-row justify-between items-center absolute bottom-6 left-6 gap-12"
 				>
-					<button class="bump" on:click={slideRight}
-						><i class="fa-sharp fa-regular fa-arrow-left fa-2xl text-white drop-shadow-lg" /></button
+					<button class="bump" onclick={slideRight} aria-label="Previous image">
+						<i class="fa-sharp fa-regular fa-arrow-left fa-2xl text-white drop-shadow-lg"></i></button
 					>
-					<button class="bump" on:click={slideLeft}
-						><i class="fa-sharp fa-regular fa-arrow-right fa-2xl text-white drop-shadow-lg" /></button
+					<button class="bump" onclick={slideLeft} aria-label="Next image">
+						<i class="fa-sharp fa-regular fa-arrow-right fa-2xl text-white drop-shadow-lg"></i></button
 					>
 				</div>
 				<div class= "flex flex-row justify-between items-end absolute bottom-6 right-6">
-					<button class="bump" on:click={openModal}
-						><i class="fa-sharp fa-regular fa-plus fa-2xl text-white" /></button
+					<button class="bump" onclick={openModal}
+							aria-label="View full size"><i class="fa-sharp fa-regular fa-plus fa-2xl text-white"></i></button
 					>
 				</div>
 			</div>
@@ -198,8 +194,8 @@
 		class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-60 flex justify-center items-center z-50"   
 		transition:fade
 	>
-		<button class="absolute w-full h-full" on:click={closeModal}> </button>
-		<button class="w-4/5 aspect-video relative">
+		<button class="absolute w-full h-full" onclick={closeModal} aria-label="Close"></button>
+		<div class="w-4/5 aspect-video relative">
 			<img
 				src={slice.primary.placeholder_image.url || placeholderThumbnail}
 				alt="video thumbnail placeholder"
@@ -210,16 +206,18 @@
 			>
 				<button
 					class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump"
+					aria-label="Play video"
 				>
 					<i class="fa-solid fa-circle-play fa-2xl"></i>
 				</button>
 				<button
 					class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump"
+					aria-label="Toggle sound"
 				>
 					<i class="fa-solid fa-volume-high fa-2xl"></i>
 				</button>
 			</div>
-		</button>
+		</div>
 	</div>
 {/if}
 
@@ -228,12 +226,11 @@
 		class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
 		transition:fade
 	>
-		<button class="absolute w-full h-full" on:click={closeModal}> </button>
+		<button class="absolute w-full h-full" onclick={closeModal} aria-label="Close"></button>
 
 		<div
 				class="w-full h-full overflow-hidden relative"
-				use:swipe={{ touchAction: 'pan-y' }}
-				on:swipe={handleSwipe}
+				{...useSwipe(handleSwipe, () => ({ touchAction: 'pan-y' }))}
 			>
 				<div
 					style="width: {tripledImages.length * 100}%; transform:translateX({((-sliderIndex / tripledImages.length) - (1/3 )) * 100}%);"
@@ -255,16 +252,16 @@
 				<div
 					class="w-36 h-12 flex flex-row justify-between items-center absolute bottom-12 left-12"
 				>
-					<button class="bump" on:click={slideRight}
-						><i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl" /></button
+					<button class="bump" onclick={slideRight} aria-label="Previous image">
+						<i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl"></i></button
 					>
-					<button class="bump" on:click={slideLeft}
-						><i class="fa-sharp fa-regular fa-arrow-right text-white fa-2xl" /></button
+					<button class="bump" onclick={slideLeft} aria-label="Next image">
+						<i class="fa-sharp fa-regular fa-arrow-right text-white fa-2xl"></i></button
 					>
 				</div>
 				<div class="w-12 h-12 flex flex-row justify-between items-end absolute bottom-12 right-12">
-					<button class="bump" on:click={closeModal}
-						><i class="fa-sharp fa-regular fa-plus text-white rotate-45 fa-2xl" /></button
+					<button class="bump" onclick={closeModal}
+							aria-label="Close"><i class="fa-sharp fa-regular fa-plus text-white rotate-45 fa-2xl"></i></button
 					>
 				</div>
 			</div>

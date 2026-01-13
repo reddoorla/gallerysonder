@@ -1,16 +1,18 @@
-<script>
+<script lang="ts">
 	import { PrismicRichText } from '@prismicio/svelte';
 	import Label from './Label.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
-	import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { isFilled } from '@prismicio/client';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
+	import type { Content } from '@prismicio/client';
 
-	/** @type {import("@prismicio/client").Content.RichTextSlice} */
-	export let slice;
+	const appState = getAppState();
+
+	let { slice }: { slice: Content.RichTextSlice } = $props();
 </script>
 
-<section style="background-color:{$backgroundColor}" class="w-screen transition duration-1000 {slice.primary.hide ? 'hidden' : ''}">
+<section style="background-color:{appState.backgroundColor}" class="w-screen transition duration-1000 {slice.primary.hide ? 'hidden' : ''}">
 	<ContentWidth class="w-full flex flex-col items-start lg:pl-20 py-{parseInt(slice.primary.slice_vertical_padding)/2} sm:py-{slice.primary.slice_vertical_padding}">
 		<div class="sm:w-{slice.primary.desktop_width} whitespace-pre-line rich-text pr-4 md:pr-0">
 		<PrismicRichText

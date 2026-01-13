@@ -10,32 +10,31 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
 
-	import { isIntroRunning } from '$lib/stores/intro';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 
 	import { fade } from 'svelte/transition';
 	import AnimateIn from '$lib/components/Animation/AnimateIn.svelte';
-	import { backgroundColorDefault } from '$lib/stores/backgroundColorDefault.js';
 	import Intro from '$lib/components/Intro.svelte';
 
-	export let data;
+	const appState = getAppState();
 
-	const content = data.page.data;
+	let { data } = $props();
 
-	let viewportWidth: number;
-	let viewportHeight: number;
+	let content = $derived(data.page.data);
 
-	let showPresentedArtist = false;
-	let showEyebrow = false;
+	let viewportWidth = $state(0);
+	let viewportHeight = $state(0);
 
-	let theBottomOfTheTop: HTMLElement;
+	let showPresentedArtist = $state(false);
+	let showEyebrow = $state(false);
 
-	let slicesSections: string[] = [];
-	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
+	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
-	let sections: string[] = [];
-	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
+	let slicesSections = $derived(data.page.data.slices.map((slice) => slice.primary?.sectionLabel || ''));
 
-	let isBackgroundDark = false;
+	let sections = $derived(data.page.data.sections.map((section) => section.section || ''));
+
+	let isBackgroundDark = $state(false);
 
 	const checkPosition = () => {
 		if (theBottomOfTheTop && theBottomOfTheTop.getBoundingClientRect().bottom < 0) {
@@ -45,23 +44,21 @@
 		}
 	};
 
+	$effect(function animatePageElementsAfterIntro() {
+		if (!appState.isIntroRunning) {
+			checkPosition();
+			setTimeout(() => (showPresentedArtist = true), 500);
+			setTimeout(() => (showEyebrow = true), 1000);
+		}
+	});
+
 	onMount(() => {
-		isIntroRunning.set(false)
-		const unsubscribe = isIntroRunning.subscribe((value) => {
-			if (!value) {
-				checkPosition();
-				setTimeout(() => (showPresentedArtist = true), 500);
-				setTimeout(() => (showEyebrow = true), 1000);
-			}
-		});
-
+		appState.isIntroRunning = false;
 		window.addEventListener('scroll', checkPosition);
-		backgroundColorDefault.set(content.default_background_color||'#E4EEEA')
-
-
+		appState.backgroundColorDefault = content.default_background_color || '#E4EEEA';
 
 		return () => {
-			unsubscribe();
+			window.removeEventListener('scroll', checkPosition);
 		};
 	});
 </script>
@@ -97,7 +94,7 @@
 		? 'opacity-55'
 		: 'opacity-20'}"
 	transition:fade
-/>
+></div>
 </div>
 
 <div class="fixed w-screen h-screen-75 bottom-0">
@@ -139,9 +136,9 @@
 {#key data}
 	<InnerPageNav {slicesSections} {sections} />
 {/key}
-<div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
-	<div class="h-screen lg:h-[20vh]" />
-	<div class="h-1" bind:this={theBottomOfTheTop} />
+<div class="flex flex-col" id="content-container" onscroll={checkPosition}>
+	<div class="h-screen"></div>
+	<div class="h-1" bind:this={theBottomOfTheTop}></div>
 
 	<SliceZone slices={data.page.data.slices} {components} />
 

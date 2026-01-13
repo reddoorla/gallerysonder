@@ -5,17 +5,19 @@
 
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 
-	import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { PrismicRichText } from '@prismicio/svelte';
 	import * as prismicH from '@prismicio/helpers';
 
-	let viewportWidth = 1024;
+	const appState = getAppState();
 
-		$: customFontSize = slice.primary.text_size 
-		? (viewportWidth > 1024 ? slice.primary.text_size : slice.primary.text_size / 2) 
-		: (viewportWidth > 1024 ? 66 : viewportWidth>768 ? 42 : 24) ;
+	let viewportWidth = $state(1024);
 
-	export let slice: QuoteBlockSlice;
+	let { slice }: { slice: QuoteBlockSlice } = $props();
+
+	let customFontSize = $derived(slice.primary.text_size
+		? (viewportWidth > 1024 ? slice.primary.text_size : slice.primary.text_size / 2)
+		: (viewportWidth > 1024 ? 66 : viewportWidth>768 ? 42 : 24));
 </script>
 <style>
 	.quote :global(*) {
@@ -40,7 +42,7 @@
 						>
 							<path
 								d="M11.5915 8.41463C9.57247 8.89024 8.15915 10.2073 7.83611 11.8171C9.73397 11.8537 11.1473 13.1707 11.1473 14.8902C11.1473 16.6463 9.69361 18 7.75537 18C5.37294 18 4 16.5 4 13.9024C4 9.95122 6.66508 6.80488 10.7031 6L11.5915 8.41463ZM17.2447 11.8171C19.1425 11.8537 20.5558 13.1707 20.5558 14.8902C20.5558 16.6463 19.1021 18 17.1639 18C14.7815 18 13.4086 16.5 13.4086 13.9024C13.4086 9.95122 16.0737 6.80488 20.1117 6L21 8.41463C18.981 8.89024 17.5677 10.2073 17.2447 11.8171Z"
-								fill={$backgroundColor}
+								fill={appState.backgroundColor}
 							/>
 						</svg>
 					</div>

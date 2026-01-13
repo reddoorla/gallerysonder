@@ -3,109 +3,71 @@
 
 	import type { TitleBlockSlice } from '../../../prismicio-types';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
-	import { backgroundColor } from '$lib/stores/backgroundColor';
+	import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import { isFilled } from '@prismicio/helpers';
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
 	import { slide } from 'svelte/transition';
-	import { isNewsletterActive } from '$lib/stores/isNewsletterActive';
-	import { hasNewsletterBeenCleared } from '$lib/stores/hasNewsletterBeenCleared';
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { populateHiddenForm, submitNetlifyForm } from '$lib/utils/forms';
 
-	let viewportWidth: number;
-	let submitted = false;
-	let error = false;
+	const appState = getAppState();
 
-	export let slice: TitleBlockSlice;
+	let viewportWidth = $state(0);
+	let submitted = $state(false);
+	let error = $state(false);
 
-	let showFullBody = false;
-	let showContactForm = $page.url.searchParams.has('inquire');
+	let { slice }: { slice: TitleBlockSlice } = $props();
 
-	let formName:string;
-	let formCompany:string;
-	let formPhone:string;
-	let formEmail:string;
-	let formMessage:string;
+	let showFullBody = $state(false);
+	let showContactForm = $state($page.url.searchParams.has('inquire'));
 
-	const submitForm = async (formElement:HTMLFormElement) => {
-  const formData = new FormData(formElement);
-  
+	let formName = $state('');
+	let formCompany = $state('');
+	let formPhone = $state('');
+	let formEmail = $state('');
+	let formMessage = $state('');
 
- 
-    const response = await fetch("/forms", { 
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        //@ts-ignore
-      body: new URLSearchParams(formData).toString()
-    });
+	const triggerSubmitButton = async () => {
+		const populated = populateHiddenForm('netlifyContactForm', {
+			name: formName,
+			company: formCompany,
+			phone: formPhone,
+			email: formEmail,
+			message: formMessage
+		});
 
+		if (populated) {
+			const form = document.getElementById('netlifyContactForm') as HTMLFormElement;
+			const result = await submitNetlifyForm(form);
 
-	submitted = true;
+			submitted = true;
+			error = !result.success;
 
-	if (response.status !== 200)
-		error = true;
-
-}
-
-
-	const triggerSubmitButton = () => {
-   
-    const hiddenForm = document.getElementById('netlifyContactForm') as HTMLFormElement;
-    
-    if (hiddenForm) {
-      
-      const hiddenName = hiddenForm.querySelector('[name="name"]') as HTMLInputElement;
-      const hiddenCompany = hiddenForm.querySelector('[name="company"]') as HTMLInputElement;
-      const hiddenPhone = hiddenForm.querySelector('[name="phone"]') as HTMLInputElement;
-      const hiddenEmail = hiddenForm.querySelector('[name="email"]') as HTMLInputElement;
-      const hiddenMessage = hiddenForm.querySelector('[name="message"]') as HTMLTextAreaElement;
-      
-  
-      if (hiddenName) hiddenName.value = formName;
-      if (hiddenCompany) hiddenCompany.value = formCompany;
-      if (hiddenPhone) hiddenPhone.value = formPhone;
-      if (hiddenEmail) hiddenEmail.value = formEmail;
-      if (hiddenMessage) hiddenMessage.value = formMessage;
-
-      submitForm(hiddenForm);
-      console.log('submitted');
-    }
-  };
+			console.log('submitted');
+		}
+	};
 
 
-	let shape:HTMLElement;
-	let shapeHeight:number;
+	let shape = $state<HTMLElement | undefined>(undefined);
+	let shapeHeight = $state(0);
 
 	onMount(()=>{
 		if(shape)
-			shapeHeight=shape.getBoundingClientRect().height	
+			shapeHeight=shape.getBoundingClientRect().height
 	}
 )
 </script>
 
 <style>
-
-
-    input, textarea, select {
+    input, textarea {
         background-color: rgba(255, 255, 255, 0.4);
         border-radius: 2px;
     }
-    
-input[type="number"] {
-  -webkit-appearance: textfield;
-     -moz-appearance: textfield;
-          appearance: textfield;
-}
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none;
-}
-
-
 </style>
 
 
@@ -120,7 +82,7 @@ input[type=number]::-webkit-outer-spin-button {
 	data-slice-variation={slice.variation}
 
 	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""} {slice.primary.hide ? 'hidden' : ''}"
-	style="background-color: {$backgroundColor} "
+	style="background-color: {appState.backgroundColor} "
 >
 {#if slice.primary.shape_top !== '0'}<div
 class="-translate-y-[99%] "
@@ -171,7 +133,7 @@ bind:this={shape}
 							  {/key}
 						  </div>
 							<LinkPlusToggle
-								click={() => (showFullBody = !showFullBody)}
+								onclick={() => (showFullBody = !showFullBody)}
 								text={showFullBody ? 'Show Less' : 'Read More'}
 							/>
 							
@@ -211,10 +173,10 @@ bind:this={shape}
 			{/if}
 			<div class="flex flex-row gap-6 mb-8">
 			{#if slice.primary.button_text}
-				<LinkPlusToggle startsActive={showContactForm} text={slice.primary.button_text||'Inquire'} click={()=>{showContactForm=!showContactForm}} />
+				<LinkPlusToggle startsActive={showContactForm} text={slice.primary.button_text||'Inquire'} onclick={()=>{showContactForm=!showContactForm}} />
 			{/if}
 			{#if slice.primary.button_text}
-				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} click={()=>{$hasNewsletterBeenCleared=false;$isNewsletterActive=true;}} />
+				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} onclick={()=>{appState.hasNewsletterBeenCleared=false;appState.isNewsletterActive=true;}} />
 			{/if}
 			</div>
 			{#if showContactForm}
@@ -240,10 +202,10 @@ bind:this={shape}
 					</p>
 					
 					<p>Message</p>
-					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"/>
+					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 	  
 				
-                        <button type="submit" on:click={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
+                        <button type="submit" onclick={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
                  
                
 			   	{:else if error}
@@ -255,7 +217,7 @@ bind:this={shape}
 			   {/if}
 			<div class="flex flex-row gap-6">
 				{#if isFilled.link(slice.primary.instagram)}
-					<a href={slice.primary.instagram.url}><i class="fa-brands fa-instagram fa-lg"/></a>
+					<a href={slice.primary.instagram.url} aria-label="Visit Gallery Sonder on Instagram"><i class="fa-brands fa-instagram fa-lg"></i></a>
 				{/if}
 			</div>
 		{/if}

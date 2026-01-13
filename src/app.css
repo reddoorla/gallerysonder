@@ -1,6 +1,52 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+
+
+@theme {
+	--breakpoint-sm: 560px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 1024px;
+	--breakpoint-xl: 1340px;
+	--breakpoint-2xl: 1800px;
+
+	--color-subtle-primary: #E4EEEA;
+	--color-mid-primary: #D7E7D9;
+	--color-dark-primary: #9CC0BC;
+	--color-accent-pink: #E8587C;
+	--color-accent-purple: #C28BE8;
+	--color-subtle-blue: #AACDEC;
+	--color-subtle-mauve: #DDB8CA;
+	--color-subtle-tan: #F2E8D9;
+	--color-dark-grey: #ABABAB;
+	--color-cold-grey: #E7E8EB;
+	--color-warm-grey: #F3F3F3;
+
+	--ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+	--ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+	--ease-fast-slow: cubic-bezier(0.25, 0.1, 0.25, 0.5, 1);
+
+	--spacing-112: 28rem;
+	--spacing-128: 32rem;
+	--spacing-144: 36rem;
+	--spacing-160: 40rem;
+	--spacing-192: 48rem;
+	--spacing-256: 64rem;
+	--spacing-384: 96rem;
+	--spacing-512: 128rem;
+	--spacing-640: 160rem;
+	--spacing-screen-75: 75vh;
+	--spacing-screen-50: 50vh;
+	--spacing-screen-25: 25vh;
+	--spacing-screen-10: 10vh;
+	--spacing-screen-5: 5vh;
+}
+
+
+@source inline("{sm:,lg:,xl:}w-{full,4/5,3/4,2/3,1/2,1/3,1/4,1/5}");
+
+@source inline("{sm:,md:,lg:,xl:,}{py,pt,pb}-{0,4,8,16,32}");
+
+@layer base{
 
 body {
 	background-color: black;
@@ -20,7 +66,7 @@ h1 {
 	font-size: 120px;
 	font-style: normal;
 	font-weight: 700;
-	line-height: 1.1em; /* 100% */
+	line-height: 1.1em;
 	text-transform: uppercase;
 }
 
@@ -31,51 +77,48 @@ h2 {
 		'clig' off,
 		'liga' off;
 
-	/* H2 - Bold */
 	font-family: 'commuters-sans';
 	font-size: 50px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 64px; /* 128% */
+	line-height: 64px;
 }
 
 h3 {
-	color: #000;
+
 	font-feature-settings:
 		'clig' off,
 		'liga' off;
 
-	/* H3 - Bold */
 	font-family: 'commuters-sans';
 	font-size: 38px;
 	font-style: normal;
 	font-weight: 700;
-	line-height: 48px; /* 126.316% */
+	line-height: 48px;
 	letter-spacing: 1.5px;
 	text-transform: uppercase;
 }
 
 h4 {
-	color: #000;
+
 	leading-trim: both;
 	text-edge: cap;
 	font-feature-settings:
 		'clig' off,
 		'liga' off;
 
-	/* H4 - Bold */
 	font-family: 'commuters-sans';
 	font-size: 28px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 38px; /* 135.714% */
+	line-height: 38px;
 }
 h4 b{
 	font-weight: 800;
 }
 
 h5 {
-	color: #000;
+
 	font-feature-settings:
 		'clig' off,
 		'liga' off;
@@ -93,19 +136,18 @@ h5 b, h6 b {
 }
 
 h6 {
-	color: var(--Black, #000);
+
 	leading-trim: both;
 
 	text-edge: cap;
 	font-feature-settings:
 		'clig' off,
 		'liga' off;
-	/* H6 - reg */
 	font-family: 'commuters-sans';
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 150%; /* 21px */
+	line-height: 150%;
 	letter-spacing: 1.5px;
 	text-transform: uppercase;
 }
@@ -116,7 +158,6 @@ p, input, textarea, form button {
 		'clig' off,
 		'liga' off;
 
-	/* Paragraph */
 	font-family: 'rig-sans';
 	overflow: hidden;
 
@@ -127,19 +168,18 @@ p, input, textarea, form button {
 	font-size: 18px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 150%; /* 27px */
+	line-height: 150%;
 	letter-spacing: 0.25px;
 }
 
 div {
 
 
-	/* Paragraph 2 */
 	font-family: 'rig-sans';
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 20px; /* 142.857% */
+	line-height: 20px;
 	letter-spacing: 0.07px;
 }
 
@@ -166,7 +206,7 @@ button {
 	font-size: 66px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 80px; /* 121.212% */
+	line-height: 80px;
 }
 
 @media screen and (max-width: 1600px) {
@@ -188,7 +228,7 @@ button {
 		font-size: 48px;
 		font-style: normal;
 		font-weight: 700;
-		line-height: 125%; /* 60px */
+		line-height: 125%;
 		text-transform: uppercase;
 	}
 
@@ -203,14 +243,14 @@ button {
 		font-size: 28px;
 		font-style: normal;
 		font-weight: 400;
-		line-height: 38px; /* 135.714% */
+		line-height: 38px;
 	}
 
 	.quote p{
 			font-size: 42px;
 			font-style: normal;
 			font-weight: 400;
-			line-height: 1.2em; /* 121.212% */
+			line-height: 1.2em;
 		}
 
 	
@@ -230,14 +270,14 @@ button {
 		font-size: 24px;
 		font-style: normal;
 		font-weight: 400;
-		line-height: 125%; /* 40px */
+		line-height: 125%;
 	}
 
 
 	h2{
 
 		font-size: 22px;
-		line-height: 125%; /* 60px */
+		line-height: 125%;
 
 	}
 }
@@ -249,7 +289,6 @@ a {
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
-	text-decoration-line: underline;
 
 	transition: opacity 500ms ease-out;
 }
@@ -259,22 +298,15 @@ a {
 	cursor: pointer;
 }
 
-.filter-to-accent-pink {
-	filter: brightness(0) invert(52%) sepia(51%) saturate(3738%) hue-rotate(314deg) brightness(97%)
-		contrast(86%);
+button {
+	cursor: pointer;
 }
 
-.filter-to-accent-pink-on-hover:hover {
-	filter: brightness(0) invert(52%) sepia(51%) saturate(3738%) hue-rotate(314deg) brightness(97%)
-		contrast(86%);
-}
 
-.bump {
-	transition: transform 300ms ease-out;
-}
+
 
 .bump:active {
-	transform: translateY(-8px);
+	transform: translateY(-1px);
 }
 
 .use-gpu {
@@ -308,4 +340,15 @@ a {
 
 .rich-text h5{
 	letter-spacing: normal;
+}
+}
+
+.filter-to-accent-pink {
+	filter: brightness(0) invert(52%) sepia(51%) saturate(3738%) hue-rotate(314deg) brightness(97%)
+		contrast(86%);
+}
+
+.filter-to-accent-pink-on-hover:hover {
+	filter: brightness(0) invert(52%) sepia(51%) saturate(3738%) hue-rotate(314deg) brightness(97%)
+		contrast(86%);
 }
