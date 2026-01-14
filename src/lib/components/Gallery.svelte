@@ -216,7 +216,7 @@
 			<div class="flex flex-row no-underline overflow-hidden">
 				<button class="w-1/2 pr-16 no-underline pointer-events-none">
 					<GridImage
-						class="w-full aspect-[8/5]"
+						class="w-full aspect-8/5"
 						src={item.image.url || ''}
 						alt={item.titleOne || item.titleTwo || ''}
 						willOpen={item.willOpen}

@@ -18,6 +18,7 @@
 	import Analytics from '$lib/components/Analytics.svelte';
 
 	const appState = setAppState();
+	const DISABLE_COOKIE_CONSENT = import.meta.env.DISABLE_COOKIE_CONSENT === 'true';
 
 	let { data } = $props();
 
@@ -87,8 +88,10 @@
 </svelte:head>
 <NewsletterSignup />
 
-<CookieConsent />
-<Analytics />
+{#if !DISABLE_COOKIE_CONSENT}
+	<CookieConsent />
+	<Analytics />
+{/if}
 
 <main>
 
