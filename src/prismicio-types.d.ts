@@ -1959,6 +1959,17 @@ export interface RichTextSliceDefaultPrimary {
 	desktop_width: prismic.SelectField<'full' | '4/5' | '3/4' | '2/3' | '1/2' | '1/3', 'filled'>;
 
 	/**
+	 * float field in *RichText → Default → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: left
+	 * - **API ID Path**: rich_text.default.primary.float
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	float: prismic.SelectField<'left' | 'right', 'filled'>;
+
+	/**
 	 * slice vertical padding field in *RichText → Default → Primary*
 	 *
 	 * - **Field Type**: Select
@@ -2082,6 +2093,17 @@ export interface TitleBlockSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	desktop_body_width: prismic.SelectField<'full' | '2/3' | '1/2' | '1/3' | '1/4', 'filled'>;
+
+	/**
+	 * float field in *TitleBlock → Default → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: left
+	 * - **API ID Path**: title_block.default.primary.float
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	float: prismic.SelectField<'left' | 'right', 'filled'>;
 
 	/**
 	 * button_text field in *TitleBlock → Default → Primary*
@@ -2627,6 +2649,17 @@ export interface VideoBlockSliceImagePrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	desktop_width: prismic.SelectField<'full' | '3/4' | '2/3' | '1/2' | '1/3' | '1/4', 'filled'>;
+
+	/**
+	 * float field in *ContentWidthMedia → image → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: left
+	 * - **API ID Path**: video_block.image.primary.float
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	float: prismic.SelectField<'left' | 'right', 'filled'>;
 
 	/**
 	 * hide field in *ContentWidthMedia → image → Primary*

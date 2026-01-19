@@ -148,7 +148,7 @@
 		{:else if slice.variation === 'default'}
 			<PrismicImage field={slice.primary.placeholder_image} class="w-full aspect-video mt-16" />
 		{:else if slice.variation === 'image'}
-			<PrismicImage field={slice.primary.image} class="{getDesktopWidthClass()} mt-16" />
+			<PrismicImage field={slice.primary.image} class="{getDesktopWidthClass()} {slice.primary.float === 'right' ? 'lg:ml-auto' : ''} mt-16" />
 		{:else if slice.variation === 'slideshow'}
 			<div
 				class="w-full aspect-square md:aspect-video overflow-hidden relative mt-16"

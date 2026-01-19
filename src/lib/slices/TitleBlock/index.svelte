@@ -102,7 +102,7 @@ bind:this={shape}
 				<h6 class="mt-3"><b>{slice.primary.subtitle || ''}</b></h6>
 			{/if}
 			{#if slice.primary.body}
-				<div class="xl:w-{slice.primary.desktop_body_width} rich-text mt-6">
+				<div class="xl:w-{slice.primary.desktop_body_width} {slice.primary.float === 'right' ? 'xl:ml-auto' : ''} rich-text mt-6">
 					<PrismicRichText field={slice.primary.body} />
 				</div>
 			{/if}

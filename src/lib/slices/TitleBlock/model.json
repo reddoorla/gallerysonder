@@ -57,6 +57,18 @@
             "default_value": "full"
           }
         },
+        "float": {
+          "type": "Select",
+          "config": {
+            "label": "float",
+            "placeholder": "",
+            "options": [
+              "left",
+              "right"
+            ],
+            "default_value": "left"
+          }
+        },
         "button_text": {
           "type": "Text",
           "config": {

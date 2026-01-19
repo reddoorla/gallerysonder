@@ -193,6 +193,18 @@
             "default_value": "full"
           }
         },
+        "float": {
+          "type": "Select",
+          "config": {
+            "label": "float",
+            "placeholder": "",
+            "options": [
+              "left",
+              "right"
+            ],
+            "default_value": "left"
+          }
+        },
         "hide": {
           "type": "Boolean",
           "config": {

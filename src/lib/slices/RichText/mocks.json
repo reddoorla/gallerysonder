@@ -24,12 +24,18 @@
 				"value": "1/2",
 				"type": "Select"
 			},
+			"float": {
+				"__TYPE__": "FieldContent",
+				"value": "left",
+				"type": "Select"
+			},
 			"slice_vertical_padding": {
 				"__TYPE__": "FieldContent",
 				"value": "0",
 				"type": "Select"
 			},
 			"button_link": {
+				"key": "ca206c59-2a67-4606-ae1e-3a7bc16f86d4",
 				"__TYPE__": "LinkContent",
 				"value": {
 					"__TYPE__": "ExternalLink",

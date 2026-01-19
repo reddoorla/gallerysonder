@@ -46,6 +46,18 @@
             "default_value": "full"
           }
         },
+        "float": {
+          "type": "Select",
+          "config": {
+            "label": "float",
+            "placeholder": "",
+            "options": [
+              "left",
+              "right"
+            ],
+            "default_value": "left"
+          }
+        },
         "slice_vertical_padding": {
           "type": "Select",
           "config": {

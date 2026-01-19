@@ -14,7 +14,7 @@
 
 <section style="background-color:{appState.backgroundColor}" class="w-screen transition duration-1000 {slice.primary.hide ? 'hidden' : ''}">
 	<ContentWidth class="w-full flex flex-col items-start lg:pl-20 py-{parseInt(slice.primary.slice_vertical_padding)/2} sm:py-{slice.primary.slice_vertical_padding}">
-		<div class="sm:w-{slice.primary.desktop_width} whitespace-pre-line rich-text pr-4 md:pr-0">
+		<div class="sm:w-{slice.primary.desktop_width} {slice.primary.float === 'right' ? 'sm:ml-auto' : ''} whitespace-pre-line rich-text pr-4 md:pr-0">
 		<PrismicRichText
 			field={slice.primary.content}
 			components={{

@@ -161,6 +161,11 @@
 				"__TYPE__": "FieldContent",
 				"value": "3/4",
 				"type": "Select"
+			},
+			"float": {
+				"__TYPE__": "FieldContent",
+				"value": "left",
+				"type": "Select"
 			}
 		},
 		"items": [
