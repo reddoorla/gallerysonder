@@ -156,6 +156,11 @@
 			"hide": {
 				"__TYPE__": "BooleanContent",
 				"value": true
+			},
+			"desktop_width": {
+				"__TYPE__": "FieldContent",
+				"value": "3/4",
+				"type": "Select"
 			}
 		},
 		"items": [

@@ -2618,6 +2618,17 @@ export interface VideoBlockSliceImagePrimary {
 	eyebrow: prismic.KeyTextField;
 
 	/**
+	 * desktop width field in *ContentWidthMedia → image → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: full
+	 * - **API ID Path**: video_block.image.primary.desktop_width
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	desktop_width: prismic.SelectField<'full' | '3/4' | '2/3' | '1/2' | '1/3' | '1/4', 'filled'>;
+
+	/**
 	 * hide field in *ContentWidthMedia → image → Primary*
 	 *
 	 * - **Field Type**: Boolean

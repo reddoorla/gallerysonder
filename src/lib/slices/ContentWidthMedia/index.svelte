@@ -78,6 +78,22 @@
 		if (event.detail.direction === 'left') slideLeft();
 		if (event.detail.direction === 'right') slideRight();
 	}
+
+	const desktopWidthClasses: Record<string, string> = {
+		'full': 'w-full',
+		'3/4': 'w-full lg:w-3/4',
+		'2/3': 'w-full lg:w-2/3',
+		'1/2': 'w-full lg:w-1/2',
+		'1/3': 'w-full lg:w-1/3',
+		'1/4': 'w-full lg:w-1/4'
+	};
+
+	const getDesktopWidthClass = () => {
+		if (slice.variation === 'image' && slice.primary.desktop_width) {
+			return desktopWidthClasses[slice.primary.desktop_width] || 'w-full';
+		}
+		return 'w-full';
+	};
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
@@ -132,7 +148,7 @@
 		{:else if slice.variation === 'default'}
 			<PrismicImage field={slice.primary.placeholder_image} class="w-full aspect-video mt-16" />
 		{:else if slice.variation === 'image'}
-			<PrismicImage field={slice.primary.image} class="w-full mt-16" />
+			<PrismicImage field={slice.primary.image} class="{getDesktopWidthClass()} mt-16" />
 		{:else if slice.variation === 'slideshow'}
 			<div
 				class="w-full aspect-square md:aspect-video overflow-hidden relative mt-16"
