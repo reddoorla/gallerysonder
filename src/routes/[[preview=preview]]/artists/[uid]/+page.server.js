@@ -8,9 +8,9 @@ export async function load({ params, fetch, cookies, depends }) {
 
 	return {
 		page,
-		title: page.data.first_name ||  page.data.meta_title || "Gallery Sonder News",
+		title: page.data.meta_title || "Gallery Sonder",
 		meta_description: page.data.meta_description || "Gallery Sonder News",
-		meta_title: page.data.first_name ||  page.data.meta_title || "Gallery Sonder News",
+		meta_title: page.data.meta_title || "Gallery Sonder News",
 		meta_image: page.data.meta_image.url || page.data.background_image
 	};
 }
