@@ -24,7 +24,7 @@
 	let { slice }: { slice: TitleBlockSlice } = $props();
 
 	let showFullBody = $state(false);
-	let showContactForm = $state($page.url.searchParams.has('inquire'));
+	let showContactForm = $state(true);
 
 	let formName = $state('');
 	let formCompany = $state('');
