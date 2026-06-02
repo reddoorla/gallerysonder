@@ -190,10 +190,10 @@ bind:this={shape}
                 {#if !submitted}
 						
 					<p>Name</p>
-					<input type="text" name="name" bind:value={formName} required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
+					<input type="text" name="name" bind:value={formName} required placeholder="First and last name" class="w-full border-1 border-mid p-2 mb-4" />
 				
 					<p>Company Name</p>
-					<input type="text" name="company" bind:value={formCompany} placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
+					<input type="text" name="company" bind:value={formCompany} placeholder="Company name" class="w-full border-1 border-mid p-2 mb-4" />
 				
 					<p>Phone</p>
 					<input type="phone" name="phone"bind:value={formPhone} required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
@@ -202,7 +202,7 @@ bind:this={shape}
 					<input type="email" name="email" bind:value={formEmail} required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
 				
 					<p>Preferred appointment date <span class="opacity-50">(optional)</span></p>
-					<input type="text" name="appointment_date" bind:value={formDate} use:datepicker placeholder="select a date" aria-label="Preferred appointment date" class="w-full border-1 border-mid p-2 mb-4 bg-white/40 rounded-[2px]" />
+					<input type="text" name="appointment_date" bind:value={formDate} use:datepicker placeholder="Select a date" aria-label="Preferred appointment date" class="w-full border-1 border-mid p-2 mb-4 bg-white/40 rounded-[2px]" />
 
 					<p>Preferred time of day <span class="opacity-50">(optional)</span></p>
 					<Select
@@ -224,7 +224,7 @@ bind:this={shape}
 					</p>
 
 					<p>Message</p>
-					<textarea name="message" bind:value={formMessage} required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
+					<textarea name="message" bind:value={formMessage} required placeholder="How can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 	  
 				
                         <button type="submit" onclick={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>

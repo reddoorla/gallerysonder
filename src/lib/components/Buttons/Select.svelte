@@ -54,7 +54,7 @@
 		onclick={() => (open = !open)}
 		class="w-full border-1 border-mid p-2 bg-white/40 rounded-xs text-left flex items-center justify-between gap-2 cursor-pointer"
 	>
-		<span class={selectedLabel ? '' : 'text-black/50'}>{selectedLabel || placeholder}</span>
+		<span class={value ? '' : 'text-black/50'}>{selectedLabel || placeholder}</span>
 		<i
 			class="fa-sharp fa-light fa-chevron-down transition-transform duration-200 {open
 				? 'rotate-180'
