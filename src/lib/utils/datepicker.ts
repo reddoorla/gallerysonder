@@ -6,7 +6,8 @@ export function datepicker(node: HTMLInputElement, options: Options = {}) {
 	threeMonthsOut.setMonth(threeMonthsOut.getMonth() + 3);
 
 	const fp = flatpickr(node, {
-		dateFormat: 'Y-m-d',
+		// Submitted value (bound to the input) — MM-DD-YYYY, e.g. 06-15-2026.
+		dateFormat: 'm-d-Y',
 		minDate: 'today',
 		maxDate: threeMonthsOut,
 		altInput: true,
