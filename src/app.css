@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "flatpickr/dist/flatpickr.min.css";
 
 
 
@@ -351,4 +352,145 @@ button {
 .filter-to-accent-pink-on-hover:hover {
 	filter: brightness(0) invert(52%) sepia(51%) saturate(3738%) hue-rotate(314deg) brightness(97%)
 		contrast(86%);
+}
+
+/* Flatpickr theme overrides — match the mint palette with black/pink accents */
+.flatpickr-calendar {
+	background: white;
+	box-shadow: 0 8px 32px rgba(156, 192, 188, 0.3);
+	border-radius: 4px;
+	font-family: inherit;
+	border: 1px solid var(--color-mid-primary);
+}
+.flatpickr-calendar.arrowTop::before { border-bottom-color: var(--color-subtle-primary); }
+.flatpickr-calendar.arrowTop::after { border-bottom-color: var(--color-subtle-primary); }
+
+/* Header (month + year + arrows) — mint with black text */
+.flatpickr-months {
+	background: var(--color-subtle-primary);
+	border-radius: 4px 4px 0 0;
+	padding: 8px 0;
+	align-items: center;
+}
+.flatpickr-month {
+	color: black;
+	fill: black;
+	height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: visible;
+}
+.flatpickr-current-month {
+	font-size: 14px;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	line-height: 1.5;
+	height: auto;
+	overflow: visible;
+}
+.flatpickr-current-month .cur-month,
+.flatpickr-current-month input.cur-year {
+	color: black;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 1.5;
+}
+.flatpickr-current-month .numInputWrapper:hover { background: rgba(0, 0, 0, 0.05); }
+.flatpickr-current-month .numInputWrapper span.arrowUp::after { border-bottom-color: black; }
+.flatpickr-current-month .numInputWrapper span.arrowDown::after { border-top-color: black; }
+.flatpickr-current-month svg { display: none; }
+
+.flatpickr-monthDropdown-months {
+	color: black !important;
+	background: var(--color-subtle-primary) !important;
+	background-image: none !important;
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	appearance: none !important;
+	border: none;
+	outline: none;
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.5;
+	height: auto;
+	padding: 0 4px;
+	cursor: pointer;
+	text-indent: 0;
+	overflow: visible;
+}
+.flatpickr-monthDropdown-months::-ms-expand { display: none; }
+.flatpickr-monthDropdown-months:hover { background: var(--color-mid-primary) !important; }
+.flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+	background-color: var(--color-subtle-primary);
+	color: black;
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+	fill: black;
+	padding: 0 12px;
+	height: auto;
+	transform: translateY(25%);
+	display: flex;
+	align-items: center;
+}
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg { fill: black; }
+.flatpickr-prev-month:hover svg,
+.flatpickr-next-month:hover svg { fill: var(--color-accent-pink); opacity: 1; }
+
+/* Weekday row */
+.flatpickr-weekdays { background: white; padding: 8px 0 4px; }
+.flatpickr-weekdaycontainer { display: flex; }
+span.flatpickr-weekday {
+	background: white;
+	color: black;
+	font-weight: 700;
+	font-size: 10px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	opacity: 0.5;
+}
+
+/* Days */
+.flatpickr-day {
+	color: black;
+	border-radius: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+}
+.flatpickr-day:hover {
+	background: var(--color-mid-primary);
+	border-color: var(--color-mid-primary);
+	color: black;
+}
+.flatpickr-day.today {
+	border-color: var(--color-accent-pink);
+	color: black;
+}
+.flatpickr-day.today:hover:not(.selected) {
+	background: var(--color-accent-pink);
+	border-color: var(--color-accent-pink);
+	color: white;
+}
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover,
+.flatpickr-day.selected.today {
+	background: black;
+	border-color: black;
+	color: white;
+}
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay { color: rgba(0, 0, 0, 0.3); }
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover {
+	color: rgba(0, 0, 0, 0.2);
+	background: transparent;
 }

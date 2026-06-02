@@ -141,6 +141,13 @@
 		Don't fill this out if you're human: <input name="bot-field" />
 	  </label>
 	</p>
+	<input type="date" name="appointment_date" />
+	<select name="appointment_time">
+		<option value=""></option>
+		<option value="Morning">Morning</option>
+		<option value="Afternoon">Afternoon</option>
+		<option value="Evening">Evening</option>
+	</select>
 	<p>Message</p>
 	<textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 
