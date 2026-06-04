@@ -2,8 +2,6 @@
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
 	import { repositoryName } from '$lib/prismicio';
-	import logo from '$lib/assets/icons/SONDER_Logo.svg';
-	import VimeoPlayer from '$lib/components/VimeoPlayer.svelte';
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';

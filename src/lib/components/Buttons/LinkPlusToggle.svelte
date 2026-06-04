@@ -1,5 +1,4 @@
 <script lang="ts">
-	import linkArrow from '$lib/assets/icons/sonderArrowRight.svg';
 	import { onMount } from 'svelte';
 
 	let {

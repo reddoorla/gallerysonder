@@ -9,7 +9,7 @@ export async function submitNetlifyForm(formElement: HTMLFormElement): Promise<F
 	const response = await fetch("/forms", {
 		method: "POST",
 		headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		body: new URLSearchParams(formData as any).toString()
+		body: new URLSearchParams(formData as unknown as Record<string, string>).toString()
 	});
 
 	return {

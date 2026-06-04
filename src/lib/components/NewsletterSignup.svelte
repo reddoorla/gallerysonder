@@ -54,13 +54,8 @@
         }
     }
 
-    let hiddenForm:HTMLFormElement|undefined = $state();
-
     onMount(()=>{
         window.addEventListener('scroll', checkPosition);
-        hiddenForm = document?.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
-
-
     })
 
 

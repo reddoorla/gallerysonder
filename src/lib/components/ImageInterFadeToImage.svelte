@@ -10,6 +10,7 @@
 		intermediateImage = SonderLogoInter,
 		activeImage = SonderLogoActive,
 		href = '/',
+		// eslint-disable-next-line no-useless-assignment -- $bindable prop is an outbound binding consumed by the parent
 		activeBackgroundColor = $bindable('inherit'),
 		setBackgroundColor = 'inherit',
 		class: className = ''
@@ -24,7 +25,7 @@
 	} = $props();
 
 	let hovered = $state(false);
-	let showIntermediate = $state(false);
+	let _showIntermediate = $state(false);
 
 	$effect(function updateBackgroundAndIntermediateOnHover() {
 		if (hovered) {
@@ -33,8 +34,8 @@
 			activeBackgroundColor = 'inherit';
 		}
 
-		showIntermediate = true;
-		setTimeout(() => (showIntermediate = false), 100);
+		_showIntermediate = true;
+		setTimeout(() => (_showIntermediate = false), 100);
 	});
 </script>
 

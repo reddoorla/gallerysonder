@@ -96,7 +96,7 @@
 					<i class="fa-brands fa-instagram fa-2xl"></i>
 				</a>
 			</div>
-			{#each navProps as link}
+			{#each navProps as link, i (i)}
 				<NameRevealOnHover
 					activeImage={link.active_link.url || ''}
 					onmouseover={() => {(appState.backgroundColor = link.active_color || '#E4EEEA'); console.log(appState.backgroundColor)}}
@@ -104,7 +104,7 @@
 					href={prismicH.isFilled.link(link.link) ? link.link.url : '#'}
 					class="h-4 sm:h-6 md:h-10 lg:h-12"
 					onclick={() => {
-						(setTimeout(() => (showNav = false)), 300);
+						setTimeout(() => (showNav = false));
 					}}
 				/>
 			{/each}

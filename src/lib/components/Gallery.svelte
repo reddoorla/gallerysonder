@@ -1,11 +1,18 @@
 <script lang="ts">
-	import type { ImageGallerySlice, ImageGallerySliceDefaultItem } from '../../prismicio-types';
+	import type {
+		ImageGallerySlice,
+		ImageGallerySliceDefaultItem,
+		ArtworkDocumentData,
+		ArtistDocumentData,
+		ExhibitDocumentData,
+		NewsDocumentData
+	} from '../../prismicio-types';
 	import GridImage from './GridImage.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import * as prismicHelpers from '@prismicio/helpers';
 	import { slide } from 'svelte/transition';
 	import LinkPlusToggle from './Buttons/LinkPlusToggle.svelte';
-	import { asLink, isFilled } from '@prismicio/client';
+	import { isFilled } from '@prismicio/client';
 	import { onMount } from 'svelte';
 	import type { LinkField, ImageField, KeyTextField } from '@prismicio/client';
 	import { onNavigate } from '$app/navigation';
@@ -108,18 +115,18 @@
 			}
 
 			if(isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
-				const fetchedContent = await fetchFromRelationship<any>(item.artwork, 'artwork');
+				const fetchedContent = await fetchFromRelationship<ArtworkDocumentData>(item.artwork, 'artwork');
 
 				if (fetchedContent) {
 					itemData.artUID = item.artwork.uid;
 
 					if(!artist && isFilled.contentRelationship(fetchedContent.artist)) {
-						const artistContent = await fetchFromRelationship<any>(fetchedContent.artist, 'artist');
+						const artistContent = await fetchFromRelationship<ArtistDocumentData>(fetchedContent.artist, 'artist');
 						if (artistContent) {
-							artist = artistContent.full_name;
+							artist = artistContent.full_name ?? '';
 						}
 					}
-					title = fetchedContent.title;
+					title = fetchedContent.title ?? '';
 					if(!isFilled.image(itemData.image))
 						itemData.image = fetchedContent.primary_image;
 					if(!itemData.bodyOne)
@@ -135,7 +142,7 @@
 					}
 				}
 			} else if(isFilled.contentRelationship(item.exhibition) && item.exhibition.uid){
-				const fetchedContent = await fetchFromRelationship<any>(item.exhibition, 'exhibit');
+				const fetchedContent = await fetchFromRelationship<ExhibitDocumentData>(item.exhibition, 'exhibit');
 
 				if (fetchedContent) {
 					itemData.willOpen=false;
@@ -144,9 +151,9 @@
 						itemData.eyebrow=fetchedContent.dates;
 
 					if(!artist) {
-						artist = fetchedContent.artist;
+						artist = fetchedContent.artist ?? '';
 					}
-					title = fetchedContent.title;
+					title = fetchedContent.title ?? '';
 					if(!isFilled.image(itemData.image)&&isFilled.image(fetchedContent.primary_image))
 						itemData.image = fetchedContent.primary_image;
 					if(!itemData.bodyOne)
@@ -160,11 +167,11 @@
 						};
 				}
 			} else if(isFilled.contentRelationship(item.news) && item.news.uid) {
-				const fetchedContent = await fetchFromRelationship<any>(item.news, 'news');
+				const fetchedContent = await fetchFromRelationship<NewsDocumentData>(item.news, 'news');
 
 				if (fetchedContent) {
 					itemData.willOpen = false;
-					title = fetchedContent.full_name;
+					title = fetchedContent.full_name ?? '';
 					if(!isFilled.image(itemData.image))
 						itemData.image = fetchedContent.nav_image || fetchedContent.background_image;
 

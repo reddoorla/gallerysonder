@@ -1,4 +1,7 @@
 import { createClient, isFilled, type ContentRelationshipField } from '@prismicio/client';
+import type { AllDocumentTypes } from '../../prismicio-types';
+
+type DocumentTypeId = AllDocumentTypes['type'];
 
 let clientInstance: ReturnType<typeof createClient> | null = null;
 
@@ -15,8 +18,8 @@ export function getPrismicClient() {
 /**
  * Fetch a document by type and UID, with error handling
  */
-export async function fetchDocument<T = any>(
-	type: string,
+export async function fetchDocument<T = unknown>(
+	type: DocumentTypeId,
 	uid: string
 ): Promise<T | null> {
 	try {
@@ -32,9 +35,9 @@ export async function fetchDocument<T = any>(
 /**
  * Fetch a document from a content relationship field
  */
-export async function fetchFromRelationship<T = any>(
+export async function fetchFromRelationship<T = unknown>(
 	relationship: ContentRelationshipField,
-	type: string
+	type: DocumentTypeId
 ): Promise<T | null> {
 	if (!isFilled.contentRelationship(relationship) || !relationship.uid) {
 		return null;

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { NameListSlice } from '../../../prismicio-types';
 	import * as prismicHelpers from '@prismicio/helpers';
-	import { asLink, isFilled, type LinkField } from '@prismicio/client';
+	import { isFilled, type LinkField } from '@prismicio/client';
+	import type { ArtistDocumentData } from '../../../prismicio-types';
 	import NameRevealOnHover from '$lib/components/NameRevealOnHover.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
@@ -36,7 +37,7 @@
 		  doubleHeight: item.doubleheight || false
 		};
 
-		const fetchedArtist = await fetchFromRelationship<any>(item.artist, 'artist');
+		const fetchedArtist = await fetchFromRelationship<ArtistDocumentData>(item.artist, 'artist');
 
 		if (fetchedArtist) {
 		  console.log('Fetched artist data:', fetchedArtist);
@@ -49,7 +50,11 @@
 			artistData.color = fetchedArtist.artist_color;
 		  }
 
-		  if (!isFilled.link(item.artist_page) && item.artist.uid) {
+		  if (
+			!isFilled.link(item.artist_page) &&
+			isFilled.contentRelationship(item.artist) &&
+			item.artist.uid
+		  ) {
 			artistData.link = {
 			  link_type: "Web",
 			  url: '/artists/' + item.artist.uid
@@ -97,7 +102,7 @@
 		   <span>Loading artists...</span>
 		 </div>
 	   {:else}
-		 {#each artistItems as item, i}
+		 {#each artistItems as item, i (i)}
 		   <NameRevealOnHover
 			 activeImage={item.activeImage}
 			 onmouseover={() => appState.backgroundColor = item.color}

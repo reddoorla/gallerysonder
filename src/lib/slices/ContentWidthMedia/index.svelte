@@ -35,10 +35,6 @@
 			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
 	};
 
-	const toggleVideoMute = () => {};
-
-	const toggleVideoPlay = () => {};
-
 	let imageArray = [];
 	let tripledImages: ImageField[] = [];
 	if (slice.variation === 'slideshow') {
@@ -159,7 +155,7 @@
 					class="flex flex-row justify-between flex-nowrap h-full overflow-hidden will-change-transform
 						{isSlideAnimated ? 'transition-transform duration-[2000ms] ease-fast-slow' : ''}"
 				>
-					{#each tripledImages as image}
+					{#each tripledImages as image, i (i)}
 						<div
 							style="width: {100 / tripledImages.length}%;"
 							class="h-full relative overflow-hidden will-change-transform"
@@ -253,7 +249,7 @@
 					class="flex flex-row justify-between flex-nowrap h-full overflow-hidden 
 						{isSlideAnimated ? 'transition-transform duration-[2000ms]' : ''}"
 				>
-					{#each tripledImages as image}
+					{#each tripledImages as image, i (i)}
 						<div
 							style="width: {100 / tripledImages.length}%;"
 							class="h-full w-full relative overflow-hidden"

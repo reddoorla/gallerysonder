@@ -127,18 +127,22 @@ setTimeout(()=>{
 		<p
 			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
+				: 'opacity-0 pointer-events-none delay-0'}">
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			{@html subtitle}</p
 		>
 		{/if}
 		{#if subtitleTwo}
 		<p
 			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
+				: 'opacity-0 pointer-events-none delay-0'}">
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			{@html subtitleTwo}</p
 		>
 		{/if}
 
-	
+
 	{:else}
 		{#if text}
 		<h5
@@ -152,14 +156,18 @@ setTimeout(()=>{
 		<p
 			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
+				: 'opacity-0 pointer-events-none delay-0'}">
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			{@html subtitle}</p
 		>
 		{/if}
 		{#if subtitleTwo}
 		<p
 			class="  transition-opacity use-gpu duration-500 {insetPercent < 8
 				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
+				: 'opacity-0 pointer-events-none delay-0'}">
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			{@html subtitleTwo}</p
 		>
 		{/if}
 	{/if}
@@ -203,14 +211,18 @@ setTimeout(()=>{
 			<p
 				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
+					: 'opacity-0 pointer-events-none delay-0'}">
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html subtitle}</p
 			>
 			{/if}
 			{#if subtitleTwo}
 			<p
 				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
+					: 'opacity-0 pointer-events-none delay-0'}">
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html subtitleTwo}</p
 			>
 			{/if}
 					{#if artworkUID}
@@ -234,14 +246,18 @@ setTimeout(()=>{
 			<p
 				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
+					: 'opacity-0 pointer-events-none delay-0'}">
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html subtitle}</p
 			>
 			{/if}
 			{#if subtitleTwo}
 			<p
 				class="  transition-opacity use-gpu duration-500 {insetPercent < 8
 					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
+					: 'opacity-0 pointer-events-none delay-0'}">
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html subtitleTwo}</p
 			>
 			{/if}
 					{#if artworkUID}

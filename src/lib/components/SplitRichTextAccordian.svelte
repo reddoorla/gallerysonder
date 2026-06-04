@@ -31,7 +31,7 @@
       let elements = Array.from(contentDiv.children) as HTMLElementWithOuterHTML[];
       const visibleElements: HTMLElementWithOuterHTML[] = [];
       const hiddenElements: HTMLElementWithOuterHTML[] = [];
-      let currentHeight = 0;
+      let _currentHeight = 0;
       if(elements.length>0)
         visibleElements.push(elements.shift() as HTMLElementWithOuterHTML);
       
@@ -40,7 +40,7 @@
         const { offsetTop, offsetHeight } = element;
         if (offsetTop + offsetHeight <= maxHeight) {
           visibleElements.push(element);
-          currentHeight = offsetTop + offsetHeight;
+          _currentHeight = offsetTop + offsetHeight;
         } else {
           hiddenElements.push(element);
         }
@@ -73,7 +73,8 @@
     {#if visibleContent}
       <!-- Always visible content -->
       <div class="space-y-4">
-        {#each visibleContent as element}
+        {#each visibleContent as element, i (i)}
+          <!-- eslint-disable-next-line svelte/no-at-html-tags -->
           {@html element.outerHTML}
         {/each}
       </div>
@@ -84,7 +85,8 @@
           transition:slide={{ duration: 400, easing: cubicOut }}
           class="space-y-4"
         >
-          {#each hiddenContent as element}
+          {#each hiddenContent as element, i (i)}
+            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
             {@html element.outerHTML}
           {/each}
         </div>

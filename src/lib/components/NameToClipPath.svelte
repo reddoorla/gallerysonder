@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-
 	import SonderLogoInactive from '$lib/assets/icons/sonderLogosExtended/SONDER_O.svg';
 	import SonderLogoActive from '$lib/assets/icons/sonderLogosExtended/SONDER_O.svg';
 	import { onMount } from 'svelte';
@@ -9,6 +7,7 @@
 		inactiveImage = SonderLogoInactive,
 		activeImage = SonderLogoActive,
 		href = '/',
+		// eslint-disable-next-line no-useless-assignment -- $bindable prop is an outbound binding consumed by the parent
 		activeBackgroundColor = $bindable('inherit'),
 		setBackgroundColor = 'inherit',
 		class: className = ''
@@ -22,7 +21,7 @@
 	} = $props();
 
 	let linkRef = $state<HTMLElement | undefined>(undefined);
-	let viewportWidth = $state<number>(0);
+	let _viewportWidth = $state<number>(0);
 	let viewportHeight = $state<number>(0);
 
 	let active = $state(false);
@@ -52,7 +51,7 @@
 	});
 </script>
 
-<svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
+<svelte:window bind:innerWidth={_viewportWidth} bind:innerHeight={viewportHeight} />
 
 <a
 	bind:this={linkRef}

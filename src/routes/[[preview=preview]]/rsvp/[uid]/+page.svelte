@@ -1,5 +1,4 @@
 <script lang='ts'>
-	import { page } from "$app/state";
     import ContentWidth from "$lib/components/ContentWidth.svelte";
 	import { getAppState } from "$lib/contexts/appState.svelte";
 	import { PrismicImage, PrismicRichText } from "@prismicio/svelte";

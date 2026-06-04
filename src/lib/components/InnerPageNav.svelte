@@ -17,7 +17,6 @@
 		slicesSections: string[];
 	} = $props();
 
-	const formattedSections = sections.map(section => section);
 	const formattedSlicesSections = slicesSections.map(section => section);
 
 	let fixedNav = $state<HTMLElement | undefined>(undefined);

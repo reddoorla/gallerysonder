@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { useSwipe, type SwipeCustomEvent } from 'svelte-gestures';
-	import { fade } from 'svelte/transition';
 	import { PrismicImage } from '@prismicio/svelte';
 	import type { ImageField } from '@prismicio/client';
 	import { isFilled } from '@prismicio/helpers';
@@ -9,7 +8,6 @@
 
 	const appState = getAppState();
 
-	let viewportWidth = $state<number>(0);
 	let imageArray = $state<ImageField[]>([]);
 	let tripledImages = $state<ImageField[]>([]);
 	let lastProcessedArtworkId = '';
@@ -97,7 +95,7 @@
 			class="flex flex-row justify-between flex-nowrap h-full w-full overflow-hidden
 		{isSlideAnimated ? 'transition-transform duration-[2000ms]' : ''}"
 		>
-			{#each tripledImages as image, i}
+			{#each tripledImages as image, i (i)}
 				<div style="width: {100 / tripledImages.length}%;" class="h-full relative overflow-hidden">
 					<PrismicImage
 						field={image}

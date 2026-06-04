@@ -40,18 +40,6 @@
 		}, INTRO_DURATION);
 	};
 
-	const togglePlayback = async () => {
-		try {
-			if (isPlaying) {
-				await vimeoPlayer.pause();
-			} else {
-				await vimeoPlayer.play();
-			}
-		} catch (error) {
-			console.error('Error toggling playback:', error);
-		}
-	};
-
 </script>
 
 <style>

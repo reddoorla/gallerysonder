@@ -2,7 +2,7 @@ import { createClient } from '$lib/prismicio';
 import { filter } from '@prismicio/client';
 import { redirect } from '@sveltejs/kit';
 
-export async function load({ params, fetch, cookies, depends }) {
+export async function load({ fetch, cookies }) {
 
     const client = createClient({ fetch, cookies });
   const page = await client.getFirst({

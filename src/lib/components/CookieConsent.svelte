@@ -3,22 +3,21 @@
   import { writable } from 'svelte/store';
   import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from './ContentWidth.svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
 	const appState = getAppState();
 
-        //@ts-nocheck
   export const cookieConsent = writable(false);
 
   let showModal = $state(false);
-  let hasConsented = $state(false);
+  let _hasConsented = $state(false);
 
   onMount(() => {
     const consent = localStorage.getItem('cookieConsent');
     if (consent !== null) {
       const accepted = consent === 'true';
       cookieConsent.set(accepted);
-      hasConsented = true;
+      _hasConsented = true;
 
       if (accepted) {
         initializeFacebookPixel();
@@ -35,12 +34,31 @@
   });
 
   function initializeFacebookPixel() {
-//@ts-ignore
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    //@ts-ignore
-    fbq('init', '1547698656610293');
-    //@ts-ignore
-    fbq('track', 'PageView');
+    if (!window.fbq) {
+      const queue: unknown[][] = [];
+      const fbqFn: NonNullable<Window['fbq']> = (...args: unknown[]) => {
+        if (fbqFn.callMethod) {
+          fbqFn.callMethod(...args);
+        } else {
+          fbqFn.queue.push(args);
+        }
+      };
+      fbqFn.push = fbqFn;
+      fbqFn.loaded = true;
+      fbqFn.version = '2.0';
+      fbqFn.queue = queue;
+      window.fbq = fbqFn;
+      if (!window._fbq) window._fbq = fbqFn;
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      const firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode?.insertBefore(script, firstScript);
+    }
+
+    window.fbq('init', '1547698656610293');
+    window.fbq('track', 'PageView');
   }
 
   function acceptCookies() {
@@ -60,16 +78,7 @@
     localStorage.setItem('cookieConsent', accepted.toString());
     localStorage.setItem('cookieConsentDate', new Date().toISOString());
     cookieConsent.set(accepted);
-    hasConsented = true;
-  }
-
-
-  function resetConsent() {
-    localStorage.removeItem('cookieConsent');
-    localStorage.removeItem('cookieConsentDate');
-    hasConsented = false;
-    showModal = true;
-    cookieConsent.set(false);
+    _hasConsented = true;
   }
 </script>
 
