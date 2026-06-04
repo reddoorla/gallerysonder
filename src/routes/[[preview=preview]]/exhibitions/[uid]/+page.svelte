@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
 
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 
-
 	import { components } from '$lib/slices';
-	import {  SliceZone } from '@prismicio/svelte';
+	import { SliceZone } from '@prismicio/svelte';
 
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
@@ -27,7 +25,6 @@
 	let showEyebrow = $state(false);
 
 	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
-
 
 	let slicesSections: string[] = [];
 	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
@@ -89,31 +86,37 @@
     </div> -->
 
 <div class="fixed w-screen h-screen-75 bottom-0">
-	<ContentWidth
-		class="h-full flex flex-col justify-end items-start transition-opacity "
-	>
+	<ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity ">
 		<h5
 			class="text-white font-light translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
-				: 'opacity-0'}">{content.dates || ''}</h5
+				: 'opacity-0'}"
 		>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
+			{content.dates || ''}
+		</h5>
+		<h1
+			class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
 			!isBackgroundDark
 				? ''
-				: 'opacity-0'}">
+				: 'opacity-0'}"
+		>
 			{content.title_line_one || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
+		<h1
+			class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
 			!isBackgroundDark
 				? ''
-				: 'opacity-0'}">
+				: 'opacity-0'}"
+		>
 			{content.title_line_two || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
+		<h1
+			class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
 			!isBackgroundDark
 				? ''
-				: 'opacity-0'}">
+				: 'opacity-0'}"
+		>
 			{content.title_line_three || ''}
 		</h1>
 	</ContentWidth>

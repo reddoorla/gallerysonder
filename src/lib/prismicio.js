@@ -28,6 +28,9 @@ const routes = [
 	}
 ];
 
+/**
+ * @param {{ cookies?: import('@sveltejs/kit').Cookies } & import('@prismicio/client').ClientConfig} [options]
+ */
 export const createClient = ({ cookies, ...config } = {}) => {
 	const client = prismic.createClient(repositoryName, {
 		routes,

@@ -22,7 +22,7 @@
 		onPlayingChange?: ((playing: boolean) => void) | undefined;
 	} = $props();
 
-	let player: any | undefined;
+	let player: VimeoPlayer | undefined;
 	let playerContainer: HTMLElement;
 
 	const createPlayer = () => {
@@ -95,7 +95,7 @@
 		createPlayer();
 	};
 
-	let viewportHeight=$state(900);
+	let viewportHeight = $state(900);
 	let viewportWidth = $state(1600);
 </script>
 

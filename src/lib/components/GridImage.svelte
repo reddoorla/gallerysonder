@@ -31,12 +31,11 @@
 		class?: string;
 	} = $props();
 
-
 	let innerWidth = $state<number>(0);
 	let innerHeight = $state<number>(0);
 
 	let insetPercent = $state(25);
-	let linkRef: HTMLElement|undefined=$state();
+	let linkRef: HTMLElement | undefined = $state();
 
 	const checkPosition = () => {
 		if (linkRef) {
@@ -50,24 +49,19 @@
 		}
 	};
 
-const openModal = () => {
+	const openModal = () => {
+		if (artworkUID) {
+			appState.activeArtworkUid = artworkUID;
+		} else {
+			appState.lightboxImageUrl = src;
+		}
 
+		appState.isLightboxActive = true;
 
-	if(artworkUID){
-		appState.activeArtworkUid = artworkUID;
-	}else{
-		appState.lightboxImageUrl = src;
-	}
-
-	
-
-	appState.isLightboxActive = true;
-
-setTimeout(()=>{
-	appState.lockBodyScroll();
-}, 500)
-
-};
+		setTimeout(() => {
+			appState.lockBodyScroll();
+		}, 500);
+	};
 
 	$effect(function attachScrollListenerForInsetAnimation() {
 		if (typeof window !== 'undefined') {
@@ -87,92 +81,18 @@ setTimeout(()=>{
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
-{#if href||!willOpen}
-<a
-	bind:this={linkRef}
-	{href}
-	class="flex-grow-0 flex flex-col items-left clip-transition no-underline {href?"":"pointer-events-none"} {className}"
-	aria-hidden={href?false:true}
-	onmouseenter={() => onHover(true)}
-	onmouseleave={() => onHover(false)}
->
-	<img
-		{src}
-		{alt}
-		class="clip-transition use-gpu w-full"
-		style={isHover
-			? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
-			: 'clip-path: inset(0 ' +
-				insetPercent +
-				'% 0 ' +
-				insetPercent +
-				'%); -webkit-clip-path: inset(0 ' +
-				insetPercent +
-				'% 0 ' +
-				insetPercent +
-				'%);'}
-	/>
-	{#if innerWidth > 768}
-	{#if text}
-		<h6
-			class="mt-3  transition-opacity use-gpu duration-500 {insetPercent < 8
-				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}"
-		><b>
-			{text}
-			</b>
-		</h6>
-		{/if}
-		{#if subtitle}
-		<p
-			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
-		>
-		{/if}
-		{#if subtitleTwo}
-		<p
-			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
-		>
-		{/if}
-
-	
-	{:else}
-		{#if text}
-		<h5
-		
-			class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
-				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}"
-		><b>{text}</b></h5>
-		{/if}
-		{#if subtitle}
-		<p
-			class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
-		>
-		{/if}
-		{#if subtitleTwo}
-		<p
-			class="  transition-opacity use-gpu duration-500 {insetPercent < 8
-				? 'opacity-100  delay-[750ms]'
-				: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
-		>
-		{/if}
-	{/if}
-</a>
-{:else}
-	<button
+{#if href || !willOpen}
+	<a
 		bind:this={linkRef}
-		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline {className}"
+		{href}
+		class="flex-grow-0 flex flex-col items-left clip-transition no-underline {href
+			? ''
+			: 'pointer-events-none'} {className}"
+		aria-hidden={href ? false : true}
 		onmouseenter={() => onHover(true)}
 		onmouseleave={() => onHover(false)}
-		onclick={openModal}
 	>
-	<img
+		<img
 			{src}
 			{alt}
 			class="clip-transition use-gpu w-full"
@@ -189,73 +109,190 @@ setTimeout(()=>{
 					'%);'}
 		/>
 		{#if innerWidth > 768}
-		{#if text}
-			<h6
-				class="mt-3  transition-opacity use-gpu duration-500 {insetPercent < 8
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}"
-			><b>
-				{text}
-				</b>
-			</h6>
+			{#if text}
+				<h6
+					class="mt-3 transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<b>
+						{text}
+					</b>
+				</h6>
 			{/if}
 			{#if subtitle}
-			<p
-				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
-			>
+				<p
+					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html subtitle}
+				</p>
 			{/if}
 			{#if subtitleTwo}
-			<p
-				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
-			>
+				<p
+					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html subtitleTwo}
+				</p>
 			{/if}
-					{#if artworkUID}
-					<div class="  transition-opacity use-gpu duration-500 {insetPercent < 8
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">
-		<LinkArrowButton text="INQUIRE" class="origin-left scale-75 mt-1" onclick={()=>{openModal();appState.showInquiryForm = true}} />
-					</div>
-		{/if}
-			
 		{:else}
 			{#if text}
-			<h5
-			
-				class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}"
-			><b>{text}</b></h5>
+				<h5
+					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<b>{text}</b>
+				</h5>
 			{/if}
 			{#if subtitle}
-			<p
-				class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitle}</p
-			>
+				<p
+					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html subtitle}
+				</p>
 			{/if}
 			{#if subtitleTwo}
-			<p
-				class="  transition-opacity use-gpu duration-500 {insetPercent < 8
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">{@html subtitleTwo}</p
-			>
+				<p
+					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html subtitleTwo}
+				</p>
 			{/if}
-					{#if artworkUID}
-					<div class="  transition-opacity use-gpu duration-500 {insetPercent < 8
-					? 'opacity-100  delay-[750ms]'
-					: 'opacity-0 pointer-events-none delay-0'}">
-		<LinkArrowButton text="INQUIRE" class="scale-75 origin-left mt-1 " onclick={()=>{openModal();appState.showInquiryForm = true}} />
-					</div>
 		{/if}
+	</a>
+{:else}
+	<button
+		bind:this={linkRef}
+		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline {className}"
+		onmouseenter={() => onHover(true)}
+		onmouseleave={() => onHover(false)}
+		onclick={openModal}
+	>
+		<img
+			{src}
+			{alt}
+			class="clip-transition use-gpu w-full"
+			style={isHover
+				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
+				: 'clip-path: inset(0 ' +
+					insetPercent +
+					'% 0 ' +
+					insetPercent +
+					'%); -webkit-clip-path: inset(0 ' +
+					insetPercent +
+					'% 0 ' +
+					insetPercent +
+					'%);'}
+		/>
+		{#if innerWidth > 768}
+			{#if text}
+				<h6
+					class="mt-3 transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<b>
+						{text}
+					</b>
+				</h6>
+			{/if}
+			{#if subtitle}
+				<p
+					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html subtitle}
+				</p>
+			{/if}
+			{#if subtitleTwo}
+				<p
+					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html subtitleTwo}
+				</p>
+			{/if}
+			{#if artworkUID}
+				<div
+					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<LinkArrowButton
+						text="INQUIRE"
+						class="origin-left scale-75 mt-1"
+						onclick={() => {
+							openModal();
+							appState.showInquiryForm = true;
+						}}
+					/>
+				</div>
+			{/if}
+		{:else}
+			{#if text}
+				<h5
+					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<b>{text}</b>
+				</h5>
+			{/if}
+			{#if subtitle}
+				<p
+					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html subtitle}
+				</p>
+			{/if}
+			{#if subtitleTwo}
+				<p
+					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html subtitleTwo}
+				</p>
+			{/if}
+			{#if artworkUID}
+				<div
+					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+						? 'opacity-100  delay-[750ms]'
+						: 'opacity-0 pointer-events-none delay-0'}"
+				>
+					<LinkArrowButton
+						text="INQUIRE"
+						class="scale-75 origin-left mt-1 "
+						onclick={() => {
+							openModal();
+							appState.showInquiryForm = true;
+						}}
+					/>
+				</div>
+			{/if}
 		{/if}
 	</button>
 {/if}
-
-
 
 <style>
 	.clip-transition {
@@ -266,7 +303,7 @@ setTimeout(()=>{
 		transform: translateZ(1px);
 		-webkit-transform: translateZ(1px);
 	}
-	p{
+	p {
 		font-size: 11px;
 		line-height: 18px;
 	}

@@ -1,11 +1,18 @@
 <script lang="ts">
-	import type { ImageGallerySlice, ImageGallerySliceDefaultItem } from '../../prismicio-types';
+	import type {
+		ImageGallerySlice,
+		ImageGallerySliceDefaultItem,
+		ArtworkDocumentData,
+		ArtistDocumentData,
+		ExhibitDocumentData,
+		NewsDocumentData
+	} from '../../prismicio-types';
 	import GridImage from './GridImage.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import * as prismicHelpers from '@prismicio/helpers';
 	import { slide } from 'svelte/transition';
 	import LinkPlusToggle from './Buttons/LinkPlusToggle.svelte';
-	import { asLink, isFilled } from '@prismicio/client';
+	import { isFilled } from '@prismicio/client';
 	import { onMount } from 'svelte';
 	import type { LinkField, ImageField, KeyTextField } from '@prismicio/client';
 	import { onNavigate } from '$app/navigation';
@@ -29,9 +36,6 @@
 	let isHoverArray = $state<boolean[]>([]);
 	let viewportWidth = $state(1024);
 
-
-
-
 	function handleHover(value: boolean, index: number) {
 		isHoverArray[index] = value;
 	}
@@ -48,8 +52,18 @@
 		const [_, startMonth, startDay, startYear, endMonth, endDay, endYear] = match;
 
 		const monthNames = [
-			'January', 'February', 'March', 'April', 'May', 'June',
-			'July', 'August', 'September', 'October', 'November', 'December'
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
 		];
 
 		const startMonthName = monthNames[parseInt(startMonth) - 1];
@@ -67,17 +81,17 @@
 	}
 
 	interface GalleryItem {
-		titleOne: string|KeyTextField;
-		titleTwo: string|KeyTextField;
-		eyebrow: string|KeyTextField;
+		titleOne: string | KeyTextField;
+		titleTwo: string | KeyTextField;
+		eyebrow: string | KeyTextField;
 		image: ImageField<never>;
-		bodyOne: string|KeyTextField;
-		bodyTwo: string|KeyTextField;
-		buttonText: string|KeyTextField;
+		bodyOne: string | KeyTextField;
+		bodyTwo: string | KeyTextField;
+		buttonText: string | KeyTextField;
 		buttonLink: LinkField;
 		artUID: string;
 		willOpen: boolean;
-	} 
+	}
 
 	let galleryItems = $state<GalleryItem[]>([]);
 	let isLoading = $state(true);
@@ -104,74 +118,78 @@
 				buttonText: item.button_text,
 				buttonLink: item.link,
 				artUID: '',
-				willOpen : slice.primary.will_open
-			}
+				willOpen: slice.primary.will_open
+			};
 
-			if(isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
-				const fetchedContent = await fetchFromRelationship<any>(item.artwork, 'artwork');
+			if (isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
+				const fetchedContent = await fetchFromRelationship<ArtworkDocumentData>(
+					item.artwork,
+					'artwork'
+				);
 
 				if (fetchedContent) {
 					itemData.artUID = item.artwork.uid;
 
-					if(!artist && isFilled.contentRelationship(fetchedContent.artist)) {
-						const artistContent = await fetchFromRelationship<any>(fetchedContent.artist, 'artist');
+					if (!artist && isFilled.contentRelationship(fetchedContent.artist)) {
+						const artistContent = await fetchFromRelationship<ArtistDocumentData>(
+							fetchedContent.artist,
+							'artist'
+						);
 						if (artistContent) {
-							artist = artistContent.full_name;
+							artist = artistContent.full_name ?? '';
 						}
 					}
-					title = fetchedContent.title;
-					if(!isFilled.image(itemData.image))
-						itemData.image = fetchedContent.primary_image;
-					if(!itemData.bodyOne)
-						itemData.bodyOne = fetchedContent.year;
+					title = fetchedContent.title ?? '';
+					if (!isFilled.image(itemData.image)) itemData.image = fetchedContent.primary_image;
+					if (!itemData.bodyOne) itemData.bodyOne = fetchedContent.year;
 
-					if(!itemData.bodyTwo) {
+					if (!itemData.bodyTwo) {
 						itemData.bodyTwo = fetchedContent.medium;
-						if(!itemData.bodyTwo) {
+						if (!itemData.bodyTwo) {
 							itemData.bodyTwo = fetchedContent.dimensions;
-						} else if(fetchedContent.dimensions) {
+						} else if (fetchedContent.dimensions) {
 							itemData.bodyTwo = itemData.bodyTwo + '<br/>' + fetchedContent.dimensions;
 						}
 					}
 				}
-			} else if(isFilled.contentRelationship(item.exhibition) && item.exhibition.uid){
-				const fetchedContent = await fetchFromRelationship<any>(item.exhibition, 'exhibit');
-
-				if (fetchedContent) {
-					itemData.willOpen=false;
-
-					if(!itemData.eyebrow)
-						itemData.eyebrow=fetchedContent.dates;
-
-					if(!artist) {
-						artist = fetchedContent.artist;
-					}
-					title = fetchedContent.title;
-					if(!isFilled.image(itemData.image)&&isFilled.image(fetchedContent.primary_image))
-						itemData.image = fetchedContent.primary_image;
-					if(!itemData.bodyOne)
-						itemData.bodyOne = fetchedContent.short_description;
-					if(!itemData.buttonText)
-						itemData.buttonText="Explore";
-					if(!isFilled.link(itemData.buttonLink))
-						itemData.buttonLink = {
-							link_type: "Web",
-							url:"/exhibitions/"+item.exhibition.uid
-						};
-				}
-			} else if(isFilled.contentRelationship(item.news) && item.news.uid) {
-				const fetchedContent = await fetchFromRelationship<any>(item.news, 'news');
+			} else if (isFilled.contentRelationship(item.exhibition) && item.exhibition.uid) {
+				const fetchedContent = await fetchFromRelationship<ExhibitDocumentData>(
+					item.exhibition,
+					'exhibit'
+				);
 
 				if (fetchedContent) {
 					itemData.willOpen = false;
-					title = fetchedContent.full_name;
-					if(!isFilled.image(itemData.image))
+
+					if (!itemData.eyebrow) itemData.eyebrow = fetchedContent.dates;
+
+					if (!artist) {
+						artist = fetchedContent.artist ?? '';
+					}
+					title = fetchedContent.title ?? '';
+					if (!isFilled.image(itemData.image) && isFilled.image(fetchedContent.primary_image))
+						itemData.image = fetchedContent.primary_image;
+					if (!itemData.bodyOne) itemData.bodyOne = fetchedContent.short_description;
+					if (!itemData.buttonText) itemData.buttonText = 'Explore';
+					if (!isFilled.link(itemData.buttonLink))
+						itemData.buttonLink = {
+							link_type: 'Web',
+							url: '/exhibitions/' + item.exhibition.uid
+						};
+				}
+			} else if (isFilled.contentRelationship(item.news) && item.news.uid) {
+				const fetchedContent = await fetchFromRelationship<NewsDocumentData>(item.news, 'news');
+
+				if (fetchedContent) {
+					itemData.willOpen = false;
+					title = fetchedContent.full_name ?? '';
+					if (!isFilled.image(itemData.image))
 						itemData.image = fetchedContent.nav_image || fetchedContent.background_image;
 
-					if(!isFilled.link(itemData.buttonLink))
+					if (!isFilled.link(itemData.buttonLink))
 						itemData.buttonLink = {
-							link_type: "Web",
-							url:"/news/"+item.news.uid
+							link_type: 'Web',
+							url: '/news/' + item.news.uid
 						};
 				}
 			}
@@ -199,9 +217,11 @@
 		isLoading = false;
 	}
 
-	onMount( () => fetchGalleryItems(slice.items) )
+	onMount(() => fetchGalleryItems(slice.items));
 
-	onNavigate( () => {fetchGalleryItems(slice.items)} )
+	onNavigate(() => {
+		fetchGalleryItems(slice.items);
+	});
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
@@ -243,7 +263,7 @@
 					{/if}
 					{#if prismicHelpers.isFilled.link(item.buttonLink)}
 						<LinkArrowButton
-							text={item.buttonText || "explore"}
+							text={item.buttonText || 'explore'}
 							href={item.buttonLink.url}
 							class="mt-4"
 						/>
@@ -257,7 +277,7 @@
 		{#each galleryItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
-					class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex flex-col items-start transition duration-700 delay-700 justify-start relative 
+					class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex flex-col items-start transition duration-700 delay-700 justify-start relative
 					{isHoverArray.some(Boolean) && !isHoverArray[i] && willBlur ? 'blur' : ''}"
 					transition:slide
 				>
@@ -270,7 +290,7 @@
 						onHoverChange={(value) => handleHover(value, i)}
 						artworkUID={item.artUID}
 					/>
-					
+
 					{#if item.eyebrow}
 						<span class="tracking-widest mt-2">{formatDateRange(item.eyebrow)}</span>
 					{/if}
@@ -288,7 +308,7 @@
 					{/if}
 					{#if prismicHelpers.isFilled.link(item.buttonLink)}
 						<LinkArrowButton
-							text={item.buttonText || "explore"}
+							text={item.buttonText || 'explore'}
 							href={item.buttonLink.url}
 							class="mt-4"
 						/>
@@ -302,7 +322,7 @@
 		{#each galleryItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
-					class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex flex-col items-start transition duration-700 delay-700 justify-start relative 
+					class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex flex-col items-start transition duration-700 delay-700 justify-start relative
 					{isHoverArray.some(Boolean) && !isHoverArray[i] && willBlur ? 'blur' : ''}"
 					transition:slide
 				>
@@ -311,12 +331,11 @@
 						class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 						src={item.image.url || ''}
 						text={item.titleOne || ''}
-						subtitle={
-							item.titleTwo && item.bodyOne
+						subtitle={item.titleTwo && item.bodyOne
 							? `<i>${item.titleTwo}</i>, ${item.bodyOne}`
 							: item.titleTwo
-							  ? `<i>${item.titleTwo}</i>`
-							  : item.bodyOne || ''}
+								? `<i>${item.titleTwo}</i>`
+								: item.bodyOne || ''}
 						alt={item.titleOne || item.titleTwo || ''}
 						subtitleTwo={item.bodyTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
@@ -332,5 +351,9 @@
 {/if}
 
 {#if slice.primary.show_more_button && galleryItems.length > 4}
-	<LinkPlusToggle text={isTruncated ? 'Show More' : 'Show Less'} onclick={() => isTruncated = !isTruncated} class="mt-8" />
+	<LinkPlusToggle
+		text={isTruncated ? 'Show More' : 'Show Less'}
+		onclick={() => (isTruncated = !isTruncated)}
+		class="mt-8"
+	/>
 {/if}

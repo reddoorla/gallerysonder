@@ -1,5 +1,4 @@
 <script lang="ts">
-	import logo from '$lib/assets/icons/sonderBaseLogo.svg';
 	import sonderS from '$lib/assets/icons/sonderAlphabet/normal/S.svg';
 	import logoExtendedO from '$lib/assets/icons/sonderLogosExtended/SONDER_O.svg';
 	import logoExtendedN from '$lib/assets/icons/sonderLogosExtended/SONDER_N.svg';
@@ -19,7 +18,7 @@
 	let activeLogoIndex = $state(0);
 
 	onMount(() => {
-		let logoInterval = setInterval(() => {
+		setInterval(() => {
 			if (activeLogoIndex < logoArray.length - 1 && innerWidth > 768) {
 				activeLogoIndex++;
 			} else {

@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
-	import Nav from '$lib/components/Nav.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
-	import ScaleTextToContainer from '$lib/components/ScaleTextToContainer.svelte';
 
 	import { components } from '$lib/slices';
-	import { PrismicImage, SliceZone } from '@prismicio/svelte';
+	import { SliceZone } from '@prismicio/svelte';
 
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
@@ -28,25 +25,12 @@
 
 	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
-
 	let slicesSections: string[] = [];
 	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
 
 	let sections: string[] = [];
 	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
 
-	const refreshData = () => {
-		data = { ...data };
-		content = data.page.data;
-		slicesSections = [];
-		sections = [];
-		data.page.data.slices.forEach((slice) =>
-			slicesSections.push(slice.primary?.sectionLabel || '')
-		);
-		data.page.data.sections.forEach((section) => sections.push(section.section || ''));
-	}
-
-	let isLogoBlack = $state(false);
 	let isBackgroundDark = $state(false);
 
 	const checkPosition = () => {

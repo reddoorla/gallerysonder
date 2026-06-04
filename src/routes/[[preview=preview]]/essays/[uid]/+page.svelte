@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
 
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 
@@ -27,7 +26,9 @@
 
 	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
-	let slicesSections = $derived(data.page.data.slices.map((slice) => slice.primary?.sectionLabel || ''));
+	let slicesSections = $derived(
+		data.page.data.slices.map((slice) => slice.primary?.sectionLabel || '')
+	);
 
 	let sections = $derived(data.page.data.sections.map((section) => section.section || ''));
 

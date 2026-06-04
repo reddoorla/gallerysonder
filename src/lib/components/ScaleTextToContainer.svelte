@@ -30,12 +30,11 @@
 
 	let windowWidth: string;
 
-	const debounce = (func: Function, delay: number) => {
-		let timer: NodeJS.Timeout;
-		return function (this: any, ...args: any[]) {
-			const context = this;
+	const debounce = (func: (...args: unknown[]) => unknown, delay: number) => {
+		let timer: ReturnType<typeof setTimeout>;
+		return (...args: unknown[]) => {
 			clearTimeout(timer);
-			timer = setTimeout(() => func.apply(context, args), delay);
+			timer = setTimeout(() => func(...args), delay);
 		};
 	};
 
@@ -53,9 +52,9 @@
 	});
 
 	$effect(function scaleTextToFitContainer() {
-		windowWidth;
+		const _dep = windowWidth;
 		if (parent) {
-			nodes = [...parent?.children] as HTMLElement[];
+			nodes = [...parent.children] as HTMLElement[];
 			console.log(nodes);
 			const parentWidth = parent.offsetWidth;
 			let largestChildWidth = 1;
@@ -81,7 +80,7 @@
 
 	@media screen and (max-width: 1024px) {
 		.parent {
-		width: 100%;
-	}
+			width: 100%;
+		}
 	}
 </style>

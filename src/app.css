@@ -1,7 +1,5 @@
-@import "tailwindcss";
-@import "flatpickr/dist/flatpickr.min.css";
-
-
+@import 'tailwindcss';
+@import 'flatpickr/dist/flatpickr.min.css';
 
 @theme {
 	--breakpoint-sm: 560px;
@@ -10,17 +8,17 @@
 	--breakpoint-xl: 1340px;
 	--breakpoint-2xl: 1800px;
 
-	--color-subtle-primary: #E4EEEA;
-	--color-mid-primary: #D7E7D9;
-	--color-dark-primary: #9CC0BC;
-	--color-accent-pink: #E8587C;
-	--color-accent-purple: #C28BE8;
-	--color-subtle-blue: #AACDEC;
-	--color-subtle-mauve: #DDB8CA;
-	--color-subtle-tan: #F2E8D9;
-	--color-dark-grey: #ABABAB;
-	--color-cold-grey: #E7E8EB;
-	--color-warm-grey: #F3F3F3;
+	--color-subtle-primary: #e4eeea;
+	--color-mid-primary: #d7e7d9;
+	--color-dark-primary: #9cc0bc;
+	--color-accent-pink: #e8587c;
+	--color-accent-purple: #c28be8;
+	--color-subtle-blue: #aacdec;
+	--color-subtle-mauve: #ddb8ca;
+	--color-subtle-tan: #f2e8d9;
+	--color-dark-grey: #ababab;
+	--color-cold-grey: #e7e8eb;
+	--color-warm-grey: #f3f3f3;
 
 	--ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
 	--ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
@@ -42,306 +40,286 @@
 	--spacing-screen-5: 5vh;
 }
 
-
 @source inline("{sm:,lg:,xl:}w-{full,4/5,3/4,2/3,1/2,1/3,1/4,1/5}");
 
 @source inline("{sm:,md:,lg:,xl:,}{py,pt,pb}-{0,4,8,16,32}");
 
-@layer base{
-
-body {
-	background-color: black;
-	color:black;
-	transition-property: all;
-	transition-timing-function: cubic-bezier(0.5, 0, 0, 1);
-	transition-duration: 500ms;
-}
-
-section{
-	margin-top: -1px;
-	margin-bottom: -1px;
-}
-
-h1 {
-	font-family: 'commuters-sans';
-	font-size: 120px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: 1.1em;
-	text-transform: uppercase;
-}
-
-h2 {
-
-
-	font-feature-settings:
-		'clig' off,
-		'liga' off;
-
-	font-family: 'commuters-sans';
-	font-size: 50px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 64px;
-}
-
-h3 {
-
-	font-feature-settings:
-		'clig' off,
-		'liga' off;
-
-	font-family: 'commuters-sans';
-	font-size: 38px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: 48px;
-	letter-spacing: 1.5px;
-	text-transform: uppercase;
-}
-
-h4 {
-
-	leading-trim: both;
-	text-edge: cap;
-	font-feature-settings:
-		'clig' off,
-		'liga' off;
-
-	font-family: 'commuters-sans';
-	font-size: 28px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 38px;
-}
-h4 b{
-	font-weight: 800;
-}
-
-h5 {
-
-	font-feature-settings:
-		'clig' off,
-		'liga' off;
-
-	font-family: 'commuters-sans';
-	font-size: 21px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 1.42em;
-	letter-spacing: 1.5px;
-	
-}
-h5 b, h6 b {
-	font-weight: 700;
-}
-
-h6 {
-
-	leading-trim: both;
-
-	text-edge: cap;
-	font-feature-settings:
-		'clig' off,
-		'liga' off;
-	font-family: 'commuters-sans';
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 150%;
-	letter-spacing: 1.5px;
-	text-transform: uppercase;
-}
-
-p, input, textarea, form button {
-
-	font-feature-settings:
-		'clig' off,
-		'liga' off;
-
-	font-family: 'rig-sans';
-	overflow: hidden;
-
-	font-feature-settings:
-		'liga' off,
-		'clig' off;
-	text-overflow: ellipsis;
-	font-size: 18px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 150%;
-	letter-spacing: 0.25px;
-}
-
-div {
-
-
-	font-family: 'rig-sans';
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 20px;
-	letter-spacing: 0.07px;
-}
-
-button {
-
-	font-family: 'commuters-sans';
-	font-size: 12px;
-	font-style: normal;
-	font-weight: 600;
-	line-height: normal;
-	letter-spacing: 1.5px;
-	
-}
-
-.quote p {
-	color: var(--e-4-eeea, #e4eeea);
-	text-align: center;
-	leading-trim: both;
-	text-edge: cap;
-	font-feature-settings:
-		'clig' off,
-		'liga' off;
-	font-family: 'commuters-sans';
-	font-size: 66px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 80px;
-}
-
-@media screen and (max-width: 1600px) {
-	h1{
-		font-size: 96px;
+@layer base {
+	body {
+		background-color: black;
+		color: black;
+		transition-property: all;
+		transition-timing-function: cubic-bezier(0.5, 0, 0, 1);
+		transition-duration: 500ms;
 	}
-}
 
-@media screen and (max-width: 1340px) {
-	h1{
-		font-size: 80px;
+	section {
+		margin-top: -1px;
+		margin-bottom: -1px;
 	}
-}
 
-@media screen and (max-width: 1024px) {
 	h1 {
-		color: var(--ffffff, #fff);
 		font-family: 'commuters-sans';
-		font-size: 48px;
+		font-size: 120px;
 		font-style: normal;
 		font-weight: 700;
-		line-height: 125%;
+		line-height: 1.1em;
 		text-transform: uppercase;
 	}
 
 	h2 {
-		color: var(--Black, #000);
+		font-feature-settings:
+			'clig' off,
+			'liga' off;
+
+		font-family: 'commuters-sans';
+		font-size: 50px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 64px;
+	}
+
+	h3 {
+		font-feature-settings:
+			'clig' off,
+			'liga' off;
+
+		font-family: 'commuters-sans';
+		font-size: 38px;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 48px;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+
+	h4 {
 		leading-trim: both;
 		text-edge: cap;
 		font-feature-settings:
 			'clig' off,
 			'liga' off;
+
 		font-family: 'commuters-sans';
 		font-size: 28px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 38px;
 	}
+	h4 b {
+		font-weight: 800;
+	}
 
-	.quote p{
+	h5 {
+		font-feature-settings:
+			'clig' off,
+			'liga' off;
+
+		font-family: 'commuters-sans';
+		font-size: 21px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 1.42em;
+		letter-spacing: 1.5px;
+	}
+	h5 b,
+	h6 b {
+		font-weight: 700;
+	}
+
+	h6 {
+		leading-trim: both;
+
+		text-edge: cap;
+		font-feature-settings:
+			'clig' off,
+			'liga' off;
+		font-family: 'commuters-sans';
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 150%;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+
+	p,
+	input,
+	textarea,
+	form button {
+		font-feature-settings:
+			'clig' off,
+			'liga' off;
+
+		font-family: 'rig-sans';
+		overflow: hidden;
+
+		font-feature-settings:
+			'liga' off,
+			'clig' off;
+		text-overflow: ellipsis;
+		font-size: 18px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 150%;
+		letter-spacing: 0.25px;
+	}
+
+	div {
+		font-family: 'rig-sans';
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 20px;
+		letter-spacing: 0.07px;
+	}
+
+	button {
+		font-family: 'commuters-sans';
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: normal;
+		letter-spacing: 1.5px;
+	}
+
+	.quote p {
+		color: var(--e-4-eeea, #e4eeea);
+		text-align: center;
+		leading-trim: both;
+		text-edge: cap;
+		font-feature-settings:
+			'clig' off,
+			'liga' off;
+		font-family: 'commuters-sans';
+		font-size: 66px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 80px;
+	}
+
+	@media screen and (max-width: 1600px) {
+		h1 {
+			font-size: 96px;
+		}
+	}
+
+	@media screen and (max-width: 1340px) {
+		h1 {
+			font-size: 80px;
+		}
+	}
+
+	@media screen and (max-width: 1024px) {
+		h1 {
+			color: var(--ffffff, #fff);
+			font-family: 'commuters-sans';
+			font-size: 48px;
+			font-style: normal;
+			font-weight: 700;
+			line-height: 125%;
+			text-transform: uppercase;
+		}
+
+		h2 {
+			color: var(--Black, #000);
+			leading-trim: both;
+			text-edge: cap;
+			font-feature-settings:
+				'clig' off,
+				'liga' off;
+			font-family: 'commuters-sans';
+			font-size: 28px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: 38px;
+		}
+
+		.quote p {
 			font-size: 42px;
 			font-style: normal;
 			font-weight: 400;
 			line-height: 1.2em;
 		}
-
-	
-}
-
-@media screen and (max-width: 480px) {
-	h5{
-		font-size: 19px;
 	}
 
-	.quote p {
-		color: var(--e-4-eeea, #e4eeea);
-		font-feature-settings:
-			'clig' off,
-			'liga' off;
-		font-family: 'commuters-sans';
-		font-size: 24px;
+	@media screen and (max-width: 480px) {
+		h5 {
+			font-size: 19px;
+		}
+
+		.quote p {
+			color: var(--e-4-eeea, #e4eeea);
+			font-feature-settings:
+				'clig' off,
+				'liga' off;
+			font-family: 'commuters-sans';
+			font-size: 24px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: 125%;
+		}
+
+		h2 {
+			font-size: 22px;
+			line-height: 125%;
+		}
+	}
+
+	a {
+		font-family: 'rig-sans';
+		font-size: 14px;
 		font-style: normal;
 		font-weight: 400;
-		line-height: 125%;
+		line-height: normal;
+
+		transition: opacity 500ms ease-out;
 	}
 
-
-	h2{
-
-		font-size: 22px;
-		line-height: 125%;
-
+	a {
+		transition: color 600ms;
+		cursor: pointer;
 	}
-}
 
-a {
+	button {
+		cursor: pointer;
+	}
 
-	font-family: 'rig-sans';
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
+	.bump:active {
+		transform: translateY(-1px);
+	}
 
-	transition: opacity 500ms ease-out;
-}
+	.use-gpu {
+		transform: translate3d(0, 0, 0);
+		-webkit-transform: translate3d(0, 0, 0);
+	}
 
-a {
-	transition: color 600ms;
-	cursor: pointer;
-}
+	.background-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		z-index: -1;
+		overflow: hidden;
+	}
 
-button {
-	cursor: pointer;
-}
+	#content-container {
+		position: relative;
+		z-index: 1;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 
+	.rich-text p {
+		min-height: 1em;
+	}
 
-
-
-.bump:active {
-	transform: translateY(-1px);
-}
-
-.use-gpu {
-	transform: translate3d(0, 0, 0);
-	-webkit-transform: translate3d(0, 0, 0);
-}
-
-.background-container {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100vh;
-	z-index: -1;
-	overflow: hidden;
-}
-
-#content-container {
-	position: relative;
-	z-index: 1;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-}
-
-.rich-text p{
-	min-height: 1em;
-}
-
-.rich-text h5{
-	letter-spacing: normal;
-}
+	.rich-text h5 {
+		letter-spacing: normal;
+	}
 }
 
 .filter-to-accent-pink {
@@ -362,8 +340,12 @@ button {
 	font-family: inherit;
 	border: 1px solid var(--color-mid-primary);
 }
-.flatpickr-calendar.arrowTop::before { border-bottom-color: var(--color-subtle-primary); }
-.flatpickr-calendar.arrowTop::after { border-bottom-color: var(--color-subtle-primary); }
+.flatpickr-calendar.arrowTop::before {
+	border-bottom-color: var(--color-subtle-primary);
+}
+.flatpickr-calendar.arrowTop::after {
+	border-bottom-color: var(--color-subtle-primary);
+}
 
 /* Header (month + year + arrows) — mint with black text */
 .flatpickr-months {
@@ -399,10 +381,18 @@ button {
 	font-size: 14px;
 	line-height: 1.5;
 }
-.flatpickr-current-month .numInputWrapper:hover { background: rgba(0, 0, 0, 0.05); }
-.flatpickr-current-month .numInputWrapper span.arrowUp::after { border-bottom-color: black; }
-.flatpickr-current-month .numInputWrapper span.arrowDown::after { border-top-color: black; }
-.flatpickr-current-month svg { display: none; }
+.flatpickr-current-month .numInputWrapper:hover {
+	background: rgba(0, 0, 0, 0.05);
+}
+.flatpickr-current-month .numInputWrapper span.arrowUp::after {
+	border-bottom-color: black;
+}
+.flatpickr-current-month .numInputWrapper span.arrowDown::after {
+	border-top-color: black;
+}
+.flatpickr-current-month svg {
+	display: none;
+}
 
 .flatpickr-monthDropdown-months {
 	color: black !important;
@@ -423,8 +413,12 @@ button {
 	text-indent: 0;
 	overflow: visible;
 }
-.flatpickr-monthDropdown-months::-ms-expand { display: none; }
-.flatpickr-monthDropdown-months:hover { background: var(--color-mid-primary) !important; }
+.flatpickr-monthDropdown-months::-ms-expand {
+	display: none;
+}
+.flatpickr-monthDropdown-months:hover {
+	background: var(--color-mid-primary) !important;
+}
 .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
 	background-color: var(--color-subtle-primary);
 	color: black;
@@ -440,13 +434,23 @@ button {
 	align-items: center;
 }
 .flatpickr-prev-month svg,
-.flatpickr-next-month svg { fill: black; }
+.flatpickr-next-month svg {
+	fill: black;
+}
 .flatpickr-prev-month:hover svg,
-.flatpickr-next-month:hover svg { fill: var(--color-accent-pink); opacity: 1; }
+.flatpickr-next-month:hover svg {
+	fill: var(--color-accent-pink);
+	opacity: 1;
+}
 
 /* Weekday row */
-.flatpickr-weekdays { background: white; padding: 8px 0 4px; }
-.flatpickr-weekdaycontainer { display: flex; }
+.flatpickr-weekdays {
+	background: white;
+	padding: 8px 0 4px;
+}
+.flatpickr-weekdaycontainer {
+	display: flex;
+}
 span.flatpickr-weekday {
 	background: white;
 	color: black;
@@ -488,7 +492,9 @@ span.flatpickr-weekday {
 	color: white;
 }
 .flatpickr-day.prevMonthDay,
-.flatpickr-day.nextMonthDay { color: rgba(0, 0, 0, 0.3); }
+.flatpickr-day.nextMonthDay {
+	color: rgba(0, 0, 0, 0.3);
+}
 .flatpickr-day.flatpickr-disabled,
 .flatpickr-day.flatpickr-disabled:hover {
 	color: rgba(0, 0, 0, 0.2);

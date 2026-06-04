@@ -68,7 +68,7 @@
 			role="listbox"
 			class="absolute top-full left-0 right-0 z-20 mt-1 bg-white border-1 border-mid rounded-xs overflow-hidden shadow-[0_8px_32px_rgba(156,192,188,0.3)]"
 		>
-			{#each options as option}
+			{#each options as option (option.value)}
 				<li role="option" aria-selected={option.value === value}>
 					<button
 						type="button"

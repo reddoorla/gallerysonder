@@ -1,6 +1,4 @@
 <script lang="ts">
-
-
 	import type { TitleBlockSlice } from '../../../prismicio-types';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import { getAppState } from '$lib/contexts/appState.svelte';
@@ -58,24 +56,13 @@
 		}
 	};
 
-
 	let shape = $state<HTMLElement | undefined>(undefined);
 	let shapeHeight = $state(0);
 
-	onMount(()=>{
-		if(shape)
-			shapeHeight=shape.getBoundingClientRect().height
-	}
-)
+	onMount(() => {
+		if (shape) shapeHeight = shape.getBoundingClientRect().height;
+	});
 </script>
-
-<style>
-    input, textarea {
-        background-color: rgba(255, 255, 255, 0.4);
-        border-radius: 2px;
-    }
-</style>
-
 
 <svelte:window bind:innerWidth={viewportWidth} />
 
@@ -86,18 +73,15 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-
-	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top==="1"?"lg:mt-[100vh]":""} {slice.primary.hide ? 'hidden' : ''}"
+	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top === '1'
+		? 'lg:mt-[100vh]'
+		: ''} {slice.primary.hide ? 'hidden' : ''}"
 	style="background-color: {appState.backgroundColor} "
 >
-{#if slice.primary.shape_top !== '0'}<div
-class="-translate-y-[99%] "
-bind:this={shape}
->
-<TopShape shapeNumber={slice.primary.shape_top || '0'} />
-</div>
-
-{/if}
+	{#if slice.primary.shape_top !== '0'}<div class="-translate-y-[99%]" bind:this={shape}>
+			<TopShape shapeNumber={slice.primary.shape_top || '0'} />
+		</div>
+	{/if}
 	<ContentWidth class="h-full flex flex-col items-left pt-8 lg:pl-20 relative">
 		{#if slice.variation === 'default'}
 			<h5><b>{slice.primary.eyebrow || ''}</b></h5>
@@ -108,7 +92,11 @@ bind:this={shape}
 				<h6 class="mt-3"><b>{slice.primary.subtitle || ''}</b></h6>
 			{/if}
 			{#if slice.primary.body}
-				<div class="xl:w-{slice.primary.desktop_body_width} {slice.primary.float === 'right' ? 'xl:ml-auto' : ''} rich-text mt-6">
+				<div
+					class="xl:w-{slice.primary.desktop_body_width} {slice.primary.float === 'right'
+						? 'xl:ml-auto'
+						: ''} rich-text mt-6"
+				>
 					<PrismicRichText field={slice.primary.body} />
 				</div>
 			{/if}
@@ -131,18 +119,17 @@ bind:this={shape}
 					{/if}
 					{#if slice.primary.body}
 						{#if slice.primary.read_more_button}
-						<div class="rich-text mb-3 md:pr-16">
-							{#key $page.url}
-							<SplitRichTextAccordian bind:showFullBody >
-								<PrismicRichText field={slice.primary.body} />
-							  </SplitRichTextAccordian>
-							  {/key}
-						  </div>
+							<div class="rich-text mb-3 md:pr-16">
+								{#key $page.url}
+									<SplitRichTextAccordian bind:showFullBody>
+										<PrismicRichText field={slice.primary.body} />
+									</SplitRichTextAccordian>
+								{/key}
+							</div>
 							<LinkPlusToggle
 								onclick={() => (showFullBody = !showFullBody)}
 								text={showFullBody ? 'Show Less' : 'Read More'}
 							/>
-							
 						{:else}
 							<div class="rich-text mb-6 md:pr-16">
 								<PrismicRichText field={slice.primary.body} />
@@ -154,7 +141,7 @@ bind:this={shape}
 							text={slice.primary.button_text || ''}
 							href={slice.primary.button_link.url}
 							class="mt-6"
-							opensNewTab={slice.primary.button_link.link_type==='Media'}
+							opensNewTab={slice.primary.button_link.link_type === 'Media'}
 						/>
 					{/if}
 				</div>
@@ -162,10 +149,8 @@ bind:this={shape}
 					<PrismicImage field={slice.primary.image} />
 				</div>
 			</div>
-
 		{:else if slice.variation === 'connect'}
-
-		<h5>{slice.primary.eyebrow || ''}</h5>
+			<h5>{slice.primary.eyebrow || ''}</h5>
 			{#if slice.primary.title}
 				<h2 class="mt-6">{slice.primary.title || ''}</h2>
 			{/if}
@@ -178,70 +163,141 @@ bind:this={shape}
 				</div>
 			{/if}
 			<div class="flex flex-row gap-6 mb-8">
-			{#if slice.primary.button_text}
-				<LinkPlusToggle startsActive={showContactForm} text={slice.primary.button_text||'Inquire'} onclick={()=>{showContactForm=!showContactForm}} />
-			{/if}
-			{#if slice.primary.button_text}
-				<LinkPlusToggle togglable={false} text={slice.primary.button_two_text||'Newsletter'} onclick={()=>{appState.hasNewsletterBeenCleared=false;appState.isNewsletterActive=true;}} />
-			{/if}
+				{#if slice.primary.button_text}
+					<LinkPlusToggle
+						startsActive={showContactForm}
+						text={slice.primary.button_text || 'Inquire'}
+						onclick={() => {
+							showContactForm = !showContactForm;
+						}}
+					/>
+				{/if}
+				{#if slice.primary.button_text}
+					<LinkPlusToggle
+						togglable={false}
+						text={slice.primary.button_two_text || 'Newsletter'}
+						onclick={() => {
+							appState.hasNewsletterBeenCleared = false;
+							appState.isNewsletterActive = true;
+						}}
+					/>
+				{/if}
 			</div>
 			{#if showContactForm}
-			<div transition:slide class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"   >
-                {#if !submitted}
-						
-					<p>Name</p>
-					<input type="text" name="name" bind:value={formName} required placeholder="First and last name" class="w-full border-1 border-mid p-2 mb-4" />
-				
-					<p>Company Name</p>
-					<input type="text" name="company" bind:value={formCompany} placeholder="Company name" class="w-full border-1 border-mid p-2 mb-4" />
-				
-					<p>Phone</p>
-					<input type="phone" name="phone"bind:value={formPhone} required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
-			
-					<p>Email</p>
-					<input type="email" name="email" bind:value={formEmail} required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
-				
-					<p>Preferred appointment date <span class="opacity-50">(optional)</span></p>
-					<input type="text" name="appointment_date" bind:value={formDate} use:datepicker placeholder="Select a date" aria-label="Preferred appointment date" class="w-full border-1 border-mid p-2 mb-4 bg-white/40 rounded-[2px]" />
+				<div
+					transition:slide
+					class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"
+				>
+					{#if !submitted}
+						<p>Name</p>
+						<input
+							type="text"
+							name="name"
+							bind:value={formName}
+							required
+							placeholder="First and last name"
+							class="w-full border-1 border-mid p-2 mb-4"
+						/>
 
-					<p>Preferred time of day <span class="opacity-50">(optional)</span></p>
-					<Select
-						bind:value={formTimePreference}
-						ariaLabel="Preferred time of day"
-						placeholder="No preference"
-						options={[
-							{ value: '', label: 'No preference' },
-							{ value: 'Morning', label: 'Morning' },
-							{ value: 'Afternoon', label: 'Afternoon' },
-							{ value: 'Evening', label: 'Evening' }
-						]}
-					/>
+						<p>Company Name</p>
+						<input
+							type="text"
+							name="company"
+							bind:value={formCompany}
+							placeholder="Company name"
+							class="w-full border-1 border-mid p-2 mb-4"
+						/>
 
-					<p class="hidden">
-						<label>
-						Don’t fill this out if you’re human: <input name="bot-field" />
-						</label>
-					</p>
+						<p>Phone</p>
+						<input
+							type="phone"
+							name="phone"
+							bind:value={formPhone}
+							required
+							placeholder="000-000-0000"
+							class="w-full border-1 border-mid p-2 mb-4"
+						/>
 
-					<p>Message</p>
-					<textarea name="message" bind:value={formMessage} required placeholder="How can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
-	  
-				
-                        <button type="submit" onclick={triggerSubmitButton} class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
-                 
-               
-			   	{:else if error}
-				<h2>We're sorry, there appears to be an error. Please email info@gallerysonder.com with your inquiry.</h2>
-				{:else}
-				<h2>Thank you for reaching out!</h2>
-				{/if}
+						<p>Email</p>
+						<input
+							type="email"
+							name="email"
+							bind:value={formEmail}
+							required
+							placeholder="you@domain.com"
+							class="w-full border-1 border-mid p-2 mb-4"
+						/>
+
+						<p>Preferred appointment date <span class="opacity-50">(optional)</span></p>
+						<input
+							type="text"
+							name="appointment_date"
+							bind:value={formDate}
+							use:datepicker
+							placeholder="Select a date"
+							aria-label="Preferred appointment date"
+							class="w-full border-1 border-mid p-2 mb-4 bg-white/40 rounded-[2px]"
+						/>
+
+						<p>Preferred time of day <span class="opacity-50">(optional)</span></p>
+						<Select
+							bind:value={formTimePreference}
+							ariaLabel="Preferred time of day"
+							placeholder="No preference"
+							options={[
+								{ value: '', label: 'No preference' },
+								{ value: 'Morning', label: 'Morning' },
+								{ value: 'Afternoon', label: 'Afternoon' },
+								{ value: 'Evening', label: 'Evening' }
+							]}
+						/>
+
+						<p class="hidden">
+							<label>
+								Don’t fill this out if you’re human: <input name="bot-field" />
+							</label>
+						</p>
+
+						<p>Message</p>
+						<textarea
+							name="message"
+							bind:value={formMessage}
+							required
+							placeholder="How can we help?"
+							class="min-h-24 w-full border-1 border-mid p-2 mb-4"
+						></textarea>
+
+						<button
+							type="submit"
+							onclick={triggerSubmitButton}
+							class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
+							>Connect</button
+						>
+					{:else if error}
+						<h2>
+							We're sorry, there appears to be an error. Please email info@gallerysonder.com with
+							your inquiry.
+						</h2>
+					{:else}
+						<h2>Thank you for reaching out!</h2>
+					{/if}
 				</div>
-			   {/if}
+			{/if}
 			<div class="flex flex-row gap-6">
 				{#if isFilled.link(slice.primary.instagram)}
-					<a href={slice.primary.instagram.url} aria-label="Visit Gallery Sonder on Instagram"><i class="fa-brands fa-instagram fa-lg"></i></a>
+					<a href={slice.primary.instagram.url} aria-label="Visit Gallery Sonder on Instagram"
+						><i class="fa-brands fa-instagram fa-lg"></i></a
+					>
 				{/if}
 			</div>
 		{/if}
 	</ContentWidth>
 </section>
+
+<style>
+	input,
+	textarea {
+		background-color: rgba(255, 255, 255, 0.4);
+		border-radius: 2px;
+	}
+</style>

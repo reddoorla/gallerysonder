@@ -16,7 +16,6 @@
 	let error = $state(false);
 
 	let formName = $state('');
-	let formCompany = $state('');
 	let formPhone = $state('');
 	let formEmail = $state('');
 	let formMessage = $state('');

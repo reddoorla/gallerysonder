@@ -14,11 +14,11 @@
 	const appState = getAppState();
 
 	interface Props {
-		isLogoBlack:boolean;
-		navProps: NavDocumentDataLinksItem[]
+		isLogoBlack: boolean;
+		navProps: NavDocumentDataLinksItem[];
 	}
 
-	let {isLogoBlack, navProps}:Props = $props();
+	let { isLogoBlack, navProps }: Props = $props();
 
 	let showNav = $state(false);
 	let viewportWidth = $state(1024);
@@ -34,7 +34,7 @@
 >
 	<ContentWidth class="flex flex-row justify-between items-center h-full">
 		<button
-			class="scale-105 text-white  hover:text-accent-pink hover:mix-blend-normal pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ||
+			class="scale-105 text-white hover:text-accent-pink hover:mix-blend-normal pointer-events-auto filter-to-accent-pink-on-hover active:invert transition-all {isLogoBlack ||
 			showNav
 				? 'brightness-0'
 				: ''}"
@@ -96,15 +96,18 @@
 					<i class="fa-brands fa-instagram fa-2xl"></i>
 				</a>
 			</div>
-			{#each navProps as link}
+			{#each navProps as link, i (i)}
 				<NameRevealOnHover
 					activeImage={link.active_link.url || ''}
-					onmouseover={() => {(appState.backgroundColor = link.active_color || '#E4EEEA'); console.log(appState.backgroundColor)}}
+					onmouseover={() => {
+						appState.backgroundColor = link.active_color || '#E4EEEA';
+						console.log(appState.backgroundColor);
+					}}
 					onmouseout={() => (appState.backgroundColor = '#E4EEEA')}
 					href={prismicH.isFilled.link(link.link) ? link.link.url : '#'}
 					class="h-4 sm:h-6 md:h-10 lg:h-12"
 					onclick={() => {
-						(setTimeout(() => (showNav = false)), 300);
+						setTimeout(() => (showNav = false));
 					}}
 				/>
 			{/each}

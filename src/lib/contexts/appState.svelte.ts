@@ -1,6 +1,6 @@
 import { getContext, onMount, setContext } from 'svelte';
 import { isFilled } from '@prismicio/client';
-import { type ArtistDocument, type ArtworkDocument } from '../../prismicio-types';
+import type { ArtistDocument, ArtworkDocument } from '../../prismicio-types';
 import { getPrismicClient } from '$lib/utils/prismic';
 
 const APP_STATE_KEY = Symbol('APP_STATE');
@@ -22,7 +22,6 @@ export interface AppState {
 	activeArtworkUid: string;
 	activeArtwork: ArtworkDocument<string> | null;
 	activeArtist: ArtistDocument<string> | null;
-
 
 	utmParams: {
 		source: string;
@@ -69,45 +68,44 @@ export function createAppState(): AppState {
 		backgroundColor = backgroundColorDefault;
 	});
 
-	async function fetchArtwork(uid:string) {
-			if (uid && uid !== lastFetchedUid && !isFetching) {
-				// console.log('[fetchArtwork] Starting fetch for:', uid);
-				isFetching = true;
-				lastFetchedUid = uid;
-				const client = getPrismicClient();
-				activeArtist = null;
-				activeArtwork = null;
+	async function fetchArtwork(uid: string) {
+		if (uid && uid !== lastFetchedUid && !isFetching) {
+			// console.log('[fetchArtwork] Starting fetch for:', uid);
+			isFetching = true;
+			lastFetchedUid = uid;
+			const client = getPrismicClient();
+			activeArtist = null;
+			activeArtwork = null;
 
-				try {
-					const artwork = await client.getByUID('artwork', uid);
-					// console.log('[fetchArtwork] Artwork fetched successfully:', uid);
-					activeArtwork = artwork;
+			try {
+				const artwork = await client.getByUID('artwork', uid);
+				// console.log('[fetchArtwork] Artwork fetched successfully:', uid);
+				activeArtwork = artwork;
 
-					if (isFilled.contentRelationship(artwork?.data.artist)) {
-						const artistUID = artwork?.data.artist.uid;
-						if (artistUID) {
-							activeArtist = await client.getByUID('artist', artistUID);
-							// console.log('[fetchArtwork] Artist fetched successfully:', artistUID);
-						}
+				if (isFilled.contentRelationship(artwork?.data.artist)) {
+					const artistUID = artwork?.data.artist.uid;
+					if (artistUID) {
+						activeArtist = await client.getByUID('artist', artistUID);
+						// console.log('[fetchArtwork] Artist fetched successfully:', artistUID);
 					}
-				} catch (error) {
-					console.error('[fetchArtwork] Error fetching artwork:', error);
-					activeArtwork = null;
-					activeArtist = null;
-				} finally {
-					isFetching = false;
-					// console.log('[fetchArtwork] Fetch complete for:', uid);
 				}
-			} else if (!uid) {
-				// console.log('[fetchArtwork] Clearing artwork data');
-				lastFetchedUid = '';
+			} catch (error) {
+				console.error('[fetchArtwork] Error fetching artwork:', error);
 				activeArtwork = null;
 				activeArtist = null;
-			} else {
-				// console.log('[fetchArtwork] Skipping fetch - already fetched or in progress:', uid);
+			} finally {
+				isFetching = false;
+				// console.log('[fetchArtwork] Fetch complete for:', uid);
 			}
+		} else if (!uid) {
+			// console.log('[fetchArtwork] Clearing artwork data');
+			lastFetchedUid = '';
+			activeArtwork = null;
+			activeArtist = null;
+		} else {
+			// console.log('[fetchArtwork] Skipping fetch - already fetched or in progress:', uid);
 		}
-
+	}
 
 	$effect(function syncArtworkDataWithUid() {
 		const uid = activeArtworkUid;
