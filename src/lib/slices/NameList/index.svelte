@@ -18,110 +18,112 @@
 	let shape = $state<HTMLElement | undefined>(undefined);
 	let shapeHeight = $state(0);
 	let isLoading = $state(true);
-	
+
 	interface ArtistItem {
-	  activeImage: string;
-	  color: string;
-	  link: LinkField;
-	  doubleHeight?: boolean;
+		activeImage: string;
+		color: string;
+		link: LinkField;
+		doubleHeight?: boolean;
 	}
 
 	let artistItems = $state<ArtistItem[]>([]);
-	
+
 	async function fetchArtistItems() {
-	  for (const item of slice.items) {
-		let artistData = {
-		  activeImage: item.artist_active_image.url || '',
-		  color: item.artist_color || '#E4EEEA',
-		  link: item.artist_page || { link_type: "Web", url: '' },
-		  doubleHeight: item.doubleheight || false
-		};
-
-		const fetchedArtist = await fetchFromRelationship<ArtistDocumentData>(item.artist, 'artist');
-
-		if (fetchedArtist) {
-		  console.log('Fetched artist data:', fetchedArtist);
-
-		  if (!isFilled.image(item.artist_active_image) && isFilled.image(fetchedArtist.nav_image)) {
-			artistData.activeImage = fetchedArtist.nav_image.url;
-		  }
-
-		  if (!item.artist_color && fetchedArtist.artist_color) {
-			artistData.color = fetchedArtist.artist_color;
-		  }
-
-		  if (
-			!isFilled.link(item.artist_page) &&
-			isFilled.contentRelationship(item.artist) &&
-			item.artist.uid
-		  ) {
-			artistData.link = {
-			  link_type: "Web",
-			  url: '/artists/' + item.artist.uid
+		for (const item of slice.items) {
+			let artistData = {
+				activeImage: item.artist_active_image.url || '',
+				color: item.artist_color || '#E4EEEA',
+				link: item.artist_page || { link_type: 'Web', url: '' },
+				doubleHeight: item.doubleheight || false
 			};
-		  }
+
+			const fetchedArtist = await fetchFromRelationship<ArtistDocumentData>(item.artist, 'artist');
+
+			if (fetchedArtist) {
+				console.log('Fetched artist data:', fetchedArtist);
+
+				if (!isFilled.image(item.artist_active_image) && isFilled.image(fetchedArtist.nav_image)) {
+					artistData.activeImage = fetchedArtist.nav_image.url;
+				}
+
+				if (!item.artist_color && fetchedArtist.artist_color) {
+					artistData.color = fetchedArtist.artist_color;
+				}
+
+				if (
+					!isFilled.link(item.artist_page) &&
+					isFilled.contentRelationship(item.artist) &&
+					item.artist.uid
+				) {
+					artistData.link = {
+						link_type: 'Web',
+						url: '/artists/' + item.artist.uid
+					};
+				}
+			}
+
+			artistItems.push(artistData);
 		}
 
-		artistItems.push(artistData);
-	  }
-
-	  isLoading = false;
+		isLoading = false;
 	}
-	
+
 	onMount(() => {
-	  if (shape) {
-		shapeHeight = shape.getBoundingClientRect().height;
-	  }
-	  
-	  fetchArtistItems();
+		if (shape) {
+			shapeHeight = shape.getBoundingClientRect().height;
+		}
+
+		fetchArtistItems();
 	});
-   </script>
-   
-   {#if slice.primary.shape_top !== '0'}
-	 <div style="height:{shapeHeight}px;"></div>
-   {/if}
-   
-   <section
-	 class="w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
-	 id={slice.primary.sectionLabel}
-	 style="background-color:{appState.backgroundColor};"
-   >
-	 {#if slice.primary.shape_top !== '0'}
-	   <div class="-translate-y-[99%]" bind:this={shape}>
-		 <TopShape shapeNumber={slice.primary.shape_top || '0'} />
-	   </div>
-	 {/if}
-	 
-	 <ContentWidth class="lg:pl-20 relative flex flex-col gap-8 md:gap-16 mb-16">
-	   {#if slice.primary.section_eyebrow}
-		 <h5 class="uppercase">{slice.primary.section_eyebrow || ''}</h5>
-	   {/if}
-	   
-	   {#if isLoading}
-		 <div class="w-full flex justify-center items-center py-4">
-		   <span>Loading artists...</span>
-		 </div>
-	   {:else}
-		 {#each artistItems as item, i (i)}
-		   <NameRevealOnHover
-			 activeImage={item.activeImage}
-			 onmouseover={() => appState.backgroundColor = item.color}
-			 onmouseout={() => appState.backgroundColor = appState.backgroundColorDefault}
-			 href={isFilled.link(item.link) ? item.link.url : ''}
-			 class={item.doubleHeight?"h-11 sm:h-[66px] md:h-[110px] lg:h-[132px]":"h-4 sm:h-6 md:h-10 lg:h-12"}
-		   />
-		 {/each}
-	   {/if}
-	   
-	   {#if slice.primary.bottom_button_text}
-		 <LinkArrowButton
-		   text={slice.primary.bottom_button_text || ''}
-		   href={prismicHelpers.isFilled.link(slice.primary.button_bottom_link)
-			 ? slice.primary.button_bottom_link.url
-			 : ''}
-		   class="mt-16"
-		   opensNewTab={slice.primary.button_bottom_link.link_type==='Media'}
-		 />
-	   {/if}
-	 </ContentWidth>
-   </section>
+</script>
+
+{#if slice.primary.shape_top !== '0'}
+	<div style="height:{shapeHeight}px;"></div>
+{/if}
+
+<section
+	class="w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
+	id={slice.primary.sectionLabel}
+	style="background-color:{appState.backgroundColor};"
+>
+	{#if slice.primary.shape_top !== '0'}
+		<div class="-translate-y-[99%]" bind:this={shape}>
+			<TopShape shapeNumber={slice.primary.shape_top || '0'} />
+		</div>
+	{/if}
+
+	<ContentWidth class="lg:pl-20 relative flex flex-col gap-8 md:gap-16 mb-16">
+		{#if slice.primary.section_eyebrow}
+			<h5 class="uppercase">{slice.primary.section_eyebrow || ''}</h5>
+		{/if}
+
+		{#if isLoading}
+			<div class="w-full flex justify-center items-center py-4">
+				<span>Loading artists...</span>
+			</div>
+		{:else}
+			{#each artistItems as item, i (i)}
+				<NameRevealOnHover
+					activeImage={item.activeImage}
+					onmouseover={() => (appState.backgroundColor = item.color)}
+					onmouseout={() => (appState.backgroundColor = appState.backgroundColorDefault)}
+					href={isFilled.link(item.link) ? item.link.url : ''}
+					class={item.doubleHeight
+						? 'h-11 sm:h-[66px] md:h-[110px] lg:h-[132px]'
+						: 'h-4 sm:h-6 md:h-10 lg:h-12'}
+				/>
+			{/each}
+		{/if}
+
+		{#if slice.primary.bottom_button_text}
+			<LinkArrowButton
+				text={slice.primary.bottom_button_text || ''}
+				href={prismicHelpers.isFilled.link(slice.primary.button_bottom_link)
+					? slice.primary.button_bottom_link.url
+					: ''}
+				class="mt-16"
+				opensNewTab={slice.primary.button_bottom_link.link_type === 'Media'}
+			/>
+		{/if}
+	</ContentWidth>
+</section>

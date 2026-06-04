@@ -12,19 +12,35 @@
 	let { slice }: { slice: Content.RichTextSlice } = $props();
 </script>
 
-<section style="background-color:{appState.backgroundColor}" class="w-screen transition duration-1000 {slice.primary.hide ? 'hidden' : ''}">
-	<ContentWidth class="w-full flex flex-col items-start lg:pl-20 py-{parseInt(slice.primary.slice_vertical_padding)/2} sm:py-{slice.primary.slice_vertical_padding}">
-		<div class="sm:w-{slice.primary.desktop_width} {slice.primary.float === 'right' ? 'sm:ml-auto' : ''} whitespace-pre-line rich-text pr-4 md:pr-0">
-		<PrismicRichText
-			field={slice.primary.content}
-			components={{
-				label: Label
-			}}
-		/>
- 
-		{#if slice.primary.button_text&& isFilled.link(slice.primary.button_link)}
-			<LinkArrowButton text={slice.primary.button_text || 'explore'} href={slice.primary.button_link.url} opensNewTab={slice.primary.button_link.link_type==='Media'} class="mt-8" />
-		{/if}
+<section
+	style="background-color:{appState.backgroundColor}"
+	class="w-screen transition duration-1000 {slice.primary.hide ? 'hidden' : ''}"
+>
+	<ContentWidth
+		class="w-full flex flex-col items-start lg:pl-20 py-{parseInt(
+			slice.primary.slice_vertical_padding
+		) / 2} sm:py-{slice.primary.slice_vertical_padding}"
+	>
+		<div
+			class="sm:w-{slice.primary.desktop_width} {slice.primary.float === 'right'
+				? 'sm:ml-auto'
+				: ''} whitespace-pre-line rich-text pr-4 md:pr-0"
+		>
+			<PrismicRichText
+				field={slice.primary.content}
+				components={{
+					label: Label
+				}}
+			/>
+
+			{#if slice.primary.button_text && isFilled.link(slice.primary.button_link)}
+				<LinkArrowButton
+					text={slice.primary.button_text || 'explore'}
+					href={slice.primary.button_link.url}
+					opensNewTab={slice.primary.button_link.link_type === 'Media'}
+					class="mt-8"
+				/>
+			{/if}
 		</div>
 	</ContentWidth>
 </section>

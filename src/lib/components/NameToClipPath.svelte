@@ -36,10 +36,11 @@
 
 	const checkActive = () => {
 		const linkRect = linkRef?.getBoundingClientRect();
-		if (linkRect && (
+		if (
+			linkRect &&
 			linkRect.top - linkRect.height / 2 < viewportHeight / 2 &&
 			linkRect.bottom + linkRect.height / 2 > viewportHeight / 2
-		)) {
+		) {
 			active = true;
 		} else {
 			active = false;
@@ -70,9 +71,5 @@
 			: 'md:opacity-0'} {className}"
 	/>
 
-	<img
-		src={inactiveImage}
-		alt="sonder logo"
-		class="{className} opacity-0 md:opacity-100"
-	/>
+	<img src={inactiveImage} alt="sonder logo" class="{className} opacity-0 md:opacity-100" />
 </a>

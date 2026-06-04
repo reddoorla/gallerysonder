@@ -15,15 +15,18 @@
 
 	let { slice }: { slice: QuoteBlockSlice } = $props();
 
-	let customFontSize = $derived(slice.primary.text_size
-		? (viewportWidth > 1024 ? slice.primary.text_size : slice.primary.text_size / 2)
-		: (viewportWidth > 1024 ? 66 : viewportWidth>768 ? 42 : 24));
+	let customFontSize = $derived(
+		slice.primary.text_size
+			? viewportWidth > 1024
+				? slice.primary.text_size
+				: slice.primary.text_size / 2
+			: viewportWidth > 1024
+				? 66
+				: viewportWidth > 768
+					? 42
+					: 24
+	);
 </script>
-<style>
-	.quote :global(*) {
-		font-size: var(--quote-font-size) !important;
-	}
-</style>
 
 <svelte:window bind:innerWidth={viewportWidth} />
 {#if !slice.primary.hide}
@@ -47,7 +50,10 @@
 						</svg>
 					</div>
 				{/if}
-				<div class="md:mx-16 quote " style={customFontSize ? `--quote-font-size: ${customFontSize}px;` : ''}>
+				<div
+					class="md:mx-16 quote"
+					style={customFontSize ? `--quote-font-size: ${customFontSize}px;` : ''}
+				>
 					<PrismicRichText field={slice.primary.quotation} />
 				</div>
 				{#if prismicH.isFilled.image(slice.primary.signature)}
@@ -57,3 +63,9 @@
 		</div>
 	</section>
 {/if}
+
+<style>
+	.quote :global(*) {
+		font-size: var(--quote-font-size) !important;
+	}
+</style>

@@ -25,7 +25,6 @@
 
 	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
-
 	let slicesSections: string[] = [];
 	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
 

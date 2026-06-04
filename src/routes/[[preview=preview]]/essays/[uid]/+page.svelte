@@ -26,7 +26,9 @@
 
 	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
-	let slicesSections = $derived(data.page.data.slices.map((slice) => slice.primary?.sectionLabel || ''));
+	let slicesSections = $derived(
+		data.page.data.slices.map((slice) => slice.primary?.sectionLabel || '')
+	);
 
 	let sections = $derived(data.page.data.sections.map((section) => section.section || ''));
 

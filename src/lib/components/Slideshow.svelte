@@ -15,7 +15,10 @@
 	const setImageArray = () => {
 		imageArray = [];
 
-		if (appState.activeArtwork?.data.primary_image && isFilled.image(appState.activeArtwork.data.primary_image)) {
+		if (
+			appState.activeArtwork?.data.primary_image &&
+			isFilled.image(appState.activeArtwork.data.primary_image)
+		) {
 			imageArray.push(appState.activeArtwork.data.primary_image);
 
 			if (

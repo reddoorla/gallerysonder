@@ -1,213 +1,201 @@
 {
-  "id": "image_gallery",
-  "type": "SharedSlice",
-  "name": "ImageGallery",
-  "description": "ImageGallery",
-  "variations": [
-    {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
-      "primary": {
-        "shape_top": {
-          "type": "Select",
-          "config": {
-            "label": "shape top",
-            "placeholder": "",
-            "options": [
-              "0",
-              "1",
-              "2",
-              "3",
-              "4",
-              "5",
-              "6"
-            ]
-          }
-        },
-        "gallery_eyebrow": {
-          "type": "Text",
-          "config": {
-            "label": "gallery_eyebrow",
-            "placeholder": ""
-          }
-        },
-        "will_blur": {
-          "type": "Boolean",
-          "config": {
-            "label": "will blur",
-            "default_value": false,
-            "placeholder_true": "true",
-            "placeholder_false": "false"
-          }
-        },
-        "islist": {
-          "type": "Boolean",
-          "config": {
-            "label": "isList",
-            "default_value": false,
-            "placeholder_true": "true",
-            "placeholder_false": "false"
-          }
-        },
-        "is_staggered": {
-          "type": "Boolean",
-          "config": {
-            "label": "is staggered",
-            "default_value": false,
-            "placeholder_true": "true",
-            "placeholder_false": "false"
-          }
-        },
-        "sectionLabel": {
-          "type": "Text",
-          "config": {
-            "label": "sectionLabel",
-            "placeholder": "leave blank for no id"
-          }
-        },
-        "gallery_closing_text": {
-          "type": "StructuredText",
-          "config": {
-            "label": "gallery_closing_text",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-          }
-        },
-        "button_bottom_text": {
-          "type": "Text",
-          "config": {
-            "label": "button bottom text",
-            "placeholder": ""
-          }
-        },
-        "button_bottom_link": {
-          "type": "Link",
-          "config": {
-            "label": "button bottom link",
-            "placeholder": "",
-            "select": null
-          }
-        },
-        "show_more_button": {
-          "type": "Boolean",
-          "config": {
-            "label": "show more button",
-            "placeholder_false": "no button, show all always",
-            "placeholder_true": "show first four with button for all",
-            "default_value": false
-          }
-        },
-        "will_open": {
-          "type": "Boolean",
-          "config": {
-            "label": "lightbox toggle",
-            "placeholder_false": "not a lightbox, can be link",
-            "placeholder_true": "lightbox opens on click",
-            "default_value": false
-          }
-        },
-        "hide": {
-          "type": "Boolean",
-          "config": {
-            "label": "hide",
-            "default_value": false,
-            "placeholder_true": "true",
-            "placeholder_false": "false"
-          }
-        }
-      },
-      "items": {
-        "artwork": {
-          "type": "Link",
-          "config": {
-            "label": "artwork",
-            "select": "document",
-            "customtypes": [
-              "artwork"
-            ]
-          }
-        },
-        "exhibition": {
-          "type": "Link",
-          "config": {
-            "label": "exhibition",
-            "select": "document",
-            "customtypes": [
-              "exhibit"
-            ]
-          }
-        },
-        "news": {
-          "type": "Link",
-          "config": {
-            "label": "news",
-            "select": "document"
-          }
-        },
-        "eyebrow": {
-          "type": "Text",
-          "config": {
-            "label": "piece eyebrow",
-            "placeholder": "manual"
-          }
-        },
-        "title_one": {
-          "type": "Text",
-          "config": {
-            "label": "Title One (manual override)",
-            "placeholder": ""
-          }
-        },
-        "image": {
-          "type": "Image",
-          "config": {
-            "label": "image",
-            "constraint": {},
-            "thumbnails": []
-          }
-        },
-        "title_two": {
-          "type": "Text",
-          "config": {
-            "label": "Title Two (manual override)",
-            "placeholder": ""
-          }
-        },
-        "subtitle": {
-          "type": "Text",
-          "config": {
-            "label": "Body One",
-            "placeholder": ""
-          }
-        },
-        "subtitle_two": {
-          "type": "Text",
-          "config": {
-            "label": "Body Two",
-            "placeholder": ""
-          }
-        },
-        "button_text": {
-          "type": "Text",
-          "config": {
-            "label": "button text",
-            "placeholder": ""
-          }
-        },
-        "link": {
-          "type": "Link",
-          "config": {
-            "label": "link",
-            "placeholder": "",
-            "select": null
-          }
-        }
-      }
-    }
-  ]
+	"id": "image_gallery",
+	"type": "SharedSlice",
+	"name": "ImageGallery",
+	"description": "ImageGallery",
+	"variations": [
+		{
+			"id": "default",
+			"name": "Default",
+			"docURL": "...",
+			"version": "initial",
+			"description": "Default",
+			"imageUrl": "",
+			"primary": {
+				"shape_top": {
+					"type": "Select",
+					"config": {
+						"label": "shape top",
+						"placeholder": "",
+						"options": ["0", "1", "2", "3", "4", "5", "6"]
+					}
+				},
+				"gallery_eyebrow": {
+					"type": "Text",
+					"config": {
+						"label": "gallery_eyebrow",
+						"placeholder": ""
+					}
+				},
+				"will_blur": {
+					"type": "Boolean",
+					"config": {
+						"label": "will blur",
+						"default_value": false,
+						"placeholder_true": "true",
+						"placeholder_false": "false"
+					}
+				},
+				"islist": {
+					"type": "Boolean",
+					"config": {
+						"label": "isList",
+						"default_value": false,
+						"placeholder_true": "true",
+						"placeholder_false": "false"
+					}
+				},
+				"is_staggered": {
+					"type": "Boolean",
+					"config": {
+						"label": "is staggered",
+						"default_value": false,
+						"placeholder_true": "true",
+						"placeholder_false": "false"
+					}
+				},
+				"sectionLabel": {
+					"type": "Text",
+					"config": {
+						"label": "sectionLabel",
+						"placeholder": "leave blank for no id"
+					}
+				},
+				"gallery_closing_text": {
+					"type": "StructuredText",
+					"config": {
+						"label": "gallery_closing_text",
+						"placeholder": "",
+						"allowTargetBlank": true,
+						"multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+					}
+				},
+				"button_bottom_text": {
+					"type": "Text",
+					"config": {
+						"label": "button bottom text",
+						"placeholder": ""
+					}
+				},
+				"button_bottom_link": {
+					"type": "Link",
+					"config": {
+						"label": "button bottom link",
+						"placeholder": "",
+						"select": null
+					}
+				},
+				"show_more_button": {
+					"type": "Boolean",
+					"config": {
+						"label": "show more button",
+						"placeholder_false": "no button, show all always",
+						"placeholder_true": "show first four with button for all",
+						"default_value": false
+					}
+				},
+				"will_open": {
+					"type": "Boolean",
+					"config": {
+						"label": "lightbox toggle",
+						"placeholder_false": "not a lightbox, can be link",
+						"placeholder_true": "lightbox opens on click",
+						"default_value": false
+					}
+				},
+				"hide": {
+					"type": "Boolean",
+					"config": {
+						"label": "hide",
+						"default_value": false,
+						"placeholder_true": "true",
+						"placeholder_false": "false"
+					}
+				}
+			},
+			"items": {
+				"artwork": {
+					"type": "Link",
+					"config": {
+						"label": "artwork",
+						"select": "document",
+						"customtypes": ["artwork"]
+					}
+				},
+				"exhibition": {
+					"type": "Link",
+					"config": {
+						"label": "exhibition",
+						"select": "document",
+						"customtypes": ["exhibit"]
+					}
+				},
+				"news": {
+					"type": "Link",
+					"config": {
+						"label": "news",
+						"select": "document"
+					}
+				},
+				"eyebrow": {
+					"type": "Text",
+					"config": {
+						"label": "piece eyebrow",
+						"placeholder": "manual"
+					}
+				},
+				"title_one": {
+					"type": "Text",
+					"config": {
+						"label": "Title One (manual override)",
+						"placeholder": ""
+					}
+				},
+				"image": {
+					"type": "Image",
+					"config": {
+						"label": "image",
+						"constraint": {},
+						"thumbnails": []
+					}
+				},
+				"title_two": {
+					"type": "Text",
+					"config": {
+						"label": "Title Two (manual override)",
+						"placeholder": ""
+					}
+				},
+				"subtitle": {
+					"type": "Text",
+					"config": {
+						"label": "Body One",
+						"placeholder": ""
+					}
+				},
+				"subtitle_two": {
+					"type": "Text",
+					"config": {
+						"label": "Body Two",
+						"placeholder": ""
+					}
+				},
+				"button_text": {
+					"type": "Text",
+					"config": {
+						"label": "button text",
+						"placeholder": ""
+					}
+				},
+				"link": {
+					"type": "Link",
+					"config": {
+						"label": "link",
+						"placeholder": "",
+						"select": null
+					}
+				}
+			}
+		}
+	]
 }

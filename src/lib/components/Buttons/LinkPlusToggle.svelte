@@ -20,7 +20,7 @@
 	let isLinkArrowActive = $state(false);
 	let isRotated = $state(false);
 
-	onMount(() => isRotated = startsActive)
+	onMount(() => (isRotated = startsActive));
 </script>
 
 {#if href}
@@ -38,7 +38,8 @@
 		<span class="h-5 uppercase no-underline">{text}</span>
 
 		<i
-			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated && togglable
+			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated &&
+			togglable
 				? 'rotate-45 scale-125'
 				: ''} {isLinkArrowActive ? '-translate-y-[1px]' : ''}"
 		>
@@ -57,7 +58,8 @@
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
 		<i
-			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated && togglable
+			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated &&
+			togglable
 				? 'rotate-45 scale-125'
 				: ''} {isLinkArrowActive ? '-translate-y-[1px]' : ''}"
 		>

@@ -95,7 +95,7 @@
 		createPlayer();
 	};
 
-	let viewportHeight=$state(900);
+	let viewportHeight = $state(900);
 	let viewportWidth = $state(1600);
 </script>
 

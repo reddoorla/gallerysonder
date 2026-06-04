@@ -25,8 +25,9 @@
 
 	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
-
-	let slicesSections = $derived(data.page.data.slices.map((slice) => slice.primary?.sectionLabel || ''));
+	let slicesSections = $derived(
+		data.page.data.slices.map((slice) => slice.primary?.sectionLabel || '')
+	);
 
 	let sections = $derived(data.page.data.sections.map((section) => section.section || ''));
 
@@ -75,8 +76,6 @@
 	></div>
 </div>
 
-
-
 <div class="fixed w-screen h-screen-50">
 	<ContentWidth
 		class="h-full flex flex-col justify-end items-start transition-opacity {!isBackgroundDark &&
@@ -88,8 +87,10 @@
 			class="text-white translate-y-[22%] font-thin lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
-				: 'opacity-0'}">{content.dates || ''}</h5
+				: 'opacity-0'}"
 		>
+			{content.dates || ''}
+		</h5>
 		<h5
 			class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark

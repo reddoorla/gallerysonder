@@ -26,9 +26,8 @@
 			isLinkArrowActive = false;
 			onclick();
 		}}
-
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {className}"
-		target="{opensNewTab?'_blank':""}"
+		target={opensNewTab ? '_blank' : ''}
 		{href}
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>

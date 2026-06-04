@@ -4,7 +4,6 @@
 	import ContentWidth from './ContentWidth.svelte';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 
-
 	const appState = getAppState();
 
 	let sliceRefs = $state<HTMLElement[]>([]);
@@ -17,7 +16,7 @@
 		slicesSections: string[];
 	} = $props();
 
-	const formattedSlicesSections = slicesSections.map(section => section);
+	const formattedSlicesSections = slicesSections.map((section) => section);
 
 	let fixedNav = $state<HTMLElement | undefined>(undefined);
 
@@ -70,7 +69,8 @@
 	>
 		<div
 			bind:this={fixedNav}
-			class="absolute top-2 lg:top-1/2 lg:-translate-y-4 lg:left-1.75 lg:-translate-x-1/2 lg:rotate-90 flex flex-row gap-4 transition {isFixedNavShown && !appState.isModalActive
+			class="absolute top-2 lg:top-1/2 lg:-translate-y-4 lg:left-1.75 lg:-translate-x-1/2 lg:rotate-90 flex flex-row gap-4 transition {isFixedNavShown &&
+			!appState.isModalActive
 				? 'pointer-events-auto transition-opacity'
 				: 'pointer-events-none opacity-0'}"
 		>
@@ -81,8 +81,10 @@
                     {isFixedNavShown ? '' : 'pointer-events-none'}"
 						class:active={section === activeSection}
 						href="#{section}"
-						onclick={(e) => {e.preventDefault();
-							findTopOfSection(section).scrollIntoView({ behavior: 'smooth' })}}
+						onclick={(e) => {
+							e.preventDefault();
+							findTopOfSection(section).scrollIntoView({ behavior: 'smooth' });
+						}}
 					>
 						{section}
 					</a>

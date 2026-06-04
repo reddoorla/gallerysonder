@@ -80,7 +80,7 @@
 
 	@media screen and (max-width: 1024px) {
 		.parent {
-		width: 100%;
-	}
+			width: 100%;
+		}
 	}
 </style>

@@ -9,8 +9,7 @@ type FbqFn = {
 };
 
 declare global {
-	namespace App {
-	}
+	namespace App {}
 
 	interface Window {
 		fbq?: FbqFn;

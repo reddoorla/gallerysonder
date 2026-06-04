@@ -28,7 +28,10 @@
 			<LinkArrowButton
 				text="Subscribe to our newsletter"
 				class="brightness-0 invert ml-0 md:ml-2 mt-4 text-left md:mt-10"
-				onclick={()=>{appState.hasNewsletterBeenCleared = false; appState.isNewsletterActive = true;}}
+				onclick={() => {
+					appState.hasNewsletterBeenCleared = false;
+					appState.isNewsletterActive = true;
+				}}
 			/>
 			<div
 				class="absolute md:left-[3px] top-16 md:top-20 flex md:flex-col justify-center items-center gap-4"
@@ -40,26 +43,26 @@
 				>
 					<i class="fa-brands fa-instagram fa-2xl"></i>
 				</a>
-				
 			</div>
 		</div>
-	
-		<div class="sm:pl-20 md:ml-2 flex flex-col md:flex-row justify-between items-start md:items-end w-full md:mb-12 gap-4 md:gap-8">
+
+		<div
+			class="sm:pl-20 md:ml-2 flex flex-col md:flex-row justify-between items-start md:items-end w-full md:mb-12 gap-4 md:gap-8"
+		>
 			<div class="gap-3 flex flex-col">
 				<a href="/" class="h-3">
 					<img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert" />
 				</a>
 				<div style="color:{appState.backgroundColor}">
-					3435 E Coast Highway, <br/>
-					Corona del Mar, CA 92625 <br/>
-					(949) 662-0077 <br/>
+					3435 E Coast Highway, <br />
+					Corona del Mar, CA 92625 <br />
+					(949) 662-0077 <br />
 					info@gallerysonder.com
 				</div>
-				</div>
-				<div class="text-white text-xs md:text-md mb-8 md:mb-0">©{new Date().getFullYear()} &nbsp;&nbsp;|&nbsp;&nbsp; All Rights Reserved</div>
-			
-			
-			
+			</div>
+			<div class="text-white text-xs md:text-md mb-8 md:mb-0">
+				©{new Date().getFullYear()} &nbsp;&nbsp;|&nbsp;&nbsp; All Rights Reserved
+			</div>
 		</div>
 	</ContentWidth>
 </div>

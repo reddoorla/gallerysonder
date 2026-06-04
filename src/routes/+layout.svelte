@@ -33,14 +33,11 @@
 
 	const areUtmParamsEmpty = () => {
 		const u = appState.utmParams;
-		return !(u.campaign||u.content||u.medium||u.medium||u.source||u.term)
-	}
-
-
+		return !(u.campaign || u.content || u.medium || u.medium || u.source || u.term);
+	};
 
 	onMount(() => {
-
-		setTimeout(()=>navDelayDone=true, 500)
+		setTimeout(() => (navDelayDone = true), 500);
 
 		const urlParams = $page.url.searchParams;
 
@@ -52,9 +49,7 @@
 			content: urlParams.get('utm_content') || 'none'
 		};
 
-		if(areUtmParamsEmpty())
-			appState.utmParams = currentUtmParams;
-
+		if (areUtmParamsEmpty()) appState.utmParams = currentUtmParams;
 	});
 
 	onNavigate(() => {
@@ -65,10 +60,7 @@
 			isTransitioning = false;
 		}, 1050);
 	});
-
-	
 </script>
-
 
 <svelte:head>
 	<title>{$page.data.meta_title || 'Gallery Sonder'}</title>
@@ -92,8 +84,6 @@
 {/if}
 
 <main>
-
-
 	{#if isTransitioning}
 		<div
 			out:fade={{ duration: 600 }}
@@ -101,43 +91,61 @@
 		></div>
 	{/if}
 
-	
-
-		{#if !appState.isIntroRunning&&navDelayDone}
-			<Nav isLogoBlack={false} navProps={data.nav.data.links} />
-		{/if}
-		<slot />
-
-
-
-	
+	{#if !appState.isIntroRunning && navDelayDone}
+		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
+	{/if}
+	<slot />
 </main>
 
-
-
-			<Lightbox />
-
-
+<Lightbox />
 
 <PrismicPreview {repositoryName} />
 
-<form class="hidden"  name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyContactForm" >
+<form
+	class="hidden"
+	name="contact"
+	method="post"
+	data-netlify="true"
+	data-netlify-honeypot="bot-field"
+	id="netlifyContactForm"
+>
 	<input type="hidden" name="form-name" value="contact" />
-	
 
-	
 	<p>Name</p>
-	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
+	<input
+		type="text"
+		name="name"
+		required
+		placeholder="first and last name"
+		class="w-full border-1 border-mid p-2 mb-4"
+	/>
 	<p>Company Name</p>
-	<input type="text" name="company" placeholder="company name" class="w-full border-1 border-mid p-2 mb-4" />
+	<input
+		type="text"
+		name="company"
+		placeholder="company name"
+		class="w-full border-1 border-mid p-2 mb-4"
+	/>
 	<p>Phone</p>
-	<input type="phone" name="phone" required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
+	<input
+		type="phone"
+		name="phone"
+		required
+		placeholder="000-000-0000"
+		class="w-full border-1 border-mid p-2 mb-4"
+	/>
 	<p>Email</p>
-	<input type="email" name="email" required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
+	<input
+		type="email"
+		name="email"
+		required
+		placeholder="you@domain.com"
+		class="w-full border-1 border-mid p-2 mb-4"
+	/>
 	<p class="hidden">
-	  <label>
-		Don't fill this out if you're human: <input name="bot-field" />
-	  </label>
+		<label>
+			Don't fill this out if you're human: <input name="bot-field" />
+		</label>
 	</p>
 	<input type="date" name="appointment_date" />
 	<select name="appointment_time">
@@ -147,37 +155,77 @@
 		<option value="Evening">Evening</option>
 	</select>
 	<p>Message</p>
-	<textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
+	<textarea
+		name="message"
+		required
+		placeholder="how can we help?"
+		class="min-h-24 w-full border-1 border-mid p-2 mb-4"
+	></textarea>
 
-		<!-- UTM Parameters -->
+	<!-- UTM Parameters -->
 	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
 	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
 	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
 	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-	<button id="hiddenSubmitButton" type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
+	<button
+		id="hiddenSubmitButton"
+		type="submit"
+		value="Connect"
+		class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
+		>Connect</button
+	>
 </form>
 
-
-<form class="hidden"  name="inquiry" method="post" data-netlify="true" data-netlify-honeypot="bot-field" id="netlifyInquiryForm" >
+<form
+	class="hidden"
+	name="inquiry"
+	method="post"
+	data-netlify="true"
+	data-netlify-honeypot="bot-field"
+	id="netlifyInquiryForm"
+>
 	<input type="hidden" name="form-name" value="inquiry" />
 
 	<p>Name</p>
-	<input type="text" name="name" required placeholder="first and last name" class="w-full border-1 border-mid p-2 mb-4" />
+	<input
+		type="text"
+		name="name"
+		required
+		placeholder="first and last name"
+		class="w-full border-1 border-mid p-2 mb-4"
+	/>
 	<p>Phone</p>
-	<input type="phone" name="phone" required placeholder="000-000-0000" class="w-full border-1 border-mid p-2 mb-4" />
+	<input
+		type="phone"
+		name="phone"
+		required
+		placeholder="000-000-0000"
+		class="w-full border-1 border-mid p-2 mb-4"
+	/>
 	<p>Email</p>
-	<input type="email" name="email" required placeholder="you@domain.com" class="w-full border-1 border-mid p-2 mb-4" />
+	<input
+		type="email"
+		name="email"
+		required
+		placeholder="you@domain.com"
+		class="w-full border-1 border-mid p-2 mb-4"
+	/>
 	<p class="hidden">
-	  <label>
-		Don't fill this out if you're human: <input name="bot-field" />
-	  </label>
+		<label>
+			Don't fill this out if you're human: <input name="bot-field" />
+		</label>
 	</p>
 	<p>Message</p>
-	<textarea name="message" required placeholder="how can we help?" class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
+	<textarea
+		name="message"
+		required
+		placeholder="how can we help?"
+		class="min-h-24 w-full border-1 border-mid p-2 mb-4"
+	></textarea>
 
-	<input name="piece" type="text"/>
-	<input name="artist" type="text"/>
+	<input name="piece" type="text" />
+	<input name="artist" type="text" />
 	<input name="role" type="text" />
 
 	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
@@ -186,17 +234,30 @@
 	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
 
-	<button id="hiddenSubmitButton" type="submit" value="Connect" class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer">Connect</button>
+	<button
+		id="hiddenSubmitButton"
+		type="submit"
+		value="Connect"
+		class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
+		>Connect</button
+	>
 </form>
 
-<form class="hidden"  name="news" method="POST" id="netlifyNewsletterSignup" data-netlify="true" data-netlify-honeypot="bot-field" >
-    <input type="hidden" name="form-name" value="news"  />
-    <p class="hidden">
-        <label>
-          Don’t fill this out if you’re human: <input name="bot-field" />
-        </label>
-    </p>
-	<input name="name" type='text'/>
+<form
+	class="hidden"
+	name="news"
+	method="POST"
+	id="netlifyNewsletterSignup"
+	data-netlify="true"
+	data-netlify-honeypot="bot-field"
+>
+	<input type="hidden" name="form-name" value="news" />
+	<p class="hidden">
+		<label>
+			Don’t fill this out if you’re human: <input name="bot-field" />
+		</label>
+	</p>
+	<input name="name" type="text" />
 	<input type="email" name="email" />
 	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
 	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
@@ -204,18 +265,24 @@
 	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
 
-    <button type="submit" id="hiddenNewsSubmitButton" aria-label="Submit newsletter signup"></button>
+	<button type="submit" id="hiddenNewsSubmitButton" aria-label="Submit newsletter signup"></button>
 </form>
 
-
-<form class="hidden" name="rsvp" method="POST" id="netlifyRsvpForm" data-netlify="true" data-netlify-honeypot="bot-field">
-	 <p class="hidden">
-        <label>
-          Don’t fill this out if you’re human: <input name="bot-field" />
-        </label>
-	 </p>
-	 <input type="hidden" name="form-name" value="rsvp" />
-	<input name="name" type='text'/>
+<form
+	class="hidden"
+	name="rsvp"
+	method="POST"
+	id="netlifyRsvpForm"
+	data-netlify="true"
+	data-netlify-honeypot="bot-field"
+>
+	<p class="hidden">
+		<label>
+			Don’t fill this out if you’re human: <input name="bot-field" />
+		</label>
+	</p>
+	<input type="hidden" name="form-name" value="rsvp" />
+	<input name="name" type="text" />
 	<input type="email" name="email" />
 	<input type="text" name="event" />
 	<input name="guests" type="number" />
@@ -226,4 +293,3 @@
 	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
 	<button type="submit" id="hiddenRsvpSubmitButton" aria-label="Submit RSVP"></button>
 </form>
-	

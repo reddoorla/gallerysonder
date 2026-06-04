@@ -3,12 +3,14 @@ export interface FormSubmissionResult {
 	status: number;
 }
 
-export async function submitNetlifyForm(formElement: HTMLFormElement): Promise<FormSubmissionResult> {
+export async function submitNetlifyForm(
+	formElement: HTMLFormElement
+): Promise<FormSubmissionResult> {
 	const formData = new FormData(formElement);
 
-	const response = await fetch("/forms", {
-		method: "POST",
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	const response = await fetch('/forms', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 		body: new URLSearchParams(formData as unknown as Record<string, string>).toString()
 	});
 
