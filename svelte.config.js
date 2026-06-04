@@ -3,5 +3,11 @@ import adapter from "@sveltejs/adapter-netlify";
 
 /** @type {import('@sveltejs/kit').Config} */
 export default createSvelteConfig({
-  kit: { adapter: adapter({ edge: false, split: false }) },
+  kit: {
+    adapter: adapter({ edge: false, split: false }),
+    prerender: {
+      handleHttpError: "warn",
+      handleMissingId: "warn",
+    },
+  },
 });
