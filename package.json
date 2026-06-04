@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "concurrently \"npm:vite:dev\" \"npm:slicemachine\" --prefix-colors blue,magenta",
+		"dev": "concurrently \"pnpm:vite:dev\" \"pnpm:slicemachine\" --prefix-colors blue,magenta",
 		"vite:dev": "vite dev --host",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -15,15 +15,13 @@
 	},
 	"devDependencies": {
 		"@slicemachine/adapter-sveltekit": "^0.3.38",
-		"@sveltejs/adapter-auto": "^7.0.0",
+		"@sveltejs/adapter-netlify": "^6.0.4",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
 		"@tailwindcss/postcss": "^4.1.18",
 		"autoprefixer": "^10.4.19",
 		"concurrently": "^9.2.1",
-		"eslint": "^9.39.2",
-		"eslint-config-prettier": "^10.1.8",
-		"eslint-plugin-svelte": "^3.13.1",
+		"eslint": "^10.4.0",
 		"postcss": "^8.4.38",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
@@ -46,7 +44,6 @@
 		"@prismicio/client": "^7.3.1",
 		"@prismicio/helpers": "^2.3.9",
 		"@prismicio/svelte": "^2.0.0",
-		"@sveltejs/adapter-netlify": "^5.2.3",
 		"@vimeo/player": "^2.25.0",
 		"@zerodevx/svelte-img": "^2.1.2",
 		"d3-interpolate": "^3.0.1",
@@ -55,5 +52,12 @@
 		"svelte-fa": "^4.0.2",
 		"svelte-gestures": "^5.2.2"
 	},
-	"packageManager": "pnpm@10.33.1"
+	"packageManager": "pnpm@10.33.1",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"protobufjs",
+			"sharp"
+		]
+	}
 }
