@@ -71,7 +71,7 @@
 		<meta name="og:title" content={$page.data.meta_title} />
 	{/if}
 	{#if $page.data.meta_image}
-		<meta name="og:image" content={$page.data.meta_image.url} />
+		<meta name="og:image" content={$page.data.meta_image} />
 		<meta name="twitter:card" content="summary_large_image" />
 	{/if}
 </svelte:head>
