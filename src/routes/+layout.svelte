@@ -13,10 +13,9 @@
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
 	import Lightbox from '$lib/components/Lightbox.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
-	import Analytics from '$lib/components/Analytics.svelte';
 
 	const appState = setAppState();
-	const DISABLE_COOKIE_CONSENT = import.meta.env.DISABLE_COOKIE_CONSENT === 'true';
+	const DISABLE_COOKIE_CONSENT = import.meta.env.VITE_DISABLE_COOKIE_CONSENT === 'true';
 
 	let { data } = $props();
 
@@ -80,7 +79,6 @@
 
 {#if !DISABLE_COOKIE_CONSENT}
 	<CookieConsent />
-	<Analytics />
 {/if}
 
 <main>
