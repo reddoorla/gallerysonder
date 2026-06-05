@@ -9,8 +9,11 @@
 
 	export const cookieConsent = writable(false);
 
+	const GTM_ID = 'GTM-5FVCTMK7';
+
 	let showModal = $state(false);
 	let _hasConsented = $state(false);
+	let gtmInjected = false;
 
 	onMount(() => {
 		const consent = localStorage.getItem('cookieConsent');
@@ -20,7 +23,7 @@
 			_hasConsented = true;
 
 			if (accepted) {
-				initializeFacebookPixel();
+				loadAnalytics();
 			}
 		} else {
 			appState.lockBodyScroll();
@@ -59,9 +62,30 @@
 		window.fbq('track', 'PageView');
 	}
 
+	function initializeGoogleTagManager() {
+		if (gtmInjected) return;
+		gtmInjected = true;
+
+		const w = window as Window & { dataLayer?: Record<string, unknown>[] };
+		w.dataLayer = w.dataLayer || [];
+		w.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+
+		const script = document.createElement('script');
+		script.async = true;
+		script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
+		const firstScript = document.getElementsByTagName('script')[0];
+		firstScript.parentNode?.insertBefore(script, firstScript);
+	}
+
+	// Both trackers are consent-gated: nothing loads until the visitor accepts.
+	function loadAnalytics() {
+		initializeGoogleTagManager();
+		initializeFacebookPixel();
+	}
+
 	function acceptCookies() {
 		saveConsent(true);
-		initializeFacebookPixel();
+		loadAnalytics();
 		showModal = false;
 		appState.unlockBodyScroll();
 	}

@@ -19,6 +19,12 @@
 
 	let { slice }: { slice: VideoBlockSlice } = $props();
 
+	// Google Maps Embed keys are necessarily public (they ride in the iframe URL),
+	// so the real protection is HTTP-referrer + API restrictions in the GCP console.
+	// Sourcing from an env var keeps the literal out of git and lets the key rotate
+	// without a code change. Set VITE_GOOGLE_MAPS_EMBED_KEY in .env and on Netlify.
+	const mapsEmbedKey = import.meta.env.VITE_GOOGLE_MAPS_EMBED_KEY ?? '';
+
 	let showModal = $state(false);
 
 	const openModal = () => {
@@ -197,7 +203,7 @@
 					frameborder="0"
 					style="border:0"
 					referrerpolicy="no-referrer-when-downgrade"
-					src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyChi9O7_yEWrLrRJSt2DyGO8pM5wl48UbY&q=${slice.primary.center_point.latitude},${slice.primary.center_point.longitude}`}
+					src={`https://www.google.com/maps/embed/v1/place?key=${mapsEmbedKey}&q=${slice.primary.center_point.latitude},${slice.primary.center_point.longitude}`}
 					allowfullscreen
 				>
 				</iframe>
