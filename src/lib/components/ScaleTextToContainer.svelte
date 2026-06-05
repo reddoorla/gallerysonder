@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	let { class: className = '' } = $props();
+	let { class: className = '', children } = $props();
 
 	let parent: HTMLElement;
 	let nodes: HTMLElement[] = [];
@@ -83,7 +83,7 @@
 </script>
 
 <div bind:this={parent} class="parent transition-all {className}" style="">
-	<slot />
+	{@render children?.()}
 </div>
 
 <style>

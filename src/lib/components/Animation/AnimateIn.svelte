@@ -4,11 +4,13 @@
 	let {
 		style = '',
 		transitionDelayMax = 400,
-		transitionDuration = 2400
+		transitionDuration = 2400,
+		children
 	}: {
 		style?: string;
 		transitionDelayMax?: number;
 		transitionDuration?: number;
+		children?: import('svelte').Snippet;
 	} = $props();
 
 	let isInView = $state(false);
@@ -50,5 +52,5 @@
 		: 'opacity-0 translate-y-[50%]'}"
 	style="transition-delay:{transitionDelay}ms; transition-duration:{transitionDuration}ms; {style}"
 >
-	<slot />
+	{@render children?.()}
 </div>

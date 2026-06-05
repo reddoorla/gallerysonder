@@ -17,7 +17,7 @@
 	const appState = setAppState();
 	const DISABLE_COOKIE_CONSENT = import.meta.env.VITE_DISABLE_COOKIE_CONSENT === 'true';
 
-	let { data } = $props();
+	let { data, children } = $props();
 
 	let isTransitioning = $state(false);
 	let navDelayDone = $state(false);
@@ -92,7 +92,7 @@
 	{#if !appState.isIntroRunning && navDelayDone}
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 	{/if}
-	<slot />
+	{@render children?.()}
 </main>
 
 <Lightbox />

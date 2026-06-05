@@ -14,10 +14,12 @@
 
 	let {
 		showFullBody = $bindable(false),
-		maxHeight = 400
+		maxHeight = 400,
+		children
 	}: {
 		showFullBody?: boolean;
 		maxHeight?: number;
+		children?: import('svelte').Snippet;
 	} = $props();
 
 	let contentDiv = $state<HTMLElement | null>(null);
@@ -62,7 +64,7 @@
 <div class="relative">
 	<!-- Measurement div (hidden) -->
 	<div bind:this={contentDiv} class="absolute invisible" aria-hidden="true">
-		<slot />
+		{@render children?.()}
 	</div>
 
 	<!-- Actual content -->

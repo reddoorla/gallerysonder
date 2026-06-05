@@ -32,7 +32,9 @@ export async function GET({ fetch }) {
 		if (!build || !doc.uid) continue;
 		const loc = SITE_URL + build(doc.uid);
 		const lastmod = doc.last_publication_date?.slice(0, 10);
-		urls.push(`	<url>\n		<loc>${loc}</loc>${lastmod ? `\n		<lastmod>${lastmod}</lastmod>` : ''}\n	</url>`);
+		urls.push(
+			`	<url>\n		<loc>${loc}</loc>${lastmod ? `\n		<lastmod>${lastmod}</lastmod>` : ''}\n	</url>`
+		);
 	}
 
 	const body = `<?xml version="1.0" encoding="UTF-8"?>

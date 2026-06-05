@@ -6,6 +6,8 @@
 
 	const appState = getAppState();
 
+	let { children } = $props();
+
 	const USE_INTRO = import.meta.env.VITE_USE_INTRO && import.meta.env.VITE_USE_INTRO !== 'false';
 	const INTRO_DURATION = 6000;
 
@@ -96,7 +98,7 @@
 {#if !appState.isIntroRunning && isVideoDone}
 	<div transition:fade>
 		<!-- Your main content goes here -->
-		<slot />
+		{@render children?.()}
 	</div>
 {/if}
 
