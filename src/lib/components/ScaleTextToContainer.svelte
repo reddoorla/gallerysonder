@@ -28,7 +28,11 @@
 		}
 	}
 
-	let windowWidth: string;
+	// $state so the resize handler's writes re-trigger the scaling $effect below.
+	let windowWidth = $state('');
+	// Original (unscaled) font size per node, so repeated runs scale from the
+	// source size instead of compounding off an already-scaled value.
+	const baseFontSize = new WeakMap<HTMLElement, number>();
 
 	const debounce = (func: (...args: unknown[]) => unknown, delay: number) => {
 		let timer: ReturnType<typeof setTimeout>;
@@ -53,19 +57,28 @@
 
 	$effect(function scaleTextToFitContainer() {
 		const _dep = windowWidth;
-		if (parent) {
-			nodes = [...parent.children] as HTMLElement[];
-			console.log(nodes);
-			const parentWidth = parent.offsetWidth;
-			let largestChildWidth = 1;
-			nodes.forEach((node) => {
-				if (node.offsetWidth > largestChildWidth) largestChildWidth = node.offsetWidth;
-			});
-			scale = parentWidth / largestChildWidth;
-			nodes.forEach((node) => {
-				node.style.fontSize = getFontSizeInPixels(node) * scale + 'px';
-			});
-		}
+		if (!parent) return;
+
+		nodes = [...parent.children] as HTMLElement[];
+
+		// Reset each node to its cached original size before measuring, so the scale
+		// is derived from the unscaled layout (otherwise width + font both compound).
+		nodes.forEach((node) => {
+			const base = baseFontSize.get(node) ?? getFontSizeInPixels(node);
+			baseFontSize.set(node, base);
+			node.style.fontSize = base + 'px';
+		});
+
+		const parentWidth = parent.offsetWidth;
+		let largestChildWidth = 1;
+		nodes.forEach((node) => {
+			if (node.offsetWidth > largestChildWidth) largestChildWidth = node.offsetWidth;
+		});
+		scale = parentWidth / largestChildWidth;
+
+		nodes.forEach((node) => {
+			node.style.fontSize = (baseFontSize.get(node) as number) * scale + 'px';
+		});
 	});
 </script>
 
