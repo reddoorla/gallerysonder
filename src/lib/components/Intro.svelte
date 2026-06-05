@@ -6,12 +6,14 @@
 
 	const appState = getAppState();
 
+	let { children } = $props();
+
 	const USE_INTRO = import.meta.env.VITE_USE_INTRO && import.meta.env.VITE_USE_INTRO !== 'false';
 	const INTRO_DURATION = 6000;
 
-	let isVideoLoaded = !USE_INTRO;
-	let isPlaying = !USE_INTRO;
-	let isVideoDone = !USE_INTRO;
+	let isVideoLoaded = $state(!USE_INTRO);
+	let isPlaying = $state(!USE_INTRO);
+	let isVideoDone = $state(!USE_INTRO);
 
 	interface VimeoComponent {
 		play: () => Promise<void>;
@@ -96,7 +98,7 @@
 {#if !appState.isIntroRunning && isVideoDone}
 	<div transition:fade>
 		<!-- Your main content goes here -->
-		<slot />
+		{@render children?.()}
 	</div>
 {/if}
 

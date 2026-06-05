@@ -117,7 +117,7 @@
 	<InnerPageNav {slicesSections} {sections} />
 {/key}
 
-<div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
+<div class="flex flex-col" id="content-container" onscroll={checkPosition}>
 	<div class="h-screen mb-[40vw]"></div>
 	<div class="h-1" bind:this={theBottomOfTheTop}></div>
 

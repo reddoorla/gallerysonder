@@ -10,6 +10,7 @@
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 
 	import { getAppState } from '$lib/contexts/appState.svelte';
+	import { trapFocus } from '$lib/utils/trapFocus';
 
 	const appState = getAppState();
 
@@ -22,6 +23,12 @@
 
 	let showNav = $state(false);
 	let viewportWidth = $state(1024);
+
+	// Lock body scroll while the full-screen menu is open.
+	$effect(() => {
+		if (showNav) appState.lockBodyScroll();
+		else appState.unlockBodyScroll();
+	});
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
@@ -40,6 +47,8 @@
 				: ''}"
 			onclick={() => (showNav = !showNav)}
 			aria-label="Toggle navigation menu"
+			aria-expanded={showNav}
+			aria-controls="main-nav"
 		>
 			<svg
 				width="24"
@@ -72,9 +81,15 @@
 
 {#if showNav}
 	<div
+		id="main-nav"
 		class="h-screen w-screen fixed top-0 left-0 z-30 transition-colors duration-1000 ease-fast-slow"
 		style="background-color:{appState.backgroundColor}"
 		transition:slide
+		use:trapFocus={{ onEscape: () => (showNav = false) }}
+		role="dialog"
+		aria-modal="true"
+		aria-label="Main navigation"
+		tabindex="-1"
 	>
 		<ContentWidth
 			class="flex flex-col gap-12 lg:gap-20 pb-16 pt-48 items-start justify-start h-full relative"
@@ -101,7 +116,6 @@
 					activeImage={link.active_link.url || ''}
 					onmouseover={() => {
 						appState.backgroundColor = link.active_color || '#E4EEEA';
-						console.log(appState.backgroundColor);
 					}}
 					onmouseout={() => (appState.backgroundColor = '#E4EEEA')}
 					href={prismicH.isFilled.link(link.link) ? link.link.url : '#'}

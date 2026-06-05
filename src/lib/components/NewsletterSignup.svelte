@@ -62,6 +62,7 @@
 
 	onMount(() => {
 		window.addEventListener('scroll', checkPosition);
+		return () => window.removeEventListener('scroll', checkPosition);
 	});
 
 	const triggerSubmitButton = async () => {
@@ -71,8 +72,6 @@
 
 			submitted = true;
 			error = !result.success;
-
-			console.log('email: ' + emailValue);
 			appState.hasNewsletterBeenCleared = true;
 		}
 	};

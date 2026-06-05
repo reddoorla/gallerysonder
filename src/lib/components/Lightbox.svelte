@@ -8,10 +8,19 @@
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import Slideshow from './Slideshow.svelte';
 	import { populateHiddenForm, submitNetlifyForm } from '$lib/utils/forms';
+	import { trapFocus } from '$lib/utils/trapFocus';
 
 	const appState = getAppState();
 
-	let viewportWidth = $state(0);
+	// Lock body scroll while either lightbox overlay is open (mirrors closeModal,
+	// which unlocks). Keyed on the same conditions that render the overlays below.
+	$effect(() => {
+		const open =
+			(appState.isLightboxActive && appState.activeArtworkUid) ||
+			(!appState.activeArtwork && appState.lightboxImageUrl);
+		if (open) appState.lockBodyScroll();
+	});
+
 	let submitted = $state(false);
 	let error = $state(false);
 
@@ -46,8 +55,6 @@
 
 			submitted = true;
 			error = !result.success;
-
-			console.log('submitted inquiry');
 		}
 	};
 
@@ -61,13 +68,16 @@
 	};
 </script>
 
-<svelte:window bind:innerHeight={viewportWidth} />
-
 {#if appState.isLightboxActive && appState.activeArtworkUid}
 	<div
 		class="w-screen h-screen fixed top-0 left-0 flex justify-center items-start lg:items-center z-40 overflow-y-scroll md:overflow-hidden transition-colors duration-1000"
 		style="background-color:{appState.backgroundColor}"
 		transition:fade
+		use:trapFocus={{ onEscape: closeModal }}
+		role="dialog"
+		aria-modal="true"
+		aria-label="Artwork details"
+		tabindex="-1"
 	>
 		<ContentWidth
 			class="w-full absolute top-0 h-16 flex items-center justify-between px-[4%] xl:px-0 z-40"
@@ -213,7 +223,7 @@
 										<option value="First Time Buyer">First Time Buyer</option>
 										<option value="Occasional Buyer">Occasional Buyer</option>
 										<option value="experienced">Experienced Collector</option>
-										<option value="Experienced Collector">Art Advisor</option>
+										<option value="Art Advisor">Art Advisor</option>
 										<option value="Curator">Curator</option>
 										<option value="Art Enthusiast">Art Enthusiast</option>
 									</select>
@@ -245,6 +255,11 @@
 {#if !appState.activeArtwork && appState.lightboxImageUrl}
 	<div
 		class="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-90 flex justify-center items-center z-40"
+		use:trapFocus={{ onEscape: closeModal }}
+		role="dialog"
+		aria-modal="true"
+		aria-label="Enlarged image"
+		tabindex="-1"
 	>
 		<button class="absolute w-full h-full" onclick={closeModal} aria-label="Close image"></button>
 		<div

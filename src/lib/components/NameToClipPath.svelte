@@ -49,6 +49,7 @@
 
 	onMount(() => {
 		window.addEventListener('scroll', checkActive);
+		return () => window.removeEventListener('scroll', checkActive);
 	});
 </script>
 

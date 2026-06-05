@@ -1,9 +1,9 @@
 <script>
-	let { node } = $props();
+	let { node, children } = $props();
 </script>
 
 {#if node.data.label === 'codespan'}
-	<code><slot /></code>
+	<code>{@render children?.()}</code>
 {:else}
-	<span class={node.data.label}><slot /></span>
+	<span class={node.data.label}>{@render children?.()}</span>
 {/if}

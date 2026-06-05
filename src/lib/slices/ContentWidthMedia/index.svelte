@@ -68,8 +68,6 @@
 	const slideRight = () => {
 		sliderIndex--;
 		if (sliderIndex < 0) resetSliderToEnd();
-
-		console.log(sliderIndex);
 	};
 	const slideLeft = () => {
 		sliderIndex++;
