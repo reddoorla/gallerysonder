@@ -51,8 +51,6 @@
 
 			submitted = true;
 			error = !result.success;
-
-			console.log('submitted');
 		}
 	};
 

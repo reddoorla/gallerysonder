@@ -40,8 +40,6 @@
 			const fetchedArtist = await fetchFromRelationship<ArtistDocumentData>(item.artist, 'artist');
 
 			if (fetchedArtist) {
-				console.log('Fetched artist data:', fetchedArtist);
-
 				if (!isFilled.image(item.artist_active_image) && isFilled.image(fetchedArtist.nav_image)) {
 					artistData.activeImage = fetchedArtist.nav_image.url;
 				}

@@ -32,6 +32,14 @@
 			: 'brightness-0'} {className}"
 		onmouseenter={() => (active = true)}
 		onmouseleave={() => (active = false)}
+		onfocus={() => {
+			active = true;
+			onmouseover();
+		}}
+		onblur={() => {
+			active = false;
+			onmouseout();
+		}}
 		{onmouseover}
 		{onmouseout}
 		{onclick}
@@ -46,6 +54,14 @@
 			: 'brightness-0'} {className}"
 		onmouseenter={() => (active = true)}
 		onmouseleave={() => (active = false)}
+		onfocus={() => {
+			active = true;
+			onmouseover();
+		}}
+		onblur={() => {
+			active = false;
+			onmouseout();
+		}}
 		{onmouseover}
 		{onmouseout}
 		{onclick}

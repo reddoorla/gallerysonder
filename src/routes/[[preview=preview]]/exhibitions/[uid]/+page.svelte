@@ -17,7 +17,7 @@
 
 	let { data } = $props();
 
-	let content = data.page.data;
+	let content = $derived(data.page.data);
 
 	let viewportWidth = $state(0);
 	let viewportHeight = $state(0);
@@ -26,11 +26,11 @@
 
 	let theBottomOfTheTop = $state<HTMLElement | undefined>(undefined);
 
-	let slicesSections: string[] = [];
-	data.page.data.slices.forEach((slice) => slicesSections.push(slice.primary?.sectionLabel || ''));
+	let slicesSections = $derived(
+		data.page.data.slices.map((slice) => slice.primary?.sectionLabel || '')
+	);
 
-	let sections: string[] = [];
-	data.page.data.sections.forEach((section) => sections.push(section.section || ''));
+	let sections = $derived(data.page.data.sections.map((section) => section.section || ''));
 
 	let isBackgroundDark = $state(false);
 
@@ -125,7 +125,7 @@
 	<InnerPageNav {slicesSections} {sections} />
 {/key}
 
-<div class="flex flex-col" id="content-container" on:scroll={checkPosition}>
+<div class="flex flex-col" id="content-container" onscroll={checkPosition}>
 	<div class="h-screen mb-[40vw]"></div>
 	<div class="h-1" bind:this={theBottomOfTheTop}></div>
 
