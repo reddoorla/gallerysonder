@@ -52,12 +52,5 @@
 		"svelte-fa": "^4.0.2",
 		"svelte-gestures": "^5.2.2"
 	},
-	"packageManager": "pnpm@10.33.1",
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild",
-			"protobufjs",
-			"sharp"
-		]
-	}
+	"packageManager": "pnpm@11.7.0"
 }
