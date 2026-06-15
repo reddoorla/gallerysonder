@@ -11,7 +11,7 @@
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { populateHiddenForm, submitNetlifyForm } from '$lib/utils/forms';
+	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
 	import { datepicker } from '$lib/utils/datepicker';
 	import Select from '$lib/components/Buttons/Select.svelte';
 
@@ -47,7 +47,7 @@
 
 		if (populated) {
 			const form = document.getElementById('netlifyContactForm') as HTMLFormElement;
-			const result = await submitNetlifyForm(form);
+			const result = await submitForm(form);
 
 			submitted = true;
 			error = !result.success;
