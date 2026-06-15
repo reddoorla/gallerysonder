@@ -3,7 +3,7 @@
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import { onMount } from 'svelte';
-	import { populateHiddenForm, submitNetlifyForm } from '$lib/utils/forms';
+	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
 
 	const appState = getAppState();
 
@@ -33,7 +33,7 @@
 
 		if (populated) {
 			const form = document.getElementById('netlifyRsvpForm') as HTMLFormElement;
-			const result = await submitNetlifyForm(form);
+			const result = await submitForm(form);
 
 			submitted = true;
 			error = !result.success;

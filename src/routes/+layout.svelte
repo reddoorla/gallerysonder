@@ -99,14 +99,7 @@
 
 <PrismicPreview {repositoryName} />
 
-<form
-	class="hidden"
-	name="contact"
-	method="post"
-	data-netlify="true"
-	data-netlify-honeypot="bot-field"
-	id="netlifyContactForm"
->
+<form class="hidden" name="contact" method="post" id="netlifyContactForm">
 	<input type="hidden" name="form-name" value="contact" />
 
 	<p>Name</p>
@@ -175,14 +168,7 @@
 	>
 </form>
 
-<form
-	class="hidden"
-	name="inquiry"
-	method="post"
-	data-netlify="true"
-	data-netlify-honeypot="bot-field"
-	id="netlifyInquiryForm"
->
+<form class="hidden" name="inquiry" method="post" id="netlifyInquiryForm">
 	<input type="hidden" name="form-name" value="inquiry" />
 
 	<p>Name</p>
@@ -241,14 +227,7 @@
 	>
 </form>
 
-<form
-	class="hidden"
-	name="news"
-	method="POST"
-	id="netlifyNewsletterSignup"
-	data-netlify="true"
-	data-netlify-honeypot="bot-field"
->
+<form class="hidden" name="news" method="POST" id="netlifyNewsletterSignup">
 	<input type="hidden" name="form-name" value="news" />
 	<p class="hidden">
 		<label>
@@ -266,14 +245,7 @@
 	<button type="submit" id="hiddenNewsSubmitButton" aria-label="Submit newsletter signup"></button>
 </form>
 
-<form
-	class="hidden"
-	name="rsvp"
-	method="POST"
-	id="netlifyRsvpForm"
-	data-netlify="true"
-	data-netlify-honeypot="bot-field"
->
+<form class="hidden" name="rsvp" method="POST" id="netlifyRsvpForm">
 	<p class="hidden">
 		<label>
 			Don’t fill this out if you’re human: <input name="bot-field" />
