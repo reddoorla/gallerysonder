@@ -5,7 +5,7 @@
 	import RotatingLogo from './RotatingLogo.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import { onMount } from 'svelte';
-	import { populateHiddenForm, submitNetlifyForm } from '$lib/utils/forms';
+	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
 
 	const appState = getAppState();
 
@@ -68,7 +68,7 @@
 	const triggerSubmitButton = async () => {
 		if (populateHiddenForm('netlifyNewsletterSignup', { email: emailValue })) {
 			const form = document.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
-			const result = await submitNetlifyForm(form);
+			const result = await submitForm(form);
 
 			submitted = true;
 			error = !result.success;
