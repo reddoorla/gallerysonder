@@ -10,6 +10,7 @@
 	const appState = getAppState();
 
 	let submitted = $state(false);
+	let submitting = $state(false);
 	let error = $state(false);
 
 	$effect(function manageScrollLockForNewsletter() {
@@ -66,13 +67,19 @@
 	});
 
 	const triggerSubmitButton = async () => {
-		if (populateHiddenForm('netlifyNewsletterSignup', { email: emailValue })) {
-			const form = document.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
-			const result = await submitForm(form);
+		if (submitting) return;
+		submitting = true;
+		try {
+			if (populateHiddenForm('netlifyNewsletterSignup', { email: emailValue })) {
+				const form = document.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
+				const result = await submitForm(form);
 
-			submitted = true;
-			error = !result.success;
-			appState.hasNewsletterBeenCleared = true;
+				submitted = true;
+				error = !result.success;
+				appState.hasNewsletterBeenCleared = true;
+			}
+		} finally {
+			submitting = false;
 		}
 	};
 </script>
@@ -111,7 +118,12 @@
 						placeholder="Enter Your Email"
 						class="h-12 pl-2"
 					/>
-					<LinkArrowButton class="mt-6" text="Subscribe" onclick={triggerSubmitButton} />
+					<LinkArrowButton
+						class="mt-6"
+						text="Subscribe"
+						onclick={triggerSubmitButton}
+						disabled={submitting}
+					/>
 				</div>
 				<p class="text-xs mt-24">
 					By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br

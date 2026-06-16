@@ -22,6 +22,7 @@
 	});
 
 	let submitted = $state(false);
+	let submitting = $state(false);
 	let error = $state(false);
 
 	let formName = $state('');
@@ -31,30 +32,36 @@
 	let formRole = $state('');
 
 	const triggerSubmitButton = async () => {
-		const fieldValues: Record<string, string> = {
-			name: formName,
-			phone: formPhone,
-			email: formEmail,
-			message: formMessage,
-			role: formRole
-		};
+		if (submitting) return;
+		submitting = true;
+		try {
+			const fieldValues: Record<string, string> = {
+				name: formName,
+				phone: formPhone,
+				email: formEmail,
+				message: formMessage,
+				role: formRole
+			};
 
-		if (appState.activeArtwork) {
-			fieldValues.piece = `${appState.activeArtwork.data.title}, ${appState.activeArtwork.data.year}`;
-		}
+			if (appState.activeArtwork) {
+				fieldValues.piece = `${appState.activeArtwork.data.title}, ${appState.activeArtwork.data.year}`;
+			}
 
-		if (appState.activeArtist) {
-			fieldValues.artist = appState.activeArtist.data.full_name as string;
-		}
+			if (appState.activeArtist) {
+				fieldValues.artist = appState.activeArtist.data.full_name as string;
+			}
 
-		const populated = populateHiddenForm('netlifyInquiryForm', fieldValues);
+			const populated = populateHiddenForm('netlifyInquiryForm', fieldValues);
 
-		if (populated) {
-			const form = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
-			const result = await submitForm(form);
+			if (populated) {
+				const form = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
+				const result = await submitForm(form);
 
-			submitted = true;
-			error = !result.success;
+				submitted = true;
+				error = !result.success;
+			}
+		} finally {
+			submitting = false;
 		}
 	};
 
@@ -229,7 +236,12 @@
 									</select>
 								</div>
 
-								<LinkArrowButton class="uppercase" onclick={triggerSubmitButton} text="Submit" />
+								<LinkArrowButton
+									class="uppercase"
+									onclick={triggerSubmitButton}
+									text="Submit"
+									disabled={submitting}
+								/>
 
 								<div class="text-xs mt-12 mb-24">
 									By signing up, you agree to the Terms of Use and Privacy Policy to receive
