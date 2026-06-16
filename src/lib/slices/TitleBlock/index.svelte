@@ -19,6 +19,7 @@
 
 	let viewportWidth = $state(0);
 	let submitted = $state(false);
+	let submitting = $state(false);
 	let error = $state(false);
 
 	let { slice }: { slice: TitleBlockSlice } = $props();
@@ -35,22 +36,28 @@
 	let formTimePreference = $state('');
 
 	const triggerSubmitButton = async () => {
-		const populated = populateHiddenForm('netlifyContactForm', {
-			name: formName,
-			company: formCompany,
-			phone: formPhone,
-			email: formEmail,
-			message: formMessage,
-			appointment_date: formDate,
-			appointment_time: formTimePreference
-		});
+		if (submitting) return;
+		submitting = true;
+		try {
+			const populated = populateHiddenForm('netlifyContactForm', {
+				name: formName,
+				company: formCompany,
+				phone: formPhone,
+				email: formEmail,
+				message: formMessage,
+				appointment_date: formDate,
+				appointment_time: formTimePreference
+			});
 
-		if (populated) {
-			const form = document.getElementById('netlifyContactForm') as HTMLFormElement;
-			const result = await submitForm(form);
+			if (populated) {
+				const form = document.getElementById('netlifyContactForm') as HTMLFormElement;
+				const result = await submitForm(form);
 
-			submitted = true;
-			error = !result.success;
+				submitted = true;
+				error = !result.success;
+			}
+		} finally {
+			submitting = false;
 		}
 	};
 
@@ -268,6 +275,7 @@
 						<button
 							type="submit"
 							onclick={triggerSubmitButton}
+							disabled={submitting}
 							class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
 							>Connect</button
 						>

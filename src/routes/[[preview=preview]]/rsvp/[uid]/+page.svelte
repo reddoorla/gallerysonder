@@ -8,6 +8,7 @@
 	const appState = getAppState();
 
 	let submitted = $state(false);
+	let submitting = $state(false);
 	let error = $state(false);
 
 	let formName = $state('');
@@ -24,19 +25,25 @@
 	}
 
 	const triggerSubmitButton = async () => {
-		const populated = populateHiddenForm('netlifyRsvpForm', {
-			name: formName,
-			email: formEmail,
-			guests: formGuests,
-			event: (data.page.data.name as string) || data.page.uid
-		});
+		if (submitting) return;
+		submitting = true;
+		try {
+			const populated = populateHiddenForm('netlifyRsvpForm', {
+				name: formName,
+				email: formEmail,
+				guests: formGuests,
+				event: (data.page.data.name as string) || data.page.uid
+			});
 
-		if (populated) {
-			const form = document.getElementById('netlifyRsvpForm') as HTMLFormElement;
-			const result = await submitForm(form);
+			if (populated) {
+				const form = document.getElementById('netlifyRsvpForm') as HTMLFormElement;
+				const result = await submitForm(form);
 
-			submitted = true;
-			error = !result.success;
+				submitted = true;
+				error = !result.success;
+			}
+		} finally {
+			submitting = false;
 		}
 	};
 
@@ -98,6 +105,7 @@
 				<button
 					type="submit"
 					onclick={triggerSubmitButton}
+					disabled={submitting}
 					class="text-black border-b-2 bg-white hover:bg-gray-200 p-3 font-bold border-black cursor-pointer"
 				>
 					Submit RSVP

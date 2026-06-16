@@ -6,12 +6,14 @@
 		href = '',
 		onclick = () => {},
 		opensNewTab = false,
+		disabled = false,
 		class: className = ''
 	}: {
 		text?: string;
 		href?: string;
 		onclick?: () => void;
 		opensNewTab?: boolean;
+		disabled?: boolean;
 		class?: string;
 	} = $props();
 
@@ -45,10 +47,12 @@
 		onmouseenter={() => (isLinkArrowActive = true)}
 		onmouseleave={() => (isLinkArrowActive = false)}
 		onclick={() => {
+			if (disabled) return;
 			isLinkArrowActive = false;
 			onclick();
 		}}
-		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {className}"
+		{disabled}
+		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit disabled:opacity-50 disabled:cursor-not-allowed {className}"
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
 		<img
