@@ -112,7 +112,9 @@
 	{/if}
 	<ContentWidth class="lg:pl-20">
 		{#if slice.primary.eyebrow}
-			<h5 class="mt-8 mb-4 md:mt-16 md:mb-12 uppercase"><b>{slice.primary.eyebrow || ''}</b></h5>
+			<h5 aria-level="2" class="mt-8 mb-4 md:mt-16 md:mb-12 uppercase">
+				<b>{slice.primary.eyebrow || ''}</b>
+			</h5>
 		{/if}
 		{#if slice.variation === 'default' && slice.primary.vimeo_id}
 			<button

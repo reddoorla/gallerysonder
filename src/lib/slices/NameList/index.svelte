@@ -92,7 +92,7 @@
 
 	<ContentWidth class="lg:pl-20 relative flex flex-col gap-8 md:gap-16 mb-16">
 		{#if slice.primary.section_eyebrow}
-			<h5 class="uppercase">{slice.primary.section_eyebrow || ''}</h5>
+			<h5 aria-level="2" class="uppercase">{slice.primary.section_eyebrow || ''}</h5>
 		{/if}
 
 		{#if isLoading}

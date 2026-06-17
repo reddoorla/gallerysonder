@@ -248,13 +248,13 @@
 
 				<div class="w-1/2 h-full flex flex-col gap-2">
 					{#if item.eyebrow}
-						<h6 class="tracking-[1.5px]">{formatDateRange(item.eyebrow)}</h6>
+						<h6 role="presentation" class="tracking-[1.5px]">{formatDateRange(item.eyebrow)}</h6>
 					{/if}
 					{#if item.titleOne}
-						<h3>{item.titleOne}</h3>
+						<h3 aria-level="2">{item.titleOne}</h3>
 					{/if}
 					{#if item.titleTwo}
-						<h6 class="font-bold">{item.titleTwo}</h6>
+						<h6 role="presentation" class="font-bold">{item.titleTwo}</h6>
 					{/if}
 					{#if item.bodyOne}
 						<p class="mt-2">{item.bodyOne}</p>
@@ -299,7 +299,7 @@
 						<span class="mt-2 uppercase">{item.titleOne}</span>
 					{/if}
 					{#if item.titleTwo}
-						<h5 class="mt-2 uppercase italic">{item.titleTwo}</h5>
+						<h5 role="presentation" class="mt-2 uppercase italic">{item.titleTwo}</h5>
 					{/if}
 					{#if item.bodyOne}
 						<p class="mt-2">{item.bodyOne}</p>
