@@ -128,6 +128,7 @@
 									? 'object-contain'
 									: 'object-cover'} w-full h-full z-10 relative"
 								field={appState.activeArtwork.data.primary_image}
+								fallbackAlt=""
 							/>
 						{/if}
 					</div>

@@ -235,16 +235,16 @@
 	<div class="w-full flex flex-col gap-16 mb-8">
 		{#each galleryItems as item, i (i)}
 			<div class="flex flex-row no-underline overflow-hidden">
-				<button class="w-1/2 pr-16 no-underline pointer-events-none">
+				<div class="w-1/2 pr-16 no-underline">
 					<GridImage
 						class="w-full aspect-8/5"
 						src={item.image.url || ''}
-						alt={item.titleOne || item.titleTwo || ''}
+						alt={item.titleOne || item.titleTwo || 'Gallery Sonder'}
 						willOpen={item.willOpen}
 						artworkUID={item.artUID}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 					/>
-				</button>
+				</div>
 
 				<div class="w-1/2 h-full flex flex-col gap-2">
 					{#if item.eyebrow}
@@ -285,7 +285,7 @@
 					<GridImage
 						class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 						src={item.image.url || ''}
-						alt={item.titleOne || item.titleTwo || ''}
+						alt={item.titleOne || item.titleTwo || 'Gallery Sonder'}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 						bind:isHover={isHoverArray[i]}
 						onHoverChange={(value) => handleHover(value, i)}
@@ -337,7 +337,7 @@
 							: item.titleTwo
 								? `<i>${item.titleTwo}</i>`
 								: item.bodyOne || ''}
-						alt={item.titleOne || item.titleTwo || ''}
+						alt={item.titleOne || item.titleTwo || 'Gallery Sonder'}
 						subtitleTwo={item.bodyTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 						willOpen={item.willOpen}

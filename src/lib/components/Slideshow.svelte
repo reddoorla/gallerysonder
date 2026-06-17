@@ -103,6 +103,7 @@
 				<div style="width: {100 / tripledImages.length}%;" class="h-full relative overflow-hidden">
 					<PrismicImage
 						field={image}
+						fallbackAlt=""
 						class="min-h-full min-w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover"
 					/>
 				</div>
