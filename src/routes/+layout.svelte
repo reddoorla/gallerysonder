@@ -22,6 +22,14 @@
 	let isTransitioning = $state(false);
 	let navDelayDone = $state(false);
 
+	// The Prismic editor toolbar (loaded by <PrismicPreview />) sets third-party
+	// `io.prismic.previewSession` cookies that fail Lighthouse best-practices for
+	// every visitor. Only mount it when a preview is actually active (the
+	// `io.prismic.preview` cookie is set by /api/preview), so normal visitors and
+	// the prerendered pages never load it. Editors still preview from the Prismic
+	// dashboard, which sets the cookie before redirecting here.
+	let isPreviewActive = $state(false);
+
 	let currentUtmParams = {
 		source: 'none',
 		medium: 'none',
@@ -37,6 +45,8 @@
 
 	onMount(() => {
 		setTimeout(() => (navDelayDone = true), 500);
+
+		isPreviewActive = document.cookie.includes('io.prismic.preview');
 
 		const urlParams = $page.url.searchParams;
 
@@ -63,10 +73,13 @@
 
 <svelte:head>
 	<title>{$page.data.meta_title || 'Gallery Sonder'}</title>
-	<link rel="stylesheet" href="https://use.typekit.net/noj4tji.css" />
-	{#if $page.data.meta_description}
-		<meta name="description" content={$page.data.meta_description} />
-	{/if}
+	<!-- Typekit is loaded async (non-render-blocking) from app.html; do not add a
+	     synchronous stylesheet link here or it re-introduces render-blocking. -->
+	<meta
+		name="description"
+		content={$page.data.meta_description ||
+			'Gallery Sonder is a contemporary art gallery presenting exhibitions, artists, and advisory services.'}
+	/>
 	{#if $page.data.meta_title}
 		<meta name="og:title" content={$page.data.meta_title} />
 	{/if}
@@ -97,7 +110,9 @@
 
 <Lightbox />
 
-<PrismicPreview {repositoryName} />
+{#if isPreviewActive}
+	<PrismicPreview {repositoryName} />
+{/if}
 
 <form class="hidden" name="contact" method="post" id="netlifyContactForm">
 	<input type="hidden" name="form-name" value="contact" />

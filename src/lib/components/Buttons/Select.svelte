@@ -55,7 +55,7 @@
 		onclick={() => (open = !open)}
 		class="w-full border-1 border-mid p-2 bg-white/40 rounded-xs text-left flex items-center justify-between gap-2 cursor-pointer"
 	>
-		<span class={value ? '' : 'text-black/50'}>{selectedLabel || placeholder}</span>
+		<span class={value ? '' : 'text-black/60'}>{selectedLabel || placeholder}</span>
 		<ChevronDown
 			class="size-[1em] transition-transform duration-200 {open ? 'rotate-180' : ''}"
 			strokeWidth={1.5}

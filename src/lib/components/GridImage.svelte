@@ -2,6 +2,7 @@
 	import onShowOne from '$lib/assets/images/homeImages/onShow/sonderOnShow1.jpg';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
+	import { srcset } from '$lib/utils/image';
 
 	const appState = getAppState();
 
@@ -94,7 +95,11 @@
 	>
 		<img
 			{src}
+			srcset={srcset(src)}
+			sizes="(min-width: 768px) 50vw, 100vw"
 			{alt}
+			loading="lazy"
+			decoding="async"
 			class="clip-transition use-gpu w-full"
 			style={isHover
 				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
@@ -182,7 +187,11 @@
 	>
 		<img
 			{src}
+			srcset={srcset(src)}
+			sizes="(min-width: 768px) 50vw, 100vw"
 			{alt}
+			loading="lazy"
+			decoding="async"
 			class="clip-transition use-gpu w-full"
 			style={isHover
 				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'

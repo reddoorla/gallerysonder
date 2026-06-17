@@ -15,12 +15,24 @@
 	import { fade } from 'svelte/transition';
 	import AnimateIn from '$lib/components/Animation/AnimateIn.svelte';
 	import Intro from '$lib/components/Intro.svelte';
+	import HeroBackgroundImage from '$lib/components/HeroBackgroundImage.svelte';
 
 	const appState = getAppState();
 
 	let { data } = $props();
 
 	let content = $derived(data.page.data);
+
+	// The hero background is the LCP element on every page. A descriptive alt
+	// (falling back to the exhibition title/artist) satisfies image-alt for both
+	// accessibility and SEO; an empty string would only satisfy a11y.
+	let heroAlt = $derived(
+		content.background_image.alt ||
+			[content.title_line_one, content.title_line_two, content.title_line_three, content.artist]
+				.filter(Boolean)
+				.join(' ')
+				.trim()
+	);
 
 	let viewportWidth = $state(0);
 	let viewportHeight = $state(0);
@@ -70,13 +82,7 @@
 	<div
 		class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip min-h-full min-w-full aspect-video fixed"
 	>
-		{#if content.background_image.url}
-			<img
-				src={content.background_image.url}
-				alt={content.background_image.alt}
-				class="absolute bottom-0 left-0 h-full w-full object-cover"
-			/>
-		{/if}
+		<HeroBackgroundImage image={content.background_image} altFallback={heroAlt} />
 		<div
 			class="absolute w-screen h-screen left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 backdrop-blur md:backdrop-blur-none bg-black {isBackgroundDark
 				? 'opacity-55'

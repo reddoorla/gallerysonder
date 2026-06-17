@@ -8,6 +8,7 @@
 
 	import Footer from '$lib/components/Footer.svelte';
 	import InnerPageNav from '$lib/components/InnerPageNav.svelte';
+	import HeroBackgroundImage from '$lib/components/HeroBackgroundImage.svelte';
 
 	import { getAppState } from '$lib/contexts/appState.svelte';
 
@@ -18,6 +19,13 @@
 	let { data } = $props();
 
 	let content = $derived(data.page.data);
+
+	let heroAlt = $derived(
+		[content.title_line_one, content.title_line_two, content.title_line_three]
+			.filter(Boolean)
+			.join(' ')
+			.trim()
+	);
 
 	let viewportWidth = $state(0);
 	let viewportHeight = $state(0);
@@ -64,9 +72,9 @@
 <div
 	class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip min-h-full min-w-full aspect-video fixed -z-10"
 >
-	<img
-		src={content.background_image.url}
-		alt={content.background_image.alt}
+	<HeroBackgroundImage
+		image={content.background_image}
+		altFallback={heroAlt}
 		class="absolute bottom-0 left-0 h-full w-full object-cover -z-10"
 	/>
 	<div

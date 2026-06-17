@@ -8,6 +8,8 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="%sveltekit.assets%/favicon-16x16.png" />
 		<link rel="manifest" href="%sveltekit.assets%/site.webmanifest" />
 		<link rel="preconnect" href="https://use.typekit.net" crossorigin />
+		<link rel="preconnect" href="https://p.typekit.net" crossorigin />
+		<link rel="preconnect" href="https://images.prismic.io" crossorigin />
 		<link rel="preload" as="style" href="https://use.typekit.net/noj4tji.css" />
 		<link
 			rel="stylesheet"
@@ -19,11 +21,13 @@
 			<link rel="stylesheet" href="https://use.typekit.net/noj4tji.css" />
 		</noscript>
 		<meta name="google-site-verification" content="4hC-qDQMO6983DtQEk91g8jFs0J4gQWoC4hwY_v37Lc" />
-		<script
-			async
-			defer
-			src="https://static.cdn.prismic.io/prismic.js?new=true&repo=gallerysonder"
-		></script>
+
+		<!--
+			The Prismic editor toolbar is injected at runtime by <PrismicPreview /> in
+			+layout.svelte. The legacy static `prismic.js?new=true` toolbar script was
+			removed here because it set `io.prismic.previewSession` third-party cookies
+			for every visitor (failing Lighthouse best-practices) and duplicated the SDK.
+		-->
 
 		<!--
 			Google Tag Manager is intentionally NOT loaded here. It is consent-gated

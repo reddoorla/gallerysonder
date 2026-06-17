@@ -151,7 +151,7 @@
 					{/if}
 				</div>
 				<div class="w-full md:w-1/2 md:pl-16">
-					<PrismicImage field={slice.primary.image} />
+					<PrismicImage field={slice.primary.image} fallbackAlt="" />
 				</div>
 			</div>
 		{:else if slice.variation === 'connect'}
@@ -233,7 +233,7 @@
 							class="w-full border-1 border-mid p-2 mb-4"
 						/>
 
-						<p>Preferred appointment date <span class="opacity-50">(optional)</span></p>
+						<p>Preferred appointment date <span class="opacity-60">(optional)</span></p>
 						<input
 							type="text"
 							name="appointment_date"
@@ -244,7 +244,7 @@
 							class="w-full border-1 border-mid p-2 mb-4 bg-white/40 rounded-[2px]"
 						/>
 
-						<p>Preferred time of day <span class="opacity-50">(optional)</span></p>
+						<p>Preferred time of day <span class="opacity-60">(optional)</span></p>
 						<Select
 							bind:value={formTimePreference}
 							ariaLabel="Preferred time of day"

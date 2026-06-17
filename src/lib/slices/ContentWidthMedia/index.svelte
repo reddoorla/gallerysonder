@@ -12,6 +12,7 @@
 	import type { ImageField } from '@prismicio/client';
 	import { isFilled } from '@prismicio/helpers';
 	import { ArrowLeft, ArrowRight, Plus, CirclePlay, Volume2 } from '@lucide/svelte';
+	import { srcset } from '$lib/utils/image';
 
 	const appState = getAppState();
 
@@ -121,12 +122,16 @@
 			>
 				<img
 					src={slice.primary.placeholder_image.url}
+					srcset={srcset(slice.primary.placeholder_image.url)}
+					sizes="100vw"
 					alt="video thumbnail placeholder"
+					loading="lazy"
+					decoding="async"
 					class="w-full h-full object-cover"
 				/>
 				<iframe
 					title="background video"
-					src={`https://player.vimeo.com/video/${slice.primary.vimeo_id.includes('?h=') ? slice.primary.vimeo_id + '&' : slice.primary.vimeo_id + '?'}background=1&muted=1&loop=1&autoplay=1`}
+					src={`https://player.vimeo.com/video/${slice.primary.vimeo_id.includes('?h=') ? slice.primary.vimeo_id + '&' : slice.primary.vimeo_id + '?'}background=1&muted=1&loop=1&autoplay=1&dnt=1`}
 					class="aspect-video absolute w-full h-full z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 					frameborder="0"
 					allowfullscreen
@@ -147,10 +152,19 @@
 				</div> -->
 			</button>
 		{:else if slice.variation === 'default'}
-			<PrismicImage field={slice.primary.placeholder_image} class="w-full aspect-video mt-16" />
+			<PrismicImage
+				field={slice.primary.placeholder_image}
+				fallbackAlt=""
+				sizes="100vw"
+				loading="lazy"
+				class="w-full aspect-video mt-16"
+			/>
 		{:else if slice.variation === 'image'}
 			<PrismicImage
 				field={slice.primary.image}
+				fallbackAlt=""
+				sizes="(min-width: 1024px) 66vw, 100vw"
+				loading="lazy"
 				class="{getDesktopWidthClass()} {slice.primary.float === 'right' ? 'lg:ml-auto' : ''} mt-16"
 			/>
 		{:else if slice.variation === 'slideshow'}
@@ -173,6 +187,7 @@
 						>
 							<PrismicImage
 								field={image}
+								fallbackAlt=""
 								class="min-h-full min-w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover will-change-transform"
 							/>
 						</div>
@@ -276,6 +291,7 @@
 					>
 						<PrismicImage
 							field={image}
+							fallbackAlt=""
 							class="min-h-full min-w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover"
 						/>
 					</div>
