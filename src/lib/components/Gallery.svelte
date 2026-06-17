@@ -17,6 +17,7 @@
 	import type { LinkField, ImageField, KeyTextField } from '@prismicio/client';
 	import { onNavigate } from '$app/navigation';
 	import { fetchFromRelationship } from '$lib/utils/prismic';
+	import { LoaderCircle } from '@lucide/svelte';
 
 	let {
 		slice,
@@ -228,7 +229,7 @@
 
 {#if isLoading}
 	<div class="w-full flex justify-center items-center py-32">
-		<i class="fa-solid fa-spinner-third fa-spin fa-2xl"></i>
+		<LoaderCircle class="size-[2em] animate-spin" strokeWidth={2} />
 	</div>
 {:else if isList && viewportWidth > 768}
 	<div class="w-full flex flex-col gap-16 mb-8">
