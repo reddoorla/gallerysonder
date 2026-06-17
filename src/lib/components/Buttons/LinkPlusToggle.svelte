@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { Plus } from '@lucide/svelte';
 
 	let {
 		text = '',
@@ -37,13 +38,13 @@
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
 
-		<i
-			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated &&
+		<Plus
+			class="size-[1em] text-black ml-[10px] transition-transform duration-300 {isRotated &&
 			togglable
 				? 'rotate-45 scale-125'
 				: ''} {isLinkArrowActive ? '-translate-y-[1px]' : ''}"
-		>
-		</i>
+			strokeWidth={2}
+		/>
 	</a>
 {:else}
 	<button
@@ -57,13 +58,13 @@
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {className}"
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>
-		<i
-			class="fa-sharp fa-bold fa-plus fa text-black ml-[10px] transition-transform duration-300 {isRotated &&
+		<Plus
+			class="size-[1em] text-black ml-[10px] transition-transform duration-300 {isRotated &&
 			togglable
 				? 'rotate-45 scale-125'
 				: ''} {isLinkArrowActive ? '-translate-y-[1px]' : ''}"
-		>
-		</i></button
+			strokeWidth={2}
+		/></button
 	>
 {/if}
 

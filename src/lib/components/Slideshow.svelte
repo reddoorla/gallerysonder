@@ -5,6 +5,7 @@
 	import { isFilled } from '@prismicio/helpers';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { onMount } from 'svelte';
+	import { ArrowLeft, ArrowRight } from '@lucide/svelte';
 
 	const appState = getAppState();
 
@@ -110,10 +111,10 @@
 
 		<div class="flex flex-row justify-between items-center absolute bottom-6 left-6 gap-12">
 			<button class="bump" onclick={slideRight} aria-label="Previous image">
-				<i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl shadow-sm"></i>
+				<ArrowLeft class="size-[2em] text-white shadow-sm" strokeWidth={1.75} />
 			</button>
 			<button class="bump" onclick={slideLeft} aria-label="Next image">
-				<i class="fa-sharp fa-regular fa-arrow-right text-white fa-2xl shadow-sm"></i>
+				<ArrowRight class="size-[2em] text-white shadow-sm" strokeWidth={1.75} />
 			</button>
 		</div>
 	{:else}

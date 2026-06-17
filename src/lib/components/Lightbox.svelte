@@ -9,6 +9,7 @@
 	import Slideshow from './Slideshow.svelte';
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
 	import { trapFocus } from '$lib/utils/trapFocus';
+	import { X, LoaderCircle } from '@lucide/svelte';
 
 	const appState = getAppState();
 
@@ -90,7 +91,7 @@
 			class="w-full absolute top-0 h-16 flex items-center justify-between px-[4%] xl:px-0 z-40"
 		>
 			<button class="h-6" onclick={closeModal} aria-label="Close modal">
-				<i class="text-black fa-sharp fa-light fa-close fa-2xl hover:opacity-80 transition"></i>
+				<X class="size-[2em] text-black hover:opacity-80 transition" strokeWidth={1.5} />
 			</button>
 			<a href="/" class="" onclick={closeModal}
 				><RotatingLogo class="h-6 hover:opacity-80 transition" /></a
@@ -101,7 +102,7 @@
 		>
 			{#if !appState.activeArtwork || !appState.activeArtwork.data}
 				<div class="w-full h-full flex items-center justify-center">
-					<i class="fa-regular fa-circle-notch fa-spin fa-2xl text-black/80"></i>
+					<LoaderCircle class="size-[2em] animate-spin text-black/80" strokeWidth={1.75} />
 				</div>
 			{:else}
 				<div
@@ -114,9 +115,10 @@
 								? 'md:w-auto md:aspect-3/4 h-full'
 								: 'max-w-full h-full max-h-full'}"
 					>
-						<i
-							class="fa-regular fa-circle-notch fa-spin fa-2xl text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
-						></i>
+						<LoaderCircle
+							class="size-[2em] animate-spin text-black/80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
+							strokeWidth={1.75}
+						/>
 
 						{#if appState.activeArtwork.data.secondary_images[0] && isFilled.image(appState.activeArtwork.data.secondary_images[0].image) && appState.activeArtwork.data.orientation !== 'fit'}
 							<Slideshow />

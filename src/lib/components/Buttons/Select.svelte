@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
+	import { ChevronDown } from '@lucide/svelte';
 
 	let {
 		value = $bindable(''),
@@ -55,11 +56,10 @@
 		class="w-full border-1 border-mid p-2 bg-white/40 rounded-xs text-left flex items-center justify-between gap-2 cursor-pointer"
 	>
 		<span class={value ? '' : 'text-black/50'}>{selectedLabel || placeholder}</span>
-		<i
-			class="fa-sharp fa-light fa-chevron-down transition-transform duration-200 {open
-				? 'rotate-180'
-				: ''}"
-		></i>
+		<ChevronDown
+			class="size-[1em] transition-transform duration-200 {open ? 'rotate-180' : ''}"
+			strokeWidth={1.5}
+		/>
 	</button>
 
 	{#if open}
@@ -95,8 +95,5 @@
 		line-height: 150%;
 		letter-spacing: 0.25px;
 		text-transform: none;
-	}
-	.fa-chevron-down {
-		font-size: 14px;
 	}
 </style>

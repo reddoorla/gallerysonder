@@ -11,6 +11,7 @@
 	import { PrismicImage } from '@prismicio/svelte';
 	import type { ImageField } from '@prismicio/client';
 	import { isFilled } from '@prismicio/helpers';
+	import { ArrowLeft, ArrowRight, Plus, CirclePlay, Volume2 } from '@lucide/svelte';
 
 	const appState = getAppState();
 
@@ -136,12 +137,12 @@
 					<button
 						class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump"
 					>
-						<i class="fa-solid fa-circle-play fa-2xl"></i>
+						<CirclePlay class="size-[2em]" strokeWidth={2} />
 					</button>
 					<button
 						class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump"
 					>
-						<i class="fa-solid fa-volume-high fa-2xl"></i>
+						<Volume2 class="size-[2em]" strokeWidth={2} />
 					</button>
 				</div> -->
 			</button>
@@ -179,17 +180,15 @@
 				</div>
 				<div class="flex flex-row justify-between items-center absolute bottom-6 left-6 gap-12">
 					<button class="bump" onclick={slideRight} aria-label="Previous image">
-						<i class="fa-sharp fa-regular fa-arrow-left fa-2xl text-white drop-shadow-lg"
-						></i></button
+						<ArrowLeft class="size-[2em] text-white drop-shadow-lg" strokeWidth={1.75} /></button
 					>
 					<button class="bump" onclick={slideLeft} aria-label="Next image">
-						<i class="fa-sharp fa-regular fa-arrow-right fa-2xl text-white drop-shadow-lg"
-						></i></button
+						<ArrowRight class="size-[2em] text-white drop-shadow-lg" strokeWidth={1.75} /></button
 					>
 				</div>
 				<div class="flex flex-row justify-between items-end absolute bottom-6 right-6">
 					<button class="bump" onclick={openModal} aria-label="View full size"
-						><i class="fa-sharp fa-regular fa-plus fa-2xl text-white"></i></button
+						><Plus class="size-[2em] text-white" strokeWidth={1.75} /></button
 					>
 				</div>
 			</div>
@@ -238,13 +237,13 @@
 					class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump"
 					aria-label="Play video"
 				>
-					<i class="fa-solid fa-circle-play fa-2xl"></i>
+					<CirclePlay class="size-[2em]" strokeWidth={2} />
 				</button>
 				<button
 					class="text-subtle-primary hover:text-accent-pink active:text-black transition-colors bump"
 					aria-label="Toggle sound"
 				>
-					<i class="fa-solid fa-volume-high fa-2xl"></i>
+					<Volume2 class="size-[2em]" strokeWidth={2} />
 				</button>
 			</div>
 		</div>
@@ -284,15 +283,15 @@
 			</div>
 			<div class="w-36 h-12 flex flex-row justify-between items-center absolute bottom-12 left-12">
 				<button class="bump" onclick={slideRight} aria-label="Previous image">
-					<i class="fa-sharp fa-regular fa-arrow-left text-white fa-2xl"></i></button
+					<ArrowLeft class="size-[2em] text-white" strokeWidth={1.75} /></button
 				>
 				<button class="bump" onclick={slideLeft} aria-label="Next image">
-					<i class="fa-sharp fa-regular fa-arrow-right text-white fa-2xl"></i></button
+					<ArrowRight class="size-[2em] text-white" strokeWidth={1.75} /></button
 				>
 			</div>
 			<div class="w-12 h-12 flex flex-row justify-between items-end absolute bottom-12 right-12">
 				<button class="bump" onclick={closeModal} aria-label="Close"
-					><i class="fa-sharp fa-regular fa-plus text-white rotate-45 fa-2xl"></i></button
+					><Plus class="size-[2em] text-white rotate-45" strokeWidth={1.75} /></button
 				>
 			</div>
 		</div>

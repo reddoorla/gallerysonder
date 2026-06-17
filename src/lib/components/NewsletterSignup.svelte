@@ -6,6 +6,7 @@
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import { onMount } from 'svelte';
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import { X } from '@lucide/svelte';
 
 	const appState = getAppState();
 
@@ -98,8 +99,7 @@
 				}}
 				class="absolute top-12 left-0 hover:opacity-80"
 				aria-label="Close newsletter signup"
-				><i class="text-black fa-sharp fa-light fa-close fa-2xl hover:opacity-80 transition"
-				></i></button
+				><X class="size-[2em] text-black hover:opacity-80 transition" strokeWidth={1.5} /></button
 			>
 			<a href="/" class="absolute top-5 right-0 hover:opacity-80"><RotatingLogo class="h-6" /></a>
 			{#if !submitted}
