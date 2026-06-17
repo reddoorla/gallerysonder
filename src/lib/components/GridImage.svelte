@@ -116,6 +116,7 @@
 		{#if innerWidth > 768}
 			{#if text}
 				<h6
+					aria-level="2"
 					class="mt-3 transition-opacity use-gpu duration-500 {insetPercent < 8
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
@@ -148,6 +149,7 @@
 		{:else}
 			{#if text}
 				<h5
+					aria-level="2"
 					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
@@ -208,6 +210,7 @@
 		{#if innerWidth > 768}
 			{#if text}
 				<h6
+					aria-level="2"
 					class="mt-3 transition-opacity use-gpu duration-500 {insetPercent < 8
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
@@ -256,6 +259,7 @@
 		{:else}
 			{#if text}
 				<h5
+					aria-level="2"
 					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"

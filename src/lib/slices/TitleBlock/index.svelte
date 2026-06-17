@@ -89,12 +89,12 @@
 	{/if}
 	<ContentWidth class="h-full flex flex-col items-left pt-8 lg:pl-20 relative">
 		{#if slice.variation === 'default'}
-			<h5><b>{slice.primary.eyebrow || ''}</b></h5>
+			<h5 role="presentation"><b>{slice.primary.eyebrow || ''}</b></h5>
 			{#if slice.primary.title}
-				<h3 class="mt-3">{slice.primary.title || ''}</h3>
+				<h3 aria-level="2" class="mt-3">{slice.primary.title || ''}</h3>
 			{/if}
 			{#if slice.primary.subtitle}
-				<h6 class="mt-3"><b>{slice.primary.subtitle || ''}</b></h6>
+				<h6 role="presentation" class="mt-3"><b>{slice.primary.subtitle || ''}</b></h6>
 			{/if}
 			{#if slice.primary.body}
 				<div
@@ -115,12 +115,12 @@
 		{:else if slice.variation === 'twoColumn'}
 			<div class="w-full flex flex-col md:flex-row">
 				<div class="w-full md:w-1/2 mb-10 md:mb-0">
-					<h6 class="font-light">{slice.primary.eyebrow || ''}</h6>
+					<h6 role="presentation" class="font-light">{slice.primary.eyebrow || ''}</h6>
 					{#if slice.primary.title}
-						<h3 class="mt-6">{slice.primary.title || ''}</h3>
+						<h3 aria-level="2" class="mt-6">{slice.primary.title || ''}</h3>
 					{/if}
 					{#if slice.primary.subtitle}
-						<h6 class="mb-6"><b>{slice.primary.subtitle || ''}</b></h6>
+						<h6 role="presentation" class="mb-6"><b>{slice.primary.subtitle || ''}</b></h6>
 					{/if}
 					{#if slice.primary.body}
 						{#if slice.primary.read_more_button}
@@ -155,12 +155,12 @@
 				</div>
 			</div>
 		{:else if slice.variation === 'connect'}
-			<h5>{slice.primary.eyebrow || ''}</h5>
+			<h5 role="presentation">{slice.primary.eyebrow || ''}</h5>
 			{#if slice.primary.title}
 				<h2 class="mt-6">{slice.primary.title || ''}</h2>
 			{/if}
 			{#if slice.primary.subtitle}
-				<h6 class="mb-6">{slice.primary.subtitle || ''}</h6>
+				<h6 role="presentation" class="mb-6">{slice.primary.subtitle || ''}</h6>
 			{/if}
 			{#if slice.primary.body}
 				<div class="rich-text mb-8">

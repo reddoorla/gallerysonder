@@ -100,6 +100,7 @@
 					: 'opacity-0'}">{content.dates || ''}</span
 			>
 			<h5
+				role="presentation"
 				class="text-white translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 				!isBackgroundDark
 					? ''

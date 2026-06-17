@@ -50,7 +50,9 @@
 	{/if}
 	<ContentWidth class="lg:pl-20">
 		{#if slice.primary.gallery_eyebrow}
-			<h5 class="mb-12 mt-24 uppercase"><b>{slice.primary.gallery_eyebrow || ''}</b></h5>
+			<h5 aria-level="2" class="mb-12 mt-24 uppercase">
+				<b>{slice.primary.gallery_eyebrow || ''}</b>
+			</h5>
 		{/if}
 		{#key slice}
 			<Gallery
