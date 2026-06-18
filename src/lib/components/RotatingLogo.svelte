@@ -9,23 +9,17 @@
 	import { fade } from 'svelte/transition';
 
 	import { onMount } from 'svelte';
+	import { rotatingLogoIndex, startRotatingLogo } from './logoRotation.svelte';
 
 	let { class: className = '' } = $props();
 
 	let innerWidth = $state<number>(0);
 	const logoArray = [logoExtendedO, logoExtendedN, logoExtendedD, logoExtendedE, logoExtendedR];
 
-	let activeLogoIndex = $state(0);
+	// Shared across every <RotatingLogo> instance so they animate in lockstep.
+	const activeLogoIndex = $derived(rotatingLogoIndex());
 
-	onMount(() => {
-		setInterval(() => {
-			if (activeLogoIndex < logoArray.length - 1 && innerWidth > 768) {
-				activeLogoIndex++;
-			} else {
-				activeLogoIndex = 0;
-			}
-		}, 4000);
-	});
+	onMount(startRotatingLogo);
 </script>
 
 <svelte:window bind:innerWidth />
