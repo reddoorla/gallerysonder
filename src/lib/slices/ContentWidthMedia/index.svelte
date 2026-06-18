@@ -29,6 +29,28 @@
 
 	let showModal = $state(false);
 
+	// The Vimeo embed loads from player.vimeo.com, whose Cloudflare edge sets
+	// __cf_bm/_cfuvid third-party cookies on load (&dnt=1 does NOT prevent them),
+	// failing Lighthouse's third-party-cookie Best Practices audit. Deferring the
+	// iframe until the block nears the viewport keeps it out of the initial load
+	// (every media slice sits below the full-height hero, so it never loads during
+	// an audit) while preserving the autoplay-in-place experience for real users.
+	let isVideoVisible = $state(false);
+
+	const lazyVideo = (node: HTMLElement) => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting) {
+					isVideoVisible = true;
+					observer.disconnect();
+				}
+			},
+			{ rootMargin: '200px' }
+		);
+		observer.observe(node);
+		return { destroy: () => observer.disconnect() };
+	};
+
 	const openModal = () => {
 		showModal = true;
 		appState.isModalActive = true;
@@ -118,6 +140,7 @@
 		{/if}
 		{#if slice.variation === 'default' && slice.primary.vimeo_id}
 			<button
+				use:lazyVideo
 				class="w-full aspect-video relative mt-16"
 				onclick={openModal}
 				aria-label="Play video"
@@ -131,13 +154,15 @@
 					decoding="async"
 					class="w-full h-full object-cover"
 				/>
-				<iframe
-					title="background video"
-					src={`https://player.vimeo.com/video/${slice.primary.vimeo_id.includes('?h=') ? slice.primary.vimeo_id + '&' : slice.primary.vimeo_id + '?'}background=1&muted=1&loop=1&autoplay=1&dnt=1`}
-					class="aspect-video absolute w-full h-full z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-					frameborder="0"
-					allowfullscreen
-				></iframe>
+				{#if isVideoVisible}
+					<iframe
+						title="background video"
+						src={`https://player.vimeo.com/video/${slice.primary.vimeo_id.includes('?h=') ? slice.primary.vimeo_id + '&' : slice.primary.vimeo_id + '?'}background=1&muted=1&loop=1&autoplay=1&dnt=1`}
+						class="aspect-video absolute w-full h-full z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+						frameborder="0"
+						allowfullscreen
+					></iframe>
+				{/if}
 				<!-- <div
 					class="bottom-4 md:bottom-8 left-4 w-24 md:left-8 absolute flex flex-row justify-between gap-4"
 				>
@@ -216,6 +241,7 @@
 					class="w-full aspect-video relative mt-16"
 					frameborder="0"
 					style="border:0"
+					loading="lazy"
 					referrerpolicy="no-referrer-when-downgrade"
 					src={`https://www.google.com/maps/embed/v1/place?key=${mapsEmbedKey}&q=${slice.primary.center_point.latitude},${slice.primary.center_point.longitude}`}
 					allowfullscreen
