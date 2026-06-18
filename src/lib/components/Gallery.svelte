@@ -14,9 +14,10 @@
 	import LinkPlusToggle from './Buttons/LinkPlusToggle.svelte';
 	import { isFilled } from '@prismicio/client';
 	import { onMount } from 'svelte';
-	import type { LinkField, ImageField, KeyTextField } from '@prismicio/client';
+	import type { KeyTextField } from '@prismicio/client';
 	import { onNavigate } from '$app/navigation';
 	import { fetchFromRelationship } from '$lib/utils/prismic';
+	import type { GalleryItem, ResolvedImageGallerySlice } from '$lib/utils/gallery';
 	import { LoaderCircle } from '@lucide/svelte';
 
 	let {
@@ -39,6 +40,12 @@
 
 	function handleHover(value: boolean, index: number) {
 		isHoverArray[index] = value;
+	}
+
+	// Intrinsic dimensions let the browser reserve the image box before load,
+	// eliminating per-image layout shift (CLS) as gallery images stream in.
+	function imgDimension(image: GalleryItem['image'], key: 'width' | 'height'): number | undefined {
+		return isFilled.image(image) ? image.dimensions[key] : undefined;
 	}
 
 	function formatDateRange(dateStr: string | KeyTextField): string {
@@ -81,21 +88,16 @@
 		return `${parseInt(startDay)} ${startMonthName} - ${parseInt(endDay)} ${endMonthName} ${endFullYear}`;
 	}
 
-	interface GalleryItem {
-		titleOne: string | KeyTextField;
-		titleTwo: string | KeyTextField;
-		eyebrow: string | KeyTextField;
-		image: ImageField<never>;
-		bodyOne: string | KeyTextField;
-		bodyTwo: string | KeyTextField;
-		buttonText: string | KeyTextField;
-		buttonLink: LinkField;
-		artUID: string;
-		willOpen: boolean;
-	}
+	// The gallery's content relationships are resolved at load time on the server
+	// (see $lib/utils/gallery + each route's +page.server.js) so the grid ships in
+	// the prerendered/SSR HTML — fixing the spinner->grid CLS and the slow,
+	// client-fetched gallery LCP. If resolvedItems is absent (e.g. an edge/preview
+	// path), we fall back to the original client-side fetch.
+	const resolvedItems = (slice as ResolvedImageGallerySlice).resolvedItems;
 
-	let galleryItems = $state<GalleryItem[]>([]);
-	let isLoading = $state(true);
+	let galleryItems = $state<GalleryItem[]>(resolvedItems ?? []);
+	let isLoading = $state(!resolvedItems);
+	if (resolvedItems) isHoverArray = new Array(resolvedItems.length).fill(false);
 
 	async function fetchGalleryItems(items: ImageGallerySliceDefaultItem[]) {
 		galleryItems = [];
@@ -218,10 +220,14 @@
 		isLoading = false;
 	}
 
-	onMount(() => fetchGalleryItems(slice.items));
+	// Server-resolved items already populate the grid (rendered during SSR). Only
+	// fall back to the client-side fetch when nothing was resolved at load time.
+	onMount(() => {
+		if (!resolvedItems) fetchGalleryItems(slice.items);
+	});
 
 	onNavigate(() => {
-		fetchGalleryItems(slice.items);
+		if (!resolvedItems) fetchGalleryItems(slice.items);
 	});
 </script>
 
@@ -239,6 +245,8 @@
 					<GridImage
 						class="w-full aspect-8/5"
 						src={item.image.url || ''}
+						width={imgDimension(item.image, 'width')}
+						height={imgDimension(item.image, 'height')}
 						alt={item.titleOne || item.titleTwo || 'Gallery Sonder'}
 						willOpen={item.willOpen}
 						artworkUID={item.artUID}
@@ -285,6 +293,8 @@
 					<GridImage
 						class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 						src={item.image.url || ''}
+						width={imgDimension(item.image, 'width')}
+						height={imgDimension(item.image, 'height')}
 						alt={item.titleOne || item.titleTwo || 'Gallery Sonder'}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
 						bind:isHover={isHoverArray[i]}
@@ -331,6 +341,8 @@
 					<GridImage
 						class={(i % 4 == 0 || i % 3 == 0) && !isRegular ? 'md:w-11/12' : 'md:w-9/12'}
 						src={item.image.url || ''}
+						width={imgDimension(item.image, 'width')}
+						height={imgDimension(item.image, 'height')}
 						text={item.titleOne || ''}
 						subtitle={item.titleTwo && item.bodyOne
 							? `<i>${item.titleTwo}</i>, ${item.bodyOne}`
