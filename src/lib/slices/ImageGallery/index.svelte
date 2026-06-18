@@ -8,9 +8,9 @@
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { PrismicRichText } from '@prismicio/svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
+	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
+	import { shapeMargin } from '$lib/actions/shapeMargin';
 	import { isFilled } from '@prismicio/helpers';
-	import { onMount } from 'svelte';
-	import { onNavigate } from '$app/navigation';
 
 	const appState = getAppState();
 
@@ -18,39 +18,35 @@
 
 	let viewportWidth = $state(0);
 
-	let shape = $state<HTMLElement | undefined>(undefined);
-	let shapeHeight = $state(0);
-
 	let isTruncated = $state(!!slice.primary.show_more_button);
 
-	onMount(() => {
-		if (shape) shapeHeight = shape.getBoundingClientRect().height;
-	});
-
-	onNavigate(() => {
-		if (shape) shapeHeight = shape.getBoundingClientRect().height;
-	});
+	// Shape is positioned out of flow; the gap below the curve is the uniform
+	// --shape-gap so spacing matches every other shaped slice (see TopShapeSpacer).
+	const shaped = $derived(slice.primary.shape_top !== '0');
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
 
-{#if slice.primary.shape_top !== '0'}
-	<div style="height:{shapeHeight}px;"></div>
-{/if}
+<TopShapeSpacer shapeNumber={slice.primary.shape_top || '0'} />
 
 <section
+	use:shapeMargin
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="w-screen use-gpu transition duration-1000 {slice.primary.hide ? 'hidden' : ''}"
+	class="relative w-screen use-gpu transition duration-1000 {slice.primary.hide ? 'hidden' : ''}"
 	style="background-color: {appState.backgroundColor}"
 >
-	{#if slice.primary.shape_top !== '0'}<div class="-translate-y-[98%]" bind:this={shape}>
+	{#if shaped}<div class="absolute left-0 top-0 w-screen -translate-y-[98%]">
 			<TopShape shapeNumber={slice.primary.shape_top || ''} />
 		</div>
 	{/if}
-	<ContentWidth class="lg:pl-20">
+	<ContentWidth
+		class="lg:pl-20 {shaped
+			? 'relative z-10 mt-[calc(var(--shape-base)_+_var(--shape-margin))]'
+			: ''}"
+	>
 		{#if slice.primary.gallery_eyebrow}
-			<h5 aria-level="2" class="mb-12 mt-24 uppercase">
+			<h5 aria-level="2" class="mb-12 uppercase {shaped ? '' : 'mt-24'}">
 				<b>{slice.primary.gallery_eyebrow || ''}</b>
 			</h5>
 		{/if}

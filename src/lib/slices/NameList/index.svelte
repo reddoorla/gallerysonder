@@ -8,6 +8,8 @@
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
+	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
+	import { shapeMargin } from '$lib/actions/shapeMargin';
 	import { onMount } from 'svelte';
 	import { fetchFromRelationship } from '$lib/utils/prismic';
 
@@ -15,8 +17,9 @@
 
 	let { slice }: { slice: NameListSlice } = $props();
 
-	let shape = $state<HTMLElement | undefined>(undefined);
-	let shapeHeight = $state(0);
+	// Shape positioned out of flow; uniform gap below the curve via --shape-gap.
+	const shaped = $derived(slice.primary.shape_top !== '0');
+
 	let isLoading = $state(true);
 
 	interface ArtistItem {
@@ -67,30 +70,29 @@
 	}
 
 	onMount(() => {
-		if (shape) {
-			shapeHeight = shape.getBoundingClientRect().height;
-		}
-
 		fetchArtistItems();
 	});
 </script>
 
-{#if slice.primary.shape_top !== '0'}
-	<div style="height:{shapeHeight}px;"></div>
-{/if}
+<TopShapeSpacer shapeNumber={slice.primary.shape_top || '0'} />
 
 <section
-	class="w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
+	use:shapeMargin
+	class="relative w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
 	id={slice.primary.sectionLabel}
 	style="background-color:{appState.backgroundColor};"
 >
-	{#if slice.primary.shape_top !== '0'}
-		<div class="-translate-y-[99%]" bind:this={shape}>
+	{#if shaped}
+		<div class="absolute left-0 top-0 w-screen -translate-y-[99%]">
 			<TopShape shapeNumber={slice.primary.shape_top || '0'} />
 		</div>
 	{/if}
 
-	<ContentWidth class="lg:pl-20 relative flex flex-col gap-8 md:gap-16 mb-16">
+	<ContentWidth
+		class="lg:pl-20 relative flex flex-col gap-8 md:gap-16 mb-16 {shaped
+			? 'z-10 mt-[calc(var(--shape-base)_+_var(--shape-margin))]'
+			: ''}"
+	>
 		{#if slice.primary.section_eyebrow}
 			<h5 aria-level="2" class="uppercase">{slice.primary.section_eyebrow || ''}</h5>
 		{/if}

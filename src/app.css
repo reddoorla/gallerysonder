@@ -1,6 +1,16 @@
 @import 'tailwindcss';
 @import 'flatpickr/dist/flatpickr.min.css';
 
+/* Spacing between a section's decorative TopShape (curved top edge) and its first
+   content. --shape-base is the curve's intersection with the binding content-edge,
+   measured per shape/width by use:shapeMargin (src/lib/actions/shapeMargin.ts).
+   --shape-margin is the design knob layered on top: 0 = content kisses the curve.
+   Shaped slices set margin-top: calc(var(--shape-base) + var(--shape-margin)). */
+:root {
+	--shape-base: 0px;
+	--shape-margin: 48px;
+}
+
 @theme {
 	--breakpoint-sm: 560px;
 	--breakpoint-md: 768px;
