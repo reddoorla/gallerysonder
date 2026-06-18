@@ -44,22 +44,23 @@
 	let insetPercent = $state(25);
 	let linkRef: HTMLElement | undefined = $state();
 
+	// Fade each grid image in once it has actually decoded, so it never "pops" into
+	// the frame mid-download (a clipped image still paints its content in the
+	// visible strip, so the clip alone never hid the load — opacity does).
+	// `load`/`error` cover the normal path; the complete-check covers images already
+	// cached when bound (bfcache / client nav) where `load` may never fire.
 	let imgEl: HTMLImageElement | undefined = $state();
 	let imageLoaded = $state(false);
 	const markLoaded = () => (imageLoaded = true);
-
-	// Catch images already complete when bound (cached / bfcache / client-side
-	// nav), where the `load` event may never fire.
 	$effect(() => {
 		if (imgEl?.complete && imgEl.naturalWidth > 0) imageLoaded = true;
 	});
 
-	// Hold the clip "curtain" reveal (and the text fade that trails it) until the
-	// image has actually decoded, so the curtain never opens onto a blank frame and
-	// the image never pops in. Closed (25%) until loaded; once loaded it tracks
-	// hover / scroll exactly as before.
-	const effectiveInset = $derived(!imageLoaded ? 25 : isHover ? 0 : insetPercent);
-	const revealed = $derived(imageLoaded && insetPercent < 8);
+	// The clip "curtain" reveal stays scroll/hover-driven, exactly as designed —
+	// decoupled from load so its 2.5s motion never coincides with the image
+	// appearing.
+	const effectiveInset = $derived(isHover ? 0 : insetPercent);
+	const revealed = $derived(insetPercent < 8);
 
 	const checkPosition = () => {
 		if (linkRef) {
@@ -154,7 +155,7 @@
 			{height}
 			loading="lazy"
 			decoding="async"
-			class="clip-transition use-gpu w-full h-auto"
+			class="clip-transition use-gpu w-full h-auto {imageLoaded ? 'opacity-100' : 'opacity-0'}"
 			style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
 		/>
 		{#if innerWidth > 768}
@@ -205,7 +206,7 @@
 			{height}
 			loading="lazy"
 			decoding="async"
-			class="clip-transition use-gpu w-full h-auto"
+			class="clip-transition use-gpu w-full h-auto {imageLoaded ? 'opacity-100' : 'opacity-0'}"
 			style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
 		/>
 		{#if innerWidth > 768}
@@ -274,8 +275,11 @@
 	.clip-transition {
 		transition:
 			clip-path 2.5s cubic-bezier(0.5, 0, 0, 1),
-			-webkit-clip-path 2.5s cubic-bezier(0.5, 0, 0, 1);
-		-webkit-transition: -webkit-clip-path 2.5s cubic-bezier(0.5, 0, 0, 1);
+			-webkit-clip-path 2.5s cubic-bezier(0.5, 0, 0, 1),
+			opacity 0.7s ease;
+		-webkit-transition:
+			-webkit-clip-path 2.5s cubic-bezier(0.5, 0, 0, 1),
+			opacity 0.7s ease;
 		transform: translateZ(1px);
 		-webkit-transform: translateZ(1px);
 	}
