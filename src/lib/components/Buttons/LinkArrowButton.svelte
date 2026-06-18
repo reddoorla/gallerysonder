@@ -69,8 +69,6 @@
 <style>
 	span {
 		color: var(--Black, #000);
-		leading-trim: both;
-		text-edge: cap;
 		font-feature-settings:
 			'clig' off,
 			'liga' off;

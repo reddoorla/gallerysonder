@@ -2,7 +2,7 @@
 	import { fade, slide } from 'svelte/transition';
 
 	import type { NavDocumentDataLinksItem } from '../../prismicio-types';
-	import * as prismicH from '@prismicio/helpers';
+	import { isFilled } from '@prismicio/client';
 
 	import ContentWidth from './ContentWidth.svelte';
 	import RotatingLogo from './RotatingLogo.svelte';
@@ -133,7 +133,7 @@
 						appState.backgroundColor = link.active_color || '#E4EEEA';
 					}}
 					onmouseout={() => (appState.backgroundColor = '#E4EEEA')}
-					href={prismicH.isFilled.link(link.link) ? link.link.url : '#'}
+					href={isFilled.link(link.link) ? link.link.url : '#'}
 					class="h-4 sm:h-6 md:h-10 lg:h-12"
 					onclick={() => {
 						setTimeout(() => (showNav = false));

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { NameListSlice } from '../../../prismicio-types';
-	import * as prismicHelpers from '@prismicio/helpers';
 	import { isFilled, type LinkField } from '@prismicio/client';
 	import type { ArtistDocumentData } from '../../../prismicio-types';
 	import NameRevealOnHover from '$lib/components/NameRevealOnHover.svelte';
@@ -118,7 +117,7 @@
 		{#if slice.primary.bottom_button_text}
 			<LinkArrowButton
 				text={slice.primary.bottom_button_text || ''}
-				href={prismicHelpers.isFilled.link(slice.primary.button_bottom_link)
+				href={isFilled.link(slice.primary.button_bottom_link)
 					? slice.primary.button_bottom_link.url
 					: ''}
 				class="mt-16"

@@ -10,7 +10,7 @@
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
 	import { shapeMargin } from '$lib/actions/shapeMargin';
-	import { isFilled } from '@prismicio/helpers';
+	import { isFilled } from '@prismicio/client';
 
 	const appState = getAppState();
 

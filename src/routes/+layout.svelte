@@ -30,13 +30,16 @@
 	// dashboard, which sets the cookie before redirecting here.
 	let isPreviewActive = $state(false);
 
-	let currentUtmParams = {
+	// Must be $state: it's populated from the URL in onMount and bound into the
+	// hidden form inputs' value=, so without reactivity every submission shipped
+	// utm_*=none (attribution silently lost).
+	let currentUtmParams = $state({
 		source: 'none',
 		medium: 'none',
 		campaign: 'none',
 		term: 'none',
 		content: 'none'
-	};
+	});
 
 	const areUtmParamsEmpty = () => {
 		const u = appState.utmParams;

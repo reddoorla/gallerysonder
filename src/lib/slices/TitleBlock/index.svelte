@@ -6,7 +6,7 @@
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
-	import { isFilled } from '@prismicio/helpers';
+	import { isFilled } from '@prismicio/client';
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
 	import { slide } from 'svelte/transition';

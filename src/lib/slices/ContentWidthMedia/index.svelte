@@ -9,8 +9,7 @@
 	import { useSwipe, type SwipeCustomEvent } from 'svelte-gestures';
 	import { fade } from 'svelte/transition';
 	import { PrismicImage } from '@prismicio/svelte';
-	import type { ImageField } from '@prismicio/client';
-	import { isFilled } from '@prismicio/helpers';
+	import { isFilled, type ImageField } from '@prismicio/client';
 	import { ArrowLeft, ArrowRight, Plus, CirclePlay, Volume2 } from '@lucide/svelte';
 	import { srcset } from '$lib/utils/image';
 

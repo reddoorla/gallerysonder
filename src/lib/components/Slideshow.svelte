@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { useSwipe, type SwipeCustomEvent } from 'svelte-gestures';
 	import { PrismicImage } from '@prismicio/svelte';
-	import type { ImageField } from '@prismicio/client';
-	import { isFilled } from '@prismicio/helpers';
+	import { isFilled, type ImageField } from '@prismicio/client';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { onMount } from 'svelte';
 	import { ArrowLeft, ArrowRight } from '@lucide/svelte';
@@ -35,8 +34,6 @@
 		}
 
 		tripledImages = [...imageArray, ...imageArray, ...imageArray];
-		// console.log('Image Array:', imageArray);
-		// console.log('Tripled Images:', tripledImages);
 	};
 
 	$effect(function updateImageArrayOnArtworkChange() {
@@ -66,13 +63,11 @@
 	const slideRight = () => {
 		sliderIndex--;
 		if (sliderIndex < 0) resetSliderToEnd();
-		// console.log('Current slide index:', sliderIndex);
 	};
 
 	const slideLeft = () => {
 		sliderIndex++;
 		if (sliderIndex >= imageArray.length) resetSliderToStart();
-		// console.log('Current slide index:', sliderIndex);
 	};
 
 	function handleSwipe(event: SwipeCustomEvent) {
@@ -82,7 +77,6 @@
 
 	onMount(() => {
 		setImageArray();
-		// console.log('Component mounted, images initialized');
 	});
 </script>
 

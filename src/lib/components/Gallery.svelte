@@ -9,7 +9,6 @@
 	} from '../../prismicio-types';
 	import GridImage from './GridImage.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
-	import * as prismicHelpers from '@prismicio/helpers';
 	import { slide } from 'svelte/transition';
 	import LinkPlusToggle from './Buttons/LinkPlusToggle.svelte';
 	import { isFilled } from '@prismicio/client';
@@ -275,7 +274,7 @@
 					{#if item.bodyTwo}
 						<p>{item.bodyTwo}</p>
 					{/if}
-					{#if prismicHelpers.isFilled.link(item.buttonLink)}
+					{#if isFilled.link(item.buttonLink)}
 						<LinkArrowButton
 							text={item.buttonText || 'explore'}
 							href={item.buttonLink.url}
@@ -322,7 +321,7 @@
 					{#if item.bodyTwo}
 						<p class="mt-2">{item.bodyTwo}</p>
 					{/if}
-					{#if prismicHelpers.isFilled.link(item.buttonLink)}
+					{#if isFilled.link(item.buttonLink)}
 						<LinkArrowButton
 							text={item.buttonText || 'explore'}
 							href={item.buttonLink.url}

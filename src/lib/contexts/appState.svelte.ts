@@ -64,7 +64,6 @@ export function createAppState(): AppState {
 
 	async function fetchArtwork(uid: string) {
 		if (uid && uid !== lastFetchedUid && !isFetching) {
-			// console.log('[fetchArtwork] Starting fetch for:', uid);
 			isFetching = true;
 			lastFetchedUid = uid;
 			const client = getPrismicClient();
@@ -73,14 +72,12 @@ export function createAppState(): AppState {
 
 			try {
 				const artwork = await client.getByUID('artwork', uid);
-				// console.log('[fetchArtwork] Artwork fetched successfully:', uid);
 				activeArtwork = artwork;
 
 				if (isFilled.contentRelationship(artwork?.data.artist)) {
 					const artistUID = artwork?.data.artist.uid;
 					if (artistUID) {
 						activeArtist = await client.getByUID('artist', artistUID);
-						// console.log('[fetchArtwork] Artist fetched successfully:', artistUID);
 					}
 				}
 			} catch (error) {
@@ -89,21 +86,16 @@ export function createAppState(): AppState {
 				activeArtist = null;
 			} finally {
 				isFetching = false;
-				// console.log('[fetchArtwork] Fetch complete for:', uid);
 			}
 		} else if (!uid) {
-			// console.log('[fetchArtwork] Clearing artwork data');
 			lastFetchedUid = '';
 			activeArtwork = null;
 			activeArtist = null;
-		} else {
-			// console.log('[fetchArtwork] Skipping fetch - already fetched or in progress:', uid);
 		}
 	}
 
 	$effect(function syncArtworkDataWithUid() {
 		const uid = activeArtworkUid;
-		// console.log(`[Effect #${effectRunCount}] activeArtworkUid changed to:`, uid);
 		if (uid) {
 			fetchArtwork(uid);
 		} else {
