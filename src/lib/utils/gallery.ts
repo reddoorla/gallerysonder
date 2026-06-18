@@ -4,6 +4,8 @@ import type {
 	AllDocumentTypes,
 	ImageGallerySlice,
 	ImageGallerySliceDefaultItem,
+	NameListSlice,
+	NameListSliceDefaultItem,
 	ArtworkDocumentData,
 	ArtistDocumentData,
 	ExhibitDocumentData,
@@ -59,121 +61,122 @@ export async function resolveGalleryItems(
 	slice: ImageGallerySlice
 ): Promise<GalleryItem[]> {
 	const items = (slice.items ?? []) as ImageGallerySliceDefaultItem[];
-	const out: GalleryItem[] = [];
 
-	for (const item of items) {
-		let artist = '';
-		let title = '';
+	// Resolve items in parallel: each item's artwork->artist lookup is independent,
+	// so Promise.all turns the old 2N sequential round-trips into ~2 round-trips.
+	return Promise.all(
+		items.map(async (item) => {
+			let artist = '';
+			let title = '';
 
-		const manualTitleOne = item.title_one;
-		const manualTitleTwo = item.title_two;
+			const manualTitleOne = item.title_one;
+			const manualTitleTwo = item.title_two;
 
-		const itemData: GalleryItem = {
-			titleOne: '',
-			titleTwo: '',
-			eyebrow: item.eyebrow,
-			image: item.image,
-			bodyOne: item.subtitle,
-			bodyTwo: item.subtitle_two,
-			buttonText: item.button_text,
-			buttonLink: item.link,
-			artUID: '',
-			willOpen: slice.primary.will_open
-		};
+			const itemData: GalleryItem = {
+				titleOne: '',
+				titleTwo: '',
+				eyebrow: item.eyebrow,
+				image: item.image,
+				bodyOne: item.subtitle,
+				bodyTwo: item.subtitle_two,
+				buttonText: item.button_text,
+				buttonLink: item.link,
+				artUID: '',
+				willOpen: slice.primary.will_open
+			};
 
-		if (isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
-			const fetchedContent = await fetchData<ArtworkDocumentData>(
-				client,
-				'artwork',
-				item.artwork.uid
-			);
+			if (isFilled.contentRelationship(item.artwork) && item.artwork.uid) {
+				const fetchedContent = await fetchData<ArtworkDocumentData>(
+					client,
+					'artwork',
+					item.artwork.uid
+				);
 
-			if (fetchedContent) {
-				itemData.artUID = item.artwork.uid;
+				if (fetchedContent) {
+					itemData.artUID = item.artwork.uid;
 
-				if (!artist && isFilled.contentRelationship(fetchedContent.artist)) {
-					const uid = fetchedContent.artist.uid;
-					const artistContent = uid
-						? await fetchData<ArtistDocumentData>(client, 'artist', uid)
-						: null;
-					if (artistContent) {
-						artist = artistContent.full_name ?? '';
+					if (!artist && isFilled.contentRelationship(fetchedContent.artist)) {
+						const uid = fetchedContent.artist.uid;
+						const artistContent = uid
+							? await fetchData<ArtistDocumentData>(client, 'artist', uid)
+							: null;
+						if (artistContent) {
+							artist = artistContent.full_name ?? '';
+						}
 					}
-				}
-				title = fetchedContent.title ?? '';
-				if (!isFilled.image(itemData.image)) itemData.image = fetchedContent.primary_image;
-				if (!itemData.bodyOne) itemData.bodyOne = fetchedContent.year;
+					title = fetchedContent.title ?? '';
+					if (!isFilled.image(itemData.image)) itemData.image = fetchedContent.primary_image;
+					if (!itemData.bodyOne) itemData.bodyOne = fetchedContent.year;
 
-				if (!itemData.bodyTwo) {
-					itemData.bodyTwo = fetchedContent.medium;
 					if (!itemData.bodyTwo) {
-						itemData.bodyTwo = fetchedContent.dimensions;
-					} else if (fetchedContent.dimensions) {
-						// Newline (not <br/>): GridImage renders bodyTwo as escaped text with
-						// `whitespace-pre-line`, so a literal \n becomes the line break.
-						itemData.bodyTwo = itemData.bodyTwo + '\n' + fetchedContent.dimensions;
+						itemData.bodyTwo = fetchedContent.medium;
+						if (!itemData.bodyTwo) {
+							itemData.bodyTwo = fetchedContent.dimensions;
+						} else if (fetchedContent.dimensions) {
+							// Newline (not <br/>): GridImage renders bodyTwo as escaped text with
+							// `whitespace-pre-line`, so a literal \n becomes the line break.
+							itemData.bodyTwo = itemData.bodyTwo + '\n' + fetchedContent.dimensions;
+						}
 					}
 				}
-			}
-		} else if (isFilled.contentRelationship(item.exhibition) && item.exhibition.uid) {
-			const fetchedContent = await fetchData<ExhibitDocumentData>(
-				client,
-				'exhibit',
-				item.exhibition.uid
-			);
+			} else if (isFilled.contentRelationship(item.exhibition) && item.exhibition.uid) {
+				const fetchedContent = await fetchData<ExhibitDocumentData>(
+					client,
+					'exhibit',
+					item.exhibition.uid
+				);
 
-			if (fetchedContent) {
-				itemData.willOpen = false;
+				if (fetchedContent) {
+					itemData.willOpen = false;
 
-				if (!itemData.eyebrow) itemData.eyebrow = fetchedContent.dates;
+					if (!itemData.eyebrow) itemData.eyebrow = fetchedContent.dates;
 
-				if (!artist) {
-					artist = fetchedContent.artist ?? '';
+					if (!artist) {
+						artist = fetchedContent.artist ?? '';
+					}
+					title = fetchedContent.title ?? '';
+					if (!isFilled.image(itemData.image) && isFilled.image(fetchedContent.primary_image))
+						itemData.image = fetchedContent.primary_image;
+					if (!itemData.bodyOne) itemData.bodyOne = fetchedContent.short_description;
+					if (!itemData.buttonText) itemData.buttonText = 'Explore';
+					if (!isFilled.link(itemData.buttonLink))
+						itemData.buttonLink = {
+							link_type: 'Web',
+							url: '/exhibitions/' + item.exhibition.uid
+						};
 				}
-				title = fetchedContent.title ?? '';
-				if (!isFilled.image(itemData.image) && isFilled.image(fetchedContent.primary_image))
-					itemData.image = fetchedContent.primary_image;
-				if (!itemData.bodyOne) itemData.bodyOne = fetchedContent.short_description;
-				if (!itemData.buttonText) itemData.buttonText = 'Explore';
-				if (!isFilled.link(itemData.buttonLink))
-					itemData.buttonLink = {
-						link_type: 'Web',
-						url: '/exhibitions/' + item.exhibition.uid
-					};
+			} else if (isFilled.contentRelationship(item.news) && item.news.uid) {
+				const fetchedContent = await fetchData<NewsDocumentData>(client, 'news', item.news.uid);
+
+				if (fetchedContent) {
+					itemData.willOpen = false;
+					title = fetchedContent.full_name ?? '';
+					if (!isFilled.image(itemData.image))
+						itemData.image = fetchedContent.nav_image || fetchedContent.background_image;
+
+					if (!isFilled.link(itemData.buttonLink))
+						itemData.buttonLink = {
+							link_type: 'Web',
+							url: '/news/' + item.news.uid
+						};
+				}
 			}
-		} else if (isFilled.contentRelationship(item.news) && item.news.uid) {
-			const fetchedContent = await fetchData<NewsDocumentData>(client, 'news', item.news.uid);
 
-			if (fetchedContent) {
-				itemData.willOpen = false;
-				title = fetchedContent.full_name ?? '';
-				if (!isFilled.image(itemData.image))
-					itemData.image = fetchedContent.nav_image || fetchedContent.background_image;
-
-				if (!isFilled.link(itemData.buttonLink))
-					itemData.buttonLink = {
-						link_type: 'Web',
-						url: '/news/' + item.news.uid
-					};
+			if (manualTitleOne) {
+				itemData.titleOne = manualTitleOne;
+			} else {
+				itemData.titleOne = artist || title;
 			}
-		}
 
-		if (manualTitleOne) {
-			itemData.titleOne = manualTitleOne;
-		} else {
-			itemData.titleOne = artist || title;
-		}
+			if (manualTitleTwo) {
+				itemData.titleTwo = manualTitleTwo;
+			} else {
+				itemData.titleTwo = artist ? title : '';
+			}
 
-		if (manualTitleTwo) {
-			itemData.titleTwo = manualTitleTwo;
-		} else {
-			itemData.titleTwo = artist ? title : '';
-		}
-
-		out.push(itemData);
-	}
-
-	return out;
+			return itemData;
+		})
+	);
 }
 
 /**
@@ -195,6 +198,81 @@ export async function resolveGalleries(client: Client, slices: Slice[] | undefin
 				);
 			} catch (error) {
 				console.error('Error resolving image_gallery slice:', error);
+			}
+		})
+	);
+}
+
+/** Shape consumed by NameList/index.svelte (server-side port of its onMount). */
+export interface NameListItem {
+	activeImage: string;
+	color: string;
+	link: LinkField;
+	doubleHeight: boolean;
+}
+
+/** A name_list slice with its artist relationships pre-resolved at load time. */
+export type ResolvedNameListSlice = NameListSlice & {
+	resolvedItems?: NameListItem[];
+};
+
+async function resolveNameListItems(client: Client, slice: NameListSlice): Promise<NameListItem[]> {
+	const items = (slice.items ?? []) as NameListSliceDefaultItem[];
+
+	return Promise.all(
+		items.map(async (item) => {
+			const data: NameListItem = {
+				activeImage: item.artist_active_image?.url || '',
+				color: item.artist_color || '#E4EEEA',
+				link: item.artist_page || { link_type: 'Web', url: '' },
+				doubleHeight: item.doubleheight || false
+			};
+
+			if (isFilled.contentRelationship(item.artist) && item.artist.uid) {
+				const fetchedArtist = await fetchData<ArtistDocumentData>(
+					client,
+					'artist',
+					item.artist.uid
+				);
+				if (fetchedArtist) {
+					if (
+						!isFilled.image(item.artist_active_image) &&
+						isFilled.image(fetchedArtist.nav_image)
+					) {
+						data.activeImage = fetchedArtist.nav_image.url || '';
+					}
+					if (!item.artist_color && fetchedArtist.artist_color) {
+						data.color = fetchedArtist.artist_color;
+					}
+					if (!isFilled.link(item.artist_page)) {
+						data.link = { link_type: 'Web', url: '/artists/' + item.artist.uid };
+					}
+				}
+			}
+
+			return data;
+		})
+	);
+}
+
+/**
+ * Walk a document's slices and attach resolvedItems to every name_list slice in
+ * place, mirroring resolveGalleries — so the artist list is server-rendered
+ * instead of client-fetched on mount (kills the "Loading artists..." flash/CLS).
+ */
+export async function resolveNameLists(client: Client, slices: Slice[] | undefined): Promise<void> {
+	if (!Array.isArray(slices)) return;
+
+	await Promise.all(
+		slices.map(async (slice) => {
+			if (slice?.slice_type !== 'name_list') return;
+			try {
+				(slice as ResolvedNameListSlice).resolvedItems = await resolveNameListItems(
+					client,
+					slice as NameListSlice
+				);
+			} catch (error) {
+				console.error('Error resolving name_list slice:', error);
 			}
 		})
 	);
