@@ -1,4 +1,5 @@
 import { createClient } from '$lib/prismicio';
+import { resolveGalleries } from '$lib/utils/gallery';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params, fetch, cookies, depends }) {
@@ -8,6 +9,8 @@ export async function load({ params, fetch, cookies, depends }) {
 	const page = await client.getByUID('news', params.uid).catch(() => {
 		throw error(404, 'Article not found');
 	});
+
+	await resolveGalleries(client, page.data.slices);
 
 	return {
 		page,

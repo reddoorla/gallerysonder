@@ -13,6 +13,8 @@
 		alt = 'gallery image',
 		subtitle = '',
 		subtitleTwo = '',
+		width = undefined,
+		height = undefined,
 		isHover = $bindable(false),
 		onHoverChange = undefined as ((value: boolean) => void) | undefined,
 		willOpen = false,
@@ -25,6 +27,8 @@
 		alt?: string;
 		subtitle?: string;
 		subtitleTwo?: string;
+		width?: number;
+		height?: number;
 		isHover?: boolean;
 		onHoverChange?: ((value: boolean) => void) | undefined;
 		willOpen?: boolean;
@@ -98,9 +102,11 @@
 			srcset={srcset(src)}
 			sizes="(min-width: 768px) 50vw, 100vw"
 			{alt}
+			{width}
+			{height}
 			loading="lazy"
 			decoding="async"
-			class="clip-transition use-gpu w-full"
+			class="clip-transition use-gpu w-full h-auto"
 			style={isHover
 				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
 				: 'clip-path: inset(0 ' +
@@ -192,9 +198,11 @@
 			srcset={srcset(src)}
 			sizes="(min-width: 768px) 50vw, 100vw"
 			{alt}
+			{width}
+			{height}
 			loading="lazy"
 			decoding="async"
-			class="clip-transition use-gpu w-full"
+			class="clip-transition use-gpu w-full h-auto"
 			style={isHover
 				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
 				: 'clip-path: inset(0 ' +

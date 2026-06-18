@@ -1,10 +1,15 @@
 import { createClient } from '$lib/prismicio';
+import { resolveGalleries } from '$lib/utils/gallery';
 
 export async function load({ fetch, cookies }) {
 	const client = createClient({ fetch, cookies });
 
 	const page = await client.getByUID('page', 'home');
 	const nav = await client.getSingle('nav');
+
+	// Resolve image_gallery relationships server-side so the grid is SSR'd
+	// (kills the spinner->grid CLS and the slow client-fetched gallery LCP).
+	await resolveGalleries(client, page.data.slices);
 
 	return {
 		page,
