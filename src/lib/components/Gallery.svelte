@@ -9,7 +9,6 @@
 	} from '../../prismicio-types';
 	import GridImage from './GridImage.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
-	import * as prismicHelpers from '@prismicio/helpers';
 	import { slide } from 'svelte/transition';
 	import LinkPlusToggle from './Buttons/LinkPlusToggle.svelte';
 	import { isFilled } from '@prismicio/client';
@@ -275,7 +274,7 @@
 					{#if item.bodyTwo}
 						<p>{item.bodyTwo}</p>
 					{/if}
-					{#if prismicHelpers.isFilled.link(item.buttonLink)}
+					{#if isFilled.link(item.buttonLink)}
 						<LinkArrowButton
 							text={item.buttonText || 'explore'}
 							href={item.buttonLink.url}
@@ -322,7 +321,7 @@
 					{#if item.bodyTwo}
 						<p class="mt-2">{item.bodyTwo}</p>
 					{/if}
-					{#if prismicHelpers.isFilled.link(item.buttonLink)}
+					{#if isFilled.link(item.buttonLink)}
 						<LinkArrowButton
 							text={item.buttonText || 'explore'}
 							href={item.buttonLink.url}
@@ -349,11 +348,8 @@
 						width={imgDimension(item.image, 'width')}
 						height={imgDimension(item.image, 'height')}
 						text={item.titleOne || ''}
-						subtitle={item.titleTwo && item.bodyOne
-							? `<i>${item.titleTwo}</i>, ${item.bodyOne}`
-							: item.titleTwo
-								? `<i>${item.titleTwo}</i>`
-								: item.bodyOne || ''}
+						subtitleItalic={item.titleTwo || ''}
+						subtitleText={item.bodyOne || ''}
 						alt={item.titleOne || item.titleTwo || 'Gallery Sonder'}
 						subtitleTwo={item.bodyTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
@@ -371,6 +367,7 @@
 {#if slice.primary.show_more_button && visibleItems.length > 4}
 	<LinkPlusToggle
 		text={isTruncated ? 'Show More' : 'Show Less'}
+		expanded={!isTruncated}
 		onclick={() => (isTruncated = !isTruncated)}
 		class="mt-8"
 	/>

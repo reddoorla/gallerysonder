@@ -2,6 +2,7 @@
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
 	import { repositoryName } from '$lib/prismicio';
+	import { absoluteUrl, jsonLdScript, organizationJsonLd } from '$lib/site';
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -19,6 +20,14 @@
 
 	let { data, children } = $props();
 
+	const DEFAULT_DESCRIPTION =
+		'Gallery Sonder is a contemporary art gallery presenting exhibitions, artists, and advisory services.';
+	let metaTitle = $derived($page.data.meta_title || 'Gallery Sonder');
+	let metaDescription = $derived($page.data.meta_description || DEFAULT_DESCRIPTION);
+	// Absolute canonical from the path only — $page.url.origin is the build-time
+	// host under prerendering, so it would be wrong; SITE_URL is the real domain.
+	let canonical = $derived(absoluteUrl($page.url.pathname));
+
 	let isTransitioning = $state(false);
 	let navDelayDone = $state(false);
 
@@ -30,13 +39,16 @@
 	// dashboard, which sets the cookie before redirecting here.
 	let isPreviewActive = $state(false);
 
-	let currentUtmParams = {
+	// Must be $state: it's populated from the URL in onMount and bound into the
+	// hidden form inputs' value=, so without reactivity every submission shipped
+	// utm_*=none (attribution silently lost).
+	let currentUtmParams = $state({
 		source: 'none',
 		medium: 'none',
 		campaign: 'none',
 		term: 'none',
 		content: 'none'
-	};
+	});
 
 	const areUtmParamsEmpty = () => {
 		const u = appState.utmParams;
@@ -72,27 +84,46 @@
 </script>
 
 <svelte:head>
-	<title>{$page.data.meta_title || 'Gallery Sonder'}</title>
+	<title>{metaTitle}</title>
 	<!-- Typekit is loaded async (non-render-blocking) from app.html; do not add a
 	     synchronous stylesheet link here or it re-introduces render-blocking. -->
-	<meta
-		name="description"
-		content={$page.data.meta_description ||
-			'Gallery Sonder is a contemporary art gallery presenting exhibitions, artists, and advisory services.'}
-	/>
-	{#if $page.data.meta_title}
-		<meta name="og:title" content={$page.data.meta_title} />
-	{/if}
+	<meta name="description" content={metaDescription} />
+	<link rel="canonical" href={canonical} />
+
+	<!-- Open Graph (property=, the attribute scrapers actually read) -->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Gallery Sonder" />
+	<meta property="og:url" content={canonical} />
+	<meta property="og:title" content={metaTitle} />
+	<meta property="og:description" content={metaDescription} />
 	{#if $page.data.meta_image}
-		<meta name="og:image" content={$page.data.meta_image} />
-		<meta name="twitter:card" content="summary_large_image" />
+		<meta property="og:image" content={$page.data.meta_image} />
 	{/if}
+
+	<!-- Twitter card -->
+	<meta name="twitter:card" content={$page.data.meta_image ? 'summary_large_image' : 'summary'} />
+	<meta name="twitter:title" content={metaTitle} />
+	<meta name="twitter:description" content={metaDescription} />
+	{#if $page.data.meta_image}
+		<meta name="twitter:image" content={$page.data.meta_image} />
+	{/if}
+
+	<!-- eslint-disable-next-line svelte/no-at-html-tags (safe: JSON.stringify + escaped <) -->
+	{@html jsonLdScript(organizationJsonLd())}
 </svelte:head>
 <NewsletterSignup />
 
 {#if !DISABLE_COOKIE_CONSENT}
 	<CookieConsent />
 {/if}
+
+<!-- Skip link: first focusable element, jumps past the nav to the page content. -->
+<a
+	href="#main-content"
+	class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-black focus:px-4 focus:py-2 focus:text-white"
+>
+	Skip to content
+</a>
 
 <main>
 	{#if isTransitioning}
@@ -102,10 +133,12 @@
 		></div>
 	{/if}
 
-	{#if !appState.isIntroRunning && navDelayDone}
+	{#if navDelayDone}
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 	{/if}
-	{@render children?.()}
+	<div id="main-content" tabindex="-1" class="outline-none">
+		{@render children?.()}
+	</div>
 </main>
 
 <Lightbox />

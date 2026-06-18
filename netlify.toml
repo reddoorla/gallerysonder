@@ -7,9 +7,14 @@
     NODE_VERSION = "24"
     COREPACK_INTEGRITY_KEYS = "0"
 
-# Baseline security headers for all responses. CSP is emitted per-response by
-# SvelteKit (see `kit.csp` in svelte.config.js) so it is intentionally omitted
-# here to avoid conflicting duplicates.
+# Baseline security headers for all responses.
+#
+# NOTE: No Content-Security-Policy is currently emitted. svelte.config.js does
+# NOT pass a `csp` option to createSvelteConfig, so neither SvelteKit nor this
+# file sets one. Adding a CSP needs a report-only-first rollout: this site loads
+# Typekit via an inline onload handler, plus consent-gated GTM/Facebook Pixel
+# (which need nonce propagation) and a Google Maps embed — a naive policy would
+# silently break fonts/analytics. Tracked as a follow-up, not wired up here.
 [[headers]]
     for = "/*"
     [headers.values]

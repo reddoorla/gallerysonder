@@ -11,7 +11,8 @@
 		href = '',
 		text = '',
 		alt = 'gallery image',
-		subtitle = '',
+		subtitleItalic = '',
+		subtitleText = '',
 		subtitleTwo = '',
 		width = undefined,
 		height = undefined,
@@ -25,7 +26,8 @@
 		href?: string;
 		text?: string;
 		alt?: string;
-		subtitle?: string;
+		subtitleItalic?: string;
+		subtitleText?: string;
 		subtitleTwo?: string;
 		width?: number;
 		height?: number;
@@ -59,6 +61,7 @@
 			appState.activeArtworkUid = artworkUID;
 		} else {
 			appState.lightboxImageUrl = src;
+			appState.lightboxImageAlt = alt;
 		}
 
 		appState.isLightboxActive = true;
@@ -85,6 +88,28 @@
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
+
+{#snippet subtitleBlock()}
+	{#if subtitleItalic || subtitleText}
+		<p
+			class="transition-opacity use-gpu duration-500 {insetPercent < 8
+				? 'opacity-100 delay-[750ms]'
+				: 'opacity-0 pointer-events-none delay-0'}"
+		>
+			{#if subtitleItalic}<i>{subtitleItalic}</i>{/if}{#if subtitleItalic && subtitleText},
+			{/if}{subtitleText}
+		</p>
+	{/if}
+	{#if subtitleTwo}
+		<p
+			class="whitespace-pre-line transition-opacity use-gpu duration-500 {insetPercent < 8
+				? 'opacity-100 delay-[750ms]'
+				: 'opacity-0 pointer-events-none delay-0'}"
+		>
+			{subtitleTwo}
+		</p>
+	{/if}
+{/snippet}
 
 {#if href || !willOpen}
 	<a
@@ -132,26 +157,7 @@
 					</b>
 				</h6>
 			{/if}
-			{#if subtitle}
-				<p
-					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html subtitle}
-				</p>
-			{/if}
-			{#if subtitleTwo}
-				<p
-					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html subtitleTwo}
-				</p>
-			{/if}
+			{@render subtitleBlock()}
 		{:else}
 			{#if text}
 				<h5
@@ -163,26 +169,7 @@
 					<b>{text}</b>
 				</h5>
 			{/if}
-			{#if subtitle}
-				<p
-					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html subtitle}
-				</p>
-			{/if}
-			{#if subtitleTwo}
-				<p
-					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html subtitleTwo}
-				</p>
-			{/if}
+			{@render subtitleBlock()}
 		{/if}
 	</a>
 {:else}
@@ -228,26 +215,7 @@
 					</b>
 				</h6>
 			{/if}
-			{#if subtitle}
-				<p
-					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html subtitle}
-				</p>
-			{/if}
-			{#if subtitleTwo}
-				<p
-					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html subtitleTwo}
-				</p>
-			{/if}
+			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
 					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
@@ -275,26 +243,7 @@
 					<b>{text}</b>
 				</h5>
 			{/if}
-			{#if subtitle}
-				<p
-					class=" transition-opacity use-gpu duration-500 {insetPercent < 8
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html subtitle}
-				</p>
-			{/if}
-			{#if subtitleTwo}
-				<p
-					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html subtitleTwo}
-				</p>
-			{/if}
+			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
 					class="  transition-opacity use-gpu duration-500 {insetPercent < 8

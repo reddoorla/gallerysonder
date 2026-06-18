@@ -26,9 +26,10 @@
 				loadAnalytics();
 			}
 		} else {
-			appState.lockBodyScroll();
-
+			// Lock together with the modal appearing — locking 3s early left the
+			// page visibly interactive but unscrollable with nothing on screen.
 			setTimeout(() => {
+				appState.lockBodyScroll();
 				showModal = true;
 			}, 3000);
 		}

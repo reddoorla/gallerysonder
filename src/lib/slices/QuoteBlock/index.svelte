@@ -7,7 +7,7 @@
 
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { PrismicRichText } from '@prismicio/svelte';
-	import * as prismicH from '@prismicio/helpers';
+	import { isFilled } from '@prismicio/client';
 
 	const appState = getAppState();
 
@@ -34,7 +34,7 @@
 	<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation}>
 		<div class="w-full py-64">
 			<ContentWidth class="md:pl-20 flex flex-col justify-center items-center">
-				{#if prismicH.isFilled.image(slice.primary.signature)}
+				{#if isFilled.image(slice.primary.signature)}
 					<div class="text-subtle-primary mb-16 mx-16">
 						<svg
 							width="24"
@@ -56,7 +56,7 @@
 				>
 					<PrismicRichText field={slice.primary.quotation} />
 				</div>
-				{#if prismicH.isFilled.image(slice.primary.signature)}
+				{#if isFilled.image(slice.primary.signature)}
 					<img src={slice.primary.signature.url} alt="quote signature" class="h-8 mt-16" />
 				{/if}
 			</ContentWidth>

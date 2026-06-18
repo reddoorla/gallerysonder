@@ -71,9 +71,10 @@
 		</div>
 		<div class="w-full md:w-1/2 flex flex-col gap-2 items-start mt-12 md:mt-0">
 			{#if !submitted}
-				<p class="text-white">Name</p>
+				<label for="rsvp-name" class="text-white block">Name</label>
 				<input
 					type="text"
+					id="rsvp-name"
 					name="name"
 					bind:value={formName}
 					required
@@ -81,9 +82,10 @@
 					class="w-full max-w-md border-1 border-white p-2 mb-4"
 				/>
 
-				<p class="text-white">Email</p>
+				<label for="rsvp-email" class="text-white block">Email</label>
 				<input
 					type="email"
+					id="rsvp-email"
 					name="email"
 					bind:value={formEmail}
 					required
@@ -91,9 +93,10 @@
 					class="w-full max-w-md border-1 border-white p-2 mb-4"
 				/>
 
-				<p class="text-white">Number of Guests</p>
+				<label for="rsvp-guests" class="text-white block">Number of Guests</label>
 				<input
 					type="number"
+					id="rsvp-guests"
 					name="guests"
 					bind:value={formGuests}
 					required
@@ -114,12 +117,12 @@
 					By clicking submit you agree to receive emails under the terms of our privacy policy.
 				</div>
 			{:else if error}
-				<h4 class="text-white">
+				<h4 class="text-white" role="alert">
 					We're sorry, there appears to be an error. Please email info@gallerysonder.com with your
 					RSVP.
 				</h4>
 			{:else}
-				<h4 class="text-white">Thank you for your RSVP!</h4>
+				<h4 class="text-white" role="status">Thank you for your RSVP!</h4>
 			{/if}
 		</div>
 	</ContentWidth>

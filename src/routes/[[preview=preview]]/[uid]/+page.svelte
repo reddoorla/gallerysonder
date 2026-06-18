@@ -49,11 +49,9 @@
 		}
 	};
 
-	$effect(function animatePageElementsAfterIntro() {
-		if (!appState.isIntroRunning) {
-			checkPosition();
-			setTimeout(() => (showEyebrow = true), 500);
-		}
+	$effect(function revealPageElements() {
+		checkPosition();
+		setTimeout(() => (showEyebrow = true), 500);
 	});
 
 	onMount(() => {

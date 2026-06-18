@@ -6,9 +6,6 @@ import { getPrismicClient } from '$lib/utils/prismic';
 const APP_STATE_KEY = Symbol('APP_STATE');
 
 export interface AppState {
-	isIntroRunning: boolean;
-	hasIntroRun: boolean;
-
 	isModalActive: boolean;
 	isNewsletterActive: boolean;
 	hasNewsletterBeenCleared: boolean;
@@ -19,9 +16,11 @@ export interface AppState {
 	isLightboxActive: boolean;
 	showInquiryForm: boolean;
 	lightboxImageUrl: string;
+	lightboxImageAlt: string;
 	activeArtworkUid: string;
 	activeArtwork: ArtworkDocument<string> | null;
 	activeArtist: ArtistDocument<string> | null;
+	activeArtworkError: boolean;
 
 	utmParams: {
 		source: string;
@@ -36,9 +35,6 @@ export interface AppState {
 }
 
 export function createAppState(): AppState {
-	let isIntroRunning = $state(false);
-	let hasIntroRun = $state(false);
-
 	let isModalActive = $state(false);
 	let isNewsletterActive = $state(false);
 	let hasNewsletterBeenCleared = $state(false);
@@ -49,9 +45,11 @@ export function createAppState(): AppState {
 	let isLightboxActive = $state(false);
 	let showInquiryForm = $state(false);
 	let lightboxImageUrl = $state('');
+	let lightboxImageAlt = $state('');
 	let activeArtworkUid = $state('');
 	let activeArtwork = $state<ArtworkDocument<string> | null>(null);
 	let activeArtist = $state<ArtistDocument<string> | null>(null);
+	let activeArtworkError = $state(false);
 
 	let lastFetchedUid = '';
 	let isFetching = false;
@@ -70,46 +68,40 @@ export function createAppState(): AppState {
 
 	async function fetchArtwork(uid: string) {
 		if (uid && uid !== lastFetchedUid && !isFetching) {
-			// console.log('[fetchArtwork] Starting fetch for:', uid);
 			isFetching = true;
 			lastFetchedUid = uid;
 			const client = getPrismicClient();
 			activeArtist = null;
 			activeArtwork = null;
+			activeArtworkError = false;
 
 			try {
 				const artwork = await client.getByUID('artwork', uid);
-				// console.log('[fetchArtwork] Artwork fetched successfully:', uid);
 				activeArtwork = artwork;
 
 				if (isFilled.contentRelationship(artwork?.data.artist)) {
 					const artistUID = artwork?.data.artist.uid;
 					if (artistUID) {
 						activeArtist = await client.getByUID('artist', artistUID);
-						// console.log('[fetchArtwork] Artist fetched successfully:', artistUID);
 					}
 				}
 			} catch (error) {
 				console.error('[fetchArtwork] Error fetching artwork:', error);
 				activeArtwork = null;
 				activeArtist = null;
+				activeArtworkError = true;
 			} finally {
 				isFetching = false;
-				// console.log('[fetchArtwork] Fetch complete for:', uid);
 			}
 		} else if (!uid) {
-			// console.log('[fetchArtwork] Clearing artwork data');
 			lastFetchedUid = '';
 			activeArtwork = null;
 			activeArtist = null;
-		} else {
-			// console.log('[fetchArtwork] Skipping fetch - already fetched or in progress:', uid);
 		}
 	}
 
 	$effect(function syncArtworkDataWithUid() {
 		const uid = activeArtworkUid;
-		// console.log(`[Effect #${effectRunCount}] activeArtworkUid changed to:`, uid);
 		if (uid) {
 			fetchArtwork(uid);
 		} else {
@@ -134,20 +126,6 @@ export function createAppState(): AppState {
 	};
 
 	return {
-		get isIntroRunning() {
-			return isIntroRunning;
-		},
-		set isIntroRunning(value) {
-			isIntroRunning = value;
-		},
-
-		get hasIntroRun() {
-			return hasIntroRun;
-		},
-		set hasIntroRun(value) {
-			hasIntroRun = value;
-		},
-
 		get isModalActive() {
 			return isModalActive;
 		},
@@ -204,6 +182,13 @@ export function createAppState(): AppState {
 			lightboxImageUrl = value;
 		},
 
+		get lightboxImageAlt() {
+			return lightboxImageAlt;
+		},
+		set lightboxImageAlt(value) {
+			lightboxImageAlt = value;
+		},
+
 		get activeArtworkUid() {
 			return activeArtworkUid;
 		},
@@ -223,6 +208,13 @@ export function createAppState(): AppState {
 		},
 		set activeArtist(value) {
 			activeArtist = value;
+		},
+
+		get activeArtworkError() {
+			return activeArtworkError;
+		},
+		set activeArtworkError(value) {
+			activeArtworkError = value;
 		},
 
 		get utmParams() {

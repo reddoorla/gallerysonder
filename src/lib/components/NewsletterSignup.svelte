@@ -111,7 +111,9 @@
 					</p>
 				</div>
 				<div>
+					<label for="newsletter-email" class="sr-only">Email address</label>
 					<input
+						id="newsletter-email"
 						type="email"
 						bind:value={emailValue}
 						name="email"
@@ -131,12 +133,12 @@
 					time.
 				</p>
 			{:else if error}
-				<h2 transition:fade>
+				<h2 transition:fade role="alert">
 					We're sorry, there appears to be an error. Please email info@gallerysonder.com with your
 					inquiry.
 				</h2>
 			{:else}
-				<h2>Thank you for joining our email list</h2>
+				<h2 role="status">Thank you for joining our email list</h2>
 			{/if}
 		</ContentWidth>
 	</div>

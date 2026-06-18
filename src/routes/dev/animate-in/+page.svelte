@@ -4,6 +4,7 @@
 
 <svelte:head>
 	<title>animate-in demo — Reddoor</title>
+	<meta name="robots" content="noindex" />
 	<meta
 		name="description"
 		content="Reddoor accessibility fixture for the AnimateIn scroll component — a stable target for @lhci/cli and Playwright + axe-core. Not linked from the public site."

@@ -1,5 +1,5 @@
 import { createClient } from '$lib/prismicio';
-import { resolveGalleries } from '$lib/utils/gallery';
+import { resolveGalleries, resolveNameLists } from '$lib/utils/gallery';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params, fetch, cookies, depends }) {
@@ -10,13 +10,15 @@ export async function load({ params, fetch, cookies, depends }) {
 		throw error(404, 'Article not found');
 	});
 
-	await resolveGalleries(client, page.data.slices);
+	await Promise.all([
+		resolveGalleries(client, page.data.slices),
+		resolveNameLists(client, page.data.slices)
+	]);
 
 	return {
 		page,
-		title: page.data.meta_title,
 		meta_description: page.data.meta_description,
-		meta_title: page.data.meta_title,
+		meta_title: page.data.meta_title || page.data.full_name || 'Gallery Sonder',
 		meta_image: page.data.meta_image.url
 	};
 }

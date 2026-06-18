@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { NameListSlice } from '../../../prismicio-types';
-	import * as prismicHelpers from '@prismicio/helpers';
-	import { isFilled, type LinkField } from '@prismicio/client';
+	import { isFilled } from '@prismicio/client';
 	import type { ArtistDocumentData } from '../../../prismicio-types';
+	import type { NameListItem, ResolvedNameListSlice } from '$lib/utils/gallery';
 	import NameRevealOnHover from '$lib/components/NameRevealOnHover.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
@@ -20,24 +20,24 @@
 	// Shape positioned out of flow; uniform gap below the curve via --shape-gap.
 	const shaped = $derived(slice.primary.shape_top !== '0');
 
-	let isLoading = $state(true);
-
-	interface ArtistItem {
-		activeImage: string;
-		color: string;
-		link: LinkField;
-		doubleHeight?: boolean;
-	}
-
-	let artistItems = $state<ArtistItem[]>([]);
+	// Prefer server-resolved items (resolveNameLists in the page load) so the list
+	// is server-rendered with no "Loading artists..." flash / CLS. Fall back to a
+	// client fetch only when they're absent (e.g. the slice simulator).
+	const resolved = $derived((slice as ResolvedNameListSlice).resolvedItems);
+	let clientItems = $state<NameListItem[]>([]);
+	let isLoading = $state(false);
+	const artistItems = $derived(resolved ?? clientItems);
 
 	async function fetchArtistItems() {
+		isLoading = true;
+		const out: NameListItem[] = [];
 		for (const item of slice.items) {
-			let artistData = {
+			const artistData: NameListItem = {
 				activeImage: item.artist_active_image.url || '',
 				color: item.artist_color || '#E4EEEA',
 				link: item.artist_page || { link_type: 'Web', url: '' },
-				doubleHeight: item.doubleheight || false
+				doubleHeight: item.doubleheight || false,
+				label: item.artist_active_image.alt || ''
 			};
 
 			const fetchedArtist = await fetchFromRelationship<ArtistDocumentData>(item.artist, 'artist');
@@ -61,16 +61,19 @@
 						url: '/artists/' + item.artist.uid
 					};
 				}
+
+				if (!artistData.label) artistData.label = fetchedArtist.full_name || '';
 			}
 
-			artistItems.push(artistData);
+			out.push(artistData);
 		}
 
+		clientItems = out;
 		isLoading = false;
 	}
 
 	onMount(() => {
-		fetchArtistItems();
+		if (!resolved) fetchArtistItems();
 	});
 </script>
 
@@ -105,6 +108,7 @@
 			{#each artistItems as item, i (i)}
 				<NameRevealOnHover
 					activeImage={item.activeImage}
+					label={item.label}
 					onmouseover={() => (appState.backgroundColor = item.color)}
 					onmouseout={() => (appState.backgroundColor = appState.backgroundColorDefault)}
 					href={isFilled.link(item.link) ? item.link.url : ''}
@@ -118,7 +122,7 @@
 		{#if slice.primary.bottom_button_text}
 			<LinkArrowButton
 				text={slice.primary.bottom_button_text || ''}
-				href={prismicHelpers.isFilled.link(slice.primary.button_bottom_link)
+				href={isFilled.link(slice.primary.button_bottom_link)
 					? slice.primary.button_bottom_link.url
 					: ''}
 				class="mt-16"

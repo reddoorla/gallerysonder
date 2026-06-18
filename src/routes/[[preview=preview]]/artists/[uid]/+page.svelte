@@ -10,6 +10,8 @@
 	import HeroBackgroundImage from '$lib/components/HeroBackgroundImage.svelte';
 
 	import { getAppState } from '$lib/contexts/appState.svelte';
+	import { page } from '$app/stores';
+	import { absoluteUrl, jsonLdScript } from '$lib/site';
 
 	import { fade } from 'svelte/transition';
 
@@ -25,6 +27,17 @@
 			.join(' ')
 			.trim()
 	);
+
+	// Person structured data for artist rich results (name from full_name, no
+	// free-text fields shoehorned into typed schema properties).
+	let personLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		name: content.full_name || heroAlt,
+		url: absoluteUrl($page.url.pathname),
+		...(content.background_image?.url ? { image: content.background_image.url } : {}),
+		worksFor: { '@type': 'ArtGallery', name: 'Gallery Sonder' }
+	});
 
 	let viewportWidth = $state(0);
 	let viewportHeight = $state(0);
@@ -49,11 +62,9 @@
 		}
 	};
 
-	$effect(function animatePageElementsAfterIntro() {
-		if (!appState.isIntroRunning) {
-			checkPosition();
-			setTimeout(() => (showEyebrow = true), 1000);
-		}
+	$effect(function revealPageElements() {
+		checkPosition();
+		setTimeout(() => (showEyebrow = true), 1000);
 	});
 
 	onMount(() => {
@@ -65,6 +76,11 @@
 		};
 	});
 </script>
+
+<svelte:head>
+	<!-- eslint-disable-next-line svelte/no-at-html-tags (safe: JSON.stringify + escaped <) -->
+	{@html jsonLdScript(personLd)}
+</svelte:head>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
