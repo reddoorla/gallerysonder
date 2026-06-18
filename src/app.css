@@ -55,6 +55,17 @@
 @source inline("{sm:,md:,lg:,xl:,}{py,pt,pb}-{0,4,8,16,32}");
 
 @layer base {
+	/* Permanently reserve the scrollbar's gutter so locking page scroll (opening
+	   the menu / a modal) never changes the layout width. Without this, hiding
+	   overflow removes the scrollbar and the viewport widens — which Firefox in
+	   particular reflects in `100vw`, so every full-bleed `w-screen` shape jumps
+	   sideways on open/close. With `stable`, `100vw` is measured against the
+	   gutter-reserved width and stays constant whether or not the scrollbar is
+	   visible (it also makes 100vw fit the content area instead of overflowing). */
+	html {
+		scrollbar-gutter: stable;
+	}
+
 	body {
 		background-color: black;
 		color: black;

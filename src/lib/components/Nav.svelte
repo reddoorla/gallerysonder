@@ -103,6 +103,16 @@
 				<X class="size-[2em] text-black hover:opacity-80 transition" strokeWidth={1.5} />
 			</button>
 
+			<!-- Same rotating logo as the top bar, in the same spot, so it stays
+			     visible while the menu (which paints over the top bar) is open. -->
+			<a
+				href="/"
+				onclick={() => setTimeout(() => (showNav = false))}
+				class="absolute top-5 right-0 brightness-0 filter-to-accent-pink-on-hover hover:mix-blend-normal transition bump"
+			>
+				<RotatingLogo class="h-6" />
+			</a>
+
 			<div class="absolute md:hidden justify-center items-center gap-4 hidden translate-y-1">
 				<a
 					href="https://www.instagram.com/gallerysonder/"

@@ -118,15 +118,19 @@ export function createAppState(): AppState {
 	});
 
 	const lockBodyScroll = () => {
-		if (typeof document !== 'undefined' && document.body) {
-			document.body.style.overflow = 'hidden';
-		}
+		if (typeof document === 'undefined' || !document.body) return;
+		// Lock only the vertical axis so app.html's `overflow-x: hidden` stays
+		// intact (the `overflow` shorthand would clobber it and flash a horizontal
+		// scrollbar). Nothing shifts sideways when the scrollbar vanishes because
+		// `html { scrollbar-gutter: stable }` (app.css) keeps the gutter — and
+		// therefore `100vw` — reserved whether or not the scrollbar is visible, so
+		// no JS width compensation is needed.
+		document.body.style.overflowY = 'hidden';
 	};
 
 	const unlockBodyScroll = () => {
-		if (typeof document !== 'undefined' && document.body) {
-			document.body.style.overflow = 'auto';
-		}
+		if (typeof document === 'undefined' || !document.body) return;
+		document.body.style.overflowY = '';
 	};
 
 	return {

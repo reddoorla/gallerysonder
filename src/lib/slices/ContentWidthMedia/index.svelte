@@ -54,15 +54,13 @@
 	const openModal = () => {
 		showModal = true;
 		appState.isModalActive = true;
-		if (document.getElementsByTagName('body'))
-			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'hidden';
+		appState.lockBodyScroll();
 	};
 
 	const closeModal = () => {
 		showModal = false;
 		appState.isModalActive = false;
-		if (document.getElementsByTagName('body'))
-			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
+		appState.unlockBodyScroll();
 	};
 
 	// Derive the slideshow arrays so they react to slice changes (the slice
