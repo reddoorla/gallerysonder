@@ -109,7 +109,9 @@ export async function resolveGalleryItems(
 					if (!itemData.bodyTwo) {
 						itemData.bodyTwo = fetchedContent.dimensions;
 					} else if (fetchedContent.dimensions) {
-						itemData.bodyTwo = itemData.bodyTwo + '<br/>' + fetchedContent.dimensions;
+						// Newline (not <br/>): GridImage renders bodyTwo as escaped text with
+						// `whitespace-pre-line`, so a literal \n becomes the line break.
+						itemData.bodyTwo = itemData.bodyTwo + '\n' + fetchedContent.dimensions;
 					}
 				}
 			}

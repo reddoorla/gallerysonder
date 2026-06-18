@@ -348,11 +348,8 @@
 						width={imgDimension(item.image, 'width')}
 						height={imgDimension(item.image, 'height')}
 						text={item.titleOne || ''}
-						subtitle={item.titleTwo && item.bodyOne
-							? `<i>${item.titleTwo}</i>, ${item.bodyOne}`
-							: item.titleTwo
-								? `<i>${item.titleTwo}</i>`
-								: item.bodyOne || ''}
+						subtitleItalic={item.titleTwo || ''}
+						subtitleText={item.bodyOne || ''}
 						alt={item.titleOne || item.titleTwo || 'Gallery Sonder'}
 						subtitleTwo={item.bodyTwo || ''}
 						href={isFilled.link(item.buttonLink) ? item.buttonLink.url : ''}
