@@ -44,7 +44,6 @@
 		"@prismicio/helpers": "^2.3.9",
 		"@prismicio/svelte": "^2.0.0",
 		"@reddoorla/maintenance": "^0.37.0",
-		"@vimeo/player": "^2.25.0",
 		"@zerodevx/svelte-img": "^2.1.2",
 		"d3-interpolate": "^3.0.1",
 		"flatpickr": "^4.6.13",

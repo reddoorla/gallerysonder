@@ -6,9 +6,6 @@ import { getPrismicClient } from '$lib/utils/prismic';
 const APP_STATE_KEY = Symbol('APP_STATE');
 
 export interface AppState {
-	isIntroRunning: boolean;
-	hasIntroRun: boolean;
-
 	isModalActive: boolean;
 	isNewsletterActive: boolean;
 	hasNewsletterBeenCleared: boolean;
@@ -36,9 +33,6 @@ export interface AppState {
 }
 
 export function createAppState(): AppState {
-	let isIntroRunning = $state(false);
-	let hasIntroRun = $state(false);
-
 	let isModalActive = $state(false);
 	let isNewsletterActive = $state(false);
 	let hasNewsletterBeenCleared = $state(false);
@@ -134,20 +128,6 @@ export function createAppState(): AppState {
 	};
 
 	return {
-		get isIntroRunning() {
-			return isIntroRunning;
-		},
-		set isIntroRunning(value) {
-			isIntroRunning = value;
-		},
-
-		get hasIntroRun() {
-			return hasIntroRun;
-		},
-		set hasIntroRun(value) {
-			hasIntroRun = value;
-		},
-
 		get isModalActive() {
 			return isModalActive;
 		},

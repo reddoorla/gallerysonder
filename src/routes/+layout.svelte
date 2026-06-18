@@ -102,7 +102,7 @@
 		></div>
 	{/if}
 
-	{#if !appState.isIntroRunning && navDelayDone}
+	{#if navDelayDone}
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 	{/if}
 	{@render children?.()}
