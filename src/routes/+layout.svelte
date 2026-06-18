@@ -117,6 +117,14 @@
 	<CookieConsent />
 {/if}
 
+<!-- Skip link: first focusable element, jumps past the nav to the page content. -->
+<a
+	href="#main-content"
+	class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-black focus:px-4 focus:py-2 focus:text-white"
+>
+	Skip to content
+</a>
+
 <main>
 	{#if isTransitioning}
 		<div
@@ -128,7 +136,9 @@
 	{#if navDelayDone}
 		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 	{/if}
-	{@render children?.()}
+	<div id="main-content" tabindex="-1" class="outline-none">
+		{@render children?.()}
+	</div>
 </main>
 
 <Lightbox />

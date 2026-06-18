@@ -8,6 +8,7 @@
 		onclick = () => {},
 		togglable = true,
 		startsActive = false,
+		expanded = undefined,
 		class: className = ''
 	}: {
 		text?: string;
@@ -15,11 +16,16 @@
 		onclick?: () => void;
 		togglable?: boolean;
 		startsActive?: boolean;
+		/** Controlled expanded state for aria-expanded; falls back to internal. */
+		expanded?: boolean;
 		class?: string;
 	} = $props();
 
 	let isLinkArrowActive = $state(false);
 	let isRotated = $state(false);
+
+	// Expose expand/collapse to assistive tech when this acts as a toggle.
+	let ariaExpanded = $derived(togglable ? (expanded ?? isRotated) : undefined);
 
 	onMount(() => (isRotated = startsActive));
 </script>
@@ -33,6 +39,7 @@
 			isRotated = !isRotated;
 			onclick();
 		}}
+		aria-expanded={ariaExpanded}
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {className}"
 		{href}
 	>
@@ -55,6 +62,7 @@
 			isRotated = !isRotated;
 			onclick();
 		}}
+		aria-expanded={ariaExpanded}
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit {className}"
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>

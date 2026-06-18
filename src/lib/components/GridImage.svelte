@@ -61,6 +61,7 @@
 			appState.activeArtworkUid = artworkUID;
 		} else {
 			appState.lightboxImageUrl = src;
+			appState.lightboxImageAlt = alt;
 		}
 
 		appState.isLightboxActive = true;

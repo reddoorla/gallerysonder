@@ -129,6 +129,10 @@
 			{#each navProps as link, i (i)}
 				<NameRevealOnHover
 					activeImage={link.active_link.url || ''}
+					label={link.active_link.alt ||
+						(isFilled.link(link.link) && link.link.url
+							? link.link.url.split('/').filter(Boolean).pop() || 'Menu'
+							: 'Menu')}
 					onmouseover={() => {
 						appState.backgroundColor = link.active_color || '#E4EEEA';
 					}}

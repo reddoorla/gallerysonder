@@ -4,6 +4,7 @@
 	let {
 		activeImage = SonderLogoActive,
 		href = '',
+		label = '',
 		onclick = () => {},
 		onmouseover = () => {},
 		onmouseout = () => {},
@@ -11,6 +12,8 @@
 	}: {
 		activeImage?: string;
 		href?: string;
+		/** Accessible name — the link/name image is the control's only content. */
+		label?: string;
 		onclick?: () => void;
 		onmouseover?: () => void;
 		onmouseout?: () => void;
@@ -45,7 +48,7 @@
 		{onclick}
 		{href}
 	>
-		<img src={activeImage} alt="link to name" class={className} />
+		<img src={activeImage} alt={label} class={className} />
 	</a>
 {:else}
 	<button
@@ -66,6 +69,6 @@
 		{onmouseout}
 		{onclick}
 	>
-		<img src={activeImage} alt="link to name" class={className} />
+		<img src={activeImage} alt={label} class={className} />
 	</button>
 {/if}

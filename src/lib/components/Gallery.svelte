@@ -367,6 +367,7 @@
 {#if slice.primary.show_more_button && visibleItems.length > 4}
 	<LinkPlusToggle
 		text={isTruncated ? 'Show More' : 'Show Less'}
+		expanded={!isTruncated}
 		onclick={() => (isTruncated = !isTruncated)}
 		class="mt-8"
 	/>

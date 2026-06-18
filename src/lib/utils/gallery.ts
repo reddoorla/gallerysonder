@@ -209,6 +209,8 @@ export interface NameListItem {
 	color: string;
 	link: LinkField;
 	doubleHeight: boolean;
+	/** Accessible name for the artist (the name is otherwise only an image). */
+	label: string;
 }
 
 /** A name_list slice with its artist relationships pre-resolved at load time. */
@@ -225,7 +227,8 @@ async function resolveNameListItems(client: Client, slice: NameListSlice): Promi
 				activeImage: item.artist_active_image?.url || '',
 				color: item.artist_color || '#E4EEEA',
 				link: item.artist_page || { link_type: 'Web', url: '' },
-				doubleHeight: item.doubleheight || false
+				doubleHeight: item.doubleheight || false,
+				label: item.artist_active_image?.alt || ''
 			};
 
 			if (isFilled.contentRelationship(item.artist) && item.artist.uid) {
@@ -248,6 +251,7 @@ async function resolveNameListItems(client: Client, slice: NameListSlice): Promi
 						data.link = { link_type: 'Web', url: '/artists/' + item.artist.uid };
 					}
 				}
+				if (!data.label) data.label = fetchedArtist?.full_name || item.artist.uid || '';
 			}
 
 			return data;

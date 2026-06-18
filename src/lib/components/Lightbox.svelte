@@ -177,9 +177,10 @@
 							<div in:fade={{ delay: 400 }} class="w-full flex flex-col mt-64 md:mt-20">
 								<h2>Inquire</h2>
 								<p class="mb-8 mt-4">Fill out the form below to learn more about this piece.</p>
-								<p>Name</p>
+								<label for="lb-name" class="block">Name</label>
 								<input
 									type="text"
+									id="lb-name"
 									name="name"
 									bind:value={formName}
 									required
@@ -187,9 +188,10 @@
 									class="w-full border-2 border-mid p-2 mb-4"
 								/>
 
-								<p>Phone</p>
+								<label for="lb-phone" class="block">Phone</label>
 								<input
 									type="phone"
+									id="lb-phone"
 									name="phone"
 									bind:value={formPhone}
 									required
@@ -197,9 +199,10 @@
 									class="w-full border-2 border-mid p-2 mb-4"
 								/>
 
-								<p>Email</p>
+								<label for="lb-email" class="block">Email</label>
 								<input
 									type="email"
+									id="lb-email"
 									name="email"
 									bind:value={formEmail}
 									required
@@ -213,8 +216,9 @@
 									</label>
 								</p>
 
-								<p>Message</p>
+								<label for="lb-message" class="block">Message</label>
 								<textarea
+									id="lb-message"
 									name="message"
 									bind:value={formMessage}
 									required
@@ -222,7 +226,7 @@
 									class="min-h-24 w-full border-2 border-mid p-2 mb-4"
 								></textarea>
 
-								<p>What best describes you?</p>
+								<label for="role" class="block">What best describes you?</label>
 								<div>
 									<select
 										name="role"
@@ -253,12 +257,12 @@
 								</div>
 							</div>
 						{:else if error}
-							<h2>
+							<h2 role="alert">
 								We're sorry, there appears to be an error. Please email info@gallerysonder.com with
 								your inquiry.
 							</h2>
 						{:else}
-							<h2>Thank you for reaching out!</h2>
+							<h2 role="status">Thank you for reaching out!</h2>
 						{/if}
 					{/if}
 				</div>
@@ -280,7 +284,11 @@
 		<div
 			class="w-11/12 h-11/12 max-h-11/12 max-w-11/12 lg:w-4/5 lg:h-4/5 lg:max-w-4/5 lg:max-h-4/5"
 		>
-			<img src={appState.lightboxImageUrl} alt="lightbox" class="w-full h-full object-contain" />
+			<img
+				src={appState.lightboxImageUrl}
+				alt={appState.lightboxImageAlt || 'Enlarged image'}
+				class="w-full h-full object-contain"
+			/>
 		</div>
 	</div>
 {/if}

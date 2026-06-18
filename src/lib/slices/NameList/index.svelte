@@ -36,7 +36,8 @@
 				activeImage: item.artist_active_image.url || '',
 				color: item.artist_color || '#E4EEEA',
 				link: item.artist_page || { link_type: 'Web', url: '' },
-				doubleHeight: item.doubleheight || false
+				doubleHeight: item.doubleheight || false,
+				label: item.artist_active_image.alt || ''
 			};
 
 			const fetchedArtist = await fetchFromRelationship<ArtistDocumentData>(item.artist, 'artist');
@@ -60,6 +61,8 @@
 						url: '/artists/' + item.artist.uid
 					};
 				}
+
+				if (!artistData.label) artistData.label = fetchedArtist.full_name || '';
 			}
 
 			out.push(artistData);
@@ -105,6 +108,7 @@
 			{#each artistItems as item, i (i)}
 				<NameRevealOnHover
 					activeImage={item.activeImage}
+					label={item.label}
 					onmouseover={() => (appState.backgroundColor = item.color)}
 					onmouseout={() => (appState.backgroundColor = appState.backgroundColorDefault)}
 					href={isFilled.link(item.link) ? item.link.url : ''}

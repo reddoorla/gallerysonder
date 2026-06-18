@@ -160,6 +160,7 @@
 	}
 
 	p,
+	label,
 	input,
 	textarea,
 	form button {
@@ -511,4 +512,18 @@ span.flatpickr-weekday {
 .flatpickr-day.flatpickr-disabled:hover {
 	color: rgba(0, 0, 0, 0.2);
 	background: transparent;
+}
+
+/* Respect prefers-reduced-motion: neutralize the site's many transitions,
+   keyframe animations (intro gradient is gone, but slideshow/clip-path reveals
+   remain), and smooth scroll for users who opt out of motion. */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }

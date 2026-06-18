@@ -16,6 +16,7 @@ export interface AppState {
 	isLightboxActive: boolean;
 	showInquiryForm: boolean;
 	lightboxImageUrl: string;
+	lightboxImageAlt: string;
 	activeArtworkUid: string;
 	activeArtwork: ArtworkDocument<string> | null;
 	activeArtist: ArtistDocument<string> | null;
@@ -43,6 +44,7 @@ export function createAppState(): AppState {
 	let isLightboxActive = $state(false);
 	let showInquiryForm = $state(false);
 	let lightboxImageUrl = $state('');
+	let lightboxImageAlt = $state('');
 	let activeArtworkUid = $state('');
 	let activeArtwork = $state<ArtworkDocument<string> | null>(null);
 	let activeArtist = $state<ArtistDocument<string> | null>(null);
@@ -174,6 +176,13 @@ export function createAppState(): AppState {
 		},
 		set lightboxImageUrl(value) {
 			lightboxImageUrl = value;
+		},
+
+		get lightboxImageAlt() {
+			return lightboxImageAlt;
+		},
+		set lightboxImageAlt(value) {
+			lightboxImageAlt = value;
 		},
 
 		get activeArtworkUid() {
