@@ -3,7 +3,7 @@
 	import { PrismicImage } from '@prismicio/svelte';
 	import { isFilled, type ImageField } from '@prismicio/client';
 	import { getAppState } from '$lib/contexts/appState.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { ArrowLeft, ArrowRight } from '@lucide/svelte';
 
 	const appState = getAppState();
@@ -48,17 +48,28 @@
 	let isSlideAnimated = $state(true);
 	const SLIDER_TRANSITION_LENGTH_IN_MS = 2000;
 
+	// Track wrap-around timeouts so they can be cleared on unmount — otherwise a
+	// pending one (up to ~2s) can fire into a destroyed component after the
+	// lightbox closes / the user navigates away.
+	let sliderTimeouts: ReturnType<typeof setTimeout>[] = [];
+
 	const resetSliderToStart = () => {
-		setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS);
-		setTimeout(() => (sliderIndex = 0), SLIDER_TRANSITION_LENGTH_IN_MS + 20);
-		setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40);
+		sliderTimeouts.push(
+			setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS),
+			setTimeout(() => (sliderIndex = 0), SLIDER_TRANSITION_LENGTH_IN_MS + 20),
+			setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40)
+		);
 	};
 
 	const resetSliderToEnd = () => {
-		setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS);
-		setTimeout(() => (sliderIndex = imageArray.length - 1), SLIDER_TRANSITION_LENGTH_IN_MS + 20);
-		setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40);
+		sliderTimeouts.push(
+			setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS),
+			setTimeout(() => (sliderIndex = imageArray.length - 1), SLIDER_TRANSITION_LENGTH_IN_MS + 20),
+			setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40)
+		);
 	};
+
+	onDestroy(() => sliderTimeouts.forEach(clearTimeout));
 
 	const slideRight = () => {
 		sliderIndex--;

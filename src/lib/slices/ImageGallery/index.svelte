@@ -18,7 +18,9 @@
 
 	let viewportWidth = $state(0);
 
-	let isTruncated = $state(!!slice.primary.show_more_button);
+	// Derived (not $state) so it re-syncs if the slice prop changes and doesn't
+	// trip state_referenced_locally; the toggle state lives inside Gallery.
+	const isTruncated = $derived(!!slice.primary.show_more_button);
 
 	// Shape is positioned out of flow; the gap below the curve is the uniform
 	// --shape-gap so spacing matches every other shaped slice (see TopShapeSpacer).

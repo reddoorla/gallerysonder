@@ -11,6 +11,7 @@
 	import { PrismicImage } from '@prismicio/svelte';
 	import { isFilled, type ImageField } from '@prismicio/client';
 	import { ArrowLeft, ArrowRight, Plus, CirclePlay, Volume2 } from '@lucide/svelte';
+	import { onDestroy } from 'svelte';
 	import { srcset } from '$lib/utils/image';
 
 	const appState = getAppState();
@@ -77,17 +78,27 @@
 
 	const SLIDER_TRANSITION_LENGTH_IN_MS = 2000;
 
+	// Track wrap-around timeouts so a pending one (up to ~2s) can't fire into a
+	// destroyed component after navigating away.
+	let sliderTimeouts: ReturnType<typeof setTimeout>[] = [];
+
 	const resetSliderToStart = () => {
-		setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS);
-		setTimeout(() => (sliderIndex = 0), SLIDER_TRANSITION_LENGTH_IN_MS + 20);
-		setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40);
+		sliderTimeouts.push(
+			setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS),
+			setTimeout(() => (sliderIndex = 0), SLIDER_TRANSITION_LENGTH_IN_MS + 20),
+			setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40)
+		);
 	};
 
 	const resetSliderToEnd = () => {
-		setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS);
-		setTimeout(() => (sliderIndex = imageArray.length - 1), SLIDER_TRANSITION_LENGTH_IN_MS + 20);
-		setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40);
+		sliderTimeouts.push(
+			setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS),
+			setTimeout(() => (sliderIndex = imageArray.length - 1), SLIDER_TRANSITION_LENGTH_IN_MS + 20),
+			setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40)
+		);
 	};
+
+	onDestroy(() => sliderTimeouts.forEach(clearTimeout));
 
 	const slideRight = () => {
 		sliderIndex--;

@@ -100,7 +100,13 @@
 		<ContentWidth
 			class="min-h-screen h-screen w-full relative flex flex-col lg:flex-row justify-center items-start lg:items-center gap-6 lg:gap-0 overflow-y-scroll lg:overflow-hidden"
 		>
-			{#if !appState.activeArtwork || !appState.activeArtwork.data}
+			{#if appState.activeArtworkError}
+				<div class="w-full h-full flex items-center justify-center px-6 text-center" role="alert">
+					<p>
+						We couldn't load this artwork. Please email info@gallerysonder.com or try again later.
+					</p>
+				</div>
+			{:else if !appState.activeArtwork || !appState.activeArtwork.data}
 				<div class="w-full h-full flex items-center justify-center">
 					<LoaderCircle class="size-[2em] animate-spin text-black/80" strokeWidth={1.75} />
 				</div>

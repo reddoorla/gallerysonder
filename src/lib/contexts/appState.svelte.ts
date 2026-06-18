@@ -20,6 +20,7 @@ export interface AppState {
 	activeArtworkUid: string;
 	activeArtwork: ArtworkDocument<string> | null;
 	activeArtist: ArtistDocument<string> | null;
+	activeArtworkError: boolean;
 
 	utmParams: {
 		source: string;
@@ -48,6 +49,7 @@ export function createAppState(): AppState {
 	let activeArtworkUid = $state('');
 	let activeArtwork = $state<ArtworkDocument<string> | null>(null);
 	let activeArtist = $state<ArtistDocument<string> | null>(null);
+	let activeArtworkError = $state(false);
 
 	let lastFetchedUid = '';
 	let isFetching = false;
@@ -71,6 +73,7 @@ export function createAppState(): AppState {
 			const client = getPrismicClient();
 			activeArtist = null;
 			activeArtwork = null;
+			activeArtworkError = false;
 
 			try {
 				const artwork = await client.getByUID('artwork', uid);
@@ -86,6 +89,7 @@ export function createAppState(): AppState {
 				console.error('[fetchArtwork] Error fetching artwork:', error);
 				activeArtwork = null;
 				activeArtist = null;
+				activeArtworkError = true;
 			} finally {
 				isFetching = false;
 			}
@@ -204,6 +208,13 @@ export function createAppState(): AppState {
 		},
 		set activeArtist(value) {
 			activeArtist = value;
+		},
+
+		get activeArtworkError() {
+			return activeArtworkError;
+		},
+		set activeArtworkError(value) {
+			activeArtworkError = value;
 		},
 
 		get utmParams() {
