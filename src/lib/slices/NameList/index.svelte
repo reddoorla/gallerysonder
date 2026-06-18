@@ -8,6 +8,7 @@
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
+	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
 	import { onMount } from 'svelte';
 	import { fetchFromRelationship } from '$lib/utils/prismic';
 
@@ -15,8 +16,6 @@
 
 	let { slice }: { slice: NameListSlice } = $props();
 
-	let shape = $state<HTMLElement | undefined>(undefined);
-	let shapeHeight = $state(0);
 	let isLoading = $state(true);
 
 	interface ArtistItem {
@@ -67,17 +66,11 @@
 	}
 
 	onMount(() => {
-		if (shape) {
-			shapeHeight = shape.getBoundingClientRect().height;
-		}
-
 		fetchArtistItems();
 	});
 </script>
 
-{#if slice.primary.shape_top !== '0'}
-	<div style="height:{shapeHeight}px;"></div>
-{/if}
+<TopShapeSpacer shapeNumber={slice.primary.shape_top || '0'} />
 
 <section
 	class="w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
@@ -85,7 +78,7 @@
 	style="background-color:{appState.backgroundColor};"
 >
 	{#if slice.primary.shape_top !== '0'}
-		<div class="-translate-y-[99%]" bind:this={shape}>
+		<div class="-translate-y-[99%]">
 			<TopShape shapeNumber={slice.primary.shape_top || '0'} />
 		</div>
 	{/if}

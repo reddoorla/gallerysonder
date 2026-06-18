@@ -8,9 +8,8 @@
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { PrismicRichText } from '@prismicio/svelte';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
+	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
 	import { isFilled } from '@prismicio/helpers';
-	import { onMount } from 'svelte';
-	import { onNavigate } from '$app/navigation';
 
 	const appState = getAppState();
 
@@ -18,25 +17,12 @@
 
 	let viewportWidth = $state(0);
 
-	let shape = $state<HTMLElement | undefined>(undefined);
-	let shapeHeight = $state(0);
-
 	let isTruncated = $state(!!slice.primary.show_more_button);
-
-	onMount(() => {
-		if (shape) shapeHeight = shape.getBoundingClientRect().height;
-	});
-
-	onNavigate(() => {
-		if (shape) shapeHeight = shape.getBoundingClientRect().height;
-	});
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
 
-{#if slice.primary.shape_top !== '0'}
-	<div style="height:{shapeHeight}px;"></div>
-{/if}
+<TopShapeSpacer shapeNumber={slice.primary.shape_top || '0'} />
 
 <section
 	data-slice-type={slice.slice_type}
@@ -44,7 +30,7 @@
 	class="w-screen use-gpu transition duration-1000 {slice.primary.hide ? 'hidden' : ''}"
 	style="background-color: {appState.backgroundColor}"
 >
-	{#if slice.primary.shape_top !== '0'}<div class="-translate-y-[98%]" bind:this={shape}>
+	{#if slice.primary.shape_top !== '0'}<div class="-translate-y-[98%]">
 			<TopShape shapeNumber={slice.primary.shape_top || ''} />
 		</div>
 	{/if}

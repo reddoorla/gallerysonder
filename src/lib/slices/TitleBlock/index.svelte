@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { TitleBlockSlice } from '../../../prismicio-types';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
+	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
@@ -9,7 +10,6 @@
 	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
 	import { slide } from 'svelte/transition';
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
-	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
 	import { datepicker } from '$lib/utils/datepicker';
@@ -60,20 +60,11 @@
 			submitting = false;
 		}
 	};
-
-	let shape = $state<HTMLElement | undefined>(undefined);
-	let shapeHeight = $state(0);
-
-	onMount(() => {
-		if (shape) shapeHeight = shape.getBoundingClientRect().height;
-	});
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} />
 
-{#if slice.primary.shape_top !== '0'}
-	<div style="height:{shapeHeight}px;"></div>
-{/if}
+<TopShapeSpacer shapeNumber={slice.primary.shape_top || '0'} />
 
 <section
 	data-slice-type={slice.slice_type}
@@ -83,7 +74,7 @@
 		: ''} {slice.primary.hide ? 'hidden' : ''}"
 	style="background-color: {appState.backgroundColor} "
 >
-	{#if slice.primary.shape_top !== '0'}<div class="-translate-y-[99%]" bind:this={shape}>
+	{#if slice.primary.shape_top !== '0'}<div class="-translate-y-[99%]">
 			<TopShape shapeNumber={slice.primary.shape_top || '0'} />
 		</div>
 	{/if}
