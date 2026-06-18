@@ -12,9 +12,8 @@ export async function load({ fetch, cookies }) {
 
 	return {
 		page,
-		title: 'Sonder',
 		meta_description: page.data.meta_description,
-		meta_title: page.data.meta_title,
+		meta_title: page.data.meta_title || 'Gallery Sonder',
 		meta_image: page.data.meta_image.url
 	};
 }

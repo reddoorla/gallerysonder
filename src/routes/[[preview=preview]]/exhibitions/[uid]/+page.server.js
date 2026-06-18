@@ -12,11 +12,19 @@ export async function load({ params, fetch, cookies, depends }) {
 
 	await resolveGalleries(client, page.data.slices);
 
+	const titleLines = [
+		page.data.title_line_one,
+		page.data.title_line_two,
+		page.data.title_line_three
+	]
+		.filter(Boolean)
+		.join(' ')
+		.trim();
+
 	return {
 		page,
-		title: page.data.meta_title,
 		meta_description: page.data.meta_description,
-		meta_title: page.data.meta_title,
+		meta_title: page.data.meta_title || titleLines || 'Gallery Sonder',
 		meta_image: page.data.meta_image.url
 	};
 }

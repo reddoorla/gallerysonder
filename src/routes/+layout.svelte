@@ -2,6 +2,7 @@
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
 	import { repositoryName } from '$lib/prismicio';
+	import { absoluteUrl, jsonLdScript, organizationJsonLd } from '$lib/site';
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -18,6 +19,14 @@
 	const DISABLE_COOKIE_CONSENT = import.meta.env.VITE_DISABLE_COOKIE_CONSENT === 'true';
 
 	let { data, children } = $props();
+
+	const DEFAULT_DESCRIPTION =
+		'Gallery Sonder is a contemporary art gallery presenting exhibitions, artists, and advisory services.';
+	let metaTitle = $derived($page.data.meta_title || 'Gallery Sonder');
+	let metaDescription = $derived($page.data.meta_description || DEFAULT_DESCRIPTION);
+	// Absolute canonical from the path only — $page.url.origin is the build-time
+	// host under prerendering, so it would be wrong; SITE_URL is the real domain.
+	let canonical = $derived(absoluteUrl($page.url.pathname));
 
 	let isTransitioning = $state(false);
 	let navDelayDone = $state(false);
@@ -75,21 +84,32 @@
 </script>
 
 <svelte:head>
-	<title>{$page.data.meta_title || 'Gallery Sonder'}</title>
+	<title>{metaTitle}</title>
 	<!-- Typekit is loaded async (non-render-blocking) from app.html; do not add a
 	     synchronous stylesheet link here or it re-introduces render-blocking. -->
-	<meta
-		name="description"
-		content={$page.data.meta_description ||
-			'Gallery Sonder is a contemporary art gallery presenting exhibitions, artists, and advisory services.'}
-	/>
-	{#if $page.data.meta_title}
-		<meta name="og:title" content={$page.data.meta_title} />
-	{/if}
+	<meta name="description" content={metaDescription} />
+	<link rel="canonical" href={canonical} />
+
+	<!-- Open Graph (property=, the attribute scrapers actually read) -->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Gallery Sonder" />
+	<meta property="og:url" content={canonical} />
+	<meta property="og:title" content={metaTitle} />
+	<meta property="og:description" content={metaDescription} />
 	{#if $page.data.meta_image}
-		<meta name="og:image" content={$page.data.meta_image} />
-		<meta name="twitter:card" content="summary_large_image" />
+		<meta property="og:image" content={$page.data.meta_image} />
 	{/if}
+
+	<!-- Twitter card -->
+	<meta name="twitter:card" content={$page.data.meta_image ? 'summary_large_image' : 'summary'} />
+	<meta name="twitter:title" content={metaTitle} />
+	<meta name="twitter:description" content={metaDescription} />
+	{#if $page.data.meta_image}
+		<meta name="twitter:image" content={$page.data.meta_image} />
+	{/if}
+
+	<!-- eslint-disable-next-line svelte/no-at-html-tags (safe: JSON.stringify + escaped <) -->
+	{@html jsonLdScript(organizationJsonLd())}
 </svelte:head>
 <NewsletterSignup />
 
