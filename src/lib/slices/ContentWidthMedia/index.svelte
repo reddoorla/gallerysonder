@@ -65,13 +65,16 @@
 			(document.getElementsByTagName('body')[0] as HTMLElement).style.overflow = 'auto';
 	};
 
-	let imageArray = [];
-	let tripledImages: ImageField[] = [];
-	if (slice.variation === 'slideshow') {
-		imageArray = slice.items;
-		imageArray.forEach((item) => tripledImages.push(item.image));
-		tripledImages = tripledImages.concat(tripledImages).concat(tripledImages);
-	}
+	// Derive the slideshow arrays so they react to slice changes (the slice
+	// simulator reuses the component across variation/content switches; the old
+	// init-once `let` left these stale). The list is tripled so the infinite
+	// slider always has neighbours to scroll to.
+	const imageArray = $derived(slice.variation === 'slideshow' ? slice.items : []);
+	const tripledImages = $derived.by<ImageField[]>(() => {
+		if (slice.variation !== 'slideshow') return [];
+		const base = imageArray.map((item) => item.image);
+		return [...base, ...base, ...base];
+	});
 	let sliderIndex = $state(0);
 	let isSlideAnimated = $state(true);
 

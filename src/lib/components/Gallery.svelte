@@ -99,6 +99,11 @@
 	let isLoading = $state(!resolvedItems);
 	if (resolvedItems) isHoverArray = new Array(resolvedItems.length).fill(false);
 
+	// Skip empty rows (a blank CMS item with no image renders a broken <img>
+	// whose alt fallback shows the literal "Gallery Sonder" text). A gallery item
+	// without an image is junk, so drop it from every variation.
+	let visibleItems = $derived(galleryItems.filter((item) => isFilled.image(item.image)));
+
 	async function fetchGalleryItems(items: ImageGallerySliceDefaultItem[]) {
 		galleryItems = [];
 
@@ -239,7 +244,7 @@
 	</div>
 {:else if isList && viewportWidth > 768}
 	<div class="w-full flex flex-col gap-16 mb-8">
-		{#each galleryItems as item, i (i)}
+		{#each visibleItems as item, i (i)}
 			<div class="flex flex-row no-underline overflow-hidden">
 				<div class="w-1/2 pr-16 no-underline">
 					<GridImage
@@ -283,7 +288,7 @@
 	</div>
 {:else if isList}
 	<div class="w-full flex flex-row flex-wrap items-center gap-8 justify-start {className}">
-		{#each galleryItems as item, i (i)}
+		{#each visibleItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
 					class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex flex-col items-start transition duration-700 delay-700 justify-start relative
@@ -330,7 +335,7 @@
 	</div>
 {:else}
 	<div class="w-full flex flex-row flex-wrap items-center justify-start gap-y-10 {className}">
-		{#each galleryItems as item, i (i)}
+		{#each visibleItems as item, i (i)}
 			{#if !isTruncated || i < 4}
 				<div
 					class="w-full md:w-1/2 pr-6 pb-6 use-gpu flex flex-col items-start transition duration-700 delay-700 justify-start relative
@@ -363,7 +368,7 @@
 	</div>
 {/if}
 
-{#if slice.primary.show_more_button && galleryItems.length > 4}
+{#if slice.primary.show_more_button && visibleItems.length > 4}
 	<LinkPlusToggle
 		text={isTruncated ? 'Show More' : 'Show Less'}
 		onclick={() => (isTruncated = !isTruncated)}
