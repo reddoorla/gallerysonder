@@ -2,6 +2,7 @@
 	import type { TitleBlockSlice } from '../../../prismicio-types';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
+	import { shapeMargin } from '$lib/actions/shapeMargin';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import LinkArrowButton from '$lib/components/Buttons/LinkArrowButton.svelte';
@@ -23,6 +24,11 @@
 	let error = $state(false);
 
 	let { slice }: { slice: TitleBlockSlice } = $props();
+
+	// When a top shape is present it's positioned out of content flow (absolute),
+	// and the gap below the curve is set once via --shape-gap so it's uniform
+	// across every shaped slice and content can never sit above the shape.
+	const shaped = $derived(slice.primary.shape_top !== '0');
 
 	let showFullBody = $state(false);
 	let showContactForm = $state(true);
@@ -67,18 +73,23 @@
 <TopShapeSpacer shapeNumber={slice.primary.shape_top || '0'} />
 
 <section
+	use:shapeMargin
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top === '1'
+	class="relative w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top === '1'
 		? 'lg:mt-[100vh]'
 		: ''} {slice.primary.hide ? 'hidden' : ''}"
 	style="background-color: {appState.backgroundColor} "
 >
-	{#if slice.primary.shape_top !== '0'}<div class="-translate-y-[99%]">
+	{#if shaped}<div class="absolute left-0 top-0 w-screen -translate-y-[99%]">
 			<TopShape shapeNumber={slice.primary.shape_top || '0'} />
 		</div>
 	{/if}
-	<ContentWidth class="h-full flex flex-col items-left pt-8 lg:pl-20 relative">
+	<ContentWidth
+		class="h-full flex flex-col items-left lg:pl-20 relative {shaped
+			? 'z-10 mt-[calc(var(--shape-base)_+_var(--shape-margin))]'
+			: 'pt-8'}"
+	>
 		{#if slice.variation === 'default'}
 			<h5 role="presentation"><b>{slice.primary.eyebrow || ''}</b></h5>
 			{#if slice.primary.title}

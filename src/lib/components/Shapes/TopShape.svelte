@@ -15,7 +15,7 @@
 		fill="none"
 		viewBox="0 22.704 1324.5729303547962 416.24"
 		xmlns="http://www.w3.org/2000/svg"
-		class="use-gpu w-screen transition-all duration-1000 -mb-[120px] sm:-mb-[200px] md:-mb-[300px] lg:-mb-[420px] xl:-mb-[700px] xxl:-mb-[900px]"
+		class="use-gpu w-screen transition-all duration-1000"
 	>
 		<path
 			fill={appState.backgroundColor}
@@ -40,7 +40,7 @@
 	<svg
 		viewBox="-518 0 1968 206.5289256198347"
 		xmlns="http://www.w3.org/2000/svg"
-		class="use-gpu w-screen transition-all duration-1000 -mb-[10px] sm:-mb-[50px] md:-mb-[60px] lg:-mb-[120px] xl:-mb-[160px] xxl:-mb-[220px]"
+		class="use-gpu w-screen transition-all duration-1000"
 	>
 		<path
 			fill={appState.backgroundColor}
@@ -50,7 +50,7 @@
 	</svg>
 {:else if shapeNumber === '4'}
 	<svg
-		class="use-gpu w-screen transition-all duration-1000 -mb-[100px] sm:-mb-[180px] md:-mb-[280px] lg:-mb-[320px] xl:-mb-[500px] xxl:-mb-[640px]"
+		class="use-gpu w-screen transition-all duration-1000"
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 259.4548302872063 1200 250.7388825065274"
 		fill="none"
@@ -62,12 +62,7 @@
 		/>
 	</svg>
 {:else if shapeNumber === '5'}
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		viewBox="0 0 1440 245"
-		fill="none"
-		class=" w-screen -mb-[60px] md:-mb-[120px] lg:-mb-[200px] xl:-mb[240px] xxl:-mb-[320px]"
-	>
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 245" fill="none" class=" w-screen">
 		<path
 			d="M-51 129.383V807H1553V587.649C1553 201.215 1251.96 0 671.343 0C394.19 0 152.646 44.1272 -50.8569 129.383H-51Z"
 			fill={appState.backgroundColor}
@@ -79,7 +74,7 @@
 		fill="none"
 		viewBox="0 0 1429.8387096774193 196.02"
 		xmlns="http://www.w3.org/2000/svg"
-		class="use-gpu w-screen transition-all duration-1000 -mb-[30px] md:-mb-[120px] lg:-mb-[200px] xl:-mb[240px] xxl:-mb-[320px]"
+		class="use-gpu w-screen transition-all duration-1000"
 	>
 		<path
 			fill={appState.backgroundColor}
