@@ -44,6 +44,23 @@
 	let insetPercent = $state(25);
 	let linkRef: HTMLElement | undefined = $state();
 
+	let imgEl: HTMLImageElement | undefined = $state();
+	let imageLoaded = $state(false);
+	const markLoaded = () => (imageLoaded = true);
+
+	// Catch images already complete when bound (cached / bfcache / client-side
+	// nav), where the `load` event may never fire.
+	$effect(() => {
+		if (imgEl?.complete && imgEl.naturalWidth > 0) imageLoaded = true;
+	});
+
+	// Hold the clip "curtain" reveal (and the text fade that trails it) until the
+	// image has actually decoded, so the curtain never opens onto a blank frame and
+	// the image never pops in. Closed (25%) until loaded; once loaded it tracks
+	// hover / scroll exactly as before.
+	const effectiveInset = $derived(!imageLoaded ? 25 : isHover ? 0 : insetPercent);
+	const revealed = $derived(imageLoaded && insetPercent < 8);
+
 	const checkPosition = () => {
 		if (linkRef) {
 			const linkTop = linkRef?.getBoundingClientRect().top;
@@ -84,6 +101,9 @@
 	function onHover(state: boolean) {
 		isHover = state;
 		onHoverChange?.(isHover);
+		// Hovering signals intent to open the lightbox — warm the artwork doc +
+		// image now so the modal opens instantly.
+		if (state && artworkUID) appState.prefetchArtwork(artworkUID);
 	}
 </script>
 
@@ -92,7 +112,7 @@
 {#snippet subtitleBlock()}
 	{#if subtitleItalic || subtitleText}
 		<p
-			class="transition-opacity use-gpu duration-500 {insetPercent < 8
+			class="transition-opacity use-gpu duration-500 {revealed
 				? 'opacity-100 delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		>
@@ -102,7 +122,7 @@
 	{/if}
 	{#if subtitleTwo}
 		<p
-			class="whitespace-pre-line transition-opacity use-gpu duration-500 {insetPercent < 8
+			class="whitespace-pre-line transition-opacity use-gpu duration-500 {revealed
 				? 'opacity-100 delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		>
@@ -123,6 +143,9 @@
 		onmouseleave={() => onHover(false)}
 	>
 		<img
+			bind:this={imgEl}
+			onload={markLoaded}
+			onerror={markLoaded}
 			{src}
 			srcset={srcset(src)}
 			sizes="(min-width: 768px) 50vw, 100vw"
@@ -132,23 +155,13 @@
 			loading="lazy"
 			decoding="async"
 			class="clip-transition use-gpu w-full h-auto"
-			style={isHover
-				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
-				: 'clip-path: inset(0 ' +
-					insetPercent +
-					'% 0 ' +
-					insetPercent +
-					'%); -webkit-clip-path: inset(0 ' +
-					insetPercent +
-					'% 0 ' +
-					insetPercent +
-					'%);'}
+			style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
 		/>
 		{#if innerWidth > 768}
 			{#if text}
 				<h6
 					aria-level="2"
-					class="mt-3 transition-opacity use-gpu duration-500 {insetPercent < 8
+					class="mt-3 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -162,7 +175,7 @@
 			{#if text}
 				<h5
 					aria-level="2"
-					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
+					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -181,6 +194,9 @@
 		onclick={openModal}
 	>
 		<img
+			bind:this={imgEl}
+			onload={markLoaded}
+			onerror={markLoaded}
 			{src}
 			srcset={srcset(src)}
 			sizes="(min-width: 768px) 50vw, 100vw"
@@ -190,23 +206,13 @@
 			loading="lazy"
 			decoding="async"
 			class="clip-transition use-gpu w-full h-auto"
-			style={isHover
-				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
-				: 'clip-path: inset(0 ' +
-					insetPercent +
-					'% 0 ' +
-					insetPercent +
-					'%); -webkit-clip-path: inset(0 ' +
-					insetPercent +
-					'% 0 ' +
-					insetPercent +
-					'%);'}
+			style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
 		/>
 		{#if innerWidth > 768}
 			{#if text}
 				<h6
 					aria-level="2"
-					class="mt-3 transition-opacity use-gpu duration-500 {insetPercent < 8
+					class="mt-3 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -218,7 +224,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+					class="  transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -236,7 +242,7 @@
 			{#if text}
 				<h5
 					aria-level="2"
-					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
+					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -246,7 +252,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+					class="  transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
