@@ -44,6 +44,24 @@
 	let insetPercent = $state(25);
 	let linkRef: HTMLElement | undefined = $state();
 
+	// Fade each grid image in once it has actually decoded, so it never "pops" into
+	// the frame mid-download (a clipped image still paints its content in the
+	// visible strip, so the clip alone never hid the load — opacity does).
+	// `load`/`error` cover the normal path; the complete-check covers images already
+	// cached when bound (bfcache / client nav) where `load` may never fire.
+	let imgEl: HTMLImageElement | undefined = $state();
+	let imageLoaded = $state(false);
+	const markLoaded = () => (imageLoaded = true);
+	$effect(() => {
+		if (imgEl?.complete && imgEl.naturalWidth > 0) imageLoaded = true;
+	});
+
+	// The clip "curtain" reveal stays scroll/hover-driven, exactly as designed —
+	// decoupled from load so its 2.5s motion never coincides with the image
+	// appearing.
+	const effectiveInset = $derived(isHover ? 0 : insetPercent);
+	const revealed = $derived(insetPercent < 8);
+
 	const checkPosition = () => {
 		if (linkRef) {
 			const linkTop = linkRef?.getBoundingClientRect().top;
@@ -84,6 +102,9 @@
 	function onHover(state: boolean) {
 		isHover = state;
 		onHoverChange?.(isHover);
+		// Hovering signals intent to open the lightbox — warm the artwork doc +
+		// image now so the modal opens instantly.
+		if (state && artworkUID) appState.prefetchArtwork(artworkUID);
 	}
 </script>
 
@@ -92,7 +113,7 @@
 {#snippet subtitleBlock()}
 	{#if subtitleItalic || subtitleText}
 		<p
-			class="transition-opacity use-gpu duration-500 {insetPercent < 8
+			class="transition-opacity use-gpu duration-500 {revealed
 				? 'opacity-100 delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		>
@@ -102,7 +123,7 @@
 	{/if}
 	{#if subtitleTwo}
 		<p
-			class="whitespace-pre-line transition-opacity use-gpu duration-500 {insetPercent < 8
+			class="whitespace-pre-line transition-opacity use-gpu duration-500 {revealed
 				? 'opacity-100 delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		>
@@ -123,6 +144,9 @@
 		onmouseleave={() => onHover(false)}
 	>
 		<img
+			bind:this={imgEl}
+			onload={markLoaded}
+			onerror={markLoaded}
 			{src}
 			srcset={srcset(src)}
 			sizes="(min-width: 768px) 50vw, 100vw"
@@ -131,24 +155,14 @@
 			{height}
 			loading="lazy"
 			decoding="async"
-			class="clip-transition use-gpu w-full h-auto"
-			style={isHover
-				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
-				: 'clip-path: inset(0 ' +
-					insetPercent +
-					'% 0 ' +
-					insetPercent +
-					'%); -webkit-clip-path: inset(0 ' +
-					insetPercent +
-					'% 0 ' +
-					insetPercent +
-					'%);'}
+			class="clip-transition use-gpu w-full h-auto {imageLoaded ? 'opacity-100' : 'opacity-0'}"
+			style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
 		/>
 		{#if innerWidth > 768}
 			{#if text}
 				<h6
 					aria-level="2"
-					class="mt-3 transition-opacity use-gpu duration-500 {insetPercent < 8
+					class="mt-3 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -162,7 +176,7 @@
 			{#if text}
 				<h5
 					aria-level="2"
-					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
+					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -181,6 +195,9 @@
 		onclick={openModal}
 	>
 		<img
+			bind:this={imgEl}
+			onload={markLoaded}
+			onerror={markLoaded}
 			{src}
 			srcset={srcset(src)}
 			sizes="(min-width: 768px) 50vw, 100vw"
@@ -189,24 +206,14 @@
 			{height}
 			loading="lazy"
 			decoding="async"
-			class="clip-transition use-gpu w-full h-auto"
-			style={isHover
-				? 'clip-path: inset(0 0 0 0);-webkit-clip-path: inset(0 0 0 0);'
-				: 'clip-path: inset(0 ' +
-					insetPercent +
-					'% 0 ' +
-					insetPercent +
-					'%); -webkit-clip-path: inset(0 ' +
-					insetPercent +
-					'% 0 ' +
-					insetPercent +
-					'%);'}
+			class="clip-transition use-gpu w-full h-auto {imageLoaded ? 'opacity-100' : 'opacity-0'}"
+			style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
 		/>
 		{#if innerWidth > 768}
 			{#if text}
 				<h6
 					aria-level="2"
-					class="mt-3 transition-opacity use-gpu duration-500 {insetPercent < 8
+					class="mt-3 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -218,7 +225,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+					class="  transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -236,7 +243,7 @@
 			{#if text}
 				<h5
 					aria-level="2"
-					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {insetPercent < 8
+					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -246,7 +253,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="  transition-opacity use-gpu duration-500 {insetPercent < 8
+					class="  transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -268,8 +275,11 @@
 	.clip-transition {
 		transition:
 			clip-path 2.5s cubic-bezier(0.5, 0, 0, 1),
-			-webkit-clip-path 2.5s cubic-bezier(0.5, 0, 0, 1);
-		-webkit-transition: -webkit-clip-path 2.5s cubic-bezier(0.5, 0, 0, 1);
+			-webkit-clip-path 2.5s cubic-bezier(0.5, 0, 0, 1),
+			opacity 0.7s ease;
+		-webkit-transition:
+			-webkit-clip-path 2.5s cubic-bezier(0.5, 0, 0, 1),
+			opacity 0.7s ease;
 		transform: translateZ(1px);
 		-webkit-transform: translateZ(1px);
 	}

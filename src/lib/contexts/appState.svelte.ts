@@ -1,4 +1,5 @@
 import { getContext, onMount, setContext } from 'svelte';
+import { SvelteMap } from 'svelte/reactivity';
 import { isFilled } from '@prismicio/client';
 import type { ArtistDocument, ArtworkDocument } from '../../prismicio-types';
 import { getPrismicClient } from '$lib/utils/prismic';
@@ -32,6 +33,7 @@ export interface AppState {
 
 	lockBodyScroll: () => void;
 	unlockBodyScroll: () => void;
+	prefetchArtwork: (uid: string) => void;
 }
 
 export function createAppState(): AppState {
@@ -54,6 +56,12 @@ export function createAppState(): AppState {
 	let lastFetchedUid = '';
 	let isFetching = false;
 
+	// Hover-prefetch cache: hovering a gallery item warms the artwork doc (and its
+	// primary image) so opening the lightbox is instant — no fetch spinner, no
+	// image pop-in. Best-effort; failures are swallowed (the real fetch on click
+	// surfaces any error).
+	const artworkCache = new SvelteMap<string, ArtworkDocument<string>>();
+
 	let utmParams = $state({
 		source: '',
 		medium: '',
@@ -72,11 +80,15 @@ export function createAppState(): AppState {
 			lastFetchedUid = uid;
 			const client = getPrismicClient();
 			activeArtist = null;
-			activeArtwork = null;
 			activeArtworkError = false;
 
+			// Reuse a hover-prefetched doc when present so the image shows instantly;
+			// otherwise clear to null so the spinner shows while we fetch.
+			const cached = artworkCache.get(uid);
+			activeArtwork = cached ?? null;
+
 			try {
-				const artwork = await client.getByUID('artwork', uid);
+				const artwork = cached ?? (await client.getByUID('artwork', uid));
 				activeArtwork = artwork;
 
 				if (isFilled.contentRelationship(artwork?.data.artist)) {
@@ -98,6 +110,28 @@ export function createAppState(): AppState {
 			activeArtwork = null;
 			activeArtist = null;
 		}
+	}
+
+	function prefetchArtwork(uid: string) {
+		if (!uid || artworkCache.has(uid) || uid === lastFetchedUid) return;
+		const client = getPrismicClient();
+		client
+			.getByUID('artwork', uid)
+			.then((artwork) => {
+				artworkCache.set(uid, artwork);
+				// Warm the browser/imgix cache for the image the lightbox will render.
+				if (
+					typeof Image !== 'undefined' &&
+					isFilled.image(artwork.data.primary_image) &&
+					artwork.data.primary_image.url
+				) {
+					const img = new Image();
+					img.src = artwork.data.primary_image.url;
+				}
+			})
+			.catch(() => {
+				// best-effort prefetch; ignore errors
+			});
 	}
 
 	$effect(function syncArtworkDataWithUid() {
@@ -225,7 +259,8 @@ export function createAppState(): AppState {
 		},
 
 		lockBodyScroll,
-		unlockBodyScroll
+		unlockBodyScroll,
+		prefetchArtwork
 	};
 }
 
