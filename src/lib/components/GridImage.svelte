@@ -117,8 +117,8 @@
 				? 'opacity-100 delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		>
-			{#if subtitleItalic}<i>{subtitleItalic}</i>{/if}{#if subtitleItalic && subtitleText},
-			{/if}{subtitleText}
+			{#if subtitleItalic}<i>{subtitleItalic}</i
+				>{/if}{#if subtitleItalic && subtitleText},&nbsp;{/if}{subtitleText}
 		</p>
 	{/if}
 	{#if subtitleTwo}
