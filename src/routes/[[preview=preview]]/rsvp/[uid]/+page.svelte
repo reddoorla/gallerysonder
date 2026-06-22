@@ -13,7 +13,10 @@
 
 	let formName = $state('');
 	let formEmail = $state('');
-	let formGuests = $state('');
+	// Default to a real number (not '') so the native number stepper responds on
+	// the first click — binding a `type="number"` input to an empty string leaves
+	// it in a string/empty state where the first step gets swallowed.
+	let formGuests = $state(1);
 
 	let { data } = $props();
 
@@ -31,7 +34,7 @@
 			const populated = populateHiddenForm('netlifyRsvpForm', {
 				name: formName,
 				email: formEmail,
-				guests: formGuests,
+				guests: String(formGuests),
 				event: (data.page.data.name as string) || data.page.uid
 			});
 

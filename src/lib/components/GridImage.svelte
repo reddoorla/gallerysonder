@@ -117,8 +117,8 @@
 				? 'opacity-100 delay-[750ms]'
 				: 'opacity-0 pointer-events-none delay-0'}"
 		>
-			{#if subtitleItalic}<i>{subtitleItalic}</i>{/if}{#if subtitleItalic && subtitleText},
-			{/if}{subtitleText}
+			{#if subtitleItalic}<i>{subtitleItalic}</i
+				>{/if}{#if subtitleItalic && subtitleText},&nbsp;{/if}{subtitleText}
 		</p>
 	{/if}
 	{#if subtitleTwo}
@@ -187,13 +187,24 @@
 		{/if}
 	</a>
 {:else}
-	<button
+	<div
 		bind:this={linkRef}
-		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline {className}"
+		role="group"
+		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline relative {className}"
 		onmouseenter={() => onHover(true)}
 		onmouseleave={() => onHover(false)}
-		onclick={openModal}
 	>
+		<!-- Whole-card open trigger: a transparent overlay button keeps the entire
+		card clickable while INQUIRE stays a separate, real button beside it (avoids
+		a <button> nested inside a <button>). z-10 lifts it above the image/text,
+		which sit in transformed stacking contexts (clip-transition / use-gpu);
+		INQUIRE sits above the overlay via z-20. -->
+		<button
+			type="button"
+			onclick={openModal}
+			aria-label={`View ${subtitleItalic || text || 'artwork'}`}
+			class="absolute inset-0 z-10 cursor-pointer"
+		></button>
 		<img
 			bind:this={imgEl}
 			onload={markLoaded}
@@ -225,7 +236,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="  transition-opacity use-gpu duration-500 {revealed
+					class="relative z-20 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -253,7 +264,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="  transition-opacity use-gpu duration-500 {revealed
+					class="relative z-20 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -268,7 +279,7 @@
 				</div>
 			{/if}
 		{/if}
-	</button>
+	</div>
 {/if}
 
 <style>
