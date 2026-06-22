@@ -187,13 +187,22 @@
 		{/if}
 	</a>
 {:else}
-	<button
+	<div
 		bind:this={linkRef}
-		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline {className}"
+		role="group"
+		class="flex-grow-0 flex flex-col items-start text-left clip-transition no-underline relative {className}"
 		onmouseenter={() => onHover(true)}
 		onmouseleave={() => onHover(false)}
-		onclick={openModal}
 	>
+		<!-- Whole-card open trigger: a transparent overlay button keeps the entire
+		card clickable while INQUIRE stays a separate, real button beside it (avoids
+		a <button> nested inside a <button>). INQUIRE sits above it via z-10. -->
+		<button
+			type="button"
+			onclick={openModal}
+			aria-label={`View ${subtitleItalic || text || 'artwork'}`}
+			class="absolute inset-0 z-0 cursor-pointer"
+		></button>
 		<img
 			bind:this={imgEl}
 			onload={markLoaded}
@@ -225,7 +234,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="  transition-opacity use-gpu duration-500 {revealed
+					class="relative z-10 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -253,7 +262,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="  transition-opacity use-gpu duration-500 {revealed
+					class="relative z-10 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -268,7 +277,7 @@
 				</div>
 			{/if}
 		{/if}
-	</button>
+	</div>
 {/if}
 
 <style>
