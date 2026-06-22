@@ -2,8 +2,12 @@
  * Canonical origin for absolute URLs (canonical links, og:url, sitemap, JSON-LD).
  * Prerendering can't read the real request host, so set VITE_SITE_URL in
  * Netlify; it defaults to the production domain. No trailing slash.
+ *
+ * Use the APEX (no www): the host serves on gallerysonder.com and 301-redirects
+ * www -> apex, so pointing canonical/og at www made every shared URL eat a
+ * redirect (~910ms, ~12 Lighthouse perf points). Keep this matched to the host.
  */
-export const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://www.gallerysonder.com').replace(
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://gallerysonder.com').replace(
 	/\/$/,
 	''
 );
