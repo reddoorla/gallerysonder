@@ -132,6 +132,48 @@
 	{/if}
 {/snippet}
 
+<!-- Image + caption shared by both the link card and the lightbox card so the two
+layouts can't drift apart (they did during earlier fixes). -->
+{#snippet media()}
+	<img
+		bind:this={imgEl}
+		onload={markLoaded}
+		onerror={markLoaded}
+		{src}
+		srcset={srcset(src)}
+		sizes="(min-width: 768px) 50vw, 100vw"
+		{alt}
+		{width}
+		{height}
+		loading="lazy"
+		decoding="async"
+		class="clip-transition use-gpu w-full h-auto {imageLoaded ? 'opacity-100' : 'opacity-0'}"
+		style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
+	/>
+	{#if text}
+		{#if innerWidth > 768}
+			<h6
+				aria-level="2"
+				class="mt-3 transition-opacity use-gpu duration-500 {revealed
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}"
+			>
+				<b>{text}</b>
+			</h6>
+		{:else}
+			<h5
+				aria-level="2"
+				class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {revealed
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}"
+			>
+				<b>{text}</b>
+			</h5>
+		{/if}
+	{/if}
+	{@render subtitleBlock()}
+{/snippet}
+
 {#if href || !willOpen}
 	<a
 		bind:this={linkRef}
@@ -143,48 +185,7 @@
 		onmouseenter={() => onHover(true)}
 		onmouseleave={() => onHover(false)}
 	>
-		<img
-			bind:this={imgEl}
-			onload={markLoaded}
-			onerror={markLoaded}
-			{src}
-			srcset={srcset(src)}
-			sizes="(min-width: 768px) 50vw, 100vw"
-			{alt}
-			{width}
-			{height}
-			loading="lazy"
-			decoding="async"
-			class="clip-transition use-gpu w-full h-auto {imageLoaded ? 'opacity-100' : 'opacity-0'}"
-			style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
-		/>
-		{#if innerWidth > 768}
-			{#if text}
-				<h6
-					aria-level="2"
-					class="mt-3 transition-opacity use-gpu duration-500 {revealed
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<b>
-						{text}
-					</b>
-				</h6>
-			{/if}
-			{@render subtitleBlock()}
-		{:else}
-			{#if text}
-				<h5
-					aria-level="2"
-					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {revealed
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<b>{text}</b>
-				</h5>
-			{/if}
-			{@render subtitleBlock()}
-		{/if}
+		{@render media()}
 	</a>
 {:else}
 	<div
@@ -205,79 +206,22 @@
 			aria-label={`View ${subtitleItalic || text || 'artwork'}`}
 			class="absolute inset-0 z-10 cursor-pointer"
 		></button>
-		<img
-			bind:this={imgEl}
-			onload={markLoaded}
-			onerror={markLoaded}
-			{src}
-			srcset={srcset(src)}
-			sizes="(min-width: 768px) 50vw, 100vw"
-			{alt}
-			{width}
-			{height}
-			loading="lazy"
-			decoding="async"
-			class="clip-transition use-gpu w-full h-auto {imageLoaded ? 'opacity-100' : 'opacity-0'}"
-			style="clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%); -webkit-clip-path: inset(0 {effectiveInset}% 0 {effectiveInset}%);"
-		/>
-		{#if innerWidth > 768}
-			{#if text}
-				<h6
-					aria-level="2"
-					class="mt-3 transition-opacity use-gpu duration-500 {revealed
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<b>
-						{text}
-					</b>
-				</h6>
-			{/if}
-			{@render subtitleBlock()}
-			{#if artworkUID}
-				<div
-					class="relative z-20 transition-opacity use-gpu duration-500 {revealed
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<LinkArrowButton
-						text="INQUIRE"
-						class="origin-left scale-75 mt-1"
-						onclick={() => {
-							openModal();
-							appState.showInquiryForm = true;
-						}}
-					/>
-				</div>
-			{/if}
-		{:else}
-			{#if text}
-				<h5
-					aria-level="2"
-					class="mt-4 translate-x-[1px] transition-opacity duration-500 uppercase {revealed
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<b>{text}</b>
-				</h5>
-			{/if}
-			{@render subtitleBlock()}
-			{#if artworkUID}
-				<div
-					class="relative z-20 transition-opacity use-gpu duration-500 {revealed
-						? 'opacity-100  delay-[750ms]'
-						: 'opacity-0 pointer-events-none delay-0'}"
-				>
-					<LinkArrowButton
-						text="INQUIRE"
-						class="scale-75 origin-left mt-1 "
-						onclick={() => {
-							openModal();
-							appState.showInquiryForm = true;
-						}}
-					/>
-				</div>
-			{/if}
+		{@render media()}
+		{#if artworkUID}
+			<div
+				class="relative z-20 transition-opacity use-gpu duration-500 {revealed
+					? 'opacity-100  delay-[750ms]'
+					: 'opacity-0 pointer-events-none delay-0'}"
+			>
+				<LinkArrowButton
+					text="INQUIRE"
+					class="origin-left scale-75 mt-1"
+					onclick={() => {
+						openModal();
+						appState.showInquiryForm = true;
+					}}
+				/>
+			</div>
 		{/if}
 	</div>
 {/if}
