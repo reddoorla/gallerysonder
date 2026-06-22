@@ -196,12 +196,14 @@
 	>
 		<!-- Whole-card open trigger: a transparent overlay button keeps the entire
 		card clickable while INQUIRE stays a separate, real button beside it (avoids
-		a <button> nested inside a <button>). INQUIRE sits above it via z-10. -->
+		a <button> nested inside a <button>). z-10 lifts it above the image/text,
+		which sit in transformed stacking contexts (clip-transition / use-gpu);
+		INQUIRE sits above the overlay via z-20. -->
 		<button
 			type="button"
 			onclick={openModal}
 			aria-label={`View ${subtitleItalic || text || 'artwork'}`}
-			class="absolute inset-0 z-0 cursor-pointer"
+			class="absolute inset-0 z-10 cursor-pointer"
 		></button>
 		<img
 			bind:this={imgEl}
@@ -234,7 +236,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="relative z-10 transition-opacity use-gpu duration-500 {revealed
+					class="relative z-20 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
@@ -262,7 +264,7 @@
 			{@render subtitleBlock()}
 			{#if artworkUID}
 				<div
-					class="relative z-10 transition-opacity use-gpu duration-500 {revealed
+					class="relative z-20 transition-opacity use-gpu duration-500 {revealed
 						? 'opacity-100  delay-[750ms]'
 						: 'opacity-0 pointer-events-none delay-0'}"
 				>
