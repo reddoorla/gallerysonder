@@ -48,7 +48,7 @@
 		{onclick}
 		{href}
 	>
-		<img src={activeImage} alt={label} class={className} />
+		<img src={activeImage} alt={label} loading="lazy" decoding="async" class={className} />
 	</a>
 {:else}
 	<button
@@ -69,6 +69,6 @@
 		{onmouseout}
 		{onclick}
 	>
-		<img src={activeImage} alt={label} class={className} />
+		<img src={activeImage} alt={label} loading="lazy" decoding="async" class={className} />
 	</button>
 {/if}

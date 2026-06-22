@@ -254,6 +254,30 @@ async function resolveNameListItems(client: Client, slice: NameListSlice): Promi
 				if (!data.label) data.label = fetchedArtist?.full_name || item.artist.uid || '';
 			}
 
+			// Final fallback so the name image always has an accessible name even when
+			// the CMS alt is blank and there's no artist relationship (the home
+			// "Explore" items link straight to /artists/<slug>). Derive it from the
+			// link slug, e.g. "/artists/ruben-benjamin" -> "Ruben Benjamin".
+			if (!data.label) {
+				const url = 'url' in data.link ? (data.link.url ?? '') : '';
+				const slug = url.split('/').filter(Boolean).pop() ?? '';
+				if (slug)
+					data.label = slug
+						.split('-')
+						.map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+						.join(' ');
+			}
+
+			// Cap the served height of the (raster) name image to ~2x its largest
+			// display size so we don't ship a full-res PNG for a small wordmark
+			// (Lighthouse "properly size images"). fit=max never upscales.
+			if (
+				data.activeImage.startsWith('https://images.prismic.io') &&
+				data.activeImage.includes('?')
+			) {
+				data.activeImage += `&h=${data.doubleHeight ? 320 : 160}&fit=max`;
+			}
+
 			return data;
 		})
 	);

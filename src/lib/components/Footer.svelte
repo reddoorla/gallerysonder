@@ -54,8 +54,10 @@
 			class="sm:pl-20 md:ml-2 flex flex-col md:flex-row justify-between items-start md:items-end w-full md:mb-12 gap-4 md:gap-8"
 		>
 			<div class="gap-3 flex flex-col">
-				<a href="/" class="h-3">
-					<img src={logoExtendedE} alt="logo" class="h-full brightness-0 invert" />
+				<!-- h-6 (>=24px) is the a11y target-size minimum; the logo image stays h-3
+					and is vertically centered in the slightly taller hit area. -->
+				<a href="/" class="flex w-fit items-center h-6">
+					<img src={logoExtendedE} alt="Gallery Sonder home" class="h-3 brightness-0 invert" />
 				</a>
 				<div style="color:{appState.backgroundColor}">
 					3435 E Coast Highway, <br />
