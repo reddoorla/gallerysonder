@@ -78,6 +78,9 @@ importers:
       prettier-plugin-svelte:
         specifier: ^3.1.2
         version: 3.5.2(prettier@3.8.3)(svelte@5.56.1(@typescript-eslint/types@8.60.1))
+      sharp:
+        specifier: ^0.33.5
+        version: 0.33.5
       slice-machine-ui:
         specifier: ^2.20.4
         version: 2.21.3(@prismicio/types@0.2.9)(zod@3.25.76)
