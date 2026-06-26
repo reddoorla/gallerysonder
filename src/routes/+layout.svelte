@@ -29,7 +29,6 @@
 	let canonical = $derived(absoluteUrl($page.url.pathname));
 
 	let isTransitioning = $state(false);
-	let navDelayDone = $state(false);
 
 	// The Prismic editor toolbar (loaded by <PrismicPreview />) sets third-party
 	// `io.prismic.previewSession` cookies that fail Lighthouse best-practices for
@@ -56,8 +55,6 @@
 	};
 
 	onMount(() => {
-		setTimeout(() => (navDelayDone = true), 500);
-
 		isPreviewActive = document.cookie.includes('io.prismic.preview');
 
 		const urlParams = $page.url.searchParams;
@@ -133,9 +130,12 @@
 		></div>
 	{/if}
 
-	{#if navDelayDone}
-		<Nav isLogoBlack={false} navProps={data.nav.data.links} />
-	{/if}
+	<!-- Rendered in SSR (not gated behind an onMount delay) so the nav logo paints
+	     at first paint and is LCP-eligible. The full-screen hero <img> is excluded
+	     from LCP by Chrome (it's in a fixed, overflow-clip container and overflows
+	     the viewport), so a late client-rendered nav used to "win" LCP at ~4.9s.
+	     SSR-rendering the nav makes the logo the LCP at ~first paint instead. -->
+	<Nav isLogoBlack={false} navProps={data.nav.data.links} />
 	<div id="main-content" tabindex="-1" class="outline-none">
 		{@render children?.()}
 	</div>
