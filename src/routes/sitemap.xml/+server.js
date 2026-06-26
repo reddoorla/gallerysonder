@@ -1,14 +1,12 @@
 import { createClient } from '$lib/prismicio';
+// Single source of truth for the canonical origin (apex, no www). Previously this
+// route duplicated the SITE_URL constant with a stale `www` default, so the
+// sitemap kept emitting www after the apex migration moved site.ts to the apex.
+// Importing it here keeps the sitemap in lockstep with canonical/og/JSON-LD.
+import { SITE_URL } from '$lib/site';
 
 // Prerendered alongside the rest of the site, so it's a static file Netlify serves.
 export const prerender = true;
-
-// Absolute URLs require a known origin; prerendering can't read the real host.
-// Override with VITE_SITE_URL in .env / Netlify if the canonical domain differs.
-const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://www.gallerysonder.com').replace(
-	/\/$/,
-	''
-);
 
 // Prismic document type -> public path. Keep in sync with the route folders under
 // src/routes/[[preview=preview]]/ (note: type 'exhibit' lives at /exhibitions).

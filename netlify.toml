@@ -9,18 +9,24 @@
 
 # Baseline security headers for all responses.
 #
-# NOTE: No Content-Security-Policy is currently emitted. svelte.config.js does
-# NOT pass a `csp` option to createSvelteConfig, so neither SvelteKit nor this
-# file sets one. Adding a CSP needs a report-only-first rollout: this site loads
-# Typekit via an inline onload handler, plus consent-gated GTM/Facebook Pixel
-# (which need nonce propagation) and a Google Maps embed — a naive policy would
-# silently break fonts/analytics. Tracked as a follow-up, not wired up here.
+# The Content-Security-Policy here is intentionally MINIMAL — only the
+# `frame-ancestors` directive, which controls who may embed this site in a frame.
+# It replaces the legacy `X-Frame-Options = "SAMEORIGIN"` header: X-Frame-Options
+# can only say SAMEORIGIN/DENY, so it blocked Prismic's page builder from
+# embedding `/slice-simulator` (the in-editor slice preview) — exactly the
+# "preview is erroring" symptom. `frame-ancestors` gives the same clickjacking
+# protection but allowlists the Prismic editor origin (*.prismic.io).
+#
+# NOTE: this is NOT a full resource CSP — it does not restrict script/style/img/
+# font/connect sources, so it cannot break Typekit, the consent-gated GTM/Facebook
+# Pixel, or the Google Maps embed. A full CSP still needs a report-only-first
+# rollout (tracked separately, not wired up here).
 [[headers]]
     for = "/*"
     [headers.values]
         Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
         X-Content-Type-Options = "nosniff"
-        X-Frame-Options = "SAMEORIGIN"
+        Content-Security-Policy = "frame-ancestors 'self' https://*.prismic.io"
         Referrer-Policy = "strict-origin-when-cross-origin"
         Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
         Cross-Origin-Opener-Policy = "same-origin"
