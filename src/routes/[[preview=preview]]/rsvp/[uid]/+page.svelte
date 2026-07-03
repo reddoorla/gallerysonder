@@ -4,6 +4,7 @@
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import { onMount } from 'svelte';
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
 
 	const appState = getAppState();
 
@@ -17,6 +18,7 @@
 	// the first click — binding a `type="number"` input to an empty string leaves
 	// it in a string/empty state where the first step gets swallowed.
 	let formGuests = $state(1);
+	let turnstileToken = $state('');
 
 	let { data } = $props();
 
@@ -40,7 +42,7 @@
 
 			if (populated) {
 				const form = document.getElementById('netlifyRsvpForm') as HTMLFormElement;
-				const result = await submitForm(form);
+				const result = await submitForm(form, turnstileToken);
 
 				submitted = true;
 				error = !result.success;
@@ -107,6 +109,8 @@
 					min="1"
 					class="w-full max-w-xs border-1 border-white p-2 mb-4"
 				/>
+
+				<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
 
 				<button
 					type="submit"

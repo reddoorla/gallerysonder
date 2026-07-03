@@ -10,7 +10,9 @@ const str = (v: unknown): string | undefined => (typeof v === 'string' ? v : und
 // Typed + control keys are handled explicitly; everything else a hidden form
 // carries (piece, artist, role, event, guests, company, appointment_*) is
 // site-specific and bundled into `extra` for the dashboard's Extra fields JSON.
-const CONTROL_KEYS = new Set(['bot-field', 'ts', 'form-name']);
+// `cf-turnstile-response` is read into transient `_meta` by createIngestEndpoint
+// for central verification — keep it out of the persisted `extra` bag.
+const CONTROL_KEYS = new Set(['bot-field', 'ts', 'form-name', 'cf-turnstile-response']);
 const TYPED_KEYS = new Set([
 	'formType',
 	'name',

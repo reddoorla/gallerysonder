@@ -23,7 +23,10 @@ const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_c
  * — a network error is surfaced as `{ success: false }` so callers' email
  * fallbacks fire.
  */
-export async function submitForm(formElement: HTMLFormElement): Promise<FormSubmissionResult> {
+export async function submitForm(
+	formElement: HTMLFormElement,
+	turnstileToken?: string
+): Promise<FormSubmissionResult> {
 	const formData = new FormData(formElement);
 	const entries: Record<string, string> = {};
 	for (const [key, value] of formData.entries()) {
@@ -50,6 +53,10 @@ export async function submitForm(formElement: HTMLFormElement): Promise<FormSubm
 	};
 	const utm = utmParams.toString();
 	if (utm) payload.utm = utm;
+	// Cloudflare Turnstile token (from the visible widget). The ingest endpoint
+	// reads `cf-turnstile-response` into its transient `_meta` for central verify;
+	// it's excluded from persisted `extra` server-side. Absent token = fail-open.
+	if (turnstileToken) payload['cf-turnstile-response'] = turnstileToken;
 
 	try {
 		const response = await fetch('/api/forms', {
