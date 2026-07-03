@@ -6,6 +6,7 @@
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import { onMount } from 'svelte';
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
 	import { X } from '@lucide/svelte';
 
 	const appState = getAppState();
@@ -25,6 +26,7 @@
 	});
 
 	let emailValue = $state('');
+	let turnstileToken = $state('');
 
 	let lowestPoint = 0;
 
@@ -73,7 +75,7 @@
 		try {
 			if (populateHiddenForm('netlifyNewsletterSignup', { email: emailValue })) {
 				const form = document.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
-				const result = await submitForm(form);
+				const result = await submitForm(form, turnstileToken);
 
 				submitted = true;
 				error = !result.success;
@@ -120,6 +122,7 @@
 						placeholder="Enter Your Email"
 						class="h-12 pl-2"
 					/>
+					<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
 					<LinkArrowButton
 						class="mt-6"
 						text="Subscribe"

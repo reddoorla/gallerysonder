@@ -13,6 +13,7 @@
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
 	import { page } from '$app/stores';
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
 	import { datepicker } from '$lib/utils/datepicker';
 	import Select from '$lib/components/Buttons/Select.svelte';
 
@@ -40,6 +41,7 @@
 	let formMessage = $state('');
 	let formDate = $state('');
 	let formTimePreference = $state('');
+	let turnstileToken = $state('');
 
 	const triggerSubmitButton = async () => {
 		if (submitting) return;
@@ -57,7 +59,7 @@
 
 			if (populated) {
 				const form = document.getElementById('netlifyContactForm') as HTMLFormElement;
-				const result = await submitForm(form);
+				const result = await submitForm(form, turnstileToken);
 
 				submitted = true;
 				error = !result.success;
@@ -273,6 +275,8 @@
 							placeholder="How can we help?"
 							class="min-h-24 w-full border-1 border-mid p-2 mb-4"
 						></textarea>
+
+						<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
 
 						<button
 							type="submit"

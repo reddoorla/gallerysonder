@@ -8,6 +8,7 @@
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import Slideshow from './Slideshow.svelte';
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
 	import { trapFocus } from '$lib/utils/trapFocus';
 	import { X, LoaderCircle } from '@lucide/svelte';
 
@@ -31,6 +32,7 @@
 	let formEmail = $state('');
 	let formMessage = $state('');
 	let formRole = $state('');
+	let turnstileToken = $state('');
 
 	const triggerSubmitButton = async () => {
 		if (submitting) return;
@@ -56,7 +58,7 @@
 
 			if (populated) {
 				const form = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
-				const result = await submitForm(form);
+				const result = await submitForm(form, turnstileToken);
 
 				submitted = true;
 				error = !result.success;
@@ -248,6 +250,8 @@
 										<option value="Art Enthusiast">Art Enthusiast</option>
 									</select>
 								</div>
+
+								<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
 
 								<LinkArrowButton
 									class="uppercase"
