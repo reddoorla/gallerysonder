@@ -51,6 +51,56 @@ for (const route of smokeRoutes) {
 	});
 }
 
+test('first nav-linked page loads with no console errors', async ({ page }) => {
+	// Every non-home public page on this site is served by the [uid] catch-all
+	// (and its artists/essays/exhibitions/news siblings), so there are no static
+	// paths to hardcode. Discover a real one the way a visitor would: open the
+	// full-screen menu (its links only mount while it's open) and follow the
+	// first internal link (nav links come from the Prismic nav doc, so this
+	// tracks the live content).
+	const errors = attachConsoleWatcher(page);
+	await page.goto('/', { waitUntil: 'domcontentloaded' });
+	// The toggle's click handler only exists after hydration, and domcontentloaded
+	// doesn't wait for that — so retry the click until the menu actually opens.
+	// aria-expanded reflects real component state (SSR'd "false", flips on open),
+	// which keeps the retry from toggling the menu back shut.
+	const toggle = page.getByRole('button', { name: 'Toggle navigation menu' });
+	await expect(async () => {
+		if ((await toggle.getAttribute('aria-expanded')) !== 'true') await toggle.click();
+		await expect(page.locator('#main-nav')).toBeVisible({ timeout: 1000 });
+	}).toPass({ timeout: 15000 });
+	const firstInternalHref = await page.locator('#main-nav a').evaluateAll((els) =>
+		els
+			.map((el) => el.getAttribute('href'))
+			.map((href) => {
+				if (!href) return null;
+				try {
+					const url = new URL(href, location.origin);
+					return url.origin === location.origin ? url.pathname : null;
+				} catch {
+					return null;
+				}
+			})
+			.find((path) => !!path && path !== '/')
+	);
+	expect(firstInternalHref, 'found an internal nav link in the menu').toBeTruthy();
+
+	const response = await page.goto(firstInternalHref!, { waitUntil: 'domcontentloaded' });
+	expect(response?.status(), `HTTP status for ${firstInternalHref}`).toBe(200);
+	await expect(page.locator('footer')).toBeVisible();
+	expect(errors, `console errors on ${firstInternalHref}`).toEqual([]);
+});
+
+test('/health reports ok', async ({ request }) => {
+	// The Report Health Gate probe endpoint — asserts the server can reach
+	// Prismic. The home-page test above already hard-depends on Prismic, so
+	// this adds no new flake surface.
+	const response = await request.get('/health');
+	expect(response.status(), 'HTTP status for /health').toBe(200);
+	const body = await response.json();
+	expect(body.ok, `/health body: ${JSON.stringify(body)}`).toBe(true);
+});
+
 test('404 page renders the custom error component', async ({ page }) => {
 	// The browser logs a top-level "Failed to load resource: 404" for the page
 	// itself — expected on a 404 route, not a bug. Allow it here.
