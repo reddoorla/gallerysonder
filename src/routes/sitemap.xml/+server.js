@@ -8,6 +8,14 @@ import { SITE_URL } from '$lib/site';
 // Prerendered alongside the rest of the site, so it's a static file Netlify serves.
 export const prerender = true;
 
+// Internal demo/scratch `page` docs that must NOT be advertised to crawlers — or to
+// the fleet uptime audit, which samples its routes from this sitemap. 2026-07-16:
+// /cms-demo carries an intentional dead demo link (`artist_page` override →
+// /artists/link-override, no such artist) that the nightly browser audit flagged as
+// a broken link every run. The pages stay reachable at their URLs for anyone with
+// the link; they're just no longer advertised as canonical content.
+const INTERNAL_PAGE_UIDS = new Set(['cms-demo', 'vimeo-demo', 'test']);
+
 // Prismic document type -> public path. Keep in sync with the route folders under
 // src/routes/[[preview=preview]]/ (note: type 'exhibit' lives at /exhibitions).
 /** @type {Record<string, (uid: string) => string>} */
@@ -28,6 +36,7 @@ export async function GET({ fetch }) {
 	for (const doc of docs) {
 		const build = TYPE_PATHS[doc.type];
 		if (!build || !doc.uid) continue;
+		if (doc.type === 'page' && INTERNAL_PAGE_UIDS.has(doc.uid)) continue;
 		const loc = SITE_URL + build(doc.uid);
 		const lastmod = doc.last_publication_date?.slice(0, 10);
 		urls.push(
