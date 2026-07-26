@@ -6,3 +6,17 @@ allowBuilds:
   protobufjs: true
   sharp: true
 minimumReleaseAge: 0
+overrides:
+  # security caps (range-scoped so already-clean copies are untouched):
+  # GHSA-f88m-g3jw-g9cj — imagetools-core@6 pins sharp ^0.33.1
+  'sharp@<0.35.0': ^0.35.3
+  # GHSA-pxg6-pf52-xh8x — @sveltejs/kit pins cookie ^0.6.0
+  'cookie@<0.7.0': ^0.7.2
+  # GHSA-mh99-v99m-4gvg (2026-07-24) — every line <=5.0.7 vulnerable, only
+  # 5.0.8 patched (no 1.x/2.x backport); 5.0.8 ships dual CJS/ESM, node 20||>=22
+  'brace-expansion@<=5.0.7': ^5.0.8
+  # companion to the brace-expansion cap: minimatch@9 requires a default export
+  # brace-expansion@5 no longer has (throws on brace patterns); minimatch@10
+  # keeps the same API and consumes b-e@5 correctly. Sole 9.x chain here is
+  # google-gax>rimraf@5>glob@10 (tooling-only usage).
+  'minimatch@9': ^10.2.5
