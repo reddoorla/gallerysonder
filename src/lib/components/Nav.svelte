@@ -27,8 +27,8 @@
 
 	// Lock body scroll while the full-screen menu is open.
 	$effect(() => {
-		if (showNav) appState.lockBodyScroll();
-		else appState.unlockBodyScroll();
+		if (showNav) appState.lockBodyScroll('nav');
+		else appState.unlockBodyScroll('nav');
 	});
 </script>
 
@@ -148,6 +148,11 @@
 			<LinkArrowButton
 				class=""
 				onclick={() => {
+					// Close the menu first: it is a focus-trapped dialog, and leaving it
+					// mounted meant its document-level `focusin` recovery yanked focus
+					// straight back out of the newsletter overlay — the email field
+					// could not be typed into at all.
+					showNav = false;
 					appState.hasNewsletterBeenCleared = false;
 					appState.isNewsletterActive = true;
 				}}

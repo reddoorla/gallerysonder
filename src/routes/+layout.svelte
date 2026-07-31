@@ -282,7 +282,8 @@
 			Don’t fill this out if you’re human: <input name="bot-field" />
 		</label>
 	</p>
-	<input name="name" type="text" />
+	<!-- No `name` field: the newsletter overlay only collects an email, and an
+	     unpopulated input shipped `name: ""` as a typed column on every lead. -->
 	<input type="email" name="email" />
 	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
 	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />

@@ -31,10 +31,19 @@ export interface AppState {
 		content: string;
 	};
 
-	lockBodyScroll: () => void;
-	unlockBodyScroll: () => void;
+	lockBodyScroll: (owner?: ScrollLockOwner) => void;
+	unlockBodyScroll: (owner?: ScrollLockOwner) => void;
 	prefetchArtwork: (uid: string) => void;
 }
+
+/**
+ * Who is holding the body-scroll lock. Overlays that can be open at the same
+ * time need distinct keys. `lightbox` is owned solely by Lightbox's own effect,
+ * which acquires and releases symmetrically — GridImage opens the lightbox but
+ * deliberately takes no lock of its own.
+ */
+export type ScrollLockOwner =
+	'nav' | 'newsletter' | 'lightbox' | 'cookie-consent' | 'content-width-media';
 
 export function createAppState(): AppState {
 	let isModalActive = $state(false);
@@ -143,8 +152,28 @@ export function createAppState(): AppState {
 		}
 	});
 
-	const lockBodyScroll = () => {
+	// Tracked per owner rather than as a bare boolean: overlays overlap (opening
+	// the newsletter from the nav menu closes the nav, and both run their own
+	// lock/unlock $effect), and a single flag let whichever closed last release a
+	// lock the other still needed — the page scrolled behind an open overlay.
+	//
+	// Keys rather than a counter, because several callers release in an $effect's
+	// else-branch without ever having acquired; deleting an absent key is a no-op,
+	// so the bookkeeping can't drift negative or double-release.
+	//
+	// A plain object, deliberately not a (Svelte)Set: these functions are called
+	// FROM $effects, so reactive reads/writes here would make the nav and
+	// newsletter lock effects invalidate one another. Nothing should subscribe.
+	//
+	// The tradeoff: releasing is now gated on every owner having let go, so a
+	// stranded key is no longer cleared incidentally by some other overlay
+	// closing. Every acquirer must have a guaranteed release path — see the
+	// else-branch in Lightbox's effect and ContentWidthMedia's onDestroy.
+	const scrollLockOwners: Partial<Record<ScrollLockOwner, true>> = {};
+
+	const lockBodyScroll = (owner: ScrollLockOwner = 'nav') => {
 		if (typeof document === 'undefined' || !document.body) return;
+		scrollLockOwners[owner] = true;
 		// Lock only the vertical axis so app.html's `overflow-x: hidden` stays
 		// intact (the `overflow` shorthand would clobber it and flash a horizontal
 		// scrollbar). Nothing shifts sideways when the scrollbar vanishes because
@@ -154,9 +183,11 @@ export function createAppState(): AppState {
 		document.body.style.overflowY = 'hidden';
 	};
 
-	const unlockBodyScroll = () => {
+	const unlockBodyScroll = (owner: ScrollLockOwner = 'nav') => {
 		if (typeof document === 'undefined' || !document.body) return;
-		document.body.style.overflowY = '';
+		delete scrollLockOwners[owner];
+		// Release only once every holder has let go.
+		if (Object.keys(scrollLockOwners).length === 0) document.body.style.overflowY = '';
 	};
 
 	return {

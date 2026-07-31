@@ -14,13 +14,16 @@
 
 	const appState = getAppState();
 
-	// Lock body scroll while either lightbox overlay is open (mirrors closeModal,
-	// which unlocks). Keyed on the same conditions that render the overlays below.
+	// Lock body scroll while either lightbox overlay is open. Symmetric on
+	// purpose: closeModal also releases, but this else-branch covers every other
+	// way the overlay can go away (navigation, state reset elsewhere), so the
+	// lock can't outlive the overlay now that releasing is owner-gated.
 	$effect(() => {
 		const open =
 			(appState.isLightboxActive && appState.activeArtworkUid) ||
 			(!appState.activeArtwork && appState.lightboxImageUrl);
-		if (open) appState.lockBodyScroll();
+		if (open) appState.lockBodyScroll('lightbox');
+		else appState.unlockBodyScroll('lightbox');
 	});
 
 	let submitted = $state(false);
@@ -74,7 +77,7 @@
 		appState.isLightboxActive = false;
 		appState.lightboxImageUrl = '';
 		appState.activeArtworkUid = '';
-		appState.unlockBodyScroll();
+		appState.unlockBodyScroll('lightbox');
 	};
 </script>
 

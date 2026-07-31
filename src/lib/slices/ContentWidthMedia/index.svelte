@@ -54,13 +54,13 @@
 	const openModal = () => {
 		showModal = true;
 		appState.isModalActive = true;
-		appState.lockBodyScroll();
+		appState.lockBodyScroll('content-width-media');
 	};
 
 	const closeModal = () => {
 		showModal = false;
 		appState.isModalActive = false;
-		appState.unlockBodyScroll();
+		appState.unlockBodyScroll('content-width-media');
 	};
 
 	// Derive the slideshow arrays so they react to slice changes (the slice
@@ -98,7 +98,13 @@
 		);
 	};
 
-	onDestroy(() => sliderTimeouts.forEach(clearTimeout));
+	onDestroy(() => {
+		sliderTimeouts.forEach(clearTimeout);
+		// Navigating away with the modal open used to strand the scroll lock: this
+		// component unmounts without closeModal ever running, and releasing is now
+		// owner-gated so no other overlay's close incidentally clears it.
+		if (showModal) appState.unlockBodyScroll('content-width-media');
+	});
 
 	const slideRight = () => {
 		sliderIndex--;

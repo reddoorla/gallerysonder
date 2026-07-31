@@ -83,10 +83,12 @@
 		}
 
 		appState.isLightboxActive = true;
-
-		setTimeout(() => {
-			appState.lockBodyScroll();
-		}, 500);
+		// No scroll lock here on purpose. This used to acquire it behind an
+		// uncancelled 500ms setTimeout, which could re-lock after the lightbox had
+		// already closed and released — leaving the page frozen with nothing on
+		// screen. Lightbox's own $effect is the single owner of the 'lightbox'
+		// lock: it is keyed on exactly the conditions that render the overlay, and
+		// it locks synchronously as soon as this state lands.
 	};
 
 	$effect(function attachScrollListenerForInsetAnimation() {
