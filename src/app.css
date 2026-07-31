@@ -50,6 +50,36 @@
 	--spacing-screen-5: 5vh;
 }
 
+/* Sits the letters ON the bottom edge of a bottom-anchored container, for the
+   hero text stacks (`flex flex-col justify-end`) on every landing page.
+   `justify-end` aligns the text BOX, and a line box carries half-leading plus
+   the font's descent below the baseline, so the letters stop short of the edge.
+   Nudge down by exactly that dead space:
+
+     dead space = half-leading + descent
+                = (line-height - (ascent + descent)) / 2 + descent
+                = line-height / 2 - (ascent - descent) / 2
+
+   `lh` is ONE line's height, so this holds however many lines the title wraps
+   to. The `0.3333em` is (ascent - descent) / 2 for commuters-sans, whose ascent
+   is 0.9583em and descent 0.2917em; it would need remeasuring if the heading
+   face ever changes.
+
+   This replaced `translate-y-[22%] lg:translate-y-[18%]`. A percentage in
+   `translate` resolves against the element's own border box — `lines x
+   line-height` for a heading — so a wrapped title was nudged two or three times
+   too far and its last line fell below the fold. It looked correct only while
+   the title fit on one line, which held on phones (48px type) but not on
+   desktop (80-120px type wraps much sooner).
+
+   Setting `--tw-translate-y` rather than a bare `translate` keeps the sibling
+   `translate-x-*` utilities working: both declarations resolve to the same pair
+   of custom properties, so cascade order between them doesn't matter. */
+@utility baseline-flush {
+	--tw-translate-y: calc(0.5lh - 0.3333em);
+	translate: var(--tw-translate-x) var(--tw-translate-y);
+}
+
 @source inline("{sm:,lg:,xl:}w-{full,4/5,3/4,2/3,1/2,1/3,1/4,1/5}");
 
 @source inline("{sm:,md:,lg:,xl:,}{py,pt,pb}-{0,4,8,16,32}");

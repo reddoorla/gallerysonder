@@ -91,7 +91,7 @@
 	>
 		<h5
 			role="presentation"
-			class="text-white font-thin translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
+			class="text-white baseline-flush font-thin translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}"
@@ -100,7 +100,7 @@
 		</h5>
 		<h5
 			role="presentation"
-			class="text-white translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
+			class="text-white baseline-flush translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}"
@@ -108,13 +108,13 @@
 			{content.artist || ''}
 		</h5>
 
-		<h1 class="mb-0 pb-0 w-fit text-white">
+		<h1 class="mb-0 pb-0 baseline-flush w-fit text-white">
 			{content.title_line_one || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 w-fit text-white">
+		<h1 class="mb-0 pb-0 baseline-flush w-fit text-white">
 			{content.title_line_two || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 w-fit text-white">
+		<h1 class="mb-0 pb-0 baseline-flush w-fit text-white">
 			{content.title_line_three || ''}
 		</h1>
 	</ContentWidth>

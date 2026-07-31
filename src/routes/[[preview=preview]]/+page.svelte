@@ -90,14 +90,14 @@
 <div class="fixed w-screen h-screen-75 bottom-0">
 	<ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity">
 		<span
-			class="text-white dates translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
+			class="text-white baseline-flush dates translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}">{content.dates || ''}</span
 		>
 		<h5
 			role="presentation"
-			class="text-white translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
+			class="text-white baseline-flush translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}"
@@ -111,13 +111,13 @@
 				: 'opacity-0'}"
 		>
 			<AnimateIn>
-				<h1 class="mb-0 pb-0 w-fit text-white">
+				<h1 class="mb-0 pb-0 baseline-flush w-fit text-white">
 					{content.title_line_one || ''}
 				</h1>
-				<h1 class="mb-0 pb-0 w-fit text-white">
+				<h1 class="mb-0 pb-0 baseline-flush w-fit text-white">
 					{content.title_line_two || ''}
 				</h1>
-				<h1 class="mb-0 pb-0 w-fit text-white">
+				<h1 class="mb-0 pb-0 baseline-flush w-fit text-white">
 					{content.title_line_three || ''}
 				</h1>
 			</AnimateIn>

@@ -115,13 +115,13 @@
 			? ''
 			: 'opacity-0'}"
 	>
-		<h1 class="mb-0 pb-0 md: w-fit text-white">
+		<h1 class="mb-0 pb-0 baseline-flush w-fit text-white">
 			{content.title_line_one || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 md: w-fit text-white md:text-nowrap">
+		<h1 class="mb-0 pb-0 baseline-flush w-fit text-white md:text-nowrap">
 			{content.title_line_two || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 md: w-fit text-white">
+		<h1 class="mb-0 pb-0 baseline-flush w-fit text-white">
 			{content.title_line_three || ''}
 		</h1>
 	</ContentWidth>
