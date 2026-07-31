@@ -87,7 +87,7 @@
 	<ContentWidth class="h-full flex flex-col justify-end items-start transition-opacity ">
 		<h5
 			role="presentation"
-			class="text-white font-light translate-y-[22%] lg:translate-y-[18%] translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
+			class="text-white font-light baseline-flush translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
 				: 'opacity-0'}"
@@ -95,24 +95,21 @@
 			{content.dates || ''}
 		</h5>
 		<h1
-			class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
-			!isBackgroundDark
+			class="mb-0 pb-0 baseline-flush w-fit text-white {showEyebrow && !isBackgroundDark
 				? ''
 				: 'opacity-0'}"
 		>
 			{content.title_line_one || ''}
 		</h1>
 		<h1
-			class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
-			!isBackgroundDark
+			class="mb-0 pb-0 baseline-flush w-fit text-white {showEyebrow && !isBackgroundDark
 				? ''
 				: 'opacity-0'}"
 		>
 			{content.title_line_two || ''}
 		</h1>
 		<h1
-			class="mb-0 pb-0 translate-y-[22%] lg:translate-y-[18%] w-fit text-white {showEyebrow &&
-			!isBackgroundDark
+			class="mb-0 pb-0 baseline-flush w-fit text-white {showEyebrow && !isBackgroundDark
 				? ''
 				: 'opacity-0'}"
 		>

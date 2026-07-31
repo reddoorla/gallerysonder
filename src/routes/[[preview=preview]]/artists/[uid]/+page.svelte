@@ -115,13 +115,17 @@
 			? ''
 			: 'opacity-0'}"
 	>
-		<h1 class="mb-0 pb-0 md:translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+		<!-- baseline-flush is md-and-up here by choice, not an oversight: phone
+		     viewports vary too much for sitting these titles on the very edge to
+		     read well, so below md they keep the default `justify-end` gap. The
+		     other heroes take the nudge at every width. -->
+		<h1 class="mb-0 pb-0 md:baseline-flush w-fit text-white">
 			{content.title_line_one || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 md:translate-y-[22%] lg:translate-y-[18%] w-fit text-white md:text-nowrap">
+		<h1 class="mb-0 pb-0 md:baseline-flush w-fit text-white md:text-nowrap">
 			{content.title_line_two || ''}
 		</h1>
-		<h1 class="mb-0 pb-0 md:translate-y-[22%] lg:translate-y-[18%] w-fit text-white">
+		<h1 class="mb-0 pb-0 md:baseline-flush w-fit text-white">
 			{content.title_line_three || ''}
 		</h1>
 	</ContentWidth>
