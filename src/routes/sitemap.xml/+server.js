@@ -8,13 +8,24 @@ import { SITE_URL } from '$lib/site';
 // Prerendered alongside the rest of the site, so it's a static file Netlify serves.
 export const prerender = true;
 
-// Internal demo/scratch `page` docs that must NOT be advertised to crawlers — or to
-// the fleet uptime audit, which samples its routes from this sitemap. 2026-07-16:
+// Internal demo/scratch docs that must NOT be advertised to crawlers — or to the
+// fleet uptime audit, which samples its routes from this sitemap. 2026-07-16:
 // /cms-demo carries an intentional dead demo link (`artist_page` override →
 // /artists/link-override, no such artist) that the nightly browser audit flagged as
 // a broken link every run. The pages stay reachable at their URLs for anyone with
 // the link; they're just no longer advertised as canonical content.
-const INTERNAL_PAGE_UIDS = new Set(['cms-demo', 'vimeo-demo', 'test']);
+//
+// Keyed by document type, because the same scratch uid means different things in
+// different types. Until 2026-07-31 this only filtered `page`, so `essay:test`
+// (/essays/test) and `news:test-one` (/news/test-one) were both being indexed as
+// real content. Unpublishing them in Prismic is the better cure — this only stops
+// us advertising them.
+/** @type {Record<string, Set<string>>} */
+const INTERNAL_UIDS_BY_TYPE = {
+	page: new Set(['cms-demo', 'vimeo-demo', 'test']),
+	essay: new Set(['test']),
+	news: new Set(['test-one'])
+};
 
 // Prismic document type -> public path. Keep in sync with the route folders under
 // src/routes/[[preview=preview]]/ (note: type 'exhibit' lives at /exhibitions).
@@ -36,7 +47,7 @@ export async function GET({ fetch }) {
 	for (const doc of docs) {
 		const build = TYPE_PATHS[doc.type];
 		if (!build || !doc.uid) continue;
-		if (doc.type === 'page' && INTERNAL_PAGE_UIDS.has(doc.uid)) continue;
+		if (INTERNAL_UIDS_BY_TYPE[doc.type]?.has(doc.uid)) continue;
 		const loc = SITE_URL + build(doc.uid);
 		const lastmod = doc.last_publication_date?.slice(0, 10);
 		urls.push(
