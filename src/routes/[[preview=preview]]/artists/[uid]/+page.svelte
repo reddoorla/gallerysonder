@@ -21,11 +21,23 @@
 
 	let content = $derived(data.page.data);
 
-	let heroAlt = $derived(
+	let titleLines = $derived(
 		[content.title_line_one, content.title_line_two, content.title_line_three]
+			.map((line) => (typeof line === 'string' ? line.trim() : ''))
 			.filter(Boolean)
-			.join(' ')
-			.trim()
+	);
+
+	let heroAlt = $derived(titleLines.join(' ').trim());
+
+	// The hero renders one <h1> per title line. An artist can clear
+	// artistHasPublicPage() on a hero image or a slice alone — an editor uploading
+	// the background before writing the title is the ordinary case — and then the
+	// hero had three EMPTY headings over the image. Fall back to the name, which
+	// is set on every artist doc, so a page we agree to serve always says whose it
+	// is. Split so a two-word name still breaks across lines the way the CMS
+	// title lines do.
+	let heroLines = $derived(
+		titleLines.length ? titleLines : (content.full_name || '').trim().split(/\s+/).filter(Boolean)
 	);
 
 	// Person structured data for artist rich results (name from full_name, no
@@ -119,15 +131,11 @@
 		     viewports vary too much for sitting these titles on the very edge to
 		     read well, so below md they keep the default `justify-end` gap. The
 		     other heroes take the nudge at every width. -->
-		<h1 class="mb-0 pb-0 md:baseline-flush w-fit text-white">
-			{content.title_line_one || ''}
-		</h1>
-		<h1 class="mb-0 pb-0 md:baseline-flush w-fit text-white md:text-nowrap">
-			{content.title_line_two || ''}
-		</h1>
-		<h1 class="mb-0 pb-0 md:baseline-flush w-fit text-white">
-			{content.title_line_three || ''}
-		</h1>
+		{#each heroLines as line, i (i)}
+			<h1 class="mb-0 pb-0 md:baseline-flush w-fit text-white {i === 1 ? 'md:text-nowrap' : ''}">
+				{line}
+			</h1>
+		{/each}
 	</ContentWidth>
 </div>
 {#key data}

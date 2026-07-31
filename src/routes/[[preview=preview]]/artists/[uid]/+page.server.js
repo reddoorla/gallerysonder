@@ -1,7 +1,6 @@
 import { createClient } from '$lib/prismicio';
 import { resolveGalleries, resolveNameLists } from '$lib/utils/gallery';
 import { artistHasPublicPage } from '$lib/utils/prismic';
-import { cookie as prismicCookie } from '@prismicio/client';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params, fetch, cookies, depends }) {
@@ -14,9 +13,23 @@ export async function load({ params, fetch, cookies, depends }) {
 
 	// Roster stubs (a name and nothing else) have no page to show — serving one
 	// renders an empty hero over a blank screen. Treat them as not-yet-published.
-	// Exempt Prismic preview sessions: an editor filling the doc in has to be able
-	// to see it before the first field lands.
-	if (!artistHasPublicPage(page.data) && !cookies.get(prismicCookie.preview)) {
+	//
+	// Deliberately NOT exempted for Prismic preview sessions. An earlier revision
+	// skipped this when the `io.prismic.preview` cookie was present, which bought
+	// nothing and cost three things:
+	//   - it keyed off the cookie's mere presence, so any stale or hand-set value
+	//     served the blank page with a 200 to a scripted client;
+	//   - in a browser the toolbar mounts on that same cookie, finds no live
+	//     session, deletes it and reloads — so the page painted and then rewrote
+	//     itself as "Page not found" a second later, URL unchanged;
+	//   - the cookie is SameSite=Lax, so it is withheld when Prismic frames the
+	//     site (netlify.toml allows `frame-ancestors https://*.prismic.io`), and
+	//     the exemption would not have applied in the editor's iframe anyway.
+	// It bought nothing because a LIVE preview session already queries the preview
+	// ref: a draft with any slice, hero image or title line passes the check on its
+	// own content and renders. The only case the exemption covered was previewing a
+	// draft that is still completely empty — which has nothing to show either way.
+	if (!artistHasPublicPage(page.data)) {
 		throw error(404, 'Artist not found');
 	}
 
