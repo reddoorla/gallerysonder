@@ -54,9 +54,20 @@ function focusable(node: HTMLElement): HTMLElement[] {
 	);
 }
 
+// Overlays legitimately stack: the cookie-consent gate appears on a timer and
+// can land on top of an already-open newsletter, nav menu or lightbox. Two
+// simultaneously active traps fight — each one's `focusin` recovery yanks focus
+// straight back out of the other, and whichever is visually on top ends up
+// keyboard-unreachable. Only the most recently activated trap governs the
+// document; the ones beneath stay registered (so they resume when it closes)
+// but ignore events.
+const trapStack: symbol[] = [];
+
 export function trapFocus(node: HTMLElement, options: TrapFocusOptions = {}) {
 	let opts = options;
 	let active = false;
+	const token = Symbol('trapFocus');
+	const isTopmost = () => trapStack[trapStack.length - 1] === token;
 	// What had focus before the overlay opened, so we can restore it on close.
 	let previouslyFocused: HTMLElement | null = null;
 
@@ -74,6 +85,7 @@ export function trapFocus(node: HTMLElement, options: TrapFocusOptions = {}) {
 	};
 
 	const onKeydown = (e: KeyboardEvent) => {
+		if (!isTopmost()) return;
 		if (e.key === 'Escape' && opts.onEscape) {
 			e.preventDefault();
 			opts.onEscape();
@@ -105,6 +117,7 @@ export function trapFocus(node: HTMLElement, options: TrapFocusOptions = {}) {
 	// programmatic focus, …) — pull it back in. Skipped when the overlay has no
 	// focusable children, for the same 2.1.2 reason the Tab trap is (see header).
 	const onFocusin = (e: FocusEvent) => {
+		if (!isTopmost()) return;
 		if (node.contains(e.target as Node)) return;
 		if (focusable(node).length === 0) return;
 		moveFocusIn();
@@ -113,6 +126,7 @@ export function trapFocus(node: HTMLElement, options: TrapFocusOptions = {}) {
 	const activate = () => {
 		if (active) return;
 		active = true;
+		trapStack.push(token);
 		previouslyFocused = document.activeElement as HTMLElement | null;
 		// Defer past the open transition so the element is laid out before focusing.
 		requestAnimationFrame(() => {
@@ -127,6 +141,8 @@ export function trapFocus(node: HTMLElement, options: TrapFocusOptions = {}) {
 	const deactivate = () => {
 		if (!active) return;
 		active = false;
+		const at = trapStack.lastIndexOf(token);
+		if (at !== -1) trapStack.splice(at, 1);
 		document.removeEventListener('keydown', onKeydown);
 		document.removeEventListener('focusin', onFocusin);
 		// Defer a frame so a trigger that re-mounts on close exists before we focus

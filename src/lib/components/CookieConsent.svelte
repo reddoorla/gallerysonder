@@ -4,6 +4,7 @@
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import ContentWidth from './ContentWidth.svelte';
 	import { fade } from 'svelte/transition';
+	import { trapFocus } from '$lib/utils/trapFocus';
 
 	const appState = getAppState();
 
@@ -106,7 +107,21 @@
 </script>
 
 {#if showModal}
-	<div class="w-screen h-screen fixed top-0 left-0 z-50" transition:fade>
+	<!-- No `onEscape`: this is a consent gate, not a dismissible overlay — the
+	     visitor has to pick Accept or Reject. That is not a WCAG 2.1.2 keyboard
+	     trap, because both buttons are reachable by Tab and activating either one
+	     closes the modal. The trap itself matters because this appears on a timer
+	     and can land on top of an already-open overlay (newsletter, nav, lightbox);
+	     trapFocus only lets the topmost trap govern, so focus follows the gate. -->
+	<div
+		class="w-screen h-screen fixed top-0 left-0 z-50"
+		transition:fade
+		use:trapFocus
+		role="dialog"
+		aria-modal="true"
+		aria-label="Cookie consent"
+		tabindex="-1"
+	>
 		<div class="w-full h-full absolute top-0 left-0 blur-sm backdrop-blur-sm bg-black/40"></div>
 		<ContentWidth class="relative z-10 flex justify-center md:justify-end h-full flex-col pb-5">
 			<div
