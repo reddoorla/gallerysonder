@@ -11,7 +11,7 @@
 	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
 	import { shapeMargin } from '$lib/actions/shapeMargin';
 	import { onMount } from 'svelte';
-	import { fetchFromRelationship } from '$lib/utils/prismic';
+	import { artistHasPublicPage, fetchFromRelationship } from '$lib/utils/prismic';
 
 	const appState = getAppState();
 
@@ -51,10 +51,13 @@
 					artistData.color = fetchedArtist.artist_color;
 				}
 
+				// Only auto-link artists who have a page; a roster stub's route 404s.
+				// An explicit `artist_page` override still wins.
 				if (
 					!isFilled.link(item.artist_page) &&
 					isFilled.contentRelationship(item.artist) &&
-					item.artist.uid
+					item.artist.uid &&
+					artistHasPublicPage(fetchedArtist)
 				) {
 					artistData.link = {
 						link_type: 'Web',
