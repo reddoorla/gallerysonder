@@ -29,7 +29,7 @@
 			// Lock together with the modal appearing — locking 3s early left the
 			// page visibly interactive but unscrollable with nothing on screen.
 			setTimeout(() => {
-				appState.lockBodyScroll();
+				appState.lockBodyScroll('cookie-consent');
 				showModal = true;
 			}, 3000);
 		}
@@ -88,13 +88,13 @@
 		saveConsent(true);
 		loadAnalytics();
 		showModal = false;
-		appState.unlockBodyScroll();
+		appState.unlockBodyScroll('cookie-consent');
 	}
 
 	function rejectCookies() {
 		saveConsent(false);
 		showModal = false;
-		appState.unlockBodyScroll();
+		appState.unlockBodyScroll('cookie-consent');
 	}
 
 	function saveConsent(accepted: boolean) {
