@@ -1,5 +1,7 @@
 import { createClient } from '$lib/prismicio';
 import { resolveGalleries, resolveNameLists } from '$lib/utils/gallery';
+import { artistHasPublicPage } from '$lib/utils/prismic';
+import { cookie as prismicCookie } from '@prismicio/client';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params, fetch, cookies, depends }) {
@@ -9,6 +11,14 @@ export async function load({ params, fetch, cookies, depends }) {
 	const page = await client.getByUID('artist', params.uid).catch(() => {
 		throw error(404, 'Artist not found');
 	});
+
+	// Roster stubs (a name and nothing else) have no page to show — serving one
+	// renders an empty hero over a blank screen. Treat them as not-yet-published.
+	// Exempt Prismic preview sessions: an editor filling the doc in has to be able
+	// to see it before the first field lands.
+	if (!artistHasPublicPage(page.data) && !cookies.get(prismicCookie.preview)) {
+		throw error(404, 'Artist not found');
+	}
 
 	await Promise.all([
 		resolveGalleries(client, page.data.slices),
@@ -38,7 +48,7 @@ export async function load({ params, fetch, cookies, depends }) {
 export async function entries() {
 	const client = createClient();
 	const pages = await client.getAllByType('artist');
-	return pages.map((page) => {
-		return { uid: page.uid };
-	});
+	// Skip the stubs the load throws 404 for, so prerendering doesn't spend a pass
+	// on pages that will never be served.
+	return pages.filter((page) => artistHasPublicPage(page.data)).map((page) => ({ uid: page.uid }));
 }
