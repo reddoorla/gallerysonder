@@ -177,9 +177,15 @@ layouts can't drift apart (they did during earlier fixes). -->
 {/snippet}
 
 {#if href || !willOpen}
+	<!-- href={href || undefined} rather than {href}: an unfilled CMS link arrives as
+		 "" and `<a href="">` points at the CURRENT page, so a card with no destination
+		 became a focusable control that silently reloaded. Omitting the attribute
+		 leaves the layout identical but makes it a non-link <a> — not focusable, which
+		 is also what makes the aria-hidden below legitimate rather than a violation
+		 (aria-hidden on a focusable element is itself an axe failure). -->
 	<a
 		bind:this={linkRef}
-		{href}
+		href={href || undefined}
 		class="flex-grow-0 flex flex-col items-left clip-transition no-underline {href
 			? ''
 			: 'pointer-events-none'} {className}"

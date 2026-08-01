@@ -18,6 +18,14 @@
 
 	const formattedSlicesSections = slicesSections.map((section) => section);
 
+	// A slice with no section name contributed an entry here, which rendered as
+	// `<a href="#">` with no link text — a keyboard-focusable link with no
+	// accessible name (WCAG 2.4.4 / 4.1.2), not just a dead anchor. The nav is
+	// purely a jump list, so an unnamed section has nothing to offer it.
+	let namedSections = $derived(
+		sections.filter((section) => typeof section === 'string' && section.trim() !== '')
+	);
+
 	let fixedNav = $state<HTMLElement | undefined>(undefined);
 
 	let isFixedNavShown = $state(false);
@@ -74,7 +82,7 @@
 				? 'pointer-events-auto transition-opacity'
 				: 'pointer-events-none opacity-0'}"
 		>
-			{#each sections as section, i (i)}
+			{#each namedSections as section, i (i)}
 				{#if viewportWidth > 1024}
 					<a
 						class="floating-links no-underline uppercase

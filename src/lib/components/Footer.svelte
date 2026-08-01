@@ -59,11 +59,18 @@
 				<a href="/" class="flex w-fit items-center h-6">
 					<img src={logoExtendedE} alt="Gallery Sonder home" class="h-3 brightness-0 invert" />
 				</a>
+				<!-- The phone number and email are links, not text: this is the only place
+					 either appears on the site, and as plain text the number could not be
+					 tapped on a phone. `no-underline text-inherit` keeps them looking exactly
+					 as before (the site styles every link that way) while making them real
+					 contact points for browsers and crawlers. -->
 				<div style="color:{appState.backgroundColor}">
 					3435 E Coast Highway, <br />
 					Corona del Mar, CA 92625 <br />
-					(949) 662-0077 <br />
-					info@gallerysonder.com
+					<a href="tel:+19496620077" class="no-underline text-inherit">(949) 662-0077</a> <br />
+					<a href="mailto:info@gallerysonder.com" class="no-underline text-inherit"
+						>info@gallerysonder.com</a
+					>
 				</div>
 			</div>
 			<div class="text-white text-xs md:text-md mb-8 md:mb-0">
