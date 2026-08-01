@@ -16,51 +16,49 @@ import { test, expect, type Page } from '@playwright/test';
 // geometry, the trigger is the same attribute write, so all three are covered here.
 const PAGES = ['/', '/about', '/artists'];
 
-/** Scroll until at least `want` name images are on screen, and return their centres. */
-async function nameCentres(page: Page, want = 2) {
-	let boxes: Array<{ x: number; y: number; alt: string }> = [];
-	for (let i = 0; i < 25; i++) {
-		boxes = await page.evaluate(() =>
-			Array.from(document.querySelectorAll('a:has(img), button:has(img)'))
-				.map((e) => {
-					const r = e.getBoundingClientRect();
-					const img = e.querySelector('img');
-					return {
-						x: r.x + r.width / 2,
-						y: r.y + r.height / 2,
-						w: r.width,
-						h: r.height,
-						alt: img?.alt ?? ''
-					};
-				})
-				// Name images only: wide, short, and captioned with the artist's name.
-				.filter(
-					(b) =>
-						b.y > 120 &&
-						b.y < 700 &&
-						b.w > 60 &&
-						b.h < 200 &&
-						b.alt !== '' &&
-						b.alt !== 'link arrow'
-				)
-				.map(({ x, y, alt }) => ({ x, y, alt }))
-		);
-		if (boxes.length >= want) break;
-		await page.mouse.wheel(0, 600);
-		await page.waitForTimeout(250);
+// The NameRevealOnHover wrapper signature: an <a>/<button> holding the name image,
+// with `w-fit` and the component's `ease-fast-slow` easing. Two earlier attempts at
+// this got it wrong and are worth not repeating — hunting by geometry found nothing
+// in CI (the list sits lower there than locally), and matching on `brightness-0`
+// also caught the nav logo, so `.first()` scrolled to a header element that was
+// already in view and the names stayed below the fold.
+const NAME = 'a.ease-fast-slow.w-fit:has(img), button.ease-fast-slow.w-fit:has(img)';
+
+/** Walk the list once so every lazy image loads before the observer is installed —
+ *  an image arriving mid-test is a real shift, just not the one under test. */
+async function settleList(page: Page, names: ReturnType<Page['locator']>, count: number) {
+	for (let i = 0; i < count; i++) {
+		await names
+			.nth(i)
+			.scrollIntoViewIfNeeded()
+			.catch(() => {});
 	}
-	return boxes;
+	// Scrolling can pop the newsletter overlay, which then covers the list.
+	const newsletter = page.getByRole('dialog', { name: 'Newsletter signup' });
+	if (await newsletter.isVisible().catch(() => false)) {
+		await page.keyboard.press('Escape');
+		await newsletter.waitFor({ state: 'hidden', timeout: 2000 }).catch(() => {});
+	}
+	await page.waitForTimeout(800);
 }
 
 for (const path of PAGES) {
 	test(`${path}: hovering the name list does not shift the layout`, async ({ page }) => {
+		// Pre-answer cookie consent (same approach as newsletter.spec.ts): `.env` is
+		// untracked, so in CI the modal appears 3s in, locks body scroll and would
+		// stop this test ever reaching the list. 'false' dismisses it without opting
+		// into analytics.
+		await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
 		await page.goto(path, { waitUntil: 'load' });
 		// Let the hero and lazy images settle so their loads aren't counted as
 		// hover-induced shifts.
 		await page.waitForTimeout(2500);
 
-		const names = await nameCentres(page);
-		expect(names.length, `expected name images on ${path}`).toBeGreaterThanOrEqual(2);
+		const names = page.locator(NAME);
+		const found = await names.count();
+		expect(found, `expected name images on ${path}`).toBeGreaterThanOrEqual(2);
+		const toHover = Math.min(found, 5);
+		await settleList(page, names, toHover);
 
 		// Start observing only now — everything above is page load, not hover.
 		await page.evaluate(() => {
@@ -85,8 +83,10 @@ for (const path of PAGES) {
 			}).observe({ type: 'layout-shift', buffered: false });
 		});
 
-		for (const n of names.slice(0, 5)) {
-			await page.mouse.move(n.x, n.y);
+		// locator.hover() scrolls the target into view itself — and scrolling is not a
+		// layout shift as far as the API is concerned, so it cannot pollute the result.
+		for (let i = 0; i < toHover; i++) {
+			await names.nth(i).hover();
 			await page.waitForTimeout(300);
 		}
 		// Off the list, and past the 1s background transition.
