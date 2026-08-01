@@ -260,9 +260,13 @@
 										     untouched submission shipped `role: ''`. Disabled so it can't
 										     be picked again once answered. -->
 										<option value="" disabled>Select one…</option>
+										<!-- Every value is its own label. "Experienced Collector" submitted the
+										     lowercase token `experienced` — leftover of a half-finished
+										     token→label migration — so this one field arrived downstream in two
+										     different vocabularies depending on which option was picked. -->
 										<option value="First Time Buyer">First Time Buyer</option>
 										<option value="Occasional Buyer">Occasional Buyer</option>
-										<option value="experienced">Experienced Collector</option>
+										<option value="Experienced Collector">Experienced Collector</option>
 										<option value="Art Advisor">Art Advisor</option>
 										<option value="Curator">Curator</option>
 										<option value="Art Enthusiast">Art Enthusiast</option>
