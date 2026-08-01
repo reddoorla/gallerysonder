@@ -4,9 +4,38 @@
 
 	import logoExtendedE from '$lib/assets/icons/sonderLogosExtended/SONDER_E.svg';
 
+	import { page } from '$app/stores';
+	import type { NavDocumentDataLinksItem } from '../../prismicio-types';
+	import { isFilled } from '@prismicio/client';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 
 	const appState = getAppState();
+
+	// The same Prismic `nav` document the menu uses, read off layout data rather
+	// than threaded through as a prop — Footer is mounted by seven page components
+	// and none of them should have to know about navigation.
+	//
+	// This exists because the menu's links live inside `{#if showNav}`, so the
+	// served HTML contained no anchor to /about or /advisory at all until a visitor
+	// clicked the hamburger. Those pages were in the sitemap but carried no internal
+	// link equity and no anchor text, and crawlers that don't run JS could not reach
+	// them. Rendering the same list here — visible, server-rendered, on every page —
+	// fixes that without touching the menu's focus trap or scroll lock.
+	//
+	// Driven off the CMS document, not a hardcoded list, so the footer can never
+	// drift from the menu. `active_link.alt` is the label the menu uses too; it is
+	// null on at least one entry today, hence the uid fallback.
+	let navLinks = $derived(
+		(($page.data?.nav?.data?.links ?? []) as NavDocumentDataLinksItem[])
+			.filter((item) => isFilled.link(item.link))
+			.map((item) => ({
+				// A Document link resolves through the route resolver in prismicio.js;
+				// `uid` is the label fallback because at least one entry has no image alt.
+				href: 'url' in item.link ? (item.link.url ?? '') : '',
+				label: item.active_link?.alt || ('uid' in item.link ? (item.link.uid ?? '') : '')
+			}))
+			.filter((l) => l.href !== '' && l.label !== '')
+	);
 </script>
 
 <div aria-hidden="true" class="w-full -z-10 -mt-[40vw] object-cover use-gpu">
@@ -73,6 +102,19 @@
 					>
 				</div>
 			</div>
+			{#if navLinks.length}
+				<!-- aria-label because this is the second navigation landmark on the page
+					 (the menu is the first) and they have to be tellable apart. -->
+				<nav aria-label="Footer" class="flex flex-wrap gap-x-6 gap-y-2 md:mb-1">
+					{#each navLinks as link (link.href)}
+						<a
+							href={link.href}
+							class="no-underline uppercase text-white text-xs md:text-md tracking-[1.5px] hover:text-accent-pink transition-colors"
+							>{link.label}</a
+						>
+					{/each}
+				</nav>
+			{/if}
 			<div class="text-white text-xs md:text-md mb-8 md:mb-0">
 				©{new Date().getFullYear()} &nbsp;&nbsp;|&nbsp;&nbsp; All Rights Reserved
 			</div>
