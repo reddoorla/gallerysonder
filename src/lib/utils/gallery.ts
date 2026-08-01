@@ -1,5 +1,6 @@
 import { isFilled, type Client, type Slice } from '@prismicio/client';
 import type { LinkField, ImageField, KeyTextField } from '@prismicio/client';
+import { artistHasPublicPage } from './prismic';
 import type {
 	AllDocumentTypes,
 	ImageGallerySlice,
@@ -247,7 +248,10 @@ async function resolveNameListItems(client: Client, slice: NameListSlice): Promi
 					if (!item.artist_color && fetchedArtist.artist_color) {
 						data.color = fetchedArtist.artist_color;
 					}
-					if (!isFilled.link(item.artist_page)) {
+					// Only auto-link artists who have a page; a roster stub's route 404s.
+					// An explicit `artist_page` override still wins — that's the editor
+					// pointing somewhere deliberately.
+					if (!isFilled.link(item.artist_page) && artistHasPublicPage(fetchedArtist)) {
 						data.link = { link_type: 'Web', url: '/artists/' + item.artist.uid };
 					}
 				}

@@ -10,6 +10,7 @@
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
 	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
 	import { trapFocus } from '$lib/utils/trapFocus';
+	import { artistHasPublicPage } from '$lib/utils/prismic';
 	import { X, LoaderCircle } from '@lucide/svelte';
 
 	const appState = getAppState();
@@ -149,12 +150,20 @@
 				>
 					{#if !appState.showInquiryForm}
 						{#if appState.activeArtist}
-							<a
-								onclick={closeModal}
-								class="cursor-pointer hover:opacity-80 transition uppercase no-underline"
-								href="/artists/{appState.activeArtist.uid}"
-								><h5><b>{appState.activeArtist.data.full_name}</b></h5></a
-							>
+							{@const artist = appState.activeArtist}
+							<!-- Credit the artist either way, but only link when there is a page
+							     to land on. Roughly half the artist docs are roster stubs that
+							     exist purely as a relationship target for their artworks; their
+							     route 404s, so linking one would be a dead end. -->
+							{#if artistHasPublicPage(artist.data)}
+								<a
+									onclick={closeModal}
+									class="cursor-pointer hover:opacity-80 transition uppercase no-underline"
+									href="/artists/{artist.uid}"><h5><b>{artist.data.full_name}</b></h5></a
+								>
+							{:else}
+								<h5 class="uppercase"><b>{artist.data.full_name}</b></h5>
+							{/if}
 						{/if}
 						<div class="flex flex-col gap-1">
 							{#if appState.activeArtwork.data.title}
