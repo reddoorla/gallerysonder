@@ -254,6 +254,12 @@
 										class="border-2 border-mid p-2 mb-8 cursor-pointer"
 										bind:value={formRole}
 									>
+										<!-- Explicit empty option. `formRole` starts as '' and no option
+										     carried that value, so the select rendered with selectedIndex
+										     -1: a blank box that doesn't read as a question, and every
+										     untouched submission shipped `role: ''`. Disabled so it can't
+										     be picked again once answered. -->
+										<option value="" disabled>Select one…</option>
 										<option value="First Time Buyer">First Time Buyer</option>
 										<option value="Occasional Buyer">Occasional Buyer</option>
 										<option value="experienced">Experienced Collector</option>

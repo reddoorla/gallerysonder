@@ -1,6 +1,8 @@
 export interface FormSubmissionResult {
 	success: boolean;
 	status: number;
+	/** Server-supplied reason for a failure, when it sent one. */
+	error?: string;
 }
 
 // Legacy `form-name` marker → ingest formType. Only `news` differs.
@@ -64,9 +66,28 @@ export async function submitForm(
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(payload)
 		});
-		return { success: response.ok, status: response.status };
-	} catch {
+		if (response.ok) return { success: true, status: response.status };
+
+		// Log the status and the server's reason. Callers only render a generic
+		// "there appears to be an error", and every distinguishing detail used to be
+		// dropped here — so a report of "the form is broken" left nothing to work
+		// from, even though /api/forms fails for three very different reasons:
+		//   400 malformed/unknown formType · 500 ingest env vars missing on this
+		//   deploy (previews, fresh clones) · 502 the central ingest rejected it.
+		// The 502 branch also logs `[forms-ingest] <type> → <status>` server-side,
+		// in the Netlify function log.
+		const reason = await response
+			.clone()
+			.json()
+			.then((b) => (b && typeof b.error === 'string' ? b.error : ''))
+			.catch(() => '');
+		console.error(
+			`[forms] ${formType} submission failed: HTTP ${response.status}${reason ? ` — ${reason}` : ''}`
+		);
+		return { success: false, status: response.status, error: reason || undefined };
+	} catch (err) {
 		// Network error / offline — surface as a failure so the email fallback fires.
+		console.error(`[forms] ${formType} submission could not reach /api/forms: ${String(err)}`);
 		return { success: false, status: 0 };
 	}
 }
