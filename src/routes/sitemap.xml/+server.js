@@ -4,6 +4,7 @@ import { createClient } from '$lib/prismicio';
 // sitemap kept emitting www after the apex migration moved site.ts to the apex.
 // Importing it here keeps the sitemap in lockstep with canonical/og/JSON-LD.
 import { SITE_URL } from '$lib/site';
+import { artistHasPublicPage } from '$lib/utils/prismic';
 
 // Prerendered alongside the rest of the site, so it's a static file Netlify serves.
 export const prerender = true;
@@ -37,6 +38,13 @@ export async function GET({ fetch }) {
 		const build = TYPE_PATHS[doc.type];
 		if (!build || !doc.uid) continue;
 		if (doc.type === 'page' && INTERNAL_PAGE_UIDS.has(doc.uid)) continue;
+		// Roster stubs — an artist doc with a name and nothing else. Their route
+		// 404s (see artists/[uid]/+page.server.js), so advertising them would point
+		// crawlers, and the fleet uptime audit, at dead URLs.
+		// Roster stubs — an artist doc with a name and nothing else. Their route
+		// 404s (see artists/[uid]/+page.server.js), so advertising them would point
+		// crawlers, and the fleet uptime audit, at dead URLs.
+		if (doc.type === 'artist' && !artistHasPublicPage(doc.data)) continue;
 		const loc = SITE_URL + build(doc.uid);
 		const lastmod = doc.last_publication_date?.slice(0, 10);
 		urls.push(
