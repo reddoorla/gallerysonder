@@ -81,7 +81,7 @@
 	class="relative w-full transition duration-1000 md:bg-transparent {slice.primary.shape_top === '1'
 		? 'lg:mt-[100vh]'
 		: ''} {slice.primary.hide ? 'hidden' : ''}"
-	style="background-color: {appState.backgroundColor} "
+	style:background-color={appState.backgroundColor}
 >
 	{#if shaped}<div class="absolute left-0 top-0 w-screen -translate-y-[99%]">
 			<TopShape shapeNumber={slice.primary.shape_top || '0'} />
