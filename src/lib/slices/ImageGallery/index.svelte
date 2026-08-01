@@ -36,7 +36,7 @@
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
 	class="relative w-screen use-gpu transition duration-1000 {slice.primary.hide ? 'hidden' : ''}"
-	style="background-color: {appState.backgroundColor}"
+	style:background-color={appState.backgroundColor}
 >
 	{#if shaped}<div class="absolute left-0 top-0 w-screen -translate-y-[98%]">
 			<TopShape shapeNumber={slice.primary.shape_top || ''} />

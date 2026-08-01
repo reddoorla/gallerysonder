@@ -82,11 +82,19 @@
 
 <TopShapeSpacer shapeNumber={slice.primary.shape_top || '0'} />
 
+<!-- The background colour uses the `style:` DIRECTIVE, never style="background-color:{…}".
+	 Svelte writes an interpolated style attribute by assigning the whole attribute, and
+	 assigning `style` wipes every other inline property on the element — including the
+	 `--shape-base` that `use:shapeMargin` measures and sets with setProperty. Hovering a
+	 name changes this colour, so every hover erased the custom property, collapsed
+	 `margin-top: calc(var(--shape-base) + var(--shape-margin))` and dropped the section
+	 ~62px, after which the resize observer recomputed and snapped it back. The directive
+	 compiles to setProperty and leaves the rest of the inline style alone. -->
 <section
 	use:shapeMargin
 	class="relative w-full use-gpu transition-all duration-1000 {slice.primary.hide ? 'hidden' : ''}"
 	id={slice.primary.sectionLabel}
-	style="background-color:{appState.backgroundColor};"
+	style:background-color={appState.backgroundColor}
 >
 	{#if shaped}
 		<div class="absolute left-0 top-0 w-screen -translate-y-[99%]">
