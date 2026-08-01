@@ -127,6 +127,9 @@
 				</a>
 			</div>
 			{#each navProps as link, i (i)}
+				<!-- href falls back to '' not '#': NameRevealOnHover renders a plain button
+					 when href is empty, whereas href="#" is a real link that jumps to the top
+					 of the page. An unfilled nav entry should not be a link at all. -->
 				<NameRevealOnHover
 					activeImage={link.active_link.url || ''}
 					label={link.active_link.alt ||
@@ -137,7 +140,7 @@
 						appState.backgroundColor = link.active_color || '#E4EEEA';
 					}}
 					onmouseout={() => (appState.backgroundColor = '#E4EEEA')}
-					href={isFilled.link(link.link) ? link.link.url : '#'}
+					href={isFilled.link(link.link) ? link.link.url : ''}
 					class="h-4 sm:h-6 md:h-10 lg:h-12"
 					onclick={() => {
 						setTimeout(() => (showNav = false));

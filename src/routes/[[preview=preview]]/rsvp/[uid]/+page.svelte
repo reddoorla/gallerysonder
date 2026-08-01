@@ -65,8 +65,13 @@
 			<div class="text-white ml-0.5">{data.page.data.dates || ''}</div>
 			<h2 class="text-white">{data.page.data.name || toTitleCase(data.page.uid)}</h2>
 
+			<!-- fallbackAlt="" because the event name is already the adjacent <h2>: the
+				 image adds nothing a screen reader needs to hear twice. Without it
+				 PrismicImage emits NO alt attribute at all when the CMS alt is null
+				 (5 of the 7 rsvp documents), which axe rates a critical violation. -->
 			<PrismicImage
 				field={data.page.data.image}
+				fallbackAlt=""
 				class="w-full md:w-4/5 mt-4 rounded-sm h-full max-h-[50vh] object-cover"
 			/>
 
