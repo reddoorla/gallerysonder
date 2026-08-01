@@ -22,4 +22,37 @@ export type SmokeRoute = {
 	expectStatus?: number;
 };
 
-export const smokeRoutes: SmokeRoute[] = [{ path: '/', name: 'home', hydrationMarker: 'footer' }];
+// One route per family. Both `pages.spec.ts` (status + hydration + console) and
+// `a11y.spec.ts` (axe) iterate this list, so an entry added here strengthens two
+// gates at once. It stayed at the starter default of a single `/` entry for a long
+// time, which is part of why a critical axe violation shipped on the rsvp pages:
+// CI's a11y audit only ever scanned two synthetic fixture routes, and the only real
+// page under any gate was the homepage.
+//
+// Paths are deliberately concrete rather than sampled from the sitemap: a fixed
+// list fails loudly when a page is renamed, where a sampled one would quietly test
+// something else. Content-dependent, so a Prismic rename reds CI — that is the same
+// bargain sitemap.spec.ts already makes.
+export const smokeRoutes: SmokeRoute[] = [
+	{ path: '/', name: 'home', hydrationMarker: 'footer' },
+	{ path: '/about', name: 'about', hydrationMarker: 'footer' },
+	{ path: '/advisory', name: 'advisory', hydrationMarker: 'footer' },
+	{ path: '/contact', name: 'contact', hydrationMarker: 'footer' },
+	{ path: '/artists', name: 'artists index', hydrationMarker: 'footer' },
+	{ path: '/exhibitions', name: 'exhibitions index', hydrationMarker: 'footer' },
+	{ path: '/exhibitions/awakening', name: 'exhibition', hydrationMarker: 'footer' },
+	{ path: '/artists/theo-hirschfield', name: 'artist', hydrationMarker: 'footer' },
+	{ path: '/essays/interstitial-essay', name: 'essay', hydrationMarker: 'footer' },
+	// The rsvp pages are standalone landing pages — one <section>, no nav and no
+	// footer — so `footer` is not a valid marker here. Its email field is. Worth
+	// knowing: a visitor arriving from an invite has no link into the rest of the
+	// site from this page. That is a design decision, not a bug, and it is why the
+	// footer link list added alongside this does not reach these pages.
+	// Scoped to #main-content: the layout also ships several hidden Netlify forms,
+	// each with its own email input, so a bare input[type=email] matches five things.
+	{
+		path: '/rsvp/euphorbia',
+		name: 'rsvp event',
+		hydrationMarker: '#main-content input[type="email"]'
+	}
+];
