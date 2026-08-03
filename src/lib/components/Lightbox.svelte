@@ -243,8 +243,7 @@
 									bind:value={formMessage}
 									required
 									placeholder="how can we help?"
-									class="min-h-24 w-full border-2 border-mid p-2 mb-4"
-								></textarea>
+									class="min-h-24 w-full border-2 border-mid p-2 mb-4"></textarea>
 
 								<label for="role" class="block">What best describes you?</label>
 								<div>
