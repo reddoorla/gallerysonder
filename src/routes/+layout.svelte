@@ -198,8 +198,7 @@
 		name="message"
 		required
 		placeholder="how can we help?"
-		class="min-h-24 w-full border-1 border-mid p-2 mb-4"
-	></textarea>
+		class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 
 	<!-- UTM Parameters -->
 	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
@@ -253,8 +252,7 @@
 		name="message"
 		required
 		placeholder="how can we help?"
-		class="min-h-24 w-full border-1 border-mid p-2 mb-4"
-	></textarea>
+		class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 
 	<input name="piece" type="text" />
 	<input name="artist" type="text" />

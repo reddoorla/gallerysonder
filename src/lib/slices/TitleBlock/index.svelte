@@ -273,8 +273,7 @@
 							bind:value={formMessage}
 							required
 							placeholder="How can we help?"
-							class="min-h-24 w-full border-1 border-mid p-2 mb-4"
-						></textarea>
+							class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
 
 						<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
 
