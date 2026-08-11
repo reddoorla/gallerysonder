@@ -110,14 +110,14 @@
 			"meta_title": {
 				"config": {
 					"label": "Meta Title",
-					"placeholder": "A title of the page used for social media and search engines"
+					"placeholder": "Page title for search results and social shares — keep under 70 characters"
 				},
 				"type": "Text"
 			},
 			"meta_description": {
 				"config": {
 					"label": "Meta Description",
-					"placeholder": "A brief summary of the page"
+					"placeholder": "One or two sentence summary shown in search results (this is not the title)"
 				},
 				"type": "Text"
 			},
