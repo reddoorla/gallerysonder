@@ -57,6 +57,25 @@
 	});
 </script>
 
+<svelte:head>
+	<!--
+		Keep these out of search results. An rsvp page is a single-event landing
+		page handed out in an invite: no nav, no footer, no route back into the
+		site, and stale the day after the event. Seven were indexed under titles
+		like "Opening Reception: Euphorbia", which is what made a search for the
+		gallery return a list of expired forms alongside the real pages.
+
+		`follow` is intentional — these pages are linked from real CMS content
+		(prismicio.js resolves every rsvp call-to-action to /rsvp/:uid), so the
+		links should still be crawled; only the page itself is withheld.
+
+		Removing them from sitemap.xml alone does NOT deindex them; this tag is
+		what does, and Google only acts on it once it recrawls the page, so the
+		URL must stay reachable (never 404/redirect it to force the issue).
+	-->
+	<meta name="robots" content="noindex, follow" />
+</svelte:head>
+
 <section class="w-screen min-h-lvh h-full flex bg-black text-white relative">
 	<ContentWidth
 		class="h-full flex flex-col md:flex-row items-start justify-start py-16 md:py-24 relative w-full"

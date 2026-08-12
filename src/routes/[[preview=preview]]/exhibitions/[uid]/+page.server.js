@@ -1,5 +1,6 @@
 import { createClient } from '$lib/prismicio';
 import { resolveGalleries, resolveNameLists } from '$lib/utils/gallery';
+import { brandedTitle } from '$lib/site';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params, fetch, cookies, depends }) {
@@ -27,7 +28,7 @@ export async function load({ params, fetch, cookies, depends }) {
 	return {
 		page,
 		meta_description: page.data.meta_description,
-		meta_title: page.data.meta_title || titleLines || 'Gallery Sonder',
+		meta_title: page.data.meta_title || brandedTitle(titleLines),
 		meta_image: page.data.meta_image.url
 	};
 }

@@ -2,7 +2,7 @@
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
 	import { repositoryName } from '$lib/prismicio';
-	import { absoluteUrl, jsonLdScript, organizationJsonLd } from '$lib/site';
+	import { absoluteUrl, breadcrumbJsonLd, jsonLdScript, organizationJsonLd } from '$lib/site';
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -27,6 +27,8 @@
 	// Absolute canonical from the path only — $page.url.origin is the build-time
 	// host under prerendering, so it would be wrong; SITE_URL is the real domain.
 	let canonical = $derived(absoluteUrl($page.url.pathname));
+	// null on the homepage — a single-item trail carries no information.
+	let breadcrumb = $derived(breadcrumbJsonLd($page.url.pathname, metaTitle));
 
 	let isTransitioning = $state(false);
 
@@ -107,6 +109,10 @@
 
 	<!-- eslint-disable-next-line svelte/no-at-html-tags (safe: JSON.stringify + escaped <) -->
 	{@html jsonLdScript(organizationJsonLd())}
+	{#if breadcrumb}
+		<!-- eslint-disable-next-line svelte/no-at-html-tags (safe: JSON.stringify + escaped <) -->
+		{@html jsonLdScript(breadcrumb)}
+	{/if}
 </svelte:head>
 <NewsletterSignup />
 
