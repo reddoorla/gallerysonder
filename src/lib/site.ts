@@ -138,9 +138,15 @@ const breadcrumbName = (metaTitle: string, pathname: string): string => {
 
 /**
  * BreadcrumbList schema for a page, or null on the homepage (a one-item trail
- * says nothing). This is the main lever available for the indented sitelinks
- * under a search result — Google generates those itself, but breadcrumbs are
- * how it is told the site's shape.
+ * says nothing).
+ *
+ * This is an APPEARANCE feature, not a ranking one: it replaces the raw URL path
+ * above a search result with a readable trail (gallerysonder.com › Artists ›
+ * Theo Hirschfield). It is NOT what produces the indented sitelinks — Google's
+ * sitelinks documentation says those are fully automated and does not mention
+ * structured data at all. The levers it does name are informative page titles,
+ * a logical site structure with good internal anchor text, and `noindex` to
+ * remove a sitelink; see brandedTitle() above and the rsvp route for those two.
  */
 export const breadcrumbJsonLd = (pathname: string, metaTitle: string) => {
 	const segments = pathname
