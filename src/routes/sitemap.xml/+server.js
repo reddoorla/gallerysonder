@@ -30,14 +30,22 @@ const INTERNAL_UIDS_BY_TYPE = {
 
 // Prismic document type -> public path. Keep in sync with the route folders under
 // src/routes/[[preview=preview]]/ (note: type 'exhibit' lives at /exhibitions).
+//
+// `rsvp` is deliberately ABSENT. Those are single-event landing pages reached
+// from an invite: one <section>, no nav, no footer, no way back into the site
+// (see tests/smoke/routes.ts). Seven of them were being advertised here and were
+// indexed under titles like "Opening Reception: Euphorbia" — dead-end results for
+// events that have already happened, sitting next to the real pages in search.
+// Dropping them here only stops us ADVERTISING them; the `noindex` in
+// rsvp/[uid]/+page.svelte is what actually removes them from the index. Both are
+// needed, and they must be changed together.
 /** @type {Record<string, (uid: string) => string>} */
 const TYPE_PATHS = {
 	page: (uid) => (uid === 'home' ? '/' : `/${uid}`),
 	artist: (uid) => `/artists/${uid}`,
 	exhibit: (uid) => `/exhibitions/${uid}`,
 	essay: (uid) => `/essays/${uid}`,
-	news: (uid) => `/news/${uid}`,
-	rsvp: (uid) => `/rsvp/${uid}`
+	news: (uid) => `/news/${uid}`
 };
 
 export async function GET({ fetch }) {

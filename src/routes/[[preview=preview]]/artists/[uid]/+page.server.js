@@ -1,6 +1,7 @@
 import { createClient } from '$lib/prismicio';
 import { resolveGalleries, resolveNameLists } from '$lib/utils/gallery';
 import { artistHasPublicPage } from '$lib/utils/prismic';
+import { brandedTitle } from '$lib/site';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params, fetch, cookies, depends }) {
@@ -53,7 +54,7 @@ export async function load({ params, fetch, cookies, depends }) {
 	return {
 		page,
 		meta_description: page.data.meta_description,
-		meta_title: page.data.meta_title || page.data.full_name || titleLines || 'Gallery Sonder',
+		meta_title: brandedTitle(page.data.meta_title || page.data.full_name || titleLines),
 		meta_image: page.data.meta_image.url || page.data.background_image?.url
 	};
 }
