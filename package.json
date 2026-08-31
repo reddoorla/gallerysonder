@@ -32,7 +32,7 @@
 		"svelte": "^5.56.8",
 		"svelte-check": "^4.3.4",
 		"tailwindcss": "^4.3.1",
-		"typescript": "^5.3.3",
+		"typescript": "^6.0.0",
 		"typescript-svelte-plugin": "^0.3.36",
 		"vite": "^8.2.0"
 	},
@@ -41,7 +41,7 @@
 		"@lucide/svelte": "^1.20.0",
 		"@prismicio/client": "^7.3.1",
 		"@prismicio/svelte": "^2.0.0",
-		"@reddoorla/maintenance": "^0.80.0",
+		"@reddoorla/maintenance": "^0.83.0",
 		"@zerodevx/svelte-img": "^2.1.2",
 		"flatpickr": "^4.6.13",
 		"svelte-gestures": "^5.2.2"
