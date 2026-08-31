@@ -34,7 +34,7 @@ export async function load({ params, fetch, cookies, depends }) {
 		meta_description:
 			page.data.meta_description ||
 			(titleLines ? `${titleLines} — an essay from Gallery Sonder.` : undefined),
-		meta_title: page.data.meta_title || brandedTitle(titleLines),
+		meta_title: brandedTitle(page.data.meta_title || titleLines),
 		meta_image: page.data.meta_image.url
 	};
 }

@@ -28,7 +28,7 @@ export async function load({ params, fetch, cookies, depends }) {
 	return {
 		page,
 		meta_description: page.data.meta_description,
-		meta_title: page.data.meta_title || brandedTitle(titleLines),
+		meta_title: brandedTitle(page.data.meta_title || titleLines),
 		meta_image: page.data.meta_image.url
 	};
 }

@@ -91,18 +91,20 @@ export const organizationJsonLd = () => ({
 });
 
 /**
- * Brand a <title> DERIVED from page content.
+ * Guarantee a <title> names the gallery exactly once.
  *
- * Editor-written meta_titles all end in "| Gallery Sonder"; the content-derived
- * fallbacks did not. So whether a search result named the gallery came down to
- * whether someone had filled the SEO field on that document — /artists/anthony-james
- * read "Anthony James | Contemporary Artist | Gallery Sonder" while
+ * Whether a search result named the gallery used to come down to whether someone
+ * had filled the SEO field on that document — /artists/anthony-james read
+ * "Anthony James | Contemporary Artist | Gallery Sonder" while
  * /artists/theo-hirschfield read a bare "Theo Hirschfield". That mix is most of
  * why the result set looked like a pile of unrelated pages rather than one site.
  *
- * Applied to the FALLBACK only: an explicit meta_title is the editor's call and
- * is passed through untouched. Titles that already name the gallery are left
- * alone rather than doubled.
+ * Applied to EVERY title, editor-written or fallback. The first version trusted
+ * an explicit meta_title to carry the branding ("they all end in | Gallery
+ * Sonder") — within three weeks editors had written "About" and "Advisory", and
+ * the smoke gate caught them. The words before the brand stay the editor's call;
+ * naming the site is not. Titles that already name the gallery pass through
+ * untouched rather than doubled.
  */
 export const brandedTitle = (derived?: string | null): string => {
 	const name = derived?.trim();
