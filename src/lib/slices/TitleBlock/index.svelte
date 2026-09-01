@@ -16,6 +16,7 @@
 	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
 	import { datepicker } from '$lib/utils/datepicker';
 	import Select from '$lib/components/Buttons/Select.svelte';
+	import { cappedWidths } from '@reddoorla/maintenance/images';
 
 	const appState = getAppState();
 
@@ -155,7 +156,13 @@
 					{/if}
 				</div>
 				<div class="w-full md:w-1/2 md:pl-16">
-					<PrismicImage field={slice.primary.image} fallbackAlt="" />
+					<PrismicImage
+						field={slice.primary.image}
+						fallbackAlt=""
+						widths={cappedWidths(slice.primary.image)}
+						sizes="(min-width: 768px) 546px, 92vw"
+						loading="lazy"
+					/>
 				</div>
 			</div>
 		{:else if slice.variation === 'connect'}

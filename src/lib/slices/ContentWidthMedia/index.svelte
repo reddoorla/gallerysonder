@@ -13,6 +13,7 @@
 	import { ArrowLeft, ArrowRight, Plus, CirclePlay, Volume2 } from '@lucide/svelte';
 	import { onDestroy } from 'svelte';
 	import { srcset } from '$lib/utils/image';
+	import { cappedWidths } from '@reddoorla/maintenance/images';
 
 	const appState = getAppState();
 
@@ -230,6 +231,9 @@
 							class="h-full relative overflow-hidden will-change-transform"
 						>
 							<PrismicImage
+								widths={cappedWidths(image)}
+								sizes="(min-width: 1340px) 1220px, 92vw"
+								loading="lazy"
 								field={image}
 								fallbackAlt=""
 								class="min-h-full min-w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover will-change-transform"
@@ -335,6 +339,9 @@
 						class="h-full w-full relative overflow-hidden"
 					>
 						<PrismicImage
+							widths={cappedWidths(image)}
+							sizes="(min-width: 1340px) 1220px, 92vw"
+							loading="lazy"
 							field={image}
 							fallbackAlt=""
 							class="min-h-full min-w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover"
