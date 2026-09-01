@@ -12,6 +12,7 @@
 	import { trapFocus } from '$lib/utils/trapFocus';
 	import { artistHasPublicPage } from '$lib/utils/prismic';
 	import { X, LoaderCircle } from '@lucide/svelte';
+	import { cappedWidths } from '@reddoorla/maintenance/images';
 
 	const appState = getAppState();
 
@@ -136,6 +137,8 @@
 							<Slideshow />
 						{:else}
 							<PrismicImage
+								widths={cappedWidths(appState.activeArtwork.data.primary_image)}
+								sizes="100vw"
 								class="{appState.activeArtwork.data.orientation === 'fit'
 									? 'object-contain'
 									: 'object-cover'} w-full h-full z-10 relative"

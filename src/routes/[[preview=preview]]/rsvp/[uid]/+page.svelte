@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
 	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
+	import { cappedWidths } from '@reddoorla/maintenance/images';
 
 	const appState = getAppState();
 
@@ -89,6 +90,9 @@
 				 PrismicImage emits NO alt attribute at all when the CMS alt is null
 				 (5 of the 7 rsvp documents), which axe rates a critical violation. -->
 			<PrismicImage
+				widths={cappedWidths(data.page.data.image)}
+				sizes="(min-width: 768px) 976px, 92vw"
+				loading="lazy"
 				field={data.page.data.image}
 				fallbackAlt=""
 				class="w-full md:w-4/5 mt-4 rounded-sm h-full max-h-[50vh] object-cover"

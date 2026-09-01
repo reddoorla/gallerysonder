@@ -5,6 +5,7 @@
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import { ArrowLeft, ArrowRight } from '@lucide/svelte';
+	import { cappedWidths } from '@reddoorla/maintenance/images';
 
 	const appState = getAppState();
 
@@ -107,6 +108,8 @@
 			{#each tripledImages as image, i (i)}
 				<div style="width: {100 / tripledImages.length}%;" class="h-full relative overflow-hidden">
 					<PrismicImage
+						widths={cappedWidths(image)}
+						sizes="100vw"
 						field={image}
 						fallbackAlt=""
 						class="min-h-full min-w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover"
