@@ -43,6 +43,13 @@ const GALLERY = {
 } as const;
 
 /**
+ * The venue as one line, for calendar invites. Derived from GALLERY so it can
+ * never drift from the address Google reads — the reason that const is the
+ * single source in the first place.
+ */
+export const GALLERY_ADDRESS = `${GALLERY.streetAddress}, ${GALLERY.addressLocality}, ${GALLERY.addressRegion} ${GALLERY.postalCode}`;
+
+/**
  * Open Wednesday–Sunday, 11:00–18:00. Monday and Tuesday are absent on purpose:
  * schema.org has no "closed" value, so a day the gallery is shut is expressed by
  * omitting it. Listing them with equal opens/closes reads as "open 0 hours" and
