@@ -21,3 +21,4 @@ test-results/
 *.log
 .vercel/
 .reddoor-a11y/
+.worktrees/
