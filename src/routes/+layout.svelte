@@ -308,6 +308,7 @@
 	<input name="name" type="text" />
 	<input type="email" name="email" />
 	<input type="text" name="event" />
+	<input type="hidden" name="event_uid" />
 	<input name="guests" type="number" />
 	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
 	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />

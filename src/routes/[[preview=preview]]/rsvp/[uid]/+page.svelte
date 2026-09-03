@@ -38,7 +38,10 @@
 				name: formName,
 				email: formEmail,
 				guests: String(formGuests),
-				event: (data.page.data.name as string) || data.page.uid
+				event: (data.page.data.name as string) || data.page.uid,
+				// Lookup key for the per-event confirmation copy. Resolved against
+				// Prismic server-side — see src/lib/server/reply-copy.ts.
+				event_uid: data.page.uid
 			});
 
 			if (populated) {
