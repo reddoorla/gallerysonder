@@ -16,9 +16,14 @@
 							"type": "Select",
 							"config": {
 								"label": "form",
-								"placeholder": "which form this reply answers",
-								"options": ["contact", "inquiry", "newsletter", "rsvp", "reserve"],
-								"default_value": "contact"
+								"placeholder": "Pick the form this reply answers — one row per form",
+								"options": [
+									"contact",
+									"inquiry",
+									"newsletter",
+									"rsvp",
+									"reserve"
+								]
 							}
 						},
 						"subject": {
@@ -32,9 +37,9 @@
 							"type": "StructuredText",
 							"config": {
 								"label": "body",
-								"placeholder": "What the visitor reads. Plain paragraphs — formatting is not sent.",
+								"placeholder": "What the visitor reads. Bold, italic, links and lists are sent; other formatting is not.",
 								"allowTargetBlank": true,
-								"multi": "paragraph"
+								"multi": "paragraph,heading2,heading3,strong,em,hyperlink,list-item,o-list-item"
 							}
 						}
 					}
