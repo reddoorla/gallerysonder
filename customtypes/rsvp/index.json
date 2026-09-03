@@ -43,43 +43,6 @@
 					"placeholder": ""
 				}
 			},
-			"start_time": {
-				"type": "Timestamp",
-				"config": {
-					"label": "start (for Add to Calendar)",
-					"placeholder": "Leave blank and no calendar button is sent"
-				}
-			},
-			"end_time": {
-				"type": "Timestamp",
-				"config": {
-					"label": "end (for Add to Calendar)",
-					"placeholder": "Blank means two hours after the start"
-				}
-			},
-			"location": {
-				"type": "Text",
-				"config": {
-					"label": "location (for Add to Calendar)",
-					"placeholder": "Blank uses the gallery address"
-				}
-			},
-			"reply_subject": {
-				"type": "Text",
-				"config": {
-					"label": "confirmation email subject",
-					"placeholder": "You're on the list for …"
-				}
-			},
-			"reply_body": {
-				"type": "StructuredText",
-				"config": {
-					"label": "confirmation email body",
-					"placeholder": "Overrides the site-wide RSVP reply for this event only",
-					"allowTargetBlank": true,
-					"multi": "paragraph"
-				}
-			},
 			"slices": {
 				"type": "Slices",
 				"fieldset": "Slice Zone",
@@ -113,6 +76,45 @@
 					"thumbnails": []
 				},
 				"type": "Image"
+			}
+		},
+		"Email & Communication": {
+			"reply_subject": {
+				"type": "Text",
+				"config": {
+					"label": "confirmation email subject",
+					"placeholder": "You're on the list for …"
+				}
+			},
+			"reply_body": {
+				"type": "StructuredText",
+				"config": {
+					"label": "confirmation email body",
+					"placeholder": "Overrides the site-wide RSVP reply for this event only",
+					"allowTargetBlank": true,
+					"multi": "paragraph"
+				}
+			},
+			"start_time": {
+				"type": "Timestamp",
+				"config": {
+					"label": "start (for Add to Calendar)",
+					"placeholder": "Leave blank and no calendar button is sent"
+				}
+			},
+			"end_time": {
+				"type": "Timestamp",
+				"config": {
+					"label": "end (for Add to Calendar)",
+					"placeholder": "Blank means two hours after the start"
+				}
+			},
+			"location": {
+				"type": "Text",
+				"config": {
+					"label": "location (for Add to Calendar)",
+					"placeholder": "Blank uses the gallery address"
+				}
 			}
 		}
 	}
