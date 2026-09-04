@@ -6,29 +6,42 @@ import { test, expect, type Page } from '@playwright/test';
 // they get caught is by asserting on the markup.
 
 /** Routes that render CMS-driven links and are stable enough to assert against. */
-const LINKED_ROUTES = ['/', '/about', '/advisory', '/contact', '/exhibitions/awakening'];
-
-/** Pages carrying an RSVP call-to-action, which must be a real link. */
-const RSVP_CTA_PAGES = ['/', '/exhibitions/awakening'];
+const LINKED_ROUTES = [
+	'/',
+	'/about',
+	'/advisory',
+	'/contact',
+	'/exhibitions',
+	'/exhibitions/awakening'
+];
 
 async function goto(page: Page, path: string) {
 	const res = await page.goto(path, { waitUntil: 'domcontentloaded' });
 	expect(res?.status(), `${path} should load`).toBe(200);
 }
 
-for (const path of RSVP_CTA_PAGES) {
-	test(`${path}: the RSVP call-to-action is a link, not a dead button`, async ({ page }) => {
+/** Every control labelled exactly "RSVP", anchor or button, on the given page. */
+function rsvpControls(page: Page) {
+	return page.locator('a, button').filter({ hasText: /^\s*RSVP\s*$/i });
+}
+
+// Which pages carry an RSVP call-to-action is editorial and rotates: the homepage
+// hero pointed at an RSVP until the gallery swapped it for "EXPLORE NOW" on the
+// incoming show. So this asserts on every route rather than on a hand-kept list of
+// the pages that happen to have one today — a page with no RSVP passes, a page with
+// a BROKEN one fails wherever it appears. Pinning the list instead meant the
+// homepage silently left the check the day its CTA changed, which is precisely when
+// a fresh CMS link is most likely to be wrong.
+for (const path of LINKED_ROUTES) {
+	test(`${path}: every RSVP call-to-action is a link, not a dead button`, async ({ page }) => {
 		await goto(page, path);
 
 		// LinkArrowButton falls back to a <button> with a no-op onclick when `href`
 		// is empty — which is what a Prismic link to a document type missing from the
 		// route resolver produces (isFilled() is true, but .url is undefined). The
 		// result looks exactly like the working control and goes nowhere.
-		const ctas = page.locator('a, button').filter({ hasText: /^\s*RSVP\s*$/i });
+		const ctas = rsvpControls(page);
 		const count = await ctas.count();
-		// Content guard: if the gallery removes the RSVP CTA this fails loudly and the
-		// list above gets updated, rather than the assertion passing vacuously.
-		expect(count, `expected an RSVP call-to-action on ${path}`).toBeGreaterThan(0);
 
 		for (let i = 0; i < count; i++) {
 			const cta = ctas.nth(i);
@@ -40,6 +53,19 @@ for (const path of RSVP_CTA_PAGES) {
 		}
 	});
 }
+
+// The per-route check above passes on a page with no RSVP at all, so on its own it
+// would go quiet if RSVPs disappeared site-wide. This is the content guard: it does
+// not care WHICH page hosts the CTA, only that the gallery is still offering one
+// somewhere, so routine editorial rotation stays green and a real regression does not.
+test('the site still offers an RSVP somewhere', async ({ page }) => {
+	const found: string[] = [];
+	for (const path of LINKED_ROUTES) {
+		await goto(page, path);
+		if ((await rsvpControls(page).count()) > 0) found.push(path);
+	}
+	expect(found, `no RSVP call-to-action on any of ${LINKED_ROUTES.join(', ')}`).not.toEqual([]);
+});
 
 for (const path of LINKED_ROUTES) {
 	test(`${path}: no anchor is rendered with an empty or placeholder href`, async ({ page }) => {
