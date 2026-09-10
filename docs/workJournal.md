@@ -71,3 +71,85 @@ it carries the work-journal convention along with the handful of things the
 README already establishes about running the place. This file exists so the next
 expensive discovery has somewhere chronological to live instead of being
 rediscovered from the log the way this entry just was.
+
+## 2026-09-10 — Form submissions announce themselves on the dataLayer, on success only
+
+Carlo Valentino (Gallery Sonder's part-time digital marketer) finally has
+publish rights on `GTM-5FVCTMK7` — Josh granted them 2026-09-03 — and today he
+shipped the first conversion tag and asked whether it looked right before
+building the other three. It does not, and the reason is worth writing down
+because the tag looks completely healthy in the GTM UI.
+
+**What he built.** A GA4 Event tag, `rsvp_submit`, measurement ID
+`G-KF2C19YMQX`, firing on _Click - All Elements_ where _Click Text contains
+"Submit RSVP"_. Verified live rather than taken from the screenshots: fetching
+`gtm.js?id=GTM-5FVCTMK7` returns 460,815 bytes containing both
+`"vtp_eventName":"rsvp_submit"` and the predicate
+`{"function":"_cn","arg0":["macro",2],"arg1":"Submit RSVP"}`, so it is published
+in the served container, not sitting in his workspace.
+
+**Why a click trigger is the wrong instrument here.** The button at
+`src/routes/[[preview=preview]]/rsvp/[uid]/+page.svelte:146` is
+`onclick={triggerSubmitButton}`, and the POST is _awaited inside_ that handler.
+GTM fires on the press — ahead of Turnstile, ahead of the network, ahead of any
+knowledge of the outcome. Failed posts, spam-blocked posts and double-taps all
+became conversions.
+
+The sharper edge, and the thing nobody would find by reading the container:
+**the visible RSVP inputs are not inside a `<form>`.** That page has zero
+`<form>` tags; the real one is the hidden `#netlifyRsvpForm` in
+`+layout.svelte:300`, populated field-by-field at submit time. So the `required`
+attributes on `#rsvp-name` / `#rsvp-email` are decorative — nothing validates
+them — and a visitor landing on the page and mashing Submit RSVP with three
+empty fields registered a GA4 conversion and no database row. The net effect is
+that GA4 reads _above_ the truth, in the opposite direction from the
+consent-gating undercount everyone on the thread was braced for.
+
+**The fix, and where it went.** All four forms — rsvp, inquiry, contact,
+newsletter — funnel through `submitForm()` in `src/lib/utils/forms.ts`, which
+already knows the formType, the field entries and the folded UTM string, and is
+the only place that knows whether the ingest endpoint returned 2xx. One push
+site there covers all four; four call-site edits were never necessary.
+
+**The footgun that nearly shipped.** The RSVP form's own field for the
+exhibition title is named `event` — and `event` is the reserved dataLayer key
+that names the custom event to GTM. An allow-list that copied field names
+through verbatim would have overwritten `rsvp_submitted` with
+"Live at Gallery Sonder: Taji" and silently unhooked the trigger it was built
+to feed. `ANALYTICS_FIELDS` therefore maps field → parameter explicitly
+(`event` → `exhibition`, `event_uid` → `exhibition_uid`) rather than listing
+bare names, and both the code comment and a test assertion say why, because the
+map reads like pointless indirection right up until it doesn't.
+
+The map is also an allow-list rather than a spread of `entries` on purpose:
+those entries carry name, email, phone and the free-text message, and GA4 must
+not receive PII. `guests` is coerced to a number so GA4 can sum expected heads
+instead of grouping the string "3".
+
+**Consent.** The push is unconditional. GTM is injected only after the visitor
+accepts (`CookieConsent.svelte:13`), so for anyone who declined the dataLayer is
+an inert in-memory array nothing ever reads, and for anyone who accepts later
+GTM replays the queue — standard buffering. GA4 will still undercount against
+the database; that remains true and still needs saying before anyone compares
+the two numbers.
+
+**Tests.** `tests/smoke/form-analytics.spec.ts`, four cases. The load-bearing
+pair is "a successful RSVP announces rsvp_submitted" and "a failed RSVP
+announces nothing" — a click trigger cannot tell those two apart, which is
+precisely the defect. Consent is pre-answered `'false'` in an init script, which
+both dismisses the 3s modal and leaves GTM uninjected, so `window.dataLayer`
+holds exactly what the site pushed and nothing a container replayed. Full suite
+green: 86 passed, 3 skipped.
+
+**Also found in the live container, not fixed here** (Carlo's to change, and
+told to him rather than done for him): the `Inquire PDF Click` tag is hardcoded
+to the Euphorbia PDF in both its trigger URL and its `file_name` parameter, so
+it dies the day the show rotates; and its `link_url` parameter value was pasted
+as markdown, so GA4 is recording the literal string
+`[https://…pdf](https://…pdf)`, brackets included. Hotjar is still firing on All
+Pages, and the 2026-09-02 proposal to remove it is still unanswered.
+
+**Note on lint.** `pnpm lint` is red on `.vscode/settings.json`, which is
+untracked and predates this work — the known fleet `sync-configs` artefact, not
+anything here. Both changed files pass prettier and eslint individually;
+`svelte-check` is 0 errors, 2 pre-existing warnings.
