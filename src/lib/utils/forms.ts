@@ -16,6 +16,74 @@ const FORM_TYPE_BY_NAME: Record<string, string> = {
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 
 /**
+ * Submitted field → GA4 event parameter, per formType. An allow-list, never a
+ * spread of `entries`: those carry name, email, phone and the free-text
+ * message, and GA4 must not receive personally identifiable information.
+ * Anything absent here stays in the database and out of the dataLayer.
+ *
+ * The RSVP field is named `event`, and `event` is the reserved dataLayer key
+ * that NAMES the custom event to GTM — copying it across verbatim would
+ * overwrite `rsvp_submitted` with the exhibition title and silently unhook the
+ * trigger. Hence the rename to `exhibition`; do not "simplify" these back to
+ * bare field names.
+ */
+const ANALYTICS_FIELDS: Record<string, Record<string, string>> = {
+	rsvp: { event: 'exhibition', event_uid: 'exhibition_uid', guests: 'guests' },
+	inquiry: { piece: 'piece', artist: 'artist', role: 'role' },
+	contact: {},
+	newsletter: {}
+};
+
+/**
+ * Announce a *successful* submission on the dataLayer, for GTM to pick up with
+ * a Custom Event trigger: `rsvp_submitted`, `inquiry_submitted`,
+ * `contact_submitted`, `newsletter_submitted`.
+ *
+ * Fired here — after the ingest endpoint has answered 2xx — rather than from a
+ * click handler. The container's first RSVP tag triggered on *Click - All
+ * Elements* where Click Text contains "Submit RSVP", which counts the button
+ * press, not the RSVP: failed posts, spam-blocked posts and double-taps all
+ * became conversions. Worse, the visible RSVP inputs sit outside any <form>
+ * (the real one is the hidden #netlifyRsvpForm in +layout.svelte), so their
+ * `required` attributes block nothing and a click on an empty form counted as
+ * well — GA4 reading *above* the database while everyone expected it to read
+ * below.
+ *
+ * The push is unconditional. GTM is itself consent-gated (CookieConsent injects
+ * it only once the visitor accepts), so for anyone who declined this array is
+ * inert memory nothing ever reads, and for anyone who accepts later GTM replays
+ * the queue on load — standard buffering. Consent gating still means GA4
+ * undercounts against the database; say so before anyone compares the two.
+ */
+function pushSubmissionEvent(formType: string, entries: Record<string, string>, utm: string): void {
+	const w = window as Window & { dataLayer?: Record<string, unknown>[] };
+	w.dataLayer = w.dataLayer || [];
+
+	const payload: Record<string, unknown> = {
+		event: `${formType}_submitted`,
+		form_type: formType
+	};
+
+	for (const [field, parameter] of Object.entries(ANALYTICS_FIELDS[formType] ?? {})) {
+		const value = entries[field];
+		if (!value) continue;
+		// Guest count goes over as a number so GA4 can sum it — expected heads at
+		// an opening is the one figure the gallery actually plans against, and a
+		// string only ever groups.
+		if (parameter === 'guests') {
+			const count = Number(value);
+			payload[parameter] = Number.isFinite(count) ? count : value;
+		} else {
+			payload[parameter] = value;
+		}
+	}
+
+	for (const [key, value] of new URLSearchParams(utm)) payload[key] = value;
+
+	w.dataLayer.push(payload);
+}
+
+/**
  * Forward a hidden form's data to the central dashboard ingest endpoint
  * (`/api/forms`). Derives the ingest formType from the legacy `form-name`
  * marker, folds the UTM hidden inputs (captured at landing) into a single `utm`
@@ -66,7 +134,10 @@ export async function submitForm(
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(payload)
 		});
-		if (response.ok) return { success: true, status: response.status };
+		if (response.ok) {
+			pushSubmissionEvent(formType, entries, utm);
+			return { success: true, status: response.status };
+		}
 
 		// Log the status and the server's reason. Callers only render a generic
 		// "there appears to be an error", and every distinguishing detail used to be
