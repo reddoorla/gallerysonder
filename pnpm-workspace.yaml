@@ -1,4 +1,3 @@
-# pnpm 11 reads settings from here (the package.json "pnpm" field is no longer read).
 allowBuilds:
   # migrate each package from the old onlyBuiltDependencies here as `name: true`
   '@scarf/scarf': false
@@ -9,7 +8,7 @@ minimumReleaseAge: 0
 overrides:
   # security caps (range-scoped so already-clean copies are untouched):
   # GHSA-f88m-g3jw-g9cj — imagetools-core@6 pins sharp ^0.33.1
-  'sharp@<0.35.0': ^0.35.3
+  'sharp@<0.35.0': ^0.35.4
   # GHSA-pxg6-pf52-xh8x — @sveltejs/kit pins cookie ^0.6.0
   'cookie@<0.7.0': ^0.7.2
   # GHSA-mh99-v99m-4gvg (2026-07-24) — every line <=5.0.7 vulnerable, only
