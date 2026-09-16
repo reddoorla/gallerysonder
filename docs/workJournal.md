@@ -74,6 +74,9 @@ rediscovered from the log the way this entry just was.
 
 ## 2026-09-10 — Form submissions announce themselves on the dataLayer, on success only
 
+> Superseded in part by 2026-09-11 — The container caught up the same night, and
+> the whole chain was measured end to end.
+
 Carlo Valentino (Gallery Sonder's part-time digital marketer) finally has
 publish rights on `GTM-5FVCTMK7` — Josh granted them 2026-09-03 — and today he
 shipped the first conversion tag and asked whether it looked right before
@@ -153,3 +156,90 @@ Pages, and the 2026-09-02 proposal to remove it is still unanswered.
 untracked and predates this work — the known fleet `sync-configs` artefact, not
 anything here. Both changed files pass prettier and eslint individually;
 `svelte-check` is 0 errors, 2 pre-existing warnings.
+
+## 2026-09-11 — The container caught up the same night, and the whole chain was measured end to end
+
+The previous entry ended with the site-side push shipped and the tracking still
+inert, because nothing in the container listened for it. Carlo published the
+other half within about five hours of that email, so this entry records the
+first time the whole path was actually measured rather than reasoned about.
+
+**What is live, read out of the served container rather than taken from
+screenshots.** `GTM-5FVCTMK7` is on version 9. Four Custom Event triggers exist
+on the exact names the site pushes, six user-defined Data Layer Variables
+(`exhibition`, `exhibition_uid`, `guests`, `piece`, `artist`, `role`), and the
+tags reference them as macros rather than typed literals. The string
+`"Submit RSVP"` now appears **zero** times in the container: the click trigger
+was replaced, not supplemented, so there is no double-fire.
+
+**The measurement.** Driving a real submit on gallerysonder.com with
+`/api/forms` intercepted produced a GA4 hit to `G-KF2C19YMQX` carrying
+`en=rsvp_submit`, `ep.exhibition=Opening Reception: Euphorbia`,
+`ep.exhibition_uid=euphorbia` and `epn.guests=4`. That `epn.` prefix is the
+point: it is GA4's marker for a _numeric_ parameter, which is what makes the
+guest count summable as a custom metric instead of a string to group by. The
+decision to coerce `guests` with `Number()` in `submitForm()` was made on
+reasoning; this is the first evidence it actually landed that way on the wire.
+
+**The gotcha that cost the most, and leaked real data.** GA4 collection does not
+go to `google-analytics.com`. It goes to `analytics.google.com/g/collect` and
+`www.google.com/g/collect`, with `stats.g.doubleclick.net/g/collect` alongside.
+A Playwright route of `**://*.google-analytics.com/**` therefore matches
+**nothing**, and fails silently in the worst possible direction: the run looks
+clean, reports zero hits captured, and concludes "the tag did not fire" — while
+every hit sails through undisturbed. Honest accounting: that first verification
+run delivered one real `rsvp_submit` (guests=4, exhibition_uid=euphorbia), a
+`page_view`, and a Google Ads conversion ping into the client's live property,
+around 21:30 PT on 10 Sep. One session, easy to identify, but it is genuinely in
+their data. The fix is a regex route matching
+`google-analytics\.com|analytics\.google\.com|google\.com\/g\/collect`, and the
+lesson is that a blocking pattern must be proven to match before its silence is
+read as evidence.
+
+**A second harness defect, with a different lesson.** A loop checking all four
+events reported every one FAILING, including `rsvp_submitted`, which had passed
+minutes earlier. The tags were fine; `page.evaluate` with a destructured array
+argument was the bug. When every case fails at once and one of them is known
+good, suspect the instrument before the system.
+
+**The recipe worth reusing.** A console `dataLayer.push` fires a byte-identical
+GA4 hit to a real submission — same event name, same parameters, same numeric
+typing — with none of the consequences. A genuine RSVP submit writes a dashboard
+row, emails info@gallerysonder.com, sends a real "You're on the list"
+confirmation to whatever address is typed, and tags a Mailchimp contact. Two
+days before an opening those phantom guests land in the count the gallery is
+actually using. For verifying _tracking_, always push; never submit.
+
+**What is still not proven.** RSVP is the only form driven end to end through a
+real submit. The container side of the other three is confirmed by console push,
+and their site side rests entirely on sharing `submitForm()` — inquiry and
+contact have never been exercised at all, locally or live, and newsletter only
+locally. Worth knowing before someone reads it as a defect: on the inquiry form
+`piece` and `artist` are set only when the lightbox was opened from an artwork or
+an artist, so a general INQUIRE correctly sends `inquiry_submitted` with `role`
+alone.
+
+**Three beliefs corrected on contact, all of them mine.** First, I recommended
+renaming the GA4 event `rsvp_submit` to `rsvp_submitted` for consistency with the
+dataLayer name. That was wrong: GA4's own house style is present-tense
+(`form_submit`, `sign_up`), and a rename breaks any key-event or Ads-conversion
+link — traded against roughly two days of low-volume data. The two names being
+different is correct and deliberate. Second, I drafted "create the variables the
+same as you did on the PDF tag"; the PDF tag uses typed literals and the
+container held zero user-defined Data Layer Variables, so that analogy would have
+taught precisely the habit being corrected. Third, I asserted as fact that GA4
+custom definitions are not retroactive. Google's documentation says only that a
+dimension can be added to reports 24–48 hours after both the data was sent and
+the dimension was created; non-retroactivity is consistently observed behaviour,
+not a documented guarantee. Plan around it, but do not cite it as chapter and
+verse to a client.
+
+**Open, and none of it site-side.** The parameters are being collected but are
+not reportable until custom definitions are registered, which needs Carlo added
+to the property behind `G-KF2C19YMQX` — he has admin on the older property, not
+this one, which is the same shape of confusion that cost the first week. The
+`Inquire PDF Click` tag still hardcodes the Euphorbia PDF in both its trigger and
+its `file_name`, still carries a markdown-wrapped `link_url`, and probably
+double-counts against GA4 Enhanced Measurement's automatic `file_download`; it
+decays on its own when the show rotates after the 12 Sep opening. Hotjar has been
+awaiting Josh's decision since 2 Sep.
