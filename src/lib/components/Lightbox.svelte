@@ -7,8 +7,9 @@
 	import { isFilled } from '@prismicio/client';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import Slideshow from './Slideshow.svelte';
-	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import { submitForm } from '$lib/utils/forms';
 	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
+	import UtmFields from '$lib/components/UtmFields.svelte';
 	import { trapFocus } from '$lib/utils/trapFocus';
 	import { artistHasPublicPage } from '$lib/utils/prismic';
 	import { X, LoaderCircle } from '@lucide/svelte';
@@ -32,42 +33,26 @@
 	let submitting = $state(false);
 	let error = $state(false);
 
-	let formName = $state('');
-	let formPhone = $state('');
-	let formEmail = $state('');
-	let formMessage = $state('');
-	let formRole = $state('');
 	let turnstileToken = $state('');
 
-	const triggerSubmitButton = async () => {
+	const piece = $derived(
+		appState.activeArtwork
+			? `${appState.activeArtwork.data.title}, ${appState.activeArtwork.data.year}`
+			: ''
+	);
+	const artist = $derived((appState.activeArtist?.data.full_name as string | undefined) ?? '');
+
+	// Runs only once the browser's own validation has passed: the fields are in a
+	// real <form>, so `required` blocks an empty submit before this is called.
+	const handleSubmit = async (event: SubmitEvent) => {
+		event.preventDefault();
 		if (submitting) return;
+		const form = event.currentTarget as HTMLFormElement;
 		submitting = true;
 		try {
-			const fieldValues: Record<string, string> = {
-				name: formName,
-				phone: formPhone,
-				email: formEmail,
-				message: formMessage,
-				role: formRole
-			};
-
-			if (appState.activeArtwork) {
-				fieldValues.piece = `${appState.activeArtwork.data.title}, ${appState.activeArtwork.data.year}`;
-			}
-
-			if (appState.activeArtist) {
-				fieldValues.artist = appState.activeArtist.data.full_name as string;
-			}
-
-			const populated = populateHiddenForm('netlifyInquiryForm', fieldValues);
-
-			if (populated) {
-				const form = document.getElementById('netlifyInquiryForm') as HTMLFormElement;
-				const result = await submitForm(form, turnstileToken);
-
-				submitted = true;
-				error = !result.success;
-			}
+			const result = await submitForm(form, turnstileToken);
+			submitted = true;
+			error = !result.success;
 		} finally {
 			submitting = false;
 		}
@@ -197,7 +182,15 @@
 					{/if}
 					{#if appState.showInquiryForm}
 						{#if !submitted}
-							<div in:fade={{ delay: 400 }} class="w-full flex flex-col mt-64 md:mt-20">
+							<form
+								name="inquiry"
+								in:fade={{ delay: 400 }}
+								class="w-full flex flex-col mt-64 md:mt-20"
+								onsubmit={handleSubmit}
+							>
+								<input type="hidden" name="form-name" value="inquiry" />
+								<input type="hidden" name="piece" value={piece} />
+								<input type="hidden" name="artist" value={artist} />
 								<h2>Inquire</h2>
 								<p class="mb-8 mt-4">Fill out the form below to learn more about this piece.</p>
 								<label for="lb-name" class="block">Name</label>
@@ -205,7 +198,6 @@
 									type="text"
 									id="lb-name"
 									name="name"
-									bind:value={formName}
 									required
 									placeholder="first and last name"
 									class="w-full border-2 border-mid p-2 mb-4"
@@ -216,7 +208,6 @@
 									type="phone"
 									id="lb-phone"
 									name="phone"
-									bind:value={formPhone}
 									required
 									placeholder="000-000-0000"
 									class="w-full border-2 border-mid p-2 mb-4"
@@ -227,7 +218,6 @@
 									type="email"
 									id="lb-email"
 									name="email"
-									bind:value={formEmail}
 									required
 									placeholder="you@domain.com"
 									class="w-full border-2 border-mid p-2 mb-4"
@@ -243,25 +233,19 @@
 								<textarea
 									id="lb-message"
 									name="message"
-									bind:value={formMessage}
 									required
 									placeholder="how can we help?"
 									class="min-h-24 w-full border-2 border-mid p-2 mb-4"></textarea>
 
 								<label for="role" class="block">What best describes you?</label>
 								<div>
-									<select
-										name="role"
-										id="role"
-										class="border-2 border-mid p-2 mb-8 cursor-pointer"
-										bind:value={formRole}
-									>
-										<!-- Explicit empty option. `formRole` starts as '' and no option
+									<select name="role" id="role" class="border-2 border-mid p-2 mb-8 cursor-pointer">
+										<!-- Explicit empty option. The select starts on '' and no option
 										     carried that value, so the select rendered with selectedIndex
 										     -1: a blank box that doesn't read as a question, and every
 										     untouched submission shipped `role: ''`. Disabled so it can't
 										     be picked again once answered. -->
-										<option value="" disabled>Select one…</option>
+										<option value="" disabled selected>Select one…</option>
 										<!-- Every value is its own label. "Experienced Collector" submitted the
 										     lowercase token `experienced` — leftover of a half-finished
 										     token→label migration — so this one field arrived downstream in two
@@ -275,11 +259,13 @@
 									</select>
 								</div>
 
+								<UtmFields />
+
 								<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
 
 								<LinkArrowButton
 									class="uppercase"
-									onclick={triggerSubmitButton}
+									type="submit"
 									text="Submit"
 									disabled={submitting}
 								/>
@@ -289,7 +275,7 @@
 									electronic communications from Gallery Sonder. You can unsubscribe or change your
 									preferences at any time.
 								</div>
-							</div>
+							</form>
 						{:else if error}
 							<h2 role="alert">
 								We're sorry, there appears to be an error. Please email info@gallerysonder.com with

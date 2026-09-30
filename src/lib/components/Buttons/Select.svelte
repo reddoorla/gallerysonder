@@ -86,7 +86,7 @@
 </div>
 
 <style>
-	/* Match the text inputs (app.css: `p, input, textarea, form button`) rather than the
+	/* Match the text inputs (app.css: `p, label, input, textarea`) rather than the
 	   global commuters-sans button style, so the trigger and options read as form fields. */
 	button {
 		font-family: 'rig-sans';

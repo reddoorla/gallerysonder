@@ -42,7 +42,11 @@ export const GET: RequestHandler = async ({ fetch }) => {
 	const forms = {
 		ingestUrl: !!privateEnv.FORMS_INGEST_URL,
 		ingestToken: !!privateEnv.FORMS_INGEST_TOKEN,
-		turnstile: !!publicEnv.PUBLIC_TURNSTILE_SITE_KEY?.trim()
+		turnstile: !!publicEnv.PUBLIC_TURNSTILE_SITE_KEY?.trim(),
+		// Every form forwards the form-e2e probe's `testMode` marker (submitForm →
+		// buildIngestPayload), so the nightly probe may submit here. It refuses any
+		// site that does not say so, because an unmarked probe is a real lead.
+		testMode: true
 	};
 	// We're inside the handler, so the function ran; ok is false only when the
 	// Prismic probe actively errored.

@@ -6,8 +6,9 @@
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import { onMount, untrack } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
-	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import { submitForm } from '$lib/utils/forms';
 	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
+	import UtmFields from '$lib/components/UtmFields.svelte';
 	import { trapFocus } from '$lib/utils/trapFocus';
 	import { X } from '@lucide/svelte';
 
@@ -18,11 +19,11 @@
 	let error = $state(false);
 	let validationError = $state('');
 
-	// The visible field lives outside any <form> (the real one is the hidden
-	// Netlify form in +layout.svelte), so `type="email"` and `required` never run
-	// native constraint validation — nothing ever submits a form owner. Validate
-	// in JS instead. Slightly stricter than the HTML5 email grammar, which accepts
-	// dotless hosts like `a@b`: a newsletter address always has a dotted domain.
+	// The browser's own validation runs first (`required`, `type="email"`), and
+	// `showValidationMessage` puts its verdict in this overlay's words instead of
+	// the native bubble. This pattern then runs on submit, because it is slightly
+	// stricter than the HTML5 email grammar, which accepts dotless hosts like
+	// `a@b`: a newsletter address always has a dotted domain.
 	const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 	$effect(function manageScrollLockForNewsletter() {
@@ -139,8 +140,20 @@
 		lowestPoint = 0;
 	});
 
-	const triggerSubmitButton = async () => {
+	const describeInvalidEmail = (email: string) =>
+		email ? 'Please enter a valid email address.' : 'Please enter your email address.';
+
+	const showValidationMessage = (event: Event) => {
+		event.preventDefault();
+		error = false;
+		validationError = describeInvalidEmail(emailValue.trim());
+		emailInput?.focus();
+	};
+
+	const handleSubmit = async (event: SubmitEvent) => {
+		event.preventDefault();
 		if (submitting) return;
+		const form = event.currentTarget as HTMLFormElement;
 
 		// Clear the previous attempt's server error BEFORE the validation guard:
 		// returning early with it still set rendered two contradictory role="alert"
@@ -150,9 +163,7 @@
 
 		const email = emailValue.trim();
 		if (!EMAIL_PATTERN.test(email)) {
-			validationError = email
-				? 'Please enter a valid email address.'
-				: 'Please enter your email address.';
+			validationError = describeInvalidEmail(email);
 			emailInput?.focus();
 			return;
 		}
@@ -161,13 +172,6 @@
 		submitting = true;
 		const generation = submitGeneration;
 		try {
-			if (!populateHiddenForm('netlifyNewsletterSignup', { email })) {
-				// Hidden form missing from the DOM — surface it rather than leaving the
-				// visitor with a button that silently does nothing.
-				error = true;
-				return;
-			}
-			const form = document.getElementById('netlifyNewsletterSignup') as HTMLFormElement;
 			const result = await submitForm(form, turnstileToken);
 
 			// The visitor closed and reopened the overlay while this was in flight —
@@ -222,7 +226,8 @@
 						events.
 					</p>
 				</div>
-				<div>
+				<form name="news" onsubmit={handleSubmit}>
+					<input type="hidden" name="form-name" value="news" />
 					<label for="newsletter-email" class="sr-only">Email address</label>
 					<input
 						id="newsletter-email"
@@ -232,6 +237,7 @@
 						bind:this={emailInput}
 						bind:value={emailValue}
 						oninput={() => (validationError = '')}
+						oninvalid={showValidationMessage}
 						aria-invalid={validationError ? 'true' : undefined}
 						aria-describedby={validationError ? 'newsletter-email-error' : undefined}
 						name="email"
@@ -241,13 +247,9 @@
 					{#if validationError}
 						<p id="newsletter-email-error" class="text-xs mt-2" role="alert">{validationError}</p>
 					{/if}
+					<UtmFields />
 					<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
-					<LinkArrowButton
-						class="mt-6"
-						text="Subscribe"
-						onclick={triggerSubmitButton}
-						disabled={submitting}
-					/>
+					<LinkArrowButton class="mt-6" type="submit" text="Subscribe" disabled={submitting} />
 					{#if error}
 						<p class="text-xs mt-4" role="alert">
 							We're sorry, there appears to be an error. Please try again, or email <a
@@ -256,7 +258,7 @@
 							>.
 						</p>
 					{/if}
-				</div>
+				</form>
 				<p class="text-xs mt-24">
 					By signing up, you agree to the Terms of Use and Privacy Policy to receive electronic <br
 					/> communications from Gallery Sonder. You can unsubscribe or change your preferences at any

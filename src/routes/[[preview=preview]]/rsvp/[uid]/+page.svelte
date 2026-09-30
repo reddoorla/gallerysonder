@@ -3,8 +3,9 @@
 	import { getAppState } from '$lib/contexts/appState.svelte';
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import { onMount } from 'svelte';
-	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import { submitForm } from '$lib/utils/forms';
 	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
+	import UtmFields from '$lib/components/UtmFields.svelte';
 	import { cappedWidths } from '@reddoorla/maintenance/images';
 
 	const appState = getAppState();
@@ -13,8 +14,6 @@
 	let submitting = $state(false);
 	let error = $state(false);
 
-	let formName = $state('');
-	let formEmail = $state('');
 	// Default to a real number (not '') so the native number stepper responds on
 	// the first click — binding a `type="number"` input to an empty string leaves
 	// it in a string/empty state where the first step gets swallowed.
@@ -30,27 +29,26 @@
 		);
 	}
 
-	const triggerSubmitButton = async () => {
+	// Server-rendered and prerendered, so the form is on screen before its submit
+	// handler exists. Until then a submit would be a native GET that loses the
+	// lead and puts the visitor's details in the URL; a disabled submit button
+	// blocks both the click and Enter.
+	let hydrated = $state(false);
+	onMount(() => {
+		hydrated = true;
+	});
+
+	// Runs only once the browser's own validation has passed: the fields are in a
+	// real <form>, so `required` blocks an empty submit before this is called.
+	const handleSubmit = async (event: SubmitEvent) => {
+		event.preventDefault();
 		if (submitting) return;
+		const form = event.currentTarget as HTMLFormElement;
 		submitting = true;
 		try {
-			const populated = populateHiddenForm('netlifyRsvpForm', {
-				name: formName,
-				email: formEmail,
-				guests: String(formGuests),
-				event: (data.page.data.name as string) || data.page.uid,
-				// Lookup key for the per-event confirmation copy. Resolved against
-				// Prismic server-side — see src/lib/server/reply-copy.ts.
-				event_uid: data.page.uid
-			});
-
-			if (populated) {
-				const form = document.getElementById('netlifyRsvpForm') as HTMLFormElement;
-				const result = await submitForm(form, turnstileToken);
-
-				submitted = true;
-				error = !result.success;
-			}
+			const result = await submitForm(form, turnstileToken);
+			submitted = true;
+			error = !result.success;
 		} finally {
 			submitting = false;
 		}
@@ -107,50 +105,60 @@
 		</div>
 		<div class="w-full md:w-1/2 flex flex-col gap-2 items-start mt-12 md:mt-0">
 			{#if !submitted}
-				<label for="rsvp-name" class="text-white block">Name</label>
-				<input
-					type="text"
-					id="rsvp-name"
-					name="name"
-					bind:value={formName}
-					required
-					placeholder="First and Last Name"
-					class="w-full max-w-md border-1 border-white p-2 mb-4"
-				/>
+				<form name="rsvp" class="w-full flex flex-col gap-2 items-start" onsubmit={handleSubmit}>
+					<input type="hidden" name="form-name" value="rsvp" />
+					<input
+						type="hidden"
+						name="event"
+						value={(data.page.data.name as string) || data.page.uid}
+					/>
+					<!-- Lookup key for the per-event confirmation copy. Resolved against
+				     Prismic server-side — see src/lib/server/reply-copy.ts. -->
+					<input type="hidden" name="event_uid" value={data.page.uid} />
+					<label for="rsvp-name" class="text-white block">Name</label>
+					<input
+						type="text"
+						id="rsvp-name"
+						name="name"
+						required
+						placeholder="First and Last Name"
+						class="w-full max-w-md border-1 border-white p-2 mb-4"
+					/>
 
-				<label for="rsvp-email" class="text-white block">Email</label>
-				<input
-					type="email"
-					id="rsvp-email"
-					name="email"
-					bind:value={formEmail}
-					required
-					placeholder="you@domain.com"
-					class="w-full max-w-md border-1 border-white p-2 mb-4"
-				/>
+					<label for="rsvp-email" class="text-white block">Email</label>
+					<input
+						type="email"
+						id="rsvp-email"
+						name="email"
+						required
+						placeholder="you@domain.com"
+						class="w-full max-w-md border-1 border-white p-2 mb-4"
+					/>
 
-				<label for="rsvp-guests" class="text-white block">Number of Guests</label>
-				<input
-					type="number"
-					id="rsvp-guests"
-					name="guests"
-					bind:value={formGuests}
-					required
-					placeholder="1"
-					min="1"
-					class="w-full max-w-xs border-1 border-white p-2 mb-4"
-				/>
+					<label for="rsvp-guests" class="text-white block">Number of Guests</label>
+					<input
+						type="number"
+						id="rsvp-guests"
+						name="guests"
+						bind:value={formGuests}
+						required
+						placeholder="1"
+						min="1"
+						class="w-full max-w-xs border-1 border-white p-2 mb-4"
+					/>
 
-				<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
+					<UtmFields />
 
-				<button
-					type="submit"
-					onclick={triggerSubmitButton}
-					disabled={submitting}
-					class="text-black border-b-2 bg-white hover:bg-gray-200 p-3 font-bold border-black cursor-pointer"
-				>
-					Submit RSVP
-				</button>
+					<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
+
+					<button
+						type="submit"
+						disabled={!hydrated || submitting}
+						class="text-black border-b-2 bg-white hover:bg-gray-200 p-3 font-bold border-black cursor-pointer"
+					>
+						Submit RSVP
+					</button>
+				</form>
 				<div class="text-white absolute bottom-0 left-0">
 					By clicking submit you agree to receive emails under the terms of our privacy policy.
 				</div>

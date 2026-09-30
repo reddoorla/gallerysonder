@@ -7,6 +7,7 @@
 		onclick = () => {},
 		opensNewTab = false,
 		disabled = false,
+		type = 'button',
 		class: className = ''
 	}: {
 		text?: string;
@@ -14,6 +15,7 @@
 		onclick?: () => void;
 		opensNewTab?: boolean;
 		disabled?: boolean;
+		type?: 'button' | 'submit';
 		class?: string;
 	} = $props();
 
@@ -53,6 +55,7 @@
 			onclick();
 		}}
 		{disabled}
+		{type}
 		class="relative flex flex-row items-center text-center no-underline justify-center transition-all duration-300 active:-translate-y-2 w-fit disabled:opacity-50 disabled:cursor-not-allowed {className}"
 	>
 		<span class="h-5 uppercase no-underline">{text}</span>

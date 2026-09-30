@@ -48,8 +48,8 @@ export const smokeRoutes: SmokeRoute[] = [
 	// knowing: a visitor arriving from an invite has no link into the rest of the
 	// site from this page. That is a design decision, not a bug, and it is why the
 	// footer link list added alongside this does not reach these pages.
-	// Scoped to #main-content: the layout also ships several hidden Netlify forms,
-	// each with its own email input, so a bare input[type=email] matches five things.
+	// Scoped to #main-content so the marker is the rsvp form's own email field, not
+	// the newsletter overlay's, which the layout mounts on every page.
 	{
 		path: '/rsvp/euphorbia',
 		name: 'rsvp event',
