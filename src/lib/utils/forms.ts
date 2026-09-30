@@ -44,10 +44,9 @@ const ANALYTICS_FIELDS: Record<string, Record<string, string>> = {
  * Elements* where Click Text contains "Submit RSVP", which counts the button
  * press, not the RSVP: failed posts, spam-blocked posts and double-taps all
  * became conversions. Worse, the visible RSVP inputs sit outside any <form>
- * (the real one is the hidden #netlifyRsvpForm in +layout.svelte), so their
- * `required` attributes block nothing and a click on an empty form counted as
- * well — GA4 reading *above* the database while everyone expected it to read
- * below.
+ * (then a hidden stub form in +layout.svelte), so their `required` attributes
+ * blocked nothing and a click on an empty form counted as well — GA4 reading
+ * *above* the database while everyone expected it to read below.
  *
  * The push is unconditional. GTM is itself consent-gated (CookieConsent injects
  * it only once the visitor accepts), so for anyone who declined this array is
@@ -84,13 +83,41 @@ function pushSubmissionEvent(formType: string, entries: Record<string, string>, 
 }
 
 /**
- * Forward a hidden form's data to the central dashboard ingest endpoint
- * (`/api/forms`). Derives the ingest formType from the legacy `form-name`
- * marker, folds the UTM hidden inputs (captured at landing) into a single `utm`
- * query string, and attaches the current page URL as `sourceUrl`. Site-specific
+ * The fields each form sends, keyed by its `form-name` marker. An allow-list,
+ * not a spread of FormData: the Turnstile widget and flatpickr insert inputs of
+ * their own inside the real <form>, and none of them belongs in a lead. These
+ * are exactly the fields the Netlify-era hidden stub forms carried, so the
+ * payload each form sends is the one it sent before the forms became real.
+ */
+const PAYLOAD_FIELDS: Record<string, string[]> = {
+	contact: [
+		'name',
+		'company',
+		'phone',
+		'email',
+		'bot-field',
+		'appointment_date',
+		'appointment_time',
+		'message'
+	],
+	inquiry: ['name', 'phone', 'email', 'bot-field', 'message', 'piece', 'artist', 'role'],
+	news: ['bot-field', 'email'],
+	rsvp: ['bot-field', 'name', 'email', 'event', 'event_uid', 'guests']
+};
+
+/**
+ * Forward a form's data to the central dashboard ingest endpoint
+ * (`/api/forms`). Derives the ingest formType from the `form-name` marker,
+ * folds the UTM hidden inputs (captured at landing) into a single `utm` query
+ * string, and attaches the current page URL as `sourceUrl`. Site-specific
  * fields (piece, artist, role, event, guests, company, appointment_*) ride along
- * as top-level keys; the ingest endpoint bundles them into `extra`. Never throws
- * — a network error is surfaced as `{ success: false }` so callers' email
+ * as top-level keys; the ingest endpoint bundles them into `extra`.
+ *
+ * `testMode` is the fleet form-e2e probe's marker: it adds a hidden
+ * `testMode=true` input to the form, and forwarding it is what routes the
+ * probe's submission away from the database, the notification email and the
+ * Mailchimp fanout. Only the exact string "true" counts. Never throws — a
+ * network error is surfaced as `{ success: false }` so callers' email
  * fallbacks fire.
  */
 export async function submitForm(
@@ -98,25 +125,26 @@ export async function submitForm(
 	turnstileToken?: string
 ): Promise<FormSubmissionResult> {
 	const formData = new FormData(formElement);
-	const entries: Record<string, string> = {};
-	for (const [key, value] of formData.entries()) {
-		if (typeof value === 'string') entries[key] = value;
-	}
+	const read = (key: string): string => {
+		const value = formData.get(key);
+		return typeof value === 'string' ? value : '';
+	};
 
-	const formName = entries['form-name'] ?? '';
+	const formName = read('form-name');
 	const formType = FORM_TYPE_BY_NAME[formName] ?? formName;
+
+	const entries: Record<string, string> = {};
+	for (const key of PAYLOAD_FIELDS[formName] ?? []) entries[key] = read(key);
 
 	// Fold UTM hidden inputs (defaulted to 'none' at mount) into one query string,
 	// dropping empties/'none'; lands in the ingest `utm` column.
 	const utmParams = new URLSearchParams();
 	for (const key of UTM_KEYS) {
-		const value = entries[key];
+		const value = read(key);
 		if (value && value !== 'none') utmParams.set(key, value);
-		delete entries[key];
 	}
-	delete entries['form-name'];
 
-	const payload: Record<string, string> = {
+	const payload: Record<string, string | boolean> = {
 		...entries,
 		formType,
 		sourceUrl: window.location.href
@@ -127,6 +155,7 @@ export async function submitForm(
 	// reads `cf-turnstile-response` into its transient `_meta` for central verify;
 	// it's excluded from persisted `extra` server-side. Absent token = fail-open.
 	if (turnstileToken) payload['cf-turnstile-response'] = turnstileToken;
+	if (read('testMode') === 'true') payload.testMode = true;
 
 	try {
 		const response = await fetch('/api/forms', {
@@ -161,16 +190,4 @@ export async function submitForm(
 		console.error(`[forms] ${formType} submission could not reach /api/forms: ${String(err)}`);
 		return { success: false, status: 0 };
 	}
-}
-
-export function populateHiddenForm(formId: string, fieldValues: Record<string, string>): boolean {
-	const form = document.getElementById(formId) as HTMLFormElement;
-	if (!form) return false;
-
-	Object.entries(fieldValues).forEach(([name, value]) => {
-		const field = form.querySelector(`[name="${name}"]`) as HTMLInputElement | HTMLTextAreaElement;
-		if (field) field.value = value;
-	});
-
-	return true;
 }

@@ -40,17 +40,6 @@
 	// dashboard, which sets the cookie before redirecting here.
 	let isPreviewActive = $state(false);
 
-	// Must be $state: it's populated from the URL in onMount and bound into the
-	// hidden form inputs' value=, so without reactivity every submission shipped
-	// utm_*=none (attribution silently lost).
-	let currentUtmParams = $state({
-		source: 'none',
-		medium: 'none',
-		campaign: 'none',
-		term: 'none',
-		content: 'none'
-	});
-
 	const areUtmParamsEmpty = () => {
 		const u = appState.utmParams;
 		return !(u.campaign || u.content || u.medium || u.medium || u.source || u.term);
@@ -61,7 +50,9 @@
 
 		const urlParams = $page.url.searchParams;
 
-		currentUtmParams = {
+		// The landing page's UTM parameters. Every form reads them from appState
+		// (UtmFields) into the hidden inputs submitForm folds into `utm`.
+		const currentUtmParams = {
 			source: urlParams.get('utm_source') || 'none',
 			medium: urlParams.get('utm_medium') || 'none',
 			campaign: urlParams.get('utm_campaign') || 'none',
@@ -152,168 +143,3 @@
 {#if isPreviewActive}
 	<PrismicPreview {repositoryName} />
 {/if}
-
-<form class="hidden" name="contact" method="post" id="netlifyContactForm">
-	<input type="hidden" name="form-name" value="contact" />
-
-	<p>Name</p>
-	<input
-		type="text"
-		name="name"
-		required
-		placeholder="first and last name"
-		class="w-full border-1 border-mid p-2 mb-4"
-	/>
-	<p>Company Name</p>
-	<input
-		type="text"
-		name="company"
-		placeholder="company name"
-		class="w-full border-1 border-mid p-2 mb-4"
-	/>
-	<p>Phone</p>
-	<input
-		type="phone"
-		name="phone"
-		required
-		placeholder="000-000-0000"
-		class="w-full border-1 border-mid p-2 mb-4"
-	/>
-	<p>Email</p>
-	<input
-		type="email"
-		name="email"
-		required
-		placeholder="you@domain.com"
-		class="w-full border-1 border-mid p-2 mb-4"
-	/>
-	<p class="hidden">
-		<label>
-			Don't fill this out if you're human: <input name="bot-field" />
-		</label>
-	</p>
-	<input type="date" name="appointment_date" />
-	<select name="appointment_time">
-		<option value=""></option>
-		<option value="Morning">Morning</option>
-		<option value="Afternoon">Afternoon</option>
-		<option value="Evening">Evening</option>
-	</select>
-	<p>Message</p>
-	<textarea
-		name="message"
-		required
-		placeholder="how can we help?"
-		class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
-
-	<!-- UTM Parameters -->
-	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
-	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
-	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
-	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
-	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-	<button
-		id="hiddenSubmitButton"
-		type="submit"
-		value="Connect"
-		class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
-		>Connect</button
-	>
-</form>
-
-<form class="hidden" name="inquiry" method="post" id="netlifyInquiryForm">
-	<input type="hidden" name="form-name" value="inquiry" />
-
-	<p>Name</p>
-	<input
-		type="text"
-		name="name"
-		required
-		placeholder="first and last name"
-		class="w-full border-1 border-mid p-2 mb-4"
-	/>
-	<p>Phone</p>
-	<input
-		type="phone"
-		name="phone"
-		required
-		placeholder="000-000-0000"
-		class="w-full border-1 border-mid p-2 mb-4"
-	/>
-	<p>Email</p>
-	<input
-		type="email"
-		name="email"
-		required
-		placeholder="you@domain.com"
-		class="w-full border-1 border-mid p-2 mb-4"
-	/>
-	<p class="hidden">
-		<label>
-			Don't fill this out if you're human: <input name="bot-field" />
-		</label>
-	</p>
-	<p>Message</p>
-	<textarea
-		name="message"
-		required
-		placeholder="how can we help?"
-		class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
-
-	<input name="piece" type="text" />
-	<input name="artist" type="text" />
-	<input name="role" type="text" />
-
-	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
-	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
-	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
-	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
-	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-
-	<button
-		id="hiddenSubmitButton"
-		type="submit"
-		value="Connect"
-		class="bump text-primary border-b-2 hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
-		>Connect</button
-	>
-</form>
-
-<form class="hidden" name="news" method="POST" id="netlifyNewsletterSignup">
-	<input type="hidden" name="form-name" value="news" />
-	<p class="hidden">
-		<label>
-			Don’t fill this out if you’re human: <input name="bot-field" />
-		</label>
-	</p>
-	<!-- No `name` field: the newsletter overlay only collects an email, and an
-	     unpopulated input shipped `name: ""` as a typed column on every lead. -->
-	<input type="email" name="email" />
-	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
-	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
-	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
-	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
-	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-
-	<button type="submit" id="hiddenNewsSubmitButton" aria-label="Submit newsletter signup"></button>
-</form>
-
-<form class="hidden" name="rsvp" method="POST" id="netlifyRsvpForm">
-	<p class="hidden">
-		<label>
-			Don’t fill this out if you’re human: <input name="bot-field" />
-		</label>
-	</p>
-	<input type="hidden" name="form-name" value="rsvp" />
-	<input name="name" type="text" />
-	<input type="email" name="email" />
-	<input type="text" name="event" />
-	<input type="hidden" name="event_uid" />
-	<input name="guests" type="number" />
-	<input type="hidden" name="utm_source" value={currentUtmParams.source} />
-	<input type="hidden" name="utm_medium" value={currentUtmParams.medium} />
-	<input type="hidden" name="utm_campaign" value={currentUtmParams.campaign} />
-	<input type="hidden" name="utm_term" value={currentUtmParams.term} />
-	<input type="hidden" name="utm_content" value={currentUtmParams.content} />
-	<button type="submit" id="hiddenRsvpSubmitButton" aria-label="Submit RSVP"></button>
-</form>

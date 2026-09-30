@@ -12,8 +12,9 @@
 	import { slide } from 'svelte/transition';
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
 	import { page } from '$app/stores';
-	import { populateHiddenForm, submitForm } from '$lib/utils/forms';
+	import { submitForm } from '$lib/utils/forms';
 	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
+	import UtmFields from '$lib/components/UtmFields.svelte';
 	import { datepicker } from '$lib/utils/datepicker';
 	import Select from '$lib/components/Buttons/Select.svelte';
 	import { cappedWidths } from '@reddoorla/maintenance/images';
@@ -35,36 +36,20 @@
 	let showFullBody = $state(false);
 	let showContactForm = $state(true);
 
-	let formName = $state('');
-	let formCompany = $state('');
-	let formPhone = $state('');
-	let formEmail = $state('');
-	let formMessage = $state('');
-	let formDate = $state('');
 	let formTimePreference = $state('');
 	let turnstileToken = $state('');
 
-	const triggerSubmitButton = async () => {
+	// Runs only once the browser's own validation has passed: the fields are in a
+	// real <form>, so `required` blocks an empty submit before this is called.
+	const handleSubmit = async (event: SubmitEvent) => {
+		event.preventDefault();
 		if (submitting) return;
+		const form = event.currentTarget as HTMLFormElement;
 		submitting = true;
 		try {
-			const populated = populateHiddenForm('netlifyContactForm', {
-				name: formName,
-				company: formCompany,
-				phone: formPhone,
-				email: formEmail,
-				message: formMessage,
-				appointment_date: formDate,
-				appointment_time: formTimePreference
-			});
-
-			if (populated) {
-				const form = document.getElementById('netlifyContactForm') as HTMLFormElement;
-				const result = await submitForm(form, turnstileToken);
-
-				submitted = true;
-				error = !result.success;
-			}
+			const result = await submitForm(form, turnstileToken);
+			submitted = true;
+			error = !result.success;
 		} finally {
 			submitting = false;
 		}
@@ -205,99 +190,103 @@
 					class="h-full w-full my-12 md:mt-0 md:w-2/3 flex flex-col gap-2 items-start md:pr-24"
 				>
 					{#if !submitted}
-						<p>Name</p>
-						<input
-							type="text"
-							name="name"
-							bind:value={formName}
-							required
-							placeholder="First and last name"
-							class="w-full border-1 border-mid p-2 mb-4"
-						/>
-
-						<p>Company Name</p>
-						<input
-							type="text"
-							name="company"
-							bind:value={formCompany}
-							placeholder="Company name"
-							class="w-full border-1 border-mid p-2 mb-4"
-						/>
-
-						<p>Phone</p>
-						<input
-							type="phone"
-							name="phone"
-							bind:value={formPhone}
-							required
-							placeholder="000-000-0000"
-							class="w-full border-1 border-mid p-2 mb-4"
-						/>
-
-						<p>Email</p>
-						<input
-							type="email"
-							name="email"
-							bind:value={formEmail}
-							required
-							placeholder="you@domain.com"
-							class="w-full border-1 border-mid p-2 mb-4"
-						/>
-
-						<p>Preferred appointment date <span class="opacity-60">(optional)</span></p>
-						<input
-							type="text"
-							name="appointment_date"
-							bind:value={formDate}
-							use:datepicker
-							placeholder="Select a date"
-							aria-label="Preferred appointment date"
-							class="w-full border-1 border-mid p-2 mb-4 bg-white/40 rounded-[2px]"
-						/>
-
-						<p>Preferred time of day <span class="opacity-60">(optional)</span></p>
-						<Select
-							bind:value={formTimePreference}
-							ariaLabel="Preferred time of day"
-							placeholder="No preference"
-							options={[
-								{ value: '', label: 'No preference' },
-								{ value: 'Morning', label: 'Morning' },
-								{ value: 'Afternoon', label: 'Afternoon' },
-								{ value: 'Evening', label: 'Evening' }
-							]}
-						/>
-
-						<p class="hidden">
-							<label>
-								Don’t fill this out if you’re human: <input name="bot-field" />
-							</label>
-						</p>
-
-						<p>Message</p>
-						<textarea
-							name="message"
-							bind:value={formMessage}
-							required
-							placeholder="How can we help?"
-							class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
-
-						<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
-
-						<button
-							type="submit"
-							onclick={triggerSubmitButton}
-							disabled={submitting}
-							class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
-							>Connect</button
+						<form
+							name="contact"
+							class="w-full flex flex-col gap-2 items-start"
+							onsubmit={handleSubmit}
 						>
+							<input type="hidden" name="form-name" value="contact" />
+
+							<p>Name</p>
+							<input
+								type="text"
+								name="name"
+								required
+								placeholder="First and last name"
+								class="w-full border-1 border-mid p-2 mb-4"
+							/>
+
+							<p>Company Name</p>
+							<input
+								type="text"
+								name="company"
+								placeholder="Company name"
+								class="w-full border-1 border-mid p-2 mb-4"
+							/>
+
+							<p>Phone</p>
+							<input
+								type="phone"
+								name="phone"
+								required
+								placeholder="000-000-0000"
+								class="w-full border-1 border-mid p-2 mb-4"
+							/>
+
+							<p>Email</p>
+							<input
+								type="email"
+								name="email"
+								required
+								placeholder="you@domain.com"
+								class="w-full border-1 border-mid p-2 mb-4"
+							/>
+
+							<p>Preferred appointment date <span class="opacity-60">(optional)</span></p>
+							<input
+								type="text"
+								name="appointment_date"
+								use:datepicker
+								placeholder="Select a date"
+								aria-label="Preferred appointment date"
+								class="w-full border-1 border-mid p-2 mb-4 bg-white/40 rounded-[2px]"
+							/>
+
+							<p>Preferred time of day <span class="opacity-60">(optional)</span></p>
+							<Select
+								bind:value={formTimePreference}
+								ariaLabel="Preferred time of day"
+								placeholder="No preference"
+								options={[
+									{ value: '', label: 'No preference' },
+									{ value: 'Morning', label: 'Morning' },
+									{ value: 'Afternoon', label: 'Afternoon' },
+									{ value: 'Evening', label: 'Evening' }
+								]}
+							/>
+							<input type="hidden" name="appointment_time" value={formTimePreference} />
+
+							<p class="hidden">
+								<label>
+									Don’t fill this out if you’re human: <input name="bot-field" />
+								</label>
+							</p>
+
+							<p>Message</p>
+							<textarea
+								name="message"
+								required
+								placeholder="How can we help?"
+								class="min-h-24 w-full border-1 border-mid p-2 mb-4"></textarea>
+
+							<UtmFields />
+
+							<TurnstileWidget onToken={(t) => (turnstileToken = t)} />
+
+							<button
+								type="submit"
+								disabled={submitting}
+								class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
+								>Connect</button
+							>
+						</form>
 					{:else if error}
-						<h2>
+						<h2 role="alert">
 							We're sorry, there appears to be an error. Please email info@gallerysonder.com with
 							your inquiry.
 						</h2>
 					{:else}
-						<h2>Thank you for reaching out!</h2>
+						<h2 role="status">Thank you for reaching out!</h2>
 					{/if}
 				</div>
 			{/if}
