@@ -243,3 +243,24 @@ its `file_name`, still carries a markdown-wrapped `link_url`, and probably
 double-counts against GA4 Enhanced Measurement's automatic `file_download`; it
 decays on its own when the show rotates after the 12 Sep opening. Hotjar has been
 awaiting Josh's decision since 2 Sep.
+
+## 2026-09-30 — The four forms are real forms, and the fleet's form-e2e probe measures them (#105, `0eb2bee`)
+
+The contact, inquiry, newsletter and RSVP fields had lived outside any `<form>` since the Netlify Forms days. `populateHiddenForm` copied them into four hidden stub forms in `+layout.svelte`, and `submitForm` posted the stub. Three things followed from that, all measured before the change:
+
+- **`required` blocked nothing.** An empty Connect or Submit RSVP posted a blank lead.
+- **Every contact lead lost its appointment date.** The stub's date input was `type="date"`, and flatpickr writes `m-d-Y`, a value a date input silently discards. All 8 contact submissions since June arrived with `appointment_date: ""`.
+- **The nightly form-e2e probe refused the site.** `/health` declared no `testMode`, and a hidden stub was the first form on `/contact`.
+
+Each UI is now a real `<form>`. `submitForm` reads an explicit per-form list of exactly the stub's fields, so Turnstile's and flatpickr's own inputs never reach a lead. The probe's `testMode` marker is forwarded, top-level and only as boolean `true`; before this, it would have landed in `extra`, and central would have treated the probe as a real lead. `/health` declares `forms.testMode`.
+
+`tests/smoke/forms.spec.ts` pins each form's payload field by field. It was written and passed against the old code first, so it records what production sent, not what the new code sends.
+
+Review caught two defects this change caused:
+
+- **A dead CSS selector came back to life.** The `form button` base rule in `app.css` had only ever matched invisible stub buttons. With real forms it restyled Connect and Submit RSVP. The selector is gone.
+- **Prerendering let a pre-hydration submit leak.** The contact and RSVP forms are prerendered, so a submit before hydration went out as a GET with the visitor's details in the URL. The submit buttons now stay disabled until mount.
+
+After deploy, the fleet run wrote `form_e2e_ok = pass` for Sonder at 15:42Z on 2026-09-30. Marked probes of all four forms on production left the database unchanged.
+
+Not changed: an inquiry sent before the artist document loads still carries `artist: ""`, as before.
