@@ -192,8 +192,7 @@
 	p,
 	label,
 	input,
-	textarea,
-	form button {
+	textarea {
 		font-feature-settings:
 			'clig' off,
 			'liga' off;

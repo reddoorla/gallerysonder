@@ -29,6 +29,15 @@
 		);
 	}
 
+	// Server-rendered and prerendered, so the form is on screen before its submit
+	// handler exists. Until then a submit would be a native GET that loses the
+	// lead and puts the visitor's details in the URL; a disabled submit button
+	// blocks both the click and Enter.
+	let hydrated = $state(false);
+	onMount(() => {
+		hydrated = true;
+	});
+
 	// Runs only once the browser's own validation has passed: the fields are in a
 	// real <form>, so `required` blocks an empty submit before this is called.
 	const handleSubmit = async (event: SubmitEvent) => {
@@ -144,7 +153,7 @@
 
 					<button
 						type="submit"
-						disabled={submitting}
+						disabled={!hydrated || submitting}
 						class="text-black border-b-2 bg-white hover:bg-gray-200 p-3 font-bold border-black cursor-pointer"
 					>
 						Submit RSVP

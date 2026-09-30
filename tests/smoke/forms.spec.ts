@@ -483,3 +483,51 @@ test('/health declares testMode forwarding for the form-e2e probe', async ({ req
 	const body = await res.json();
 	expect(body.forms.testMode).toBe(true);
 });
+
+test.describe('inside a real <form>', () => {
+	test('the form buttons keep the site’s button type, not the old stub-form rule', async ({
+		page
+	}) => {
+		await goto(page, '/contact');
+		const connect = await contactSubmit(page).evaluate((el) => {
+			const s = getComputedStyle(el);
+			return { font: s.fontFamily, size: s.fontSize, overflow: s.overflow };
+		});
+		expect(connect.font).toContain('commuters-sans');
+		expect(connect.size).toBe('12px');
+		expect(connect.overflow).toBe('visible');
+
+		await page.goto('/rsvp/euphorbia');
+		const rsvp = await rsvpSubmit(page).evaluate((el) => getComputedStyle(el).fontFamily);
+		expect(rsvp).toContain('commuters-sans');
+	});
+
+	test('the newsletter Subscribe arrow is not clipped', async ({ page }) => {
+		await openNewsletter(page);
+		const overflow = await newsletterSubmit(page).evaluate((el) => getComputedStyle(el).overflow);
+		expect(overflow).toBe('visible');
+	});
+
+	for (const { name, path, fill, submit } of [
+		{ name: 'contact', path: '/contact', fill: fillContact, submit: contactSubmit },
+		{ name: 'rsvp', path: '/rsvp/euphorbia', fill: fillRsvp, submit: rsvpSubmit }
+	]) {
+		test(`a ${name} submit before hydration never puts the visitor’s details in the URL`, async ({
+			browser
+		}) => {
+			const context = await browser.newContext({ javaScriptEnabled: false });
+			const page = await context.newPage();
+			await page.goto(path);
+			await fill(page);
+			await submit(page)
+				.click({ force: true, timeout: 2000 })
+				.catch(() => {});
+			await page.locator('[name="email"]').first().press('Enter');
+			await page.waitForTimeout(500);
+			expect(page.url()).not.toContain('ada%40example.com');
+			expect(page.url()).not.toContain('ada@example.com');
+			expect(new URL(page.url()).search).toBe('');
+			await context.close();
+		});
+	}
+});

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { TitleBlockSlice } from '../../../prismicio-types';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
@@ -38,6 +39,15 @@
 
 	let formTimePreference = $state('');
 	let turnstileToken = $state('');
+
+	// Server-rendered and prerendered, so the form is on screen before its submit
+	// handler exists. Until then a submit would be a native GET that loses the
+	// lead and puts the visitor's details in the URL; a disabled submit button
+	// blocks both the click and Enter.
+	let hydrated = $state(false);
+	onMount(() => {
+		hydrated = true;
+	});
 
 	// Runs only once the browser's own validation has passed: the fields are in a
 	// real <form>, so `required` blocks an empty submit before this is called.
@@ -275,7 +285,7 @@
 
 							<button
 								type="submit"
-								disabled={submitting}
+								disabled={!hydrated || submitting}
 								class="bump text-primary border-b-2 bg-white hover:bg-black hover:text-white p-3 font-bold border-primary bump cursor-pointer"
 								>Connect</button
 							>
