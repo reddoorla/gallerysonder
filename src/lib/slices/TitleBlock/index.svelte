@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { TitleBlockSlice } from '../../../prismicio-types';
+	import type { TitleBlockSlice } from '../../../../prismicio-types';
 	import TopShape from '$lib/components/Shapes/TopShape.svelte';
 	import TopShapeSpacer from '$lib/components/Shapes/TopShapeSpacer.svelte';
 	import { shapeMargin } from '$lib/actions/shapeMargin';

@@ -11,7 +11,7 @@ import type {
 	ArtistDocumentData,
 	ExhibitDocumentData,
 	NewsDocumentData
-} from '../../prismicio-types';
+} from '../../../prismicio-types';
 
 type DocumentTypeId = AllDocumentTypes['type'];
 

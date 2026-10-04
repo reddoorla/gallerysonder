@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ImageGallerySlice } from '../../../prismicio-types';
+	import type { ImageGallerySlice } from '../../../../prismicio-types';
 
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import Gallery from '$lib/components/Gallery.svelte';

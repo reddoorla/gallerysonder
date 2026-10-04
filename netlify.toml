@@ -16,6 +16,9 @@
 # embedding `/slice-simulator` (the in-editor slice preview) — exactly the
 # "preview is erroring" symptom. `frame-ancestors` gives the same clickjacking
 # protection but allowlists the Prismic editor origin (*.prismic.io).
+# Since the move to the Prismic CLI, /slice-simulator is server-rendered and
+# does not get this block at all: src/hooks.server.ts sends its policy (see
+# src/lib/security/cms-framing.ts). Static headers reach prerendered files only.
 #
 # NOTE: this is NOT a full resource CSP — it does not restrict script/style/img/
 # font/connect sources, so it cannot break Typekit, the consent-gated GTM/Facebook

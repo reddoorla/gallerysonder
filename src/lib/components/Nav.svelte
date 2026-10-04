@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import type { NavDocumentDataLinksItem } from '../../prismicio-types';
+	import type { NavDocumentDataLinksItem } from '../../../prismicio-types';
 	import { isFilled } from '@prismicio/client';
 
 	import ContentWidth from './ContentWidth.svelte';

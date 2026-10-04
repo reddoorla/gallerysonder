@@ -6,7 +6,7 @@
 		ArtistDocumentData,
 		ExhibitDocumentData,
 		NewsDocumentData
-	} from '../../prismicio-types';
+	} from '../../../prismicio-types';
 	import GridImage from './GridImage.svelte';
 	import LinkArrowButton from './Buttons/LinkArrowButton.svelte';
 	import { slide } from 'svelte/transition';

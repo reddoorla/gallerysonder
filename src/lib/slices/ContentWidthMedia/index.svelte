@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { VideoBlockSlice } from '../../../prismicio-types';
+	import type { VideoBlockSlice } from '../../../../prismicio-types';
 
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 	import placeholderThumbnail from '$lib/assets/images/homeImages/galleryImage.jpg';
