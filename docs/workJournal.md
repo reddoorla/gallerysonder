@@ -277,7 +277,7 @@ Phase 4 of the fleet migration (reddoor-maintenance `docs/prismic-migration-plan
 
 The `prismic-codegen` job passed on the committed tree and went red with an un-regenerated field added to the QuoteBlock model. The nightly drift sweep read Sonder's 16 models as matching Prismic at `b8a675e`, the base of this change, so nothing was owed to Prismic first.
 
-## 2026-10-04 — The simulator leaves every page's bundle; an encoded path gets the simulator's framing (`fix/simulator-chunk-and-encoded-framing`)
+## 2026-10-04 — The simulator leaves every page's bundle; an encoded path gets the simulator's framing (#108)
 
 These are the two findings from the adversarial review of the Prismic CLI move, ported from reddoor-starter#168 on the caltex-landing#70 pattern. `/slice-simulator` imports `SliceSimulator` from the `@prismicio/svelte` barrel, which re-exports it statically, so Rolldown put `@prismicio/simulator` in the barrel's shared chunk. That chunk hung off the root layout, so every page preloaded it. `scripts/prismic-barrel.ts`, copied verbatim from the starter, declares that one re-export-only module side-effect-free, and `SliceZone` is then bound directly. The copy is kept byte-identical by adding it to `.prettierignore`, because this repo's prettier style (tabs, single quotes) differs from the starter's.
 
