@@ -5,7 +5,7 @@
 	import logoExtendedE from '$lib/assets/icons/sonderLogosExtended/SONDER_E.svg';
 
 	import { page } from '$app/stores';
-	import type { NavDocumentDataLinksItem } from '../../prismicio-types';
+	import type { NavDocumentDataLinksItem } from '../../../prismicio-types';
 	import { isFilled } from '@prismicio/client';
 	import { getAppState } from '$lib/contexts/appState.svelte';
 

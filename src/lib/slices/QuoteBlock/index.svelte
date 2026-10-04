@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { QuoteBlockSlice } from '../../../prismicio-types';
+	import type { QuoteBlockSlice } from '../../../../prismicio-types';
 
 	import ContentWidth from '$lib/components/ContentWidth.svelte';
 

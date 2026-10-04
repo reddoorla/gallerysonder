@@ -1,5 +1,5 @@
 import { createClient, isFilled, type ContentRelationshipField } from '@prismicio/client';
-import type { AllDocumentTypes } from '../../prismicio-types';
+import type { AllDocumentTypes } from '../../../prismicio-types';
 
 type DocumentTypeId = AllDocumentTypes['type'];
 

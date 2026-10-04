@@ -1,7 +1,7 @@
 import { getContext, onMount, setContext } from 'svelte';
 import { SvelteMap } from 'svelte/reactivity';
 import { isFilled } from '@prismicio/client';
-import type { ArtistDocument, ArtworkDocument } from '../../prismicio-types';
+import type { ArtistDocument, ArtworkDocument } from '../../../prismicio-types';
 import { getPrismicClient } from '$lib/utils/prismic';
 
 const APP_STATE_KEY = Symbol('APP_STATE');

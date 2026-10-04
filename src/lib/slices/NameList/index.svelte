@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { NameListSlice } from '../../../prismicio-types';
+	import type { NameListSlice } from '../../../../prismicio-types';
 	import { isFilled } from '@prismicio/client';
-	import type { ArtistDocumentData } from '../../../prismicio-types';
+	import type { ArtistDocumentData } from '../../../../prismicio-types';
 	import type { NameListItem, ResolvedNameListSlice } from '$lib/utils/gallery';
 	import NameRevealOnHover from '$lib/components/NameRevealOnHover.svelte';
 	import ContentWidth from '$lib/components/ContentWidth.svelte';

@@ -22,8 +22,20 @@ worth repeating because they are easy to get wrong:
   passes `isFilled.link()` but resolves to `url: undefined`, so links render as
   dead buttons rather than failing.
 
-Slice Machine owns the folders under `src/lib/slices/`, and `customtypes/` is
-its model directory — regenerating overwrites what is in them.
+`prismicio-types.d.ts` (at the project root) and `src/lib/slices/index.ts` are
+**generated** by the Prismic CLI (`pnpm prismic:gen`; Slice Machine is gone,
+deprecated by Prismic 2026-09-18). Models live in `customtypes/<id>/index.json`
+and `src/lib/slices/<Slice>/model.json`: edit one, regenerate, commit both. The
+`prismic-codegen` job fails a PR whose generated files are stale, and both are in
+`.prettierignore`. Code imports the types by relative path to the root file
+(`'../../../prismicio-types'` from `src/lib/<dir>/`). Run by an agent, the CLI
+refuses without `--task-id` and `--user-intent`, so an agent runs
+`pnpm exec prismic task-id` once, then
+`pnpm exec prismic gen types --task-id <id> --user-intent "<the ask>"` and the
+same for `gen slice-index`. Never `prismic push` or `prismic pull`: both delete
+to match. `/slice-simulator` is server-rendered on purpose: `src/hooks.server.ts`
+gives it the Type Builder's framing policy, which netlify.toml's static `/*`
+header would otherwise replace.
 
 ## The work journal
 
