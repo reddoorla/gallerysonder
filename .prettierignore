@@ -9,3 +9,5 @@ dist/
 # generator wrote them.
 prismicio-types.d.ts
 src/lib/slices/index.ts
+
+scripts/prismic-barrel.ts
