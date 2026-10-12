@@ -1,6 +1,6 @@
 # Gallery Sonder
 
-The gallerysonder.com website. SvelteKit 2 + Svelte 5, content from [Prismic][prismic],
+The gallerysonder.com website. SvelteKit 3 + Svelte 5, content from [Prismic][prismic],
 deployed to Netlify, part of the Red Door fleet (shared CI, lint, a11y and forms
 tooling live in [`@reddoorla/maintenance`][maintenance]).
 
