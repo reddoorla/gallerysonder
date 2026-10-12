@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 Session rules for AI agents working on **Gallery Sonder** — the
-gallerysonder.com website. SvelteKit 2 / Svelte 5, content from Prismic,
+gallerysonder.com website. SvelteKit 3 / Svelte 5, content from Prismic,
 deployed to Netlify, part of the Red Door fleet (shared CI, lint, a11y and forms
 tooling come from `@reddoorla/maintenance`).
 
@@ -9,10 +9,12 @@ tooling come from `@reddoorla/maintenance`).
 and the repo layout. Read it before changing anything. Three things from it are
 worth repeating because they are easy to get wrong:
 
-- **There is deliberately no `test` script.** Shared CI runs a "Test (if
+- **`pnpm test` must never run the smoke suite.** Shared CI runs a "Test (if
   present)" step and a separate "Smoke test (if present)" step, so aliasing the
-  two made every pull request run the same Playwright suite twice. Use
-  `pnpm test:smoke`.
+  two made every pull request run the same Playwright suite twice. `pnpm test`
+  is `node --test` over `scripts/`, the kit 3 config and env-declaration gate
+  (SvelteKit 3 exposes only the variables `src/env.ts` declares; an undeclared
+  read is silently `undefined`). Use `pnpm test:smoke` for Playwright.
 - **Run the smoke suite on its own port** when other Vite servers are around —
   Playwright reuses whatever is already listening on 5173, which silently tests
   the wrong site. `REDDOOR_SMOKE_PORT=5399 pnpm test:smoke`.

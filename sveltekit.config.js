@@ -1,4 +1,4 @@
-import { createSvelteConfig } from '@reddoorla/maintenance/configs/svelte';
+import { createKitConfig } from '@reddoorla/maintenance/configs/svelte';
 import adapter from '@sveltejs/adapter-netlify';
 
 // VITE_REDDOOR_GATE_FIXTURES=1 builds the /dev fixtures into the bundle, for
@@ -13,13 +13,14 @@ if (process.env.VITE_REDDOOR_GATE_FIXTURES && process.env.NETLIFY) {
 	);
 }
 
-/** @type {import('@sveltejs/kit').Config} */
-export default createSvelteConfig({
-	kit: {
-		adapter: adapter({ edge: false, split: false }),
-		prerender: {
-			handleHttpError: 'warn',
-			handleMissingId: 'warn'
-		}
+// SvelteKit 3 refuses `svelte.config.js` (`config_file_unsupported`): its
+// configuration is passed to the `sveltekit(...)` plugin in vite.config.js,
+// top-level, with no `kit` namespace. It lives here rather than inline so
+// eslint.config.js reads the same object.
+export default createKitConfig({
+	adapter: adapter({ edge: false, split: false }),
+	prerender: {
+		handleHttpError: 'warn',
+		handleMissingId: 'warn'
 	}
 });
