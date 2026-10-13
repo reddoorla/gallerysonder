@@ -12,7 +12,7 @@
 	import LinkPlusToggle from '$lib/components/Buttons/LinkPlusToggle.svelte';
 	import { slide } from 'svelte/transition';
 	import SplitRichTextAccordian from '$lib/components/SplitRichTextAccordian.svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { submitForm } from '$lib/utils/forms';
 	import TurnstileWidget from '$lib/components/TurnstileWidget.svelte';
 	import UtmFields from '$lib/components/UtmFields.svelte';
@@ -125,7 +125,7 @@
 					{#if slice.primary.body}
 						{#if slice.primary.read_more_button}
 							<div class="rich-text mb-3 md:pr-16">
-								{#key $page.url}
+								{#key page.url}
 									<SplitRichTextAccordian bind:showFullBody>
 										<PrismicRichText field={slice.primary.body} />
 									</SplitRichTextAccordian>

@@ -4,7 +4,7 @@
 
 	import logoExtendedE from '$lib/assets/icons/sonderLogosExtended/SONDER_E.svg';
 
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import type { NavDocumentDataLinksItem } from '../../../prismicio-types';
 	import { isFilled } from '@prismicio/client';
 	import { getAppState } from '$lib/contexts/appState.svelte';
@@ -26,7 +26,7 @@
 	// drift from the menu. `active_link.alt` is the label the menu uses too; it is
 	// null on at least one entry today, hence the uid fallback.
 	let navLinks = $derived(
-		(($page.data?.nav?.data?.links ?? []) as NavDocumentDataLinksItem[])
+		((page.data?.nav?.data?.links ?? []) as NavDocumentDataLinksItem[])
 			.filter((item) => isFilled.link(item.link))
 			.map((item) => ({
 				// A Document link resolves through the route resolver in prismicio.js;

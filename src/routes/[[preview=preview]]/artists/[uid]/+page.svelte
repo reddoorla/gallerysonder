@@ -10,7 +10,7 @@
 	import HeroBackgroundImage from '$lib/components/HeroBackgroundImage.svelte';
 
 	import { getAppState } from '$lib/contexts/appState.svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { absoluteUrl, jsonLdScript } from '$lib/site';
 
 	import { fade } from 'svelte/transition';
@@ -46,7 +46,7 @@
 		'@context': 'https://schema.org',
 		'@type': 'Person',
 		name: content.full_name || heroAlt,
-		url: absoluteUrl($page.url.pathname),
+		url: absoluteUrl(page.url.pathname),
 		...(content.background_image?.url ? { image: content.background_image.url } : {}),
 		worksFor: { '@type': 'ArtGallery', name: 'Gallery Sonder' }
 	});

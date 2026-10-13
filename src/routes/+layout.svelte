@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PrismicPreview } from '@prismicio/svelte/kit';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { repositoryName } from '$lib/prismicio';
 	import { absoluteUrl, breadcrumbJsonLd, jsonLdScript, organizationJsonLd } from '$lib/site';
 	import '../app.css';
@@ -22,13 +22,13 @@
 
 	const DEFAULT_DESCRIPTION =
 		'Gallery Sonder is a contemporary art gallery presenting exhibitions, artists, and advisory services.';
-	let metaTitle = $derived($page.data.meta_title || 'Gallery Sonder');
-	let metaDescription = $derived($page.data.meta_description || DEFAULT_DESCRIPTION);
-	// Absolute canonical from the path only — $page.url.origin is the build-time
+	let metaTitle = $derived(page.data.meta_title || 'Gallery Sonder');
+	let metaDescription = $derived(page.data.meta_description || DEFAULT_DESCRIPTION);
+	// Absolute canonical from the path only — page.url.origin is the build-time
 	// host under prerendering, so it would be wrong; SITE_URL is the real domain.
-	let canonical = $derived(absoluteUrl($page.url.pathname));
+	let canonical = $derived(absoluteUrl(page.url.pathname));
 	// null on the homepage — a single-item trail carries no information.
-	let breadcrumb = $derived(breadcrumbJsonLd($page.url.pathname, metaTitle));
+	let breadcrumb = $derived(breadcrumbJsonLd(page.url.pathname, metaTitle));
 
 	let isTransitioning = $state(false);
 
@@ -48,7 +48,7 @@
 	onMount(() => {
 		isPreviewActive = document.cookie.includes('io.prismic.preview');
 
-		const urlParams = $page.url.searchParams;
+		const urlParams = page.url.searchParams;
 
 		// The landing page's UTM parameters. Every form reads them from appState
 		// (UtmFields) into the hidden inputs submitForm folds into `utm`.
@@ -86,16 +86,16 @@
 	<meta property="og:url" content={canonical} />
 	<meta property="og:title" content={metaTitle} />
 	<meta property="og:description" content={metaDescription} />
-	{#if $page.data.meta_image}
-		<meta property="og:image" content={$page.data.meta_image} />
+	{#if page.data.meta_image}
+		<meta property="og:image" content={page.data.meta_image} />
 	{/if}
 
 	<!-- Twitter card -->
-	<meta name="twitter:card" content={$page.data.meta_image ? 'summary_large_image' : 'summary'} />
+	<meta name="twitter:card" content={page.data.meta_image ? 'summary_large_image' : 'summary'} />
 	<meta name="twitter:title" content={metaTitle} />
 	<meta name="twitter:description" content={metaDescription} />
-	{#if $page.data.meta_image}
-		<meta name="twitter:image" content={$page.data.meta_image} />
+	{#if page.data.meta_image}
+		<meta name="twitter:image" content={page.data.meta_image} />
 	{/if}
 
 	<!-- eslint-disable-next-line svelte/no-at-html-tags (safe: JSON.stringify + escaped <) -->
