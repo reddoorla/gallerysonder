@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PrismicPreview } from '@prismicio/svelte/kit';
+	import PrismicPreview from '$lib/components/PrismicPreview.svelte';
 	import { page } from '$app/state';
 	import { repositoryName } from '$lib/prismicio';
 	import { absoluteUrl, breadcrumbJsonLd, jsonLdScript, organizationJsonLd } from '$lib/site';

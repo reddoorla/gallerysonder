@@ -14,7 +14,8 @@ worth repeating because they are easy to get wrong:
   two made every pull request run the same Playwright suite twice. `pnpm test`
   is `node --test` over `scripts/`, the kit 3 config and env-declaration gate
   (SvelteKit 3 exposes only the variables `src/env.ts` declares; an undeclared
-  read is silently `undefined`). Use `pnpm test:smoke` for Playwright.
+  read is silently `undefined`), then `vitest run` over `src/**/*.test.ts`.
+  Use `pnpm test:smoke` for Playwright.
 - **Run the smoke suite on its own port** when other Vite servers are around —
   Playwright reuses whatever is already listening on 5173, which silently tests
   the wrong site. `REDDOOR_SMOKE_PORT=5399 pnpm test:smoke`.
