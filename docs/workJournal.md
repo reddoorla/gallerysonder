@@ -300,3 +300,40 @@ Part of the fleet roll-out in reddoor-maintenance (backlog item P1-45, Operator 
 **Staging matched production.** The smoke suite run against the staging deploy gave 123 passed and 1 skipped, the same as against `https://gallerysonder.com` on kit 2. The same 2 forms tests fail on both: each times out in `page.waitForLoadState` on the live `/contact`, which points at the remote run (likely the Turnstile script), not at kit 3. `/health` is identical on both.
 
 The README's "SvelteKit 2" line was stale after #116 and says 3 now. Still owed: the Renovate `extends` for `renovate-staging-flow`, held as a draft until `reddoorla/.github` carries the preset.
+
+## 2026-10-20 — `@prismicio/svelte` 3 on `staging`, and a smoke test that makes the simulator render a slice (#132)
+
+Renovate's bump (#130) was red on `svelte-check`: `'$$_rotalumiSecilS0.$$slot_def' is of type 'unknown'` at `<SliceSimulator let:slices>`. 3.0.0's `SliceSimulator` renders `{@render children?.({ slices })}` and has no `<slot>`, while 2.2.x has only the slot, so no page works on both and the fix ships with the bump. The page now uses the `children` snippet, which erp-industrial already had. That is why its own bump (erp-industrial#75) was the one green PR in the fleet.
+
+**What else 3.0.0 changes**, read from the published `dist` (2.2.2's is byte-identical to 2.2.1's):
+
+- `PrismicImage` derives a missing `height` or `width` attribute from the aspect ratio. No `PrismicImage` here passes either alone.
+- The kit `PrismicPreview` moved from `invalidateAll` to `refreshAll`. This site renders its own `$lib/components/PrismicPreview.svelte`.
+- The rest is formatting.
+
+**The defect that hid it.** The existing simulator specs checked only framing headers. A simulator that mounts and renders nothing passed all of them, and that is exactly what v3 does with the slot form.
+
+The new test:
+
+- serves a host page at `https://simulator-smoke.prismic.io/` through `page.route`. Outside dev, `@prismicio/simulator` accepts its handshake only from Prismic's https origins; `vite dev` skips that check.
+- grants it Chrome's `local-network-access` permission;
+- runs the library's `ready` / `connect` / `setSliceZone` handshake;
+- asserts that a `quote_block` (its quotation goes through `PrismicRichText`) renders inside `.slice-simulator--root`.
+
+**Belief corrected on contact.** The test's first version failed on the known-good v2 page. Chrome blocks a public origin from framing localhost (`ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS`) until the permission is granted. The instrument was wrong, not the site.
+
+**Measured.** The test passed on v2, went red on v3 without the fix, and went red when the snippet was renamed: the handshake still returned 200, but no slice rendered. Driving the PR's Netlify deploy preview through the same handshake rendered the slice on a production build, where the origin check is live.
+
+The starter carries the same slot form: reddoorla/reddoor-starter#195.
+
+## 2026-10-26 — The contact form's time-of-day select names the text it shows (WCAG 2.5.3) (`fix/select-label-in-name`)
+
+Renovate's `all-minor-patch` PR #135 went red at 8:33pm PT on 2026-10-25 (03:33Z). `/contact` failed the `@smoke` axe spec with `serious/label-content-name-mismatch ×1` on `.rounded-xs`. No markup had changed. The PR moves `@axe-core/playwright` (and `axe-core`) from 4.13.0 to 4.14.0, and the rule's tags in the two published builds differ by one: 4.13 ends in `experimental` and 4.14 does not. `tests/smoke/a11y.spec.ts` selects by `wcag21a`, axe skips experimental rules, and so the rule had never run here. It found a defect that was always there. Beachfront and Reddoor went red the same night for the same reason.
+
+**The defect.** The `Select` trigger showed "No preference", or the chosen time, while its `aria-label` was only "Preferred time of day". A voice-control user who said the visible text reached nothing, and a screen-reader user never heard the current value. The name is now "Preferred time of day: No preference". It keeps the field label and contains whatever the trigger shows. When the trigger shows nothing, the name is the bare field label, with no dangling colon.
+
+**Proof.** With `@axe-core/playwright` 4.14.0 installed locally (not committed), `/contact` was red on `staging` and all 10 axe smoke routes passed with the fix. `Select.test.ts` checks the property the rule checks: the trimmed visible text has to be inside the name, comparing lowercased with punctuation stripped. It covers the placeholder, an option selected on load and a chosen option. Putting the old `aria-label` back turns two tests red, and dropping the field label turns the third red.
+
+**Defect in the first test, caught in review.** Opening and closing the listbox runs `transition:slide` through `Element.animate`, and jsdom has no such function. Every assertion passed, but vitest failed the run on two unhandled TypeErrors, so the PR would have gone red on its own test. My first check grepped only the "Tests" line and missed it. The test now stubs `animate` the way Svelte's `transitions.js` uses it. Round 2 found minors only: test 1 never reached the placeholder branch, and the empty case had no test. Both were folded in.
+
+**Why #135 stays red until a promotion.** #135 targets `main`, and this fix lands on `staging`. #135 goes green after the next staging→main promotion, which the operator merges.
