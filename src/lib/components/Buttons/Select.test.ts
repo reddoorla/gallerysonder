@@ -52,11 +52,31 @@ function expectLabelInName(button: HTMLButtonElement) {
 afterEach(cleanup);
 
 describe('Select trigger (WCAG 2.5.3)', () => {
-	it('names the placeholder it shows', () => {
+	it('names the placeholder it shows when no option matches', () => {
 		const { container } = render(Select, {
-			props: { options, placeholder: 'No preference', ariaLabel: 'Preferred time of day' }
+			props: {
+				options: options.slice(1),
+				placeholder: 'Any time',
+				ariaLabel: 'Preferred time of day'
+			}
 		});
+		expect(trigger(container).textContent).toContain('Any time');
 		expectLabelInName(trigger(container));
+	});
+
+	it('names the selected option it shows on load', () => {
+		const { container } = render(Select, {
+			props: { options, placeholder: 'Any time', ariaLabel: 'Preferred time of day' }
+		});
+		expect(trigger(container).textContent).toContain('No preference');
+		expectLabelInName(trigger(container));
+	});
+
+	it('is named by the field label alone when it shows nothing', () => {
+		const { container } = render(Select, {
+			props: { options: options.slice(1), placeholder: '', ariaLabel: 'Preferred time of day' }
+		});
+		expect(trigger(container).getAttribute('aria-label')).toBe('Preferred time of day');
 	});
 
 	it('names the option it shows once one is chosen', async () => {
