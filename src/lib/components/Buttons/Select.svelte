@@ -20,6 +20,12 @@
 	let container = $state<HTMLDivElement | undefined>(undefined);
 
 	const selectedLabel = $derived(options.find((o) => o.value === value)?.label ?? '');
+	const shown = $derived(selectedLabel || placeholder);
+	// WCAG 2.5.3 (Label in Name): the name must contain the text the trigger
+	// shows, so a voice-control user who says "click No preference" reaches it.
+	// axe 4.14 runs that rule (`label-content-name-mismatch`) by default, and
+	// the field label alone failed it on /contact.
+	const name = $derived(ariaLabel ? `${ariaLabel}: ${shown}` : undefined);
 
 	function choose(v: string) {
 		value = v;
@@ -51,11 +57,11 @@
 		type="button"
 		aria-haspopup="listbox"
 		aria-expanded={open}
-		aria-label={ariaLabel || undefined}
+		aria-label={name}
 		onclick={() => (open = !open)}
 		class="w-full border-1 border-mid p-2 bg-white/40 rounded-xs text-left flex items-center justify-between gap-2 cursor-pointer"
 	>
-		<span class={value ? '' : 'text-black/60'}>{selectedLabel || placeholder}</span>
+		<span class={value ? '' : 'text-black/60'}>{shown}</span>
 		<ChevronDown
 			class="size-[1em] transition-transform duration-200 {open ? 'rotate-180' : ''}"
 			strokeWidth={1.5}
