@@ -25,7 +25,7 @@
 	// shows, so a voice-control user who says "click No preference" reaches it.
 	// axe 4.14 runs that rule (`label-content-name-mismatch`) by default, and
 	// the field label alone failed it on /contact.
-	const name = $derived(ariaLabel ? `${ariaLabel}: ${shown}` : undefined);
+	const name = $derived(ariaLabel ? (shown ? `${ariaLabel}: ${shown}` : ariaLabel) : undefined);
 
 	function choose(v: string) {
 		value = v;

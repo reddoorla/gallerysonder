@@ -1,6 +1,22 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, beforeAll } from 'vitest';
 import { render, cleanup, fireEvent } from '@testing-library/svelte';
 import Select from './Select.svelte';
+
+// The listbox opens and closes with `transition:slide`, which Svelte runs
+// through the Web Animations API. jsdom has none, and vitest fails the run on
+// the unhandled TypeError even when every assertion passes.
+beforeAll(() => {
+	Element.prototype.animate ??= function () {
+		const animation = {
+			onfinish: null as (() => void) | null,
+			playState: 'finished',
+			cancel() {},
+			finished: Promise.resolve()
+		};
+		queueMicrotask(() => animation.onfinish?.());
+		return animation as unknown as Animation;
+	};
+});
 
 // WCAG 2.5.3 (Label in Name): a control's visible text must be inside its
 // accessible name, so a voice-control user who says "click No preference"
