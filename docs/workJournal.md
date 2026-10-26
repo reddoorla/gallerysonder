@@ -325,3 +325,15 @@ The new test:
 **Measured.** The test passed on v2, went red on v3 without the fix, and went red when the snippet was renamed: the handshake still returned 200, but no slice rendered. Driving the PR's Netlify deploy preview through the same handshake rendered the slice on a production build, where the origin check is live.
 
 The starter carries the same slot form: reddoorla/reddoor-starter#195.
+
+## 2026-10-26 — The contact form's time-of-day select names the text it shows (WCAG 2.5.3) (`fix/select-label-in-name`)
+
+Renovate's `all-minor-patch` PR #135 went red at 8:33pm PT on 2026-10-25 (03:33Z). `/contact` failed the `@smoke` axe spec with `serious/label-content-name-mismatch ×1` on `.rounded-xs`. No markup had changed. The PR moves `@axe-core/playwright` (and `axe-core`) from 4.13.0 to 4.14.0, and the rule's tags in the two published builds differ by one: 4.13 ends in `experimental` and 4.14 does not. `tests/smoke/a11y.spec.ts` selects by `wcag21a`, axe skips experimental rules, and so the rule had never run here. It found a defect that was always there. Beachfront and Reddoor went red the same night for the same reason.
+
+**The defect.** The `Select` trigger showed "No preference", or the chosen time, while its `aria-label` was only "Preferred time of day". A voice-control user who said the visible text reached nothing, and a screen-reader user never heard the current value. The name is now "Preferred time of day: No preference". It keeps the field label and contains whatever the trigger shows. When the trigger shows nothing, the name is the bare field label, with no dangling colon.
+
+**Proof.** With `@axe-core/playwright` 4.14.0 installed locally (not committed), `/contact` was red on `staging` and all 10 axe smoke routes passed with the fix. `Select.test.ts` checks the property the rule checks: the trimmed visible text has to be inside the name, comparing lowercased with punctuation stripped. It covers the placeholder, an option selected on load and a chosen option. Putting the old `aria-label` back turns two tests red, and dropping the field label turns the third red.
+
+**Defect in the first test, caught in review.** Opening and closing the listbox runs `transition:slide` through `Element.animate`, and jsdom has no such function. Every assertion passed, but vitest failed the run on two unhandled TypeErrors, so the PR would have gone red on its own test. My first check grepped only the "Tests" line and missed it. The test now stubs `animate` the way Svelte's `transitions.js` uses it. Round 2 found minors only: test 1 never reached the placeholder branch, and the empty case had no test. Both were folded in.
+
+**Why #135 stays red until a promotion.** #135 targets `main`, and this fix lands on `staging`. #135 goes green after the next staging→main promotion, which the operator merges.
