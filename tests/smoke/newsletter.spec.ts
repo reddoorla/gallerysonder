@@ -90,7 +90,8 @@ async function measureStableMaxScroll(page: Page) {
 }
 
 /** Make "the page has handled a scroll" observable. Installed before the app
- *  boots, it wraps every `scroll` listener added to `window` and tracks the work
+ *  boots, it wraps every `scroll` listener added to `window` or `document` (a
+ *  window scroll is dispatched at `document` and bubbles), and tracks the work
  *  that listener defers: any `setTimeout` or `requestAnimationFrame` it (or a
  *  callback it scheduled) queues counts as pending until it runs or is cleared.
  *  So a debounced or throttled handler is "handled" only once its deferred call
@@ -150,7 +151,11 @@ async function trackScrollHandling(page: Page) {
 		const origAdd = EventTarget.prototype.addEventListener;
 		const origRemove = EventTarget.prototype.removeEventListener;
 		EventTarget.prototype.addEventListener = function (type, listener, options) {
-			if (this === w && type === 'scroll' && typeof listener === 'function') {
+			if (
+				(this === w || this === document) &&
+				type === 'scroll' &&
+				typeof listener === 'function'
+			) {
 				let wrapper = wrapped.get(listener);
 				if (!wrapper) {
 					const original = listener;
@@ -179,13 +184,20 @@ async function trackScrollHandling(page: Page) {
  *  through the page's own listeners (see `trackScrollHandling`), every timer or
  *  frame they deferred has run, and one more frame has rendered whatever they
  *  decided. Positive evidence, not a frame count: if no listener saw the event,
- *  or deferred work never drains, this times out and the test fails. */
+ *  or deferred work never drains, this times out and the test fails.
+ *
+ *  It cannot tell the newsletter's listener from AnimateIn's, and it cannot see
+ *  work deferred some other way (an IntersectionObserver, `requestIdleCallback`,
+ *  `setInterval`). So a test that asserts "nothing opened" after it must also
+ *  calibrate it: drive the same wait into a scroll that MUST open the overlay,
+ *  and sample once. If the decision lands after the wait, that sample fails. */
 async function scrollAndHandle(page: Page, y: number) {
 	const before = await page.evaluate(() => {
 		const work = (window as unknown as { __scrollWork?: { listeners: number; handled: number } })
 			.__scrollWork;
 		if (!work) throw new Error('trackScrollHandling was not installed before the page loaded');
-		if (work.listeners === 0) throw new Error('no scroll listener registered on window');
+		if (work.listeners === 0)
+			throw new Error('no scroll listener registered on window or document');
 		return work.handled;
 	});
 	await page.evaluate((top) => window.scrollTo(0, top), y);
@@ -521,5 +533,18 @@ test.describe('newsletter signup', () => {
 		await scrollAndHandle(page, Math.round(maxScroll * 0.2));
 
 		await expect(emailField(page)).toHaveCount(0);
+
+		// Calibrate the wait above on this page: go deep and come back to the same
+		// spot, which must open the overlay. One sample, not a retrying assertion:
+		// if `scrollAndHandle` resolves before the newsletter has decided (its check
+		// deferred in a way the tracker cannot see), the overlay is not there yet,
+		// and the "nothing opened" assertion above proved nothing.
+		await scrollAndHandle(page, maxScroll);
+		await expect(emailField(page)).toHaveCount(0);
+		await scrollAndHandle(page, Math.round(maxScroll * 0.2));
+		expect(
+			await emailField(page).count(),
+			'the overlay opened only after scrollAndHandle resolved, so its wait does not cover the newsletter check'
+		).toBe(1);
 	});
 });
