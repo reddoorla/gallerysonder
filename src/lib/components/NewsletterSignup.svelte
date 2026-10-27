@@ -125,6 +125,11 @@
 			)
 				appState.isNewsletterActive = true;
 		}
+		// Test hook, read only by tests/smoke/newsletter.spec.ts: "a check has run
+		// and decided" is positive evidence a test can wait for however this check
+		// is scheduled (listener, debounce, poller). Nothing in the app reads it.
+		if (typeof window !== 'undefined')
+			window.__newsletterChecks = (window.__newsletterChecks ?? 0) + 1;
 	};
 
 	onMount(() => {

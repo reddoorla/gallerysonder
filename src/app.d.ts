@@ -14,6 +14,8 @@ declare global {
 	interface Window {
 		fbq?: FbqFn;
 		_fbq?: FbqFn;
+		/** Calls of NewsletterSignup's `checkPosition`; a test hook, see there. */
+		__newsletterChecks?: number;
 	}
 }
 

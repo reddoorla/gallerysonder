@@ -89,126 +89,22 @@ async function measureStableMaxScroll(page: Page) {
 	);
 }
 
-/** Make "the page has handled a scroll" observable. Installed before the app
- *  boots, it wraps every `scroll` listener added to `window` or `document` (a
- *  window scroll is dispatched at `document` and bubbles), and tracks the work
- *  that listener defers: any `setTimeout` or `requestAnimationFrame` it (or a
- *  callback it scheduled) queues counts as pending until it runs or is cleared.
- *  So a debounced or throttled handler is "handled" only once its deferred call
- *  has actually run, not one frame after the event. */
-async function trackScrollHandling(page: Page) {
-	await page.addInitScript(() => {
-		const w = window as unknown as Window & {
-			__scrollWork: { listeners: number; handled: number; pending: number };
-		};
-		const work = (w.__scrollWork = { listeners: 0, handled: 0, pending: 0 });
-		let depth = 0;
-		const inTracked = <A extends unknown[], R>(fn: (...a: A) => R, ...args: A): R => {
-			depth += 1;
-			try {
-				return fn(...args);
-			} finally {
-				depth -= 1;
-			}
-		};
-		const live = new Map<number, 'timeout' | 'frame'>();
-		const settle = (id: number) => {
-			if (live.delete(id)) work.pending -= 1;
-		};
-		const origSetTimeout = w.setTimeout.bind(w);
-		const origClearTimeout = w.clearTimeout.bind(w);
-		const origRaf = w.requestAnimationFrame.bind(w);
-		const origCaf = w.cancelAnimationFrame.bind(w);
-		w.setTimeout = ((handler: TimerHandler, ms?: number, ...rest: unknown[]) => {
-			if (!depth || typeof handler !== 'function') return origSetTimeout(handler, ms, ...rest);
-			const id: number = origSetTimeout(() => {
-				settle(id);
-				inTracked(handler as (...a: unknown[]) => void, ...rest);
-			}, ms);
-			live.set(id, 'timeout');
-			work.pending += 1;
-			return id;
-		}) as typeof w.setTimeout;
-		w.clearTimeout = ((id?: number) => {
-			if (id !== undefined && live.get(id) === 'timeout') settle(id);
-			origClearTimeout(id);
-		}) as typeof w.clearTimeout;
-		w.requestAnimationFrame = (cb: FrameRequestCallback) => {
-			if (!depth) return origRaf(cb);
-			const id = origRaf((t) => {
-				settle(id);
-				inTracked(cb, t);
-			});
-			live.set(id, 'frame');
-			work.pending += 1;
-			return id;
-		};
-		w.cancelAnimationFrame = (id: number) => {
-			if (live.get(id) === 'frame') settle(id);
-			origCaf(id);
-		};
-		const wrapped = new WeakMap<object, EventListener>();
-		const origAdd = EventTarget.prototype.addEventListener;
-		const origRemove = EventTarget.prototype.removeEventListener;
-		EventTarget.prototype.addEventListener = function (type, listener, options) {
-			if (
-				(this === w || this === document) &&
-				type === 'scroll' &&
-				typeof listener === 'function'
-			) {
-				let wrapper = wrapped.get(listener);
-				if (!wrapper) {
-					const original = listener;
-					wrapper = function (this: unknown, event: Event) {
-						try {
-							return inTracked(() => original.call(this, event));
-						} finally {
-							work.handled += 1;
-						}
-					};
-					wrapped.set(listener, wrapper);
-					work.listeners += 1;
-				}
-				return origAdd.call(this, type, wrapper, options);
-			}
-			return origAdd.call(this, type, listener, options);
-		};
-		EventTarget.prototype.removeEventListener = function (type, listener, options) {
-			const wrapper = listener && wrapped.get(listener);
-			return origRemove.call(this, type, wrapper ?? listener, options);
-		};
-	});
-}
-
-/** Scroll, and resolve once the page has handled it: a `scroll` event has been
- *  through the page's own listeners (see `trackScrollHandling`), every timer or
- *  frame they deferred has run, and one more frame has rendered whatever they
- *  decided. Positive evidence, not a frame count: if no listener saw the event,
- *  or deferred work never drains, this times out and the test fails.
- *
- *  It cannot tell the newsletter's listener from AnimateIn's, and it cannot see
- *  work deferred some other way (an IntersectionObserver, `requestIdleCallback`,
- *  `setInterval`). So a test that asserts "nothing opened" after it must also
- *  calibrate it: drive the same wait into a scroll that MUST open the overlay,
- *  and sample once. If the decision lands after the wait, that sample fails. */
+/** Scroll, and resolve once the newsletter has checked the new position and
+ *  rendered what it decided. Positive evidence, not a frame count or a sleep:
+ *  `checkPosition` bumps `window.__newsletterChecks` after every decision (a
+ *  test hook nothing in the app reads), so this holds however the check is
+ *  scheduled, whether by a listener, a debounce, a throttle or a poller. The
+ *  count is read and the scroll made in one synchronous evaluate, so no check
+ *  can run between them: any later bump came from a check that saw this
+ *  position. If no check ever runs, the poll times out and the test fails. */
 async function scrollAndHandle(page: Page, y: number) {
-	const before = await page.evaluate(() => {
-		const work = (window as unknown as { __scrollWork?: { listeners: number; handled: number } })
-			.__scrollWork;
-		if (!work) throw new Error('trackScrollHandling was not installed before the page loaded');
-		if (work.listeners === 0)
-			throw new Error('no scroll listener registered on window or document');
-		return work.handled;
-	});
-	await page.evaluate((top) => window.scrollTo(0, top), y);
+	const before = await page.evaluate((top) => {
+		const checks = window.__newsletterChecks ?? 0;
+		window.scrollTo(0, top);
+		return checks;
+	}, y);
 	await expect
-		.poll(() =>
-			page.evaluate((n) => {
-				const work = (window as unknown as { __scrollWork: { handled: number; pending: number } })
-					.__scrollWork;
-				return work.handled > n && work.pending === 0;
-			}, before)
-		)
+		.poll(() => page.evaluate((n) => (window.__newsletterChecks ?? 0) > n, before))
 		.toBe(true);
 	await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())));
 }
@@ -483,7 +379,6 @@ test.describe('newsletter signup', () => {
 	});
 
 	test('the scroll high-water mark does not carry across navigations', async ({ page }) => {
-		await trackScrollHandling(page);
 		await gotoHome(page);
 
 		// Arm the heuristic without letting it fire: scroll to the very bottom, so
@@ -536,18 +431,5 @@ test.describe('newsletter signup', () => {
 		await scrollAndHandle(page, Math.round(maxScroll * 0.2));
 
 		await expect(emailField(page)).toHaveCount(0);
-
-		// Calibrate the wait above on this page: go deep and come back to the same
-		// spot, which must open the overlay. One sample, not a retrying assertion:
-		// if `scrollAndHandle` resolves before the newsletter has decided (its check
-		// deferred in a way the tracker cannot see), the overlay is not there yet,
-		// and the "nothing opened" assertion above proved nothing.
-		await scrollAndHandle(page, maxScroll);
-		await expect(emailField(page)).toHaveCount(0);
-		await scrollAndHandle(page, Math.round(maxScroll * 0.2));
-		expect(
-			await emailField(page).count(),
-			'the overlay opened only after scrollAndHandle resolved, so its wait does not cover the newsletter check'
-		).toBe(1);
 	});
 });
