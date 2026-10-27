@@ -105,18 +105,22 @@ async function scrollAndHandle(page: Page, y: number) {
 		window.scrollTo(0, top);
 		return { before, landed: window.scrollY };
 	}, y);
+	// The verdict comes from the same evaluate that matched the record, so no
+	// later check can replace it in between.
+	const matched: { verdict: boolean | null } = { verdict: null };
 	await expect
-		.poll(() =>
-			page.evaluate(
+		.poll(async () => {
+			matched.verdict = await page.evaluate(
 				({ before, landed }) => {
 					const c = window.__newsletterCheck;
-					return !!c && c.n > before && c.y === landed;
+					return c && c.n > before && c.y === landed ? c.wouldOpen : null;
 				},
 				{ before, landed }
-			)
-		)
-		.toBe(true);
-	return page.evaluate(() => window.__newsletterCheck!.wouldOpen);
+			);
+			return matched.verdict;
+		})
+		.not.toBeNull();
+	return matched.verdict === true;
 }
 
 /** Focus has landed inside the open newsletter dialog: its trap has run. */

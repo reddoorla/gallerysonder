@@ -124,7 +124,10 @@
 		// reads it. Each check records the position it judged and what it decided,
 		// so a test can wait for "the newsletter has judged this position" and
 		// assert on the verdict itself, however the check is scheduled and however
-		// (or whenever) the open then reaches the page.
+		// (or whenever) the open then reaches the page. Keep every open this
+		// component decides in `wouldOpen`: an open decided on another path is
+		// invisible to the spec's "nothing opened" check unless it has already
+		// rendered by the time that check runs.
 		window.__newsletterCheck = { n: (window.__newsletterCheck?.n ?? 0) + 1, y, wouldOpen };
 	};
 
