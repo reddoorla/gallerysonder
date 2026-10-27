@@ -89,24 +89,34 @@ async function measureStableMaxScroll(page: Page) {
 	);
 }
 
-/** Scroll, and resolve once the newsletter has checked the new position and
- *  rendered what it decided. Positive evidence, not a frame count or a sleep:
- *  `checkPosition` bumps `window.__newsletterChecks` after every decision (a
- *  test hook nothing in the app reads), so this holds however the check is
- *  scheduled, whether by a listener, a debounce, a throttle or a poller. The
- *  count is read and the scroll made in one synchronous evaluate, so no check
- *  can run between them: any later bump came from a check that saw this
- *  position. If no check ever runs, the poll times out and the test fails. */
+/** Scroll, and resolve with the newsletter's verdict on the position it
+ *  landed at. Positive evidence, not a frame count or a sleep: `checkPosition`
+ *  records `window.__newsletterCheck` (a test hook nothing in the app reads)
+ *  with a running count, the position it judged and whether it decided to
+ *  open. The count is read and the scroll made in one synchronous evaluate, so
+ *  no check can run between them, and the wait needs a later check that judged
+ *  the landed position. So this holds however the check is scheduled (a
+ *  listener, a debounce, a throttle, a poller), and the caller asserts on the
+ *  verdict, which holds however the open then reaches the page. If no check
+ *  ever judges this position, the poll times out and the test fails. */
 async function scrollAndHandle(page: Page, y: number) {
-	const before = await page.evaluate((top) => {
-		const checks = window.__newsletterChecks ?? 0;
+	const { before, landed } = await page.evaluate((top) => {
+		const before = window.__newsletterCheck?.n ?? 0;
 		window.scrollTo(0, top);
-		return checks;
+		return { before, landed: window.scrollY };
 	}, y);
 	await expect
-		.poll(() => page.evaluate((n) => (window.__newsletterChecks ?? 0) > n, before))
+		.poll(() =>
+			page.evaluate(
+				({ before, landed }) => {
+					const c = window.__newsletterCheck;
+					return !!c && c.n > before && c.y === landed;
+				},
+				{ before, landed }
+			)
+		)
 		.toBe(true);
-	await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())));
+	return page.evaluate(() => window.__newsletterCheck!.wouldOpen);
 }
 
 /** Focus has landed inside the open newsletter dialog: its trap has run. */
@@ -385,10 +395,13 @@ test.describe('newsletter signup', () => {
 		// the high-water mark is 100% of this page but we are also at 100% (the
 		// overlay needs us back above 50%), and `hasNewsletterBeenCleared` stays
 		// false.
-		await scrollAndHandle(
-			page,
-			await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
-		);
+		expect(
+			await scrollAndHandle(
+				page,
+				await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
+			),
+			'the newsletter decided to open at the bottom of the page'
+		).toBe(false);
 		const armed = await page.evaluate(() => window.scrollY);
 		await expect(emailField(page)).toHaveCount(0);
 
@@ -428,8 +441,24 @@ test.describe('newsletter signup', () => {
 		// A modest scroll down — nowhere near deep, and well under the 50% mark the
 		// heuristic reads as "came back up". With the mark carried over from the
 		// previous page this alone used to spring the overlay open.
-		await scrollAndHandle(page, Math.round(maxScroll * 0.2));
-
+		// The verdict is the evidence: it holds however the open would reach the
+		// page (at once, after a delay, or on a later event). The overlay check
+		// below still asserts what the visitor sees.
+		expect(
+			await scrollAndHandle(page, Math.round(maxScroll * 0.2)),
+			'a high-water mark carried over from the previous page made the newsletter decide to open'
+		).toBe(false);
 		await expect(emailField(page)).toHaveCount(0);
+
+		// Prove the instrument on this page: going deep and coming back to the same
+		// spot must be judged an open, and that verdict must reach the visitor.
+		// `toBeVisible` retries, so a delayed open still passes; a hook that stopped
+		// reporting the real decision fails here.
+		expect(await scrollAndHandle(page, maxScroll)).toBe(false);
+		expect(
+			await scrollAndHandle(page, Math.round(maxScroll * 0.2)),
+			'scrolling deep and back up was not judged an open, so the verdicts above prove nothing'
+		).toBe(true);
+		await expect(emailField(page)).toBeVisible();
 	});
 });

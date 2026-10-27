@@ -110,26 +110,22 @@
 	};
 
 	const checkPosition = () => {
-		if (
-			typeof window !== 'undefined' &&
-			typeof document !== 'undefined' &&
-			!appState.hasNewsletterBeenCleared
-		) {
+		if (typeof window === 'undefined' || typeof document === 'undefined') return;
+		const y = window.scrollY;
+		let wouldOpen = false;
+		if (!appState.hasNewsletterBeenCleared) {
 			const maxScroll =
 				document.documentElement.scrollHeight - document.documentElement.clientHeight;
-			if (window.scrollY > lowestPoint) lowestPoint = window.scrollY;
-			if (
-				lowestPoint / maxScroll > 0.8 &&
-				window.scrollY / maxScroll < 0.5 &&
-				!appState.hasNewsletterBeenCleared
-			)
-				appState.isNewsletterActive = true;
+			if (y > lowestPoint) lowestPoint = y;
+			wouldOpen = lowestPoint / maxScroll > 0.8 && y / maxScroll < 0.5;
+			if (wouldOpen) appState.isNewsletterActive = true;
 		}
-		// Test hook, read only by tests/smoke/newsletter.spec.ts: "a check has run
-		// and decided" is positive evidence a test can wait for however this check
-		// is scheduled (listener, debounce, poller). Nothing in the app reads it.
-		if (typeof window !== 'undefined')
-			window.__newsletterChecks = (window.__newsletterChecks ?? 0) + 1;
+		// Test hook, read only by tests/smoke/newsletter.spec.ts; nothing in the app
+		// reads it. Each check records the position it judged and what it decided,
+		// so a test can wait for "the newsletter has judged this position" and
+		// assert on the verdict itself, however the check is scheduled and however
+		// (or whenever) the open then reaches the page.
+		window.__newsletterCheck = { n: (window.__newsletterCheck?.n ?? 0) + 1, y, wouldOpen };
 	};
 
 	onMount(() => {
