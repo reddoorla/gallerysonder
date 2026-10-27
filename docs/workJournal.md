@@ -338,7 +338,7 @@ Renovate's `all-minor-patch` PR #135 went red at 8:33pm PT on 2026-10-25 (03:33Z
 
 **Why #135 stays red until a promotion.** #135 targets `main`, and this fix lands on `staging`. #135 goes green after the next staging→main promotion, which the operator merges.
 
-## 2026-10-27 — Smoke-spec sleeps become waits on a real signal, and the scroll test waits for the handler (#TBD)
+## 2026-10-27 — Smoke-spec sleeps become waits on a real signal, and the scroll test waits for the handler (#142)
 
 The fleet test audit (`reddoorla/reddoor-workspace` `audits/2026-10-26-fleet-test-audit/report.md`, batch D) found fixed sleeps in 17 Playwright smoke tests here (19 `waitForTimeout` calls). Each one is either a race that can go flaky or a window that can pass before the thing it waits for has happened. Sixteen of those tests now wait on a signal the page produces, and their 18 sleeps are gone. In the "required fields block an empty submit" tests, a captured `invalid` event replaces the sleep. In the failure tests, the wait is the `role=alert` that renders only after `submitForm` has returned. In the GA4 tests, it is the request parked in the route handler. In the newsletter tests, it is focus landing inside the dialog. The one sleep kept is `a11y.spec.ts:25`, the 1500ms settle before axe. Route pages reveal content on a `setTimeout` with no DOM marker, so any generic wait would let axe scan the pre-reveal page and quietly drop coverage. Replacing it needs an app-side "revealed" signal. No test was removed and no assertion was weakened; several are stricter. Dropping `required` from a form now fails the `invalid` poll, where before it slipped through a 500ms window.
 
