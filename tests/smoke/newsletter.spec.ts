@@ -394,6 +394,9 @@ test.describe('newsletter signup', () => {
 		await openFromFooter(page);
 
 		await submitButton(page).click();
+		// The message is evidence that validation ran, not that nothing was sent:
+		// what keeps the request from leaving is native `required`/`type=email`
+		// blocking the submit event outright, so no request can trail the message.
 		await expect(page.getByText('Please enter your email address.')).toBeVisible();
 
 		expect(bodies).toHaveLength(0);
