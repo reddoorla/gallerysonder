@@ -76,22 +76,60 @@ async function openNavMenu(page: Page) {
 	await expect(page.locator('#main-nav').getByText('Subscribe to our newsletter')).toBeInViewport();
 }
 
-/** Read the document's scroll range only once it has stopped changing. During a
+/** Read the document's scroll range once the navigation has finished. During a
  *  client-side navigation both the outgoing and incoming page are briefly in the
- *  DOM, so a single sample can read roughly their combined height. */
-async function measureStableMaxScroll(page: Page, settleMs = 250, tries = 20) {
-	const read = () =>
-		page.evaluate(
-			() => document.documentElement.scrollHeight - document.documentElement.clientHeight
-		);
-	let previous = await read();
-	for (let i = 0; i < tries; i++) {
-		await page.waitForTimeout(settleMs);
-		const current = await read();
-		if (current === previous) return current;
-		previous = current;
-	}
-	return previous;
+ *  DOM, so a single sample can read roughly their combined height. The root
+ *  layout's black transition overlay is removed only when its outro ends, and
+ *  the outgoing page's outros are WAAPI animations, so wait on both. */
+async function measureStableMaxScroll(page: Page) {
+	await expect(page.locator('main > div.fixed.bg-black')).toHaveCount(0, { timeout: 5000 });
+	await settle(page, 'body');
+	return page.evaluate(
+		() => document.documentElement.scrollHeight - document.documentElement.clientHeight
+	);
+}
+
+/** Scroll, and resolve with the newsletter's verdict on the position it
+ *  landed at. Positive evidence, not a frame count or a sleep: `checkPosition`
+ *  records `window.__newsletterCheck` (a test hook nothing in the app reads)
+ *  with a running count, the position it judged and whether it decided to
+ *  open. The count is read and the scroll made in one synchronous evaluate, so
+ *  no check can run between them, and the wait needs a later check that judged
+ *  the landed position. So this holds however the check is scheduled (a
+ *  listener, a debounce, a throttle, a poller), and the caller asserts on the
+ *  verdict, which holds however the open then reaches the page. If no check
+ *  ever judges this position, the poll times out and the test fails. */
+async function scrollAndHandle(page: Page, y: number) {
+	const { before, landed } = await page.evaluate((top) => {
+		const before = window.__newsletterCheck?.n ?? 0;
+		window.scrollTo(0, top);
+		return { before, landed: window.scrollY };
+	}, y);
+	// The verdict comes from the same evaluate that matched the record, so no
+	// later check can replace it in between.
+	const matched: { verdict: boolean | null } = { verdict: null };
+	await expect
+		.poll(async () => {
+			matched.verdict = await page.evaluate(
+				({ before, landed }) => {
+					const c = window.__newsletterCheck;
+					return c && c.n > before && c.y === landed ? c.wouldOpen : null;
+				},
+				{ before, landed }
+			);
+			return matched.verdict;
+		})
+		.not.toBeNull();
+	return matched.verdict === true;
+}
+
+/** Focus has landed inside the open newsletter dialog: its trap has run. */
+async function focusInDialog(page: Page) {
+	await expect
+		.poll(() =>
+			page.evaluate(() => !!document.activeElement?.closest('[role="dialog"][aria-modal="true"]'))
+		)
+		.toBe(true);
 }
 
 /** Type the way a person does — click, then keystrokes. `fill()` would set
@@ -183,9 +221,11 @@ test.describe('newsletter signup', () => {
 		await openNavMenu(page);
 		await page.locator('#main-nav').getByText('Subscribe to our newsletter').click();
 		await expect(emailField(page)).toBeVisible();
-		// Let both overlays' focus rAFs settle before closing. Without this the
-		// nav trap's own restore can win the race and mask a missing restore here.
-		await page.waitForTimeout(1000);
+		// Let both overlays' focus moves land before closing: the menu gone and
+		// focus inside the dialog. Without this the nav's own restore can win the
+		// race and mask a missing restore here.
+		await expect(page.locator('#main-nav')).toHaveCount(0);
+		await focusInDialog(page);
 
 		await page.keyboard.press('Escape');
 		await expect(emailField(page)).toHaveCount(0);
@@ -208,7 +248,7 @@ test.describe('newsletter signup', () => {
 	}) => {
 		await gotoHome(page);
 		await openFromFooter(page);
-		await page.waitForTimeout(1000);
+		await focusInDialog(page);
 
 		await page.keyboard.press('Escape');
 		await expect(emailField(page)).toHaveCount(0);
@@ -264,7 +304,10 @@ test.describe('newsletter signup', () => {
 		await openFromFooter(page);
 
 		await submitButton(page).click();
-		await page.waitForTimeout(500);
+		// The message is evidence that validation ran, not that nothing was sent:
+		// what keeps the request from leaving is native `required`/`type=email`
+		// blocking the submit event outright, so no request can trail the message.
+		await expect(page.getByText('Please enter your email address.')).toBeVisible();
 
 		expect(bodies).toHaveLength(0);
 		await expect(emailField(page)).toBeVisible();
@@ -278,7 +321,7 @@ test.describe('newsletter signup', () => {
 
 		await typeEmail(page, 'not-an-email');
 		await submitButton(page).click();
-		await page.waitForTimeout(500);
+		await expect(page.getByText('Please enter a valid email address.')).toBeVisible();
 
 		expect(bodies).toHaveLength(0);
 		await expect(emailField(page)).toBeVisible();
@@ -356,10 +399,13 @@ test.describe('newsletter signup', () => {
 		// the high-water mark is 100% of this page but we are also at 100% (the
 		// overlay needs us back above 50%), and `hasNewsletterBeenCleared` stays
 		// false.
-		await page.evaluate(() =>
-			window.scrollTo(0, document.documentElement.scrollHeight - window.innerHeight)
-		);
-		await page.waitForTimeout(400);
+		expect(
+			await scrollAndHandle(
+				page,
+				await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
+			),
+			'the newsletter decided to open at the bottom of the page'
+		).toBe(false);
 		const armed = await page.evaluate(() => window.scrollY);
 		await expect(emailField(page)).toHaveCount(0);
 
@@ -399,9 +445,24 @@ test.describe('newsletter signup', () => {
 		// A modest scroll down — nowhere near deep, and well under the 50% mark the
 		// heuristic reads as "came back up". With the mark carried over from the
 		// previous page this alone used to spring the overlay open.
-		await page.evaluate((y) => window.scrollTo(0, y), Math.round(maxScroll * 0.2));
-		await page.waitForTimeout(600);
-
+		// The verdict is the evidence: it holds however the open would reach the
+		// page (at once, after a delay, or on a later event). The overlay check
+		// below still asserts what the visitor sees.
+		expect(
+			await scrollAndHandle(page, Math.round(maxScroll * 0.2)),
+			'a high-water mark carried over from the previous page made the newsletter decide to open'
+		).toBe(false);
 		await expect(emailField(page)).toHaveCount(0);
+
+		// Prove the instrument on this page: going deep and coming back to the same
+		// spot must be judged an open, and that verdict must reach the visitor.
+		// `toBeVisible` retries, so a delayed open still passes; a hook that stopped
+		// reporting the real decision fails here.
+		expect(await scrollAndHandle(page, maxScroll)).toBe(false);
+		expect(
+			await scrollAndHandle(page, Math.round(maxScroll * 0.2)),
+			'scrolling deep and back up was not judged an open, so the verdicts above prove nothing'
+		).toBe(true);
+		await expect(emailField(page)).toBeVisible();
 	});
 });

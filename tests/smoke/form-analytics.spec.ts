@@ -86,10 +86,9 @@ test.describe('form submission analytics', () => {
 		await fillRsvp(page);
 
 		await rsvpSubmit(page).click();
+		// The alert renders only after submitForm returns, and submitForm decides
+		// the push (on response.ok) before returning, so a stray push is already in.
 		await expect(page.getByRole('alert')).toBeVisible();
-
-		// Give a stray push the same wall-clock chance the success path got.
-		await page.waitForTimeout(1000);
 		expect(submissionEvents(await dataLayer(page))).toHaveLength(0);
 	});
 

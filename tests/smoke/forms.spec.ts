@@ -40,6 +40,25 @@ function holdForms(page: Page) {
 	return page.route('**/api/forms', (route) => void held.push(route)).then(() => held);
 }
 
+/** Record every control the browser's constraint validation rejects. `invalid`
+ *  fires only when a submit is actually blocked, so it is positive evidence the
+ *  empty submit was refused, not merely not sent yet. It does not bubble, so the
+ *  listener sits on the capture phase. */
+async function watchBlockedSubmits(page: Page) {
+	await page.evaluate(() => {
+		const w = window as Window & { __blockedBy?: string[] };
+		w.__blockedBy = [];
+		document.addEventListener(
+			'invalid',
+			(e) => w.__blockedBy!.push((e.target as HTMLInputElement).name || '?'),
+			true
+		);
+	});
+}
+
+const blockedBy = (page: Page) =>
+	page.evaluate(() => (window as Window & { __blockedBy?: string[] }).__blockedBy ?? []);
+
 function dataLayer(page: Page): Promise<Pushed[]> {
 	return page.evaluate(
 		() => (window as Window & { dataLayer?: Pushed[] }).dataLayer ?? []
@@ -203,9 +222,10 @@ test.describe('contact form', () => {
 	test('required fields block an empty submit', async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await goto(page, '/contact');
+		await watchBlockedSubmits(page);
 
 		await contactSubmit(page).click();
-		await page.waitForTimeout(500);
+		await expect.poll(async () => (await blockedBy(page)).length).toBeGreaterThan(0);
 
 		expect(bodies).toHaveLength(0);
 		await expect(page.getByText('Thank you for reaching out!')).toHaveCount(0);
@@ -245,8 +265,9 @@ test.describe('contact form', () => {
 		await fillContact(page);
 
 		await contactSubmit(page).click();
+		// The request is parked, so submitForm is suspended on its fetch: a push
+		// made on the click (before the fetch) is already on the dataLayer.
 		await expect.poll(() => held.length).toBe(1);
-		await page.waitForTimeout(300);
 		expect(await submissionEvents(page)).toHaveLength(0);
 
 		await held[0].fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
@@ -261,8 +282,9 @@ test.describe('contact form', () => {
 		await fillContact(page);
 
 		await contactSubmit(page).click();
+		// The alert renders only after submitForm returns, and submitForm decides
+		// the push before returning, so a stray push would already be here.
 		await expect(page.getByRole('alert')).toBeVisible();
-		await page.waitForTimeout(500);
 		expect(await submissionEvents(page)).toHaveLength(0);
 	});
 });
@@ -298,9 +320,10 @@ test.describe('inquiry form', () => {
 	test('required fields block an empty submit', async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await openInquiry(page);
+		await watchBlockedSubmits(page);
 
 		await inquirySubmit(page).click();
-		await page.waitForTimeout(500);
+		await expect.poll(async () => (await blockedBy(page)).length).toBeGreaterThan(0);
 
 		expect(bodies).toHaveLength(0);
 		await expect(page.getByText('Thank you for reaching out!')).toHaveCount(0);
@@ -324,8 +347,9 @@ test.describe('inquiry form', () => {
 		await fillInquiry(page);
 
 		await inquirySubmit(page).click();
+		// The request is parked, so submitForm is suspended on its fetch: a push
+		// made on the click (before the fetch) is already on the dataLayer.
 		await expect.poll(() => held.length).toBe(1);
-		await page.waitForTimeout(300);
 		expect(await submissionEvents(page)).toHaveLength(0);
 
 		const sent = JSON.parse(held[0].request().postData() || '{}') as Body;
@@ -350,8 +374,9 @@ test.describe('inquiry form', () => {
 		await fillInquiry(page);
 
 		await inquirySubmit(page).click();
+		// The alert renders only after submitForm returns, and submitForm decides
+		// the push before returning, so a stray push would already be here.
 		await expect(page.getByRole('alert')).toBeVisible();
-		await page.waitForTimeout(500);
 		expect(await submissionEvents(page)).toHaveLength(0);
 	});
 });
@@ -402,8 +427,9 @@ test.describe('newsletter form', () => {
 		await page.locator('#newsletter-email').fill('reader@example.com');
 
 		await newsletterSubmit(page).click();
+		// The request is parked, so submitForm is suspended on its fetch: a push
+		// made on the click (before the fetch) is already on the dataLayer.
 		await expect.poll(() => held.length).toBe(1);
-		await page.waitForTimeout(300);
 		expect(await submissionEvents(page)).toHaveLength(0);
 
 		await held[0].fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
@@ -438,9 +464,10 @@ test.describe('rsvp form', () => {
 	test('required fields block an empty submit', async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await goto(page, '/rsvp/euphorbia');
+		await watchBlockedSubmits(page);
 
 		await rsvpSubmit(page).click();
-		await page.waitForTimeout(500);
+		await expect.poll(async () => (await blockedBy(page)).length).toBeGreaterThan(0);
 
 		expect(bodies).toHaveLength(0);
 		await expect(page.getByText('Thank you for your RSVP!')).toHaveCount(0);
@@ -465,8 +492,9 @@ test.describe('rsvp form', () => {
 		await fillRsvp(page);
 
 		await rsvpSubmit(page).click();
+		// The request is parked, so submitForm is suspended on its fetch: a push
+		// made on the click (before the fetch) is already on the dataLayer.
 		await expect.poll(() => held.length).toBe(1);
-		await page.waitForTimeout(300);
 		expect(await submissionEvents(page)).toHaveLength(0);
 
 		await held[0].fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
@@ -522,8 +550,10 @@ test.describe('inside a real <form>', () => {
 			await submit(page)
 				.click({ force: true, timeout: 2000 })
 				.catch(() => {});
+			// press() waits for any navigation it starts (a GET submit), and
+			// load waits for that navigation to commit its URL.
 			await page.locator('[name="email"]').first().press('Enter');
-			await page.waitForTimeout(500);
+			await page.waitForLoadState('load');
 			expect(page.url()).not.toContain('ada%40example.com');
 			expect(page.url()).not.toContain('ada@example.com');
 			expect(new URL(page.url()).search).toBe('');
