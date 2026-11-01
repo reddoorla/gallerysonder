@@ -33,42 +33,46 @@ const activeInfo = (page: Page) =>
 test.describe('cookie consent gate', () => {
 	test.use({ viewport: { width: 1280, height: 1000 } });
 
-	test('is reachable and keeps focus when it appears over the newsletter overlay', async ({
-		page
-	}) => {
-		await page.goto('/');
-		await page.waitForLoadState('networkidle');
+	test(
+		'is reachable and keeps focus when it appears over the newsletter overlay',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			await page.goto('/');
+			await page.waitForLoadState('networkidle');
 
-		// Open the newsletter first, so its focus trap is already armed.
-		await page.locator('footer').scrollIntoViewIfNeeded();
-		await page.locator('footer').getByText('Subscribe to our newsletter').click();
-		await expect(page.locator('#newsletter-email')).toBeVisible();
+			// Open the newsletter first, so its focus trap is already armed.
+			await page.locator('footer').scrollIntoViewIfNeeded();
+			await page.locator('footer').getByText('Subscribe to our newsletter').click();
+			await expect(page.locator('#newsletter-email')).toBeVisible();
 
-		// The gate fires ~3s after mount.
-		const appeared = await gate(page)
-			.waitFor({ state: 'visible', timeout: 8000 })
-			.then(() => true)
-			.catch(() => false);
-		test.skip(
-			!appeared,
-			'cookie consent disabled in this environment (VITE_DISABLE_COOKIE_CONSENT)'
-		);
+			// The gate fires ~3s after mount.
+			const appeared = await gate(page)
+				.waitFor({ state: 'visible', timeout: 8000 })
+				.then(() => true)
+				.catch(() => false);
+			test.skip(
+				!appeared,
+				'cookie consent disabled in this environment (VITE_DISABLE_COOKIE_CONSENT)'
+			);
 
-		// Focus must move into the gate, not stay trapped in the newsletter.
-		await expect.poll(() => activeInfo(page).then((i) => i.where)).toBe('consent');
+			// Focus must move into the gate, not stay trapped in the newsletter.
+			await expect.poll(() => activeInfo(page).then((i) => i.where)).toBe('consent');
 
-		// Tabbing must stay inside the gate rather than being yanked back.
-		for (let i = 0; i < 6; i++) {
-			await page.keyboard.press('Tab');
-			expect((await activeInfo(page)).where, `Tab #${i + 1} left the consent gate`).toBe('consent');
+			// Tabbing must stay inside the gate rather than being yanked back.
+			for (let i = 0; i < 6; i++) {
+				await page.keyboard.press('Tab');
+				expect((await activeInfo(page)).where, `Tab #${i + 1} left the consent gate`).toBe(
+					'consent'
+				);
+			}
+
+			// And it can actually be dismissed by keyboard.
+			await page.getByRole('button', { name: /accept/i }).click();
+			await expect(gate(page)).toHaveCount(0);
 		}
+	);
 
-		// And it can actually be dismissed by keyboard.
-		await page.getByRole('button', { name: /accept/i }).click();
-		await expect(gate(page)).toHaveCount(0);
-	});
-
-	test('exposes dialog semantics', async ({ page }) => {
+	test('exposes dialog semantics', { tag: '@smoke' }, async ({ page }) => {
 		await page.goto('/');
 		await page.waitForLoadState('networkidle');
 

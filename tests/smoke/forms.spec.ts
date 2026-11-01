@@ -183,7 +183,7 @@ async function fillRsvp(page: Page) {
 const rsvpSubmit = (page: Page) => page.getByRole('button', { name: 'Submit RSVP' });
 
 test.describe('contact form', () => {
-	test('the payload is unchanged, field by field', async ({ page }) => {
+	test('the payload is unchanged, field by field', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await goto(page, `/contact?${UTM_QUERY}`);
 		await fillContact(page);
@@ -208,7 +208,7 @@ test.describe('contact form', () => {
 		});
 	});
 
-	test('a chosen appointment date reaches the payload', async ({ page }) => {
+	test('a chosen appointment date reaches the payload', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await goto(page, '/contact');
 		await fillContact(page);
@@ -219,7 +219,7 @@ test.describe('contact form', () => {
 		expect(bodies[0].appointment_date).toBe(date);
 	});
 
-	test('required fields block an empty submit', async ({ page }) => {
+	test('required fields block an empty submit', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await goto(page, '/contact');
 		await watchBlockedSubmits(page);
@@ -232,65 +232,77 @@ test.describe('contact form', () => {
 		expect(await submissionEvents(page)).toHaveLength(0);
 	});
 
-	test('the page’s first form is the contact form, as the form-e2e probe assumes', async ({
-		page
-	}) => {
-		await goto(page, '/contact');
-		const first = await page.evaluate(() => {
-			const f = document.querySelector('form');
-			return f ? !!f.closest('section[data-slice-variation="connect"]') : null;
-		});
-		expect(first).toBe(true);
-	});
+	test(
+		'the page’s first form is the contact form, as the form-e2e probe assumes',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			await goto(page, '/contact');
+			const first = await page.evaluate(() => {
+				const f = document.querySelector('form');
+				return f ? !!f.closest('section[data-slice-variation="connect"]') : null;
+			});
+			expect(first).toBe(true);
+		}
+	);
 
-	test('the probe’s testMode marker is forwarded and the success banner is a status', async ({
-		page
-	}) => {
-		const bodies = await interceptForms(page);
-		await goto(page, '/contact');
-		await fillContact(page);
-		await markLikeTheProbe(page, 'form');
+	test(
+		'the probe’s testMode marker is forwarded and the success banner is a status',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			const bodies = await interceptForms(page);
+			await goto(page, '/contact');
+			await fillContact(page);
+			await markLikeTheProbe(page, 'form');
 
-		await page.locator('button[type="submit"], input[type="submit"]').first().click();
-		await expect(page.locator('[role="status"]').first()).toBeVisible();
+			await page.locator('button[type="submit"], input[type="submit"]').first().click();
+			await expect(page.locator('[role="status"]').first()).toBeVisible();
 
-		expect(bodies).toHaveLength(1);
-		expect(bodies[0].testMode).toBe(true);
-		expect(bodies[0].formType).toBe('contact');
-	});
+			expect(bodies).toHaveLength(1);
+			expect(bodies[0].testMode).toBe(true);
+			expect(bodies[0].formType).toBe('contact');
+		}
+	);
 
-	test('GA4 hears nothing until the ingest answers, and then only on a 2xx', async ({ page }) => {
-		const held = await holdForms(page);
-		await goto(page, '/contact');
-		await fillContact(page);
+	test(
+		'GA4 hears nothing until the ingest answers, and then only on a 2xx',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			const held = await holdForms(page);
+			await goto(page, '/contact');
+			await fillContact(page);
 
-		await contactSubmit(page).click();
-		// The request is parked, so submitForm is suspended on its fetch: a push
-		// made on the click (before the fetch) is already on the dataLayer.
-		await expect.poll(() => held.length).toBe(1);
-		expect(await submissionEvents(page)).toHaveLength(0);
+			await contactSubmit(page).click();
+			// The request is parked, so submitForm is suspended on its fetch: a push
+			// made on the click (before the fetch) is already on the dataLayer.
+			await expect.poll(() => held.length).toBe(1);
+			expect(await submissionEvents(page)).toHaveLength(0);
 
-		await held[0].fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
-		await expect.poll(async () => (await submissionEvents(page)).length).toBe(1);
-		const [pushed] = await submissionEvents(page);
-		expect(pushed).toEqual({ event: 'contact_submitted', form_type: 'contact' });
-	});
+			await held[0].fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
+			await expect.poll(async () => (await submissionEvents(page)).length).toBe(1);
+			const [pushed] = await submissionEvents(page);
+			expect(pushed).toEqual({ event: 'contact_submitted', form_type: 'contact' });
+		}
+	);
 
-	test('a failed contact submission announces nothing and says so', async ({ page }) => {
-		await interceptForms(page, [502]);
-		await goto(page, '/contact');
-		await fillContact(page);
+	test(
+		'a failed contact submission announces nothing and says so',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			await interceptForms(page, [502]);
+			await goto(page, '/contact');
+			await fillContact(page);
 
-		await contactSubmit(page).click();
-		// The alert renders only after submitForm returns, and submitForm decides
-		// the push before returning, so a stray push would already be here.
-		await expect(page.getByRole('alert')).toBeVisible();
-		expect(await submissionEvents(page)).toHaveLength(0);
-	});
+			await contactSubmit(page).click();
+			// The alert renders only after submitForm returns, and submitForm decides
+			// the push before returning, so a stray push would already be here.
+			await expect(page.getByRole('alert')).toBeVisible();
+			expect(await submissionEvents(page)).toHaveLength(0);
+		}
+	);
 });
 
 test.describe('inquiry form', () => {
-	test('the payload is unchanged, field by field', async ({ page }) => {
+	test('the payload is unchanged, field by field', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await openInquiry(page);
 		await fillInquiry(page);
@@ -317,7 +329,7 @@ test.describe('inquiry form', () => {
 		});
 	});
 
-	test('required fields block an empty submit', async ({ page }) => {
+	test('required fields block an empty submit', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await openInquiry(page);
 		await watchBlockedSubmits(page);
@@ -329,7 +341,7 @@ test.describe('inquiry form', () => {
 		await expect(page.getByText('Thank you for reaching out!')).toHaveCount(0);
 	});
 
-	test('the testMode marker is forwarded', async ({ page }) => {
+	test('the testMode marker is forwarded', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await openInquiry(page);
 		await fillInquiry(page);
@@ -341,34 +353,38 @@ test.describe('inquiry form', () => {
 		expect(bodies[0].formType).toBe('inquiry');
 	});
 
-	test('GA4 waits for a 2xx and carries only the allow-listed fields', async ({ page }) => {
-		const held = await holdForms(page);
-		await openInquiry(page);
-		await fillInquiry(page);
+	test(
+		'GA4 waits for a 2xx and carries only the allow-listed fields',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			const held = await holdForms(page);
+			await openInquiry(page);
+			await fillInquiry(page);
 
-		await inquirySubmit(page).click();
-		// The request is parked, so submitForm is suspended on its fetch: a push
-		// made on the click (before the fetch) is already on the dataLayer.
-		await expect.poll(() => held.length).toBe(1);
-		expect(await submissionEvents(page)).toHaveLength(0);
+			await inquirySubmit(page).click();
+			// The request is parked, so submitForm is suspended on its fetch: a push
+			// made on the click (before the fetch) is already on the dataLayer.
+			await expect.poll(() => held.length).toBe(1);
+			expect(await submissionEvents(page)).toHaveLength(0);
 
-		const sent = JSON.parse(held[0].request().postData() || '{}') as Body;
-		await held[0].fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
-		await expect.poll(async () => (await submissionEvents(page)).length).toBe(1);
-		const [pushed] = await submissionEvents(page);
-		expect(pushed).toEqual({
-			event: 'inquiry_submitted',
-			form_type: 'inquiry',
-			piece: sent.piece,
-			artist: sent.artist,
-			role: 'Art Advisor',
-			utm_source: 'ig',
-			utm_medium: 'social',
-			utm_content: 'link_in_bio'
-		});
-	});
+			const sent = JSON.parse(held[0].request().postData() || '{}') as Body;
+			await held[0].fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
+			await expect.poll(async () => (await submissionEvents(page)).length).toBe(1);
+			const [pushed] = await submissionEvents(page);
+			expect(pushed).toEqual({
+				event: 'inquiry_submitted',
+				form_type: 'inquiry',
+				piece: sent.piece,
+				artist: sent.artist,
+				role: 'Art Advisor',
+				utm_source: 'ig',
+				utm_medium: 'social',
+				utm_content: 'link_in_bio'
+			});
+		}
+	);
 
-	test('a failed inquiry announces nothing', async ({ page }) => {
+	test('a failed inquiry announces nothing', { tag: '@smoke' }, async ({ page }) => {
 		await interceptForms(page, [500]);
 		await openInquiry(page);
 		await fillInquiry(page);
@@ -382,7 +398,7 @@ test.describe('inquiry form', () => {
 });
 
 test.describe('newsletter form', () => {
-	test('the payload is unchanged, field by field', async ({ page }) => {
+	test('the payload is unchanged, field by field', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await openNewsletter(page);
 		await page.locator('#newsletter-email').fill('  reader@example.com ');
@@ -400,16 +416,20 @@ test.describe('newsletter form', () => {
 		});
 	});
 
-	test('the empty-email message still shows, and nothing is sent', async ({ page }) => {
-		const bodies = await interceptForms(page);
-		await openNewsletter(page);
+	test(
+		'the empty-email message still shows, and nothing is sent',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			const bodies = await interceptForms(page);
+			await openNewsletter(page);
 
-		await newsletterSubmit(page).click();
-		await expect(page.getByText('Please enter your email address.')).toBeVisible();
-		expect(bodies).toHaveLength(0);
-	});
+			await newsletterSubmit(page).click();
+			await expect(page.getByText('Please enter your email address.')).toBeVisible();
+			expect(bodies).toHaveLength(0);
+		}
+	);
 
-	test('the testMode marker is forwarded', async ({ page }) => {
+	test('the testMode marker is forwarded', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await openNewsletter(page);
 		await page.locator('#newsletter-email').fill('reader@example.com');
@@ -421,7 +441,7 @@ test.describe('newsletter form', () => {
 		expect(bodies[0].formType).toBe('newsletter');
 	});
 
-	test('GA4 hears nothing until the ingest answers 2xx', async ({ page }) => {
+	test('GA4 hears nothing until the ingest answers 2xx', { tag: '@smoke' }, async ({ page }) => {
 		const held = await holdForms(page);
 		await openNewsletter(page);
 		await page.locator('#newsletter-email').fill('reader@example.com');
@@ -438,7 +458,7 @@ test.describe('newsletter form', () => {
 });
 
 test.describe('rsvp form', () => {
-	test('the payload is unchanged, field by field', async ({ page }) => {
+	test('the payload is unchanged, field by field', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await goto(page, `/rsvp/euphorbia?${UTM_QUERY}`);
 		const eventName = (await page.locator('section h2').first().textContent())?.trim();
@@ -461,7 +481,7 @@ test.describe('rsvp form', () => {
 		});
 	});
 
-	test('required fields block an empty submit', async ({ page }) => {
+	test('required fields block an empty submit', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await goto(page, '/rsvp/euphorbia');
 		await watchBlockedSubmits(page);
@@ -474,7 +494,7 @@ test.describe('rsvp form', () => {
 		expect(await submissionEvents(page)).toHaveLength(0);
 	});
 
-	test('the testMode marker is forwarded', async ({ page }) => {
+	test('the testMode marker is forwarded', { tag: '@smoke' }, async ({ page }) => {
 		const bodies = await interceptForms(page);
 		await goto(page, '/rsvp/euphorbia');
 		await fillRsvp(page);
@@ -486,7 +506,7 @@ test.describe('rsvp form', () => {
 		expect(bodies[0].formType).toBe('rsvp');
 	});
 
-	test('GA4 hears nothing until the ingest answers 2xx', async ({ page }) => {
+	test('GA4 hears nothing until the ingest answers 2xx', { tag: '@smoke' }, async ({ page }) => {
 		const held = await holdForms(page);
 		await goto(page, '/rsvp/euphorbia');
 		await fillRsvp(page);
@@ -505,12 +525,16 @@ test.describe('rsvp form', () => {
 	});
 });
 
-test('/health declares testMode forwarding for the form-e2e probe', async ({ request }) => {
-	const res = await request.get('/health');
-	expect(res.ok()).toBe(true);
-	const body = await res.json();
-	expect(body.forms.testMode).toBe(true);
-});
+test(
+	'/health declares testMode forwarding for the form-e2e probe',
+	{ tag: '@smoke' },
+	async ({ request }) => {
+		const res = await request.get('/health');
+		expect(res.ok()).toBe(true);
+		const body = await res.json();
+		expect(body.forms.testMode).toBe(true);
+	}
+);
 
 test.describe('inside a real <form>', () => {
 	test('the form buttons keep the site’s button type, not the old stub-form rule', async ({
@@ -540,24 +564,26 @@ test.describe('inside a real <form>', () => {
 		{ name: 'contact', path: '/contact', fill: fillContact, submit: contactSubmit },
 		{ name: 'rsvp', path: '/rsvp/euphorbia', fill: fillRsvp, submit: rsvpSubmit }
 	]) {
-		test(`a ${name} submit before hydration never puts the visitor’s details in the URL`, async ({
-			browser
-		}) => {
-			const context = await browser.newContext({ javaScriptEnabled: false });
-			const page = await context.newPage();
-			await page.goto(path);
-			await fill(page);
-			await submit(page)
-				.click({ force: true, timeout: 2000 })
-				.catch(() => {});
-			// press() waits for any navigation it starts (a GET submit), and
-			// load waits for that navigation to commit its URL.
-			await page.locator('[name="email"]').first().press('Enter');
-			await page.waitForLoadState('load');
-			expect(page.url()).not.toContain('ada%40example.com');
-			expect(page.url()).not.toContain('ada@example.com');
-			expect(new URL(page.url()).search).toBe('');
-			await context.close();
-		});
+		test(
+			`a ${name} submit before hydration never puts the visitor’s details in the URL`,
+			{ tag: '@smoke' },
+			async ({ browser }) => {
+				const context = await browser.newContext({ javaScriptEnabled: false });
+				const page = await context.newPage();
+				await page.goto(path);
+				await fill(page);
+				await submit(page)
+					.click({ force: true, timeout: 2000 })
+					.catch(() => {});
+				// press() waits for any navigation it starts (a GET submit), and
+				// load waits for that navigation to commit its URL.
+				await page.locator('[name="email"]').first().press('Enter');
+				await page.waitForLoadState('load');
+				expect(page.url()).not.toContain('ada%40example.com');
+				expect(page.url()).not.toContain('ada@example.com');
+				expect(new URL(page.url()).search).toBe('');
+				await context.close();
+			}
+		);
 	}
 });

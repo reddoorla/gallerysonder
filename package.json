@@ -12,7 +12,10 @@
 		"lint": "prettier --check . --plugin prettier-plugin-svelte . && eslint .",
 		"format": "prettier --write . --plugin prettier-plugin-svelte .",
 		"test": "node --test 'scripts/**/*.test.mjs' && vitest run",
-		"test:smoke": "playwright install chromium && playwright test",
+		"test:smoke": "playwright install chromium && playwright test --grep @smoke",
+		"test:nightly": "playwright test --grep @nightly",
+		"test:scaffold": "playwright test --grep-invert @smoke",
+		"test:e2e": "playwright test",
 		"prismic:gen": "prismic gen types && prismic gen slice-index"
 	},
 	"devDependencies": {

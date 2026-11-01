@@ -22,32 +22,36 @@ import { smokeRoutes } from './routes';
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
 for (const route of smokeRoutes) {
-	test(`${route.path} (${route.name}) has no axe violations`, async ({ page }) => {
-		// Consent is pre-answered: the modal is a focus trap over the whole page, so
-		// scanning with it up measures the modal instead of the page. It has its own
-		// coverage in cookie-consent.spec.ts.
-		await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
-		const res = await page.goto(route.path, { waitUntil: 'load' });
-		expect(res?.status(), `${route.path} should load`).toBe(route.expectStatus ?? 200);
-		// Let hero transitions and lazy images settle; axe reads computed styles, and
-		// mid-animation opacity produces phantom contrast findings.
-		await page.waitForTimeout(1500);
+	test(
+		`${route.path} (${route.name}) has no axe violations`,
+		{ tag: '@nightly' },
+		async ({ page }) => {
+			// Consent is pre-answered: the modal is a focus trap over the whole page, so
+			// scanning with it up measures the modal instead of the page. It has its own
+			// coverage in cookie-consent.spec.ts.
+			await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
+			const res = await page.goto(route.path, { waitUntil: 'load' });
+			expect(res?.status(), `${route.path} should load`).toBe(route.expectStatus ?? 200);
+			// Let hero transitions and lazy images settle; axe reads computed styles, and
+			// mid-animation opacity produces phantom contrast findings.
+			await page.waitForTimeout(1500);
 
-		const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
+			const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
 
-		if (results.incomplete.length > 0) {
-			// Reported, never failed — see the header note.
-			console.log(
-				`[a11y] ${route.path} needs-review: ${results.incomplete
-					.map((r) => `${r.id}×${r.nodes.length}`)
-					.join(', ')}`
+			if (results.incomplete.length > 0) {
+				// Reported, never failed — see the header note.
+				console.log(
+					`[a11y] ${route.path} needs-review: ${results.incomplete
+						.map((r) => `${r.id}×${r.nodes.length}`)
+						.join(', ')}`
+				);
+			}
+
+			const violations = results.violations.map(
+				(v) =>
+					`${v.impact}/${v.id} ×${v.nodes.length} — ${v.help}\n    ${v.nodes[0]?.target.join(' ')}`
 			);
+			expect(violations, `axe violations on ${route.path}`).toEqual([]);
 		}
-
-		const violations = results.violations.map(
-			(v) =>
-				`${v.impact}/${v.id} ×${v.nodes.length} — ${v.help}\n    ${v.nodes[0]?.target.join(' ')}`
-		);
-		expect(violations, `axe violations on ${route.path}`).toEqual([]);
-	});
+	);
 }

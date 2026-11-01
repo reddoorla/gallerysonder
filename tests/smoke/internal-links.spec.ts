@@ -19,34 +19,42 @@ const MUST_BE_LINKED = ['/about', '/advisory', '/contact', '/artists', '/exhibit
 const PAGES = ['/', '/about', '/exhibitions/awakening', '/artists/theo-hirschfield'];
 
 for (const path of PAGES) {
-	test(`${path}: server-rendered HTML links to every top-level page`, async ({ request }) => {
-		const res = await request.get(path);
-		expect(res.status(), `${path} should load`).toBe(200);
-		const html = await res.text();
+	test(
+		`${path}: server-rendered HTML links to every top-level page`,
+		{ tag: '@smoke' },
+		async ({ request }) => {
+			const res = await request.get(path);
+			expect(res.status(), `${path} should load`).toBe(200);
+			const html = await res.text();
 
-		const missing = MUST_BE_LINKED.filter((target) => !new RegExp(`href="${target}"`).test(html));
-		expect(missing, `${path} has no server-rendered link to these`).toEqual([]);
-	});
+			const missing = MUST_BE_LINKED.filter((target) => !new RegExp(`href="${target}"`).test(html));
+			expect(missing, `${path} has no server-rendered link to these`).toEqual([]);
+		}
+	);
 }
 
-test('the footer is where those links live, and they are real anchors', async ({ page }) => {
-	await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
-	await page.goto('/', { waitUntil: 'domcontentloaded' });
+test(
+	'the footer is where those links live, and they are real anchors',
+	{ tag: '@smoke' },
+	async ({ page }) => {
+		await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
+		await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-	const footer = page.locator('footer');
-	for (const target of MUST_BE_LINKED) {
-		await expect(
-			footer.locator(`a[href="${target}"]`),
-			`footer should link ${target} exactly once`
-		).toHaveCount(1);
+		const footer = page.locator('footer');
+		for (const target of MUST_BE_LINKED) {
+			await expect(
+				footer.locator(`a[href="${target}"]`),
+				`footer should link ${target} exactly once`
+			).toHaveCount(1);
+		}
+
+		// The labels must be readable text, not an empty anchor — a link with no
+		// accessible name is worth nothing to a crawler or a screen reader.
+		const labels = await footer
+			.locator('a[href^="/"]')
+			.evaluateAll((els) => els.map((e) => (e.textContent ?? '').trim()).filter(Boolean));
+		expect(labels.length, 'footer internal links should all carry text').toBeGreaterThanOrEqual(
+			MUST_BE_LINKED.length
+		);
 	}
-
-	// The labels must be readable text, not an empty anchor — a link with no
-	// accessible name is worth nothing to a crawler or a screen reader.
-	const labels = await footer
-		.locator('a[href^="/"]')
-		.evaluateAll((els) => els.map((e) => (e.textContent ?? '').trim()).filter(Boolean));
-	expect(labels.length, 'footer internal links should all carry text').toBeGreaterThanOrEqual(
-		MUST_BE_LINKED.length
-	);
-});
+);

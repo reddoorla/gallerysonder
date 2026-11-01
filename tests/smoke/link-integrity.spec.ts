@@ -33,32 +33,36 @@ function rsvpControls(page: Page) {
 // homepage silently left the check the day its CTA changed, which is precisely when
 // a fresh CMS link is most likely to be wrong.
 for (const path of LINKED_ROUTES) {
-	test(`${path}: every RSVP call-to-action is a link, not a dead button`, async ({ page }) => {
-		await goto(page, path);
+	test(
+		`${path}: every RSVP call-to-action is a link, not a dead button`,
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			await goto(page, path);
 
-		// LinkArrowButton falls back to a <button> with a no-op onclick when `href`
-		// is empty — which is what a Prismic link to a document type missing from the
-		// route resolver produces (isFilled() is true, but .url is undefined). The
-		// result looks exactly like the working control and goes nowhere.
-		const ctas = rsvpControls(page);
-		const count = await ctas.count();
+			// LinkArrowButton falls back to a <button> with a no-op onclick when `href`
+			// is empty — which is what a Prismic link to a document type missing from the
+			// route resolver produces (isFilled() is true, but .url is undefined). The
+			// result looks exactly like the working control and goes nowhere.
+			const ctas = rsvpControls(page);
+			const count = await ctas.count();
 
-		for (let i = 0; i < count; i++) {
-			const cta = ctas.nth(i);
-			const tag = await cta.evaluate((el) => el.tagName.toLowerCase());
-			expect(tag, `RSVP control ${i} on ${path} must be an anchor`).toBe('a');
-			const href = await cta.getAttribute('href');
-			expect(href, `RSVP link ${i} on ${path} must have an href`).toBeTruthy();
-			expect(href, `RSVP link ${i} on ${path} should point at an RSVP page`).toContain('/rsvp/');
+			for (let i = 0; i < count; i++) {
+				const cta = ctas.nth(i);
+				const tag = await cta.evaluate((el) => el.tagName.toLowerCase());
+				expect(tag, `RSVP control ${i} on ${path} must be an anchor`).toBe('a');
+				const href = await cta.getAttribute('href');
+				expect(href, `RSVP link ${i} on ${path} must have an href`).toBeTruthy();
+				expect(href, `RSVP link ${i} on ${path} should point at an RSVP page`).toContain('/rsvp/');
+			}
 		}
-	});
+	);
 }
 
 // The per-route check above passes on a page with no RSVP at all, so on its own it
 // would go quiet if RSVPs disappeared site-wide. This is the content guard: it does
 // not care WHICH page hosts the CTA, only that the gallery is still offering one
 // somewhere, so routine editorial rotation stays green and a real regression does not.
-test('the site still offers an RSVP somewhere', async ({ page }) => {
+test('the site still offers an RSVP somewhere', { tag: '@smoke' }, async ({ page }) => {
 	const found: string[] = [];
 	for (const path of LINKED_ROUTES) {
 		await goto(page, path);
@@ -68,22 +72,27 @@ test('the site still offers an RSVP somewhere', async ({ page }) => {
 });
 
 for (const path of LINKED_ROUTES) {
-	test(`${path}: no anchor is rendered with an empty or placeholder href`, async ({ page }) => {
-		await goto(page, path);
+	test(
+		`${path}: no anchor is rendered with an empty or placeholder href`,
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			await goto(page, path);
 
-		// href="" resolves to the current page, so an unfilled CMS link becomes a
-		// focusable control that silently reloads. href="#" is the same problem with
-		// a jump to the top. Both come from `isFilled(x) ? x.url : ''` fallbacks.
-		const bad = await page.evaluate(() =>
-			Array.from(document.querySelectorAll('a[href=""], a[href="#"]')).map(
-				(a) => `<a href="${a.getAttribute('href')}"> text=${JSON.stringify(a.textContent?.trim())}`
-			)
-		);
-		expect(bad, `${path} renders anchors with a dead href`).toEqual([]);
-	});
+			// href="" resolves to the current page, so an unfilled CMS link becomes a
+			// focusable control that silently reloads. href="#" is the same problem with
+			// a jump to the top. Both come from `isFilled(x) ? x.url : ''` fallbacks.
+			const bad = await page.evaluate(() =>
+				Array.from(document.querySelectorAll('a[href=""], a[href="#"]')).map(
+					(a) =>
+						`<a href="${a.getAttribute('href')}"> text=${JSON.stringify(a.textContent?.trim())}`
+				)
+			);
+			expect(bad, `${path} renders anchors with a dead href`).toEqual([]);
+		}
+	);
 }
 
-test('rsvp event pages give every image an alt attribute', async ({ page }) => {
+test('rsvp event pages give every image an alt attribute', { tag: '@smoke' }, async ({ page }) => {
 	await goto(page, '/rsvp/euphorbia');
 
 	// PrismicImage emits NO alt attribute at all when the CMS alt is null unless the
@@ -97,7 +106,7 @@ test('rsvp event pages give every image an alt attribute', async ({ page }) => {
 	expect(missing, 'images with no alt attribute').toEqual([]);
 });
 
-test('robots.txt advertises the canonical apex sitemap', async ({ request }) => {
+test('robots.txt advertises the canonical apex sitemap', { tag: '@smoke' }, async ({ request }) => {
 	const res = await request.get('/robots.txt');
 	expect(res.status()).toBe(200);
 	const body = await res.text();
@@ -108,7 +117,7 @@ test('robots.txt advertises the canonical apex sitemap', async ({ request }) => 
 	expect(body).not.toContain('www.gallerysonder.com');
 });
 
-test('the footer contact details are tappable', async ({ page }) => {
+test('the footer contact details are tappable', { tag: '@smoke' }, async ({ page }) => {
 	await goto(page, '/');
 
 	// The phone number and email address were plain text inside a <div>, so on a

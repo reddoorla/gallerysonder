@@ -366,3 +366,24 @@ The fleet test audit (`reddoorla/reddoor-workspace` `audits/2026-10-26-fleet-tes
 All 46 tests in the three changed specs pass against the production build.
 
 **Surprise.** In this worktree, `svelte-check` reported 33 `./$types` errors under `src/routes`. Kit 3 writes its tsconfig into `node_modules/$app`, and with `node_modules` symlinked from another checkout, its `rootDirs` resolve against that checkout. With `rootDirs` pointed at the worktree, it reports 0 errors, the same as `main`.
+
+## 2026-11-01 — Playwright specs move onto the starter's three test tiers (fleet test audit batch A)
+
+`test:smoke` was a bare `playwright test`, so every Playwright spec blocked every merge, the hero-baseline geometry spec and the button-typeface pins included. reddoor-starter#180 (`48ccabe`) shipped the tiers that fix this and gallerysonder never took them. This change only moves tests between tiers: no assertion is deleted, skipped or weakened. `test:smoke` is now `playwright install chromium && playwright test --grep @smoke`, and `test:scaffold`, `test:e2e` and `test:nightly` are added. `test` is untouched.
+
+**Counts.** 127 tests in 15 files: 106 `@smoke`, 21 not (so `--grep @smoke` plus `--grep-invert @smoke` equals `playwright test --list`). Of the 21, 17 are `@nightly` (10 axe route scans, the 3 scroll-lock specs, the 3 name-list hover specs, the lightbox artist-link crawl) and 4 are plain scaffold (2 hero-anchor, 2 form-button style pins).
+
+**Judgment calls.**
+
+- The nightly tier is selected by a `@nightly` tag, not by a file list as in the starter, because `sitemap.spec.ts` mixes five contract tests with one clock-bound crawl. The 17 are also outside `@smoke`, so `test:scaffold` runs them too.
+- The axe scans (`a11y.spec.ts`) are real contract (AA contrast, image-alt) but sleep 1500ms before scanning, which the starter's `@smoke is earned` rule bars from the gate. They are nightly, not deleted, so the gate has no axe scan until the sleep becomes a wait on a signal (the newsletter spec's `settle()` on `getAnimations()` is the model). That is the largest contract loss in this change, and the audit already classed the test "rewrite".
+- scroll-lock (all three: `wheelDelta` sleeps 300ms, and the early-dismiss race sleeps 80 and 1200ms), name-list hover (800/2500/300/1200ms) and the sitemap lightbox crawl (250/400ms scrolling loops) are real behaviour that races a clock: nightly.
+- hero-anchor (`getBoundingClientRect`, canvas text metrics) and the two `forms.spec.ts` "inside a real <form>" tests (computed font family, 12px size, `overflow`) are design pins: untagged, scaffold only. The pre-hydration "no details in the URL" tests next to them are contract and are tagged.
+- Tagged though they read a count: the footer's `toHaveCount(1)` for each nav link and for the tel and mailto links. Each is "this link exists once", not a layout count; if a designer adds a second phone link they will go red and should be loosened then.
+- The cookie-consent specs are tagged. They `test.skip` when the gate is disabled in the environment, which it is here, so 2 of 106 skip locally.
+
+**Proof.** `--grep @smoke` ran twice unmodified: 104 passed, 2 skipped, both times (3.9 and 3.0 minutes at `--workers=2`). Mutants, each restored with `git checkout`: a `name="email"` renamed in TitleBlock was red under `@smoke` (the contact payload spec); a footer nav `href` suffixed `-gone` was red (`internal-links`); `justify-end` to `justify-center` on the home hero was green under `@smoke` and red in `hero-anchor` (2 failed); the home hero's `duration-500` to `duration-[3000ms]` was green under `@smoke` and green across the whole scaffold tier too, because no scaffold spec measures a duration.
+
+**Not checked.** The shared `reddoorla/.github` `ci.yml@v1.4.2` workflow was not readable from here. I assumed from CLAUDE.md and README.md (a separate "Smoke test (if present)" step) that it runs `pnpm test:smoke` when the script exists, so the gate now runs the 106 `@smoke` tests. `nightly.yml` was not run, and the nightly tier was not run as a tier (only the dev-server `@smoke` and scaffold runs above). Chromium was the preinstalled one, so `playwright install chromium` in `test:smoke` was bypassed locally.
+
+Usage: not readable
