@@ -42,7 +42,7 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium
 
       # The `@smoke` tests that inspect the built client (slice-simulator) fail
-      # without a production build, and `test:e2e` and `test:scaffold` select them.
+      # without a production build, and `test:e2e` selects them.
       - run: pnpm build
 
       - name: Playwright (${{ inputs.script || 'test:nightly' }})
@@ -63,7 +63,7 @@ jobs:
 
       # A red nightly has no other reader: GitHub emails a failed scheduled run
       # only to whoever last edited the cron. Open (or update) one tracking issue.
-      - if: failure()
+      - if: failure() && (inputs.script || 'test:nightly') == 'test:nightly'
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

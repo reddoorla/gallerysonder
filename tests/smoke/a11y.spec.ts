@@ -13,10 +13,10 @@ import { smokeRoutes } from './routes';
 // This was green on every route the day it was added, so it gates from a clean
 // baseline rather than freezing an existing backlog.
 //
-// Tagged `@smoke` despite the 1500ms settle below: this is the only gate on
-// accessible names, AA contrast and image-alt over real routes, and the assertion
-// itself is deterministic. It is the one sanctioned exception to "@smoke is
-// earned" (CLAUDE.md), pending an app-side "revealed" signal to wait on.
+// The route pages reveal content on `setTimeout`s with no DOM marker, so a scan
+// straight after load can read mid-reveal styles. Instead of sleeping, the test
+// installs Playwright's fake clock, fires those timers in virtual time and waits
+// for the animations they start to finish. No wall-clock wait, nothing races.
 //
 // Scope: axe catches roughly a third of WCAG issues, so a green run here is "no
 // machine-detectable violations", not "accessible". Notably it does NOT fail on
@@ -35,11 +35,19 @@ for (const route of smokeRoutes) {
 			// scanning with it up measures the modal instead of the page. It has its own
 			// coverage in cookie-consent.spec.ts.
 			await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
+			await page.clock.install();
 			const res = await page.goto(route.path, { waitUntil: 'load' });
 			expect(res?.status(), `${route.path} should load`).toBe(route.expectStatus ?? 200);
-			// Let hero transitions and lazy images settle; axe reads computed styles, and
-			// mid-animation opacity produces phantom contrast findings.
-			await page.waitForTimeout(1500);
+			// Fire the reveal timers (500/1000 ms setTimeouts in the route pages)
+			// deterministically, then wait for whatever they started to finish.
+			// Transitions are ~0 ms under the fleet's reducedMotion. The 5000 is a bound
+			// in virtual time past the longest reveal timer, not an animation window.
+			await page.clock.runFor(5000);
+			await page.waitForFunction(() =>
+				document
+					.getAnimations()
+					.every((a) => a.playState !== 'running' || a.effect?.getTiming().iterations === Infinity)
+			);
 
 			const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
 

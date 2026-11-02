@@ -20,7 +20,9 @@ import { test, expect, type Page } from '@playwright/test';
 /** True when the gate is switched off in the environment the app was built or
  *  served under: the process env, or the `.env` files Vite itself reads. */
 const consentDisabled = (() => {
-	if (process.env.VITE_DISABLE_COOKIE_CONSENT === 'true') return true;
+	// Vite gives the process env priority over the files, so a defined value wins.
+	const fromEnv = process.env.VITE_DISABLE_COOKIE_CONSENT;
+	if (fromEnv !== undefined) return fromEnv === 'true';
 	for (const file of ['.env', '.env.local']) {
 		try {
 			if (
