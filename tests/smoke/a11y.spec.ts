@@ -13,6 +13,11 @@ import { smokeRoutes } from './routes';
 // This was green on every route the day it was added, so it gates from a clean
 // baseline rather than freezing an existing backlog.
 //
+// Tagged `@smoke` despite the 1500ms settle below: this is the only gate on
+// accessible names, AA contrast and image-alt over real routes, and the assertion
+// itself is deterministic. It is the one sanctioned exception to "@smoke is
+// earned" (CLAUDE.md), pending an app-side "revealed" signal to wait on.
+//
 // Scope: axe catches roughly a third of WCAG issues, so a green run here is "no
 // machine-detectable violations", not "accessible". Notably it does NOT fail on
 // axe's `incomplete` (needs-review) bucket — those are reported below for a human
@@ -24,7 +29,7 @@ const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 for (const route of smokeRoutes) {
 	test(
 		`${route.path} (${route.name}) has no axe violations`,
-		{ tag: '@nightly' },
+		{ tag: '@smoke' },
 		async ({ page }) => {
 			// Consent is pre-answered: the modal is a focus trap over the whole page, so
 			// scanning with it up measures the modal instead of the page. It has its own

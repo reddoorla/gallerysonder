@@ -122,6 +122,7 @@
 <main>
 	{#if isTransitioning}
 		<div
+			data-testid="page-transition-overlay"
 			out:fade={{ duration: 600 }}
 			class="w-screen h-screen fixed top-0 left-0 bg-black z-30"
 		></div>

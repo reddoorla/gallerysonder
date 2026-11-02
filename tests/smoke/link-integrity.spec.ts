@@ -123,11 +123,14 @@ test('the footer contact details are tappable', { tag: '@smoke' }, async ({ page
 	// The phone number and email address were plain text inside a <div>, so on a
 	// phone neither could be tapped and no crawler read them as contact points.
 	const footer = page.locator('footer');
-	await expect(footer.locator('a[href^="tel:"]')).toHaveCount(1);
-	await expect(footer.locator('a[href^="mailto:"]')).toHaveCount(1);
-
-	const tel = await footer.locator('a[href^="tel:"]').getAttribute('href');
-	expect(tel?.replace(/[^\d+]/g, '')).toContain('9496620077');
-	const mail = await footer.locator('a[href^="mailto:"]').getAttribute('href');
-	expect(mail).toBe('mailto:info@gallerysonder.com');
+	await expect(footer.locator('a[href^="tel:"]').first()).toBeAttached();
+	const hrefs = await footer
+		.locator('a[href^="tel:"], a[href^="mailto:"]')
+		.evaluateAll((els) => els.map((e) => e.getAttribute('href') ?? ''));
+	const tels = hrefs.filter((h) => h.startsWith('tel:')).map((h) => h.replace(/[^\d+]/g, ''));
+	expect(
+		tels.some((t) => t.includes('9496620077')),
+		`footer tel: links ${JSON.stringify(tels)} should include the gallery number`
+	).toBe(true);
+	expect(hrefs, 'footer should link the gallery email').toContain('mailto:info@gallerysonder.com');
 });

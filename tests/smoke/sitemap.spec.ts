@@ -95,11 +95,13 @@ test.describe('sitemap', () => {
 test.describe('rendered links', () => {
 	test('no page links to an artist page that 404s', { tag: '@smoke' }, async ({ request }) => {
 		// The broadest net, and the one that would have caught the original miss.
-		// Artist URLs reach the HTML through four channels — the lightbox credit,
-		// the NameList slice, gallery item links, and Prismic's route resolver
-		// turning any content relationship into /artists/<uid>. Reading the rendered
-		// markup covers all four at once without having to enumerate them, which is
-		// exactly the enumeration that went wrong before.
+		// Artist URLs reach the server-rendered HTML through three channels — the
+		// NameList slice, gallery item links, and Prismic's route resolver turning
+		// any content relationship into /artists/<uid>. Reading the rendered markup
+		// covers all three at once without having to enumerate them, which is
+		// exactly the enumeration that went wrong before. The fourth channel, the
+		// lightbox credit, is NOT in served HTML (the artwork and its artist are
+		// fetched after the modal opens), so 'gallery lightbox' below covers it.
 		test.setTimeout(120_000);
 		const pages = await sitemapPaths(request);
 		expect(pages.length, 'sitemap should not be empty').toBeGreaterThan(5);
@@ -323,6 +325,71 @@ test.describe('gallery lightbox', () => {
 				`the lightbox links to ${dead.length} artist page(s) that 404 ` +
 					`(${linked.length} linked, ${unlinked.length} shown as plain text, across ${opened} artwork(s))`
 			).toEqual([]);
+		}
+	);
+
+	// The sleep-free half of the lightbox contract. The crawl above walks every
+	// tile with scroll loops and fixed sleeps, so it stays nightly; this opens
+	// tiles one at a time, each wait on a real signal (the dialog visible, the
+	// credit attached), until it has seen one linked and one stub artist. Without
+	// it, `{#if artistHasPublicPage(...)}` in Lightbox.svelte could become
+	// `{#if true}` (stub artists linking to pages that 404) with the gate green.
+	test(
+		'links a built-out artist and leaves a roster stub as plain text',
+		{ tag: '@smoke' },
+		async ({ page, request }) => {
+			test.setTimeout(120_000);
+			await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
+			await page.goto(MIXED_EXHIBITION, { waitUntil: 'networkidle' });
+
+			const lightbox = page.getByRole('dialog', { name: 'Artwork details' });
+			const tiles = page
+				.locator('button[aria-label^="View "]')
+				.and(page.locator('button:not([aria-label="View full size"])'));
+
+			// A gallery with `show_more_button` renders only its first four tiles; the
+			// artworks whose artists get a link sit behind the button.
+			const showMore = page.getByRole('button', { name: /show more/i });
+			for (let i = 0; i < (await showMore.count()); i++) {
+				const before = await tiles.count();
+				await showMore.nth(i).click();
+				await expect.poll(() => tiles.count()).toBeGreaterThan(before);
+			}
+
+			const tileCount = await tiles.count();
+			expect(tileCount, `no artwork tiles on ${MIXED_EXHIBITION}`).toBeGreaterThan(0);
+
+			let linked: string | null = null;
+			let stub: string | null = null;
+			for (let i = 0; i < tileCount && !(linked && stub); i++) {
+				await tiles.nth(i).scrollIntoViewIfNeeded();
+				await tiles.nth(i).click();
+				await expect(lightbox).toBeVisible();
+
+				// The artwork and its artist are fetched after the modal opens: wait for
+				// the credit to be attached, then read which kind it is.
+				const credit = lightbox.locator('h5 b').first();
+				await expect(credit).toBeAttached();
+				const link = lightbox.locator('a[href^="/artists/"]');
+				if ((await link.count()) > 0) {
+					linked ??= await link.first().getAttribute('href');
+				} else {
+					stub ??= (await credit.innerText()).trim();
+				}
+
+				await lightbox.getByRole('button', { name: 'Close modal' }).click();
+				await expect(lightbox).toBeHidden();
+			}
+
+			expect(
+				linked,
+				`no artwork on ${MIXED_EXHIBITION} credited a LINKED artist — point MIXED_EXHIBITION at one that mixes both`
+			).toBeTruthy();
+			expect(
+				stub,
+				`no artwork on ${MIXED_EXHIBITION} credited an UNLINKED roster stub — point MIXED_EXHIBITION at one that mixes both`
+			).toBeTruthy();
+			expect((await request.get(linked!)).status(), `${linked} should be a live page`).toBe(200);
 		}
 	);
 });

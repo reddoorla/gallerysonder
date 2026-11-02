@@ -82,7 +82,7 @@ async function openNavMenu(page: Page) {
  *  layout's black transition overlay is removed only when its outro ends, and
  *  the outgoing page's outros are WAAPI animations, so wait on both. */
 async function measureStableMaxScroll(page: Page) {
-	await expect(page.locator('main > div.fixed.bg-black')).toHaveCount(0, { timeout: 5000 });
+	await expect(page.getByTestId('page-transition-overlay')).toHaveCount(0, { timeout: 5000 });
 	await settle(page, 'body');
 	return page.evaluate(
 		() => document.documentElement.scrollHeight - document.documentElement.clientHeight

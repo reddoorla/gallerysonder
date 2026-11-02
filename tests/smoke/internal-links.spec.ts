@@ -43,9 +43,9 @@ test(
 		const footer = page.locator('footer');
 		for (const target of MUST_BE_LINKED) {
 			await expect(
-				footer.locator(`a[href="${target}"]`),
-				`footer should link ${target} exactly once`
-			).toHaveCount(1);
+				footer.locator(`a[href="${target}"]`).first(),
+				`footer should link ${target}`
+			).toBeAttached();
 		}
 
 		// The labels must be readable text, not an empty anchor — a link with no

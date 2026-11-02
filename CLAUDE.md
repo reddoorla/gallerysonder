@@ -51,16 +51,19 @@ masthead, a back button and an arrow on a button cost the developer five gutted
 tests (roalson-interests#251), and not one of the five reds was a bug. The suite
 is tiered by what a red _means_ (the tiers come from reddoor-starter#180):
 
-| Tier                | Command                                     | Runs                                          | Holds                                                                                                                           |
-| ------------------- | ------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| **Gate** (contract) | `pnpm test:smoke` (Playwright `@smoke`)     | every PR, in the shared workflow's smoke step | what a client would call a bug: links and their targets, the forms and their payloads, keyboard and focus, no-JS, data, SEO     |
-| **Nightly**         | `pnpm test:nightly` (Playwright `@nightly`) | `nightly.yml`, never blocks a merge           | the axe scans, the scroll-lock specs, the name-list hover and the lightbox-link crawl: real behaviour, but they wait on a clock |
-| **Scaffold**        | `pnpm test:scaffold` (`pnpm test:e2e`: all) | on demand, while building                     | comp geometry, pixel and computed-style pins: the hero baseline, the form button typeface and the Subscribe arrow               |
+| Tier                | Command                                     | Runs                                          | Holds                                                                                                                                                                |
+| ------------------- | ------------------------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Gate** (contract) | `pnpm test:smoke` (Playwright `@smoke`)     | every PR, in the shared workflow's smoke step | what a client would call a bug: links and their targets, the forms and their payloads, keyboard and focus, no-JS, data, SEO, the axe scans (see the exception below) |
+| **Nightly**         | `pnpm test:nightly` (Playwright `@nightly`) | `nightly.yml`, never blocks a merge           | the scroll-lock specs, the name-list hover and the lightbox-link crawl: real behaviour, but they wait on a clock                                                     |
+| **Scaffold**        | `pnpm test:scaffold` (`pnpm test:e2e`: all) | on demand, while building                     | comp geometry, pixel and computed-style pins: the hero baseline, the form button typeface and the Subscribe arrow                                                    |
 
 `pnpm test` (node --test and vitest) is unchanged and still never runs
 Playwright. Unit tests run in the shared "Test (if present)" step, and
 `test:smoke` in its separate "Smoke test (if present)" step, so what blocks a
-merge is the `@smoke` tier and nothing else from Playwright.
+merge is the `@smoke` tier and nothing else from Playwright, apart from the
+shared workflow's own a11y audit step, which is also Playwright plus axe but
+scans only the two synthetic `/dev` fixture routes (`/dev/a11y-fixtures` and
+`/dev/animate-in`), so it is not coverage of any real page.
 
 - **A human's design change wins.** When a size, spacing, colour that still
   passes AA, duration, border, or an added button or link turns a test red,
@@ -86,6 +89,17 @@ merge is the `@smoke` tier and nothing else from Playwright.
   `{ tag: '@nightly' }` instead of `@smoke`, or delete it if it guards nothing
   a client would notice. A nightly test whose sleep is replaced by a wait on a
   real signal can be promoted to `@smoke`.
+- **The one sanctioned exception: the axe scans in `a11y.spec.ts` stay
+  `@smoke` with their 1500ms settle.** They are the only gate on accessible
+  names, AA contrast and image-alt over real routes (the shared audit scans
+  only the two `/dev` fixtures), and their assertion is deterministic: the
+  sleep is a settle before it, not the thing under test. Route pages reveal
+  content on a `setTimeout` with no DOM marker, so a generic `settle()` on
+  `getAnimations()` lets axe scan before the reveal (#142). The exception ends
+  when the app exposes a "revealed" signal to wait on, or when the shared audit
+  can take the route list (`reddoor.a11yRoutes`; today that reports a serious
+  `target-size` on the footer `tel:` and `mailto:` links on 9 of 10 routes, to
+  be fixed first). Do not copy it to another spec.
 
 ## The work journal
 
