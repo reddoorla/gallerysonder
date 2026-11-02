@@ -110,21 +110,25 @@
 	};
 
 	const checkPosition = () => {
-		if (
-			typeof window !== 'undefined' &&
-			typeof document !== 'undefined' &&
-			!appState.hasNewsletterBeenCleared
-		) {
+		if (typeof window === 'undefined' || typeof document === 'undefined') return;
+		const y = window.scrollY;
+		let wouldOpen = false;
+		if (!appState.hasNewsletterBeenCleared) {
 			const maxScroll =
 				document.documentElement.scrollHeight - document.documentElement.clientHeight;
-			if (window.scrollY > lowestPoint) lowestPoint = window.scrollY;
-			if (
-				lowestPoint / maxScroll > 0.8 &&
-				window.scrollY / maxScroll < 0.5 &&
-				!appState.hasNewsletterBeenCleared
-			)
-				appState.isNewsletterActive = true;
+			if (y > lowestPoint) lowestPoint = y;
+			wouldOpen = lowestPoint / maxScroll > 0.8 && y / maxScroll < 0.5;
+			if (wouldOpen) appState.isNewsletterActive = true;
 		}
+		// Test hook, read only by tests/smoke/newsletter.spec.ts; nothing in the app
+		// reads it. Each check records the position it judged and what it decided,
+		// so a test can wait for "the newsletter has judged this position" and
+		// assert on the verdict itself, however the check is scheduled and however
+		// (or whenever) the open then reaches the page. Keep every open this
+		// component decides in `wouldOpen`: an open decided on another path is
+		// invisible to the spec's "nothing opened" check unless it has already
+		// rendered by the time that check runs.
+		window.__newsletterCheck = { n: (window.__newsletterCheck?.n ?? 0) + 1, y, wouldOpen };
 	};
 
 	onMount(() => {

@@ -48,66 +48,79 @@ const ofType = (blocks: JsonLdBlock[], type: string) =>
 	blocks.find((block) => block['@type'] === type);
 
 test.describe('organization schema', () => {
-	test('carries the address, phone and hours a knowledge panel is built from', async ({
-		request
-	}) => {
-		const org = ofType(await jsonLd(request, '/'), 'ArtGallery');
-		expect(org, 'no ArtGallery JSON-LD on the homepage').toBeTruthy();
+	test(
+		'carries the address, phone and hours a knowledge panel is built from',
+		{ tag: '@smoke' },
+		async ({ request }) => {
+			const org = ofType(await jsonLd(request, '/'), 'ArtGallery');
+			expect(org, 'no ArtGallery JSON-LD on the homepage').toBeTruthy();
 
-		// These must match the Google Business Profile listing exactly; a mismatch
-		// is the usual reason Google won't associate the site with the business.
-		expect(org!.address).toMatchObject({
-			'@type': 'PostalAddress',
-			streetAddress: '3435 E Coast Highway',
-			addressLocality: 'Corona del Mar',
-			addressRegion: 'CA',
-			postalCode: '92625'
-		});
-		expect(org!.telephone, 'telephone missing').toBeTruthy();
-		expect(org!.url).toBe('https://gallerysonder.com');
-	});
-
-	test('opens Wednesday to Sunday and says nothing about the closed days', async ({ request }) => {
-		const org = ofType(await jsonLd(request, '/'), 'ArtGallery')!;
-		const hours = org.openingHoursSpecification ?? [];
-		expect(hours.length, 'no openingHoursSpecification').toBeGreaterThan(0);
-
-		const byDay = Object.fromEntries(hours.map((h) => [h.dayOfWeek ?? '', h]));
-		for (const day of ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']) {
-			expect(byDay[day], `${day} missing from opening hours`).toMatchObject({
-				opens: '11:00',
-				closes: '18:00'
+			// These must match the Google Business Profile listing exactly; a mismatch
+			// is the usual reason Google won't associate the site with the business.
+			expect(org!.address).toMatchObject({
+				'@type': 'PostalAddress',
+				streetAddress: '3435 E Coast Highway',
+				addressLocality: 'Corona del Mar',
+				addressRegion: 'CA',
+				postalCode: '92625'
 			});
+			expect(org!.telephone, 'telephone missing').toBeTruthy();
+			expect(org!.url).toBe('https://gallerysonder.com');
 		}
-		// schema.org has no "closed" value. A closed day is expressed by ABSENCE;
-		// emitting it with equal opens/closes reads as "open zero hours" and is
-		// what trips the invalid-hours warning in Google's validator.
-		for (const day of ['Monday', 'Tuesday']) {
-			expect(byDay[day], `${day} is a closed day and must be omitted, not listed`).toBeUndefined();
+	);
+
+	test(
+		'opens Wednesday to Sunday and says nothing about the closed days',
+		{ tag: '@smoke' },
+		async ({ request }) => {
+			const org = ofType(await jsonLd(request, '/'), 'ArtGallery')!;
+			const hours = org.openingHoursSpecification ?? [];
+			expect(hours.length, 'no openingHoursSpecification').toBeGreaterThan(0);
+
+			const byDay = Object.fromEntries(hours.map((h) => [h.dayOfWeek ?? '', h]));
+			for (const day of ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']) {
+				expect(byDay[day], `${day} missing from opening hours`).toMatchObject({
+					opens: '11:00',
+					closes: '18:00'
+				});
+			}
+			// schema.org has no "closed" value. A closed day is expressed by ABSENCE;
+			// emitting it with equal opens/closes reads as "open zero hours" and is
+			// what trips the invalid-hours warning in Google's validator.
+			for (const day of ['Monday', 'Tuesday']) {
+				expect(
+					byDay[day],
+					`${day} is a closed day and must be omitted, not listed`
+				).toBeUndefined();
+			}
 		}
-	});
+	);
 });
 
 test.describe('breadcrumb schema', () => {
-	test('is absent on the homepage', async ({ request }) => {
+	test('is absent on the homepage', { tag: '@smoke' }, async ({ request }) => {
 		// A one-item trail ("Home") carries no information and is the kind of empty
 		// markup that earns a structured-data warning rather than a sitelink.
 		expect(ofType(await jsonLd(request, '/'), 'BreadcrumbList')).toBeUndefined();
 	});
 
-	test('names the page rather than repeating its whole SEO title', async ({ request }) => {
-		const crumbs = ofType(await jsonLd(request, '/artists/theo-hirschfield'), 'BreadcrumbList');
-		expect(crumbs, 'no BreadcrumbList on an artist page').toBeTruthy();
+	test(
+		'names the page rather than repeating its whole SEO title',
+		{ tag: '@smoke' },
+		async ({ request }) => {
+			const crumbs = ofType(await jsonLd(request, '/artists/theo-hirschfield'), 'BreadcrumbList');
+			expect(crumbs, 'no BreadcrumbList on an artist page').toBeTruthy();
 
-		const names = (crumbs!.itemListElement ?? []).map((i) => i.name ?? '');
-		expect(names[0]).toBe('Home');
-		expect(names).toContain('Artists');
-		// The <title> is "Theo Hirschfield | Contemporary Artist | Gallery Sonder";
-		// the crumb must be the leading name, not the full keyword string.
-		expect(names.at(-1), 'the last crumb should be the page name alone').not.toContain('|');
-	});
+			const names = (crumbs!.itemListElement ?? []).map((i) => i.name ?? '');
+			expect(names[0]).toBe('Home');
+			expect(names).toContain('Artists');
+			// The <title> is "Theo Hirschfield | Contemporary Artist | Gallery Sonder";
+			// the crumb must be the leading name, not the full keyword string.
+			expect(names.at(-1), 'the last crumb should be the page name alone').not.toContain('|');
+		}
+	);
 
-	test('never links to a crumb that 404s', async ({ request }) => {
+	test('never links to a crumb that 404s', { tag: '@smoke' }, async ({ request }) => {
 		// The failure this exists for: /essays, /news and /rsvp have no index route,
 		// so a breadcrumb built by naively splitting the path publishes a dead middle
 		// crumb. Checked on an essay precisely because that is the path that breaks.
@@ -156,7 +169,7 @@ test.describe('rsvp pages', () => {
 		return (await res.json()).results.map((doc: { uid: string }) => doc.uid);
 	}
 
-	test('are withheld from search but still crawlable', async ({ request }) => {
+	test('are withheld from search but still crawlable', { tag: '@smoke' }, async ({ request }) => {
 		const uids = await rsvpUids(request);
 		expect(uids.length, 'no rsvp documents came back from Prismic').toBeGreaterThan(0);
 
@@ -181,7 +194,7 @@ test.describe('rsvp pages', () => {
 		).toEqual([]);
 	});
 
-	test('are not advertised in the sitemap', async ({ request }) => {
+	test('are not advertised in the sitemap', { tag: '@smoke' }, async ({ request }) => {
 		// The other half of the pair. Removing them here does not deindex anything
 		// on its own — the `noindex` above does that — but leaving them listed keeps
 		// asking Google to come back for pages we have asked it to drop.
@@ -197,45 +210,49 @@ test.describe('rsvp pages', () => {
 });
 
 test.describe('titles', () => {
-	test('every indexed page names the gallery, and none of them twice', async ({ request }) => {
-		// The cleanup this whole change is about. Whether a result named the gallery
-		// used to depend on whether an editor had filled meta_title on that document:
-		// /artists/anthony-james read "Anthony James | Contemporary Artist | Gallery
-		// Sonder" while /artists/theo-hirschfield read a bare "Theo Hirschfield".
-		//
-		// Driven off the sitemap rather than a fixed sample precisely because the
-		// gap was per-DOCUMENT, not per-route — a sample of six pages happened to
-		// catch it, but the next unbranded page would be whichever one an editor
-		// publishes next.
-		test.setTimeout(120_000);
-		const res = await request.get('/sitemap.xml');
-		expect(res.status(), 'GET /sitemap.xml').toBe(200);
-		const paths = [...(await res.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map(
-			(m) => new URL(m[1]).pathname
-		);
-		expect(paths.length, 'sitemap should not be empty').toBeGreaterThan(5);
+	test(
+		'every indexed page names the gallery, and none of them twice',
+		{ tag: '@smoke' },
+		async ({ request }) => {
+			// The cleanup this whole change is about. Whether a result named the gallery
+			// used to depend on whether an editor had filled meta_title on that document:
+			// /artists/anthony-james read "Anthony James | Contemporary Artist | Gallery
+			// Sonder" while /artists/theo-hirschfield read a bare "Theo Hirschfield".
+			//
+			// Driven off the sitemap rather than a fixed sample precisely because the
+			// gap was per-DOCUMENT, not per-route — a sample of six pages happened to
+			// catch it, but the next unbranded page would be whichever one an editor
+			// publishes next.
+			test.setTimeout(120_000);
+			const res = await request.get('/sitemap.xml');
+			expect(res.status(), 'GET /sitemap.xml').toBe(200);
+			const paths = [...(await res.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+				(m) => new URL(m[1]).pathname
+			);
+			expect(paths.length, 'sitemap should not be empty').toBeGreaterThan(5);
 
-		const unbranded: string[] = [];
-		const doubled: string[] = [];
-		for (const path of paths) {
-			const page = await request.get(path);
-			if (page.status() !== 200) continue; // sitemap.spec.ts owns dead-URL duty
-			const title = (await page.text()).match(/<title>([^<]*)<\/title>/)?.[1] ?? '';
-			expect(title.trim(), `${path} has no <title>`).not.toBe('');
-			if (!/Gallery Sonder/i.test(title)) unbranded.push(`${path}: "${title}"`);
-			// The other side of the same coin: branding a title that already said
-			// "Gallery Sonder" would produce "… | Gallery Sonder | Gallery Sonder",
-			// which is the exact kind of sloppy result this change exists to remove.
-			if ((title.match(/Gallery Sonder/gi) ?? []).length > 1) doubled.push(`${path}: "${title}"`);
+			const unbranded: string[] = [];
+			const doubled: string[] = [];
+			for (const path of paths) {
+				const page = await request.get(path);
+				if (page.status() !== 200) continue; // sitemap.spec.ts owns dead-URL duty
+				const title = (await page.text()).match(/<title>([^<]*)<\/title>/)?.[1] ?? '';
+				expect(title.trim(), `${path} has no <title>`).not.toBe('');
+				if (!/Gallery Sonder/i.test(title)) unbranded.push(`${path}: "${title}"`);
+				// The other side of the same coin: branding a title that already said
+				// "Gallery Sonder" would produce "… | Gallery Sonder | Gallery Sonder",
+				// which is the exact kind of sloppy result this change exists to remove.
+				if ((title.match(/Gallery Sonder/gi) ?? []).length > 1) doubled.push(`${path}: "${title}"`);
+			}
+
+			expect(
+				unbranded,
+				`${unbranded.length} of ${paths.length} page(s) omit the gallery name:\n${unbranded.join('\n')}`
+			).toEqual([]);
+			expect(
+				doubled,
+				`${doubled.length} page(s) name the gallery more than once:\n${doubled.join('\n')}`
+			).toEqual([]);
 		}
-
-		expect(
-			unbranded,
-			`${unbranded.length} of ${paths.length} page(s) omit the gallery name:\n${unbranded.join('\n')}`
-		).toEqual([]);
-		expect(
-			doubled,
-			`${doubled.length} page(s) name the gallery more than once:\n${doubled.join('\n')}`
-		).toEqual([]);
-	});
+	);
 });

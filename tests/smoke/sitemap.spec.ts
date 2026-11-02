@@ -52,7 +52,7 @@ async function sitemapPaths(request: APIRequestContext): Promise<string[]> {
 }
 
 test.describe('sitemap', () => {
-	test('lists no URL that 404s', async ({ request }) => {
+	test('lists no URL that 404s', { tag: '@smoke' }, async ({ request }) => {
 		const paths = await sitemapPaths(request);
 		expect(paths.length, 'sitemap should not be empty').toBeGreaterThan(5);
 
@@ -67,7 +67,7 @@ test.describe('sitemap', () => {
 		expect(dead, `sitemap advertises ${dead.length} dead URL(s) of ${paths.length}`).toEqual([]);
 	});
 
-	test('lists the artists that do have a page', async ({ request }) => {
+	test('lists the artists that do have a page', { tag: '@smoke' }, async ({ request }) => {
 		// The complement of the check above: make sure the stub filter didn't go too
 		// far and drop the real artist pages along with the empty ones.
 		const artists = (await sitemapPaths(request)).filter((p) => p.startsWith('/artists/'));
@@ -93,13 +93,15 @@ test.describe('sitemap', () => {
 });
 
 test.describe('rendered links', () => {
-	test('no page links to an artist page that 404s', async ({ request }) => {
+	test('no page links to an artist page that 404s', { tag: '@smoke' }, async ({ request }) => {
 		// The broadest net, and the one that would have caught the original miss.
-		// Artist URLs reach the HTML through four channels — the lightbox credit,
-		// the NameList slice, gallery item links, and Prismic's route resolver
-		// turning any content relationship into /artists/<uid>. Reading the rendered
-		// markup covers all four at once without having to enumerate them, which is
-		// exactly the enumeration that went wrong before.
+		// Artist URLs reach the server-rendered HTML through three channels — the
+		// NameList slice, gallery item links, and Prismic's route resolver turning
+		// any content relationship into /artists/<uid>. Reading the rendered markup
+		// covers all three at once without having to enumerate them, which is
+		// exactly the enumeration that went wrong before. The fourth channel, the
+		// lightbox credit, is NOT in served HTML (the artwork and its artist are
+		// fetched after the modal opens), so 'gallery lightbox' below covers it.
 		test.setTimeout(120_000);
 		const pages = await sitemapPaths(request);
 		expect(pages.length, 'sitemap should not be empty').toBeGreaterThan(5);
@@ -134,39 +136,49 @@ test.describe('rendered links', () => {
 });
 
 test.describe('artist routes', () => {
-	test('serve exactly the artists with a page, and 404 the rest', async ({ request }) => {
-		// Nothing pinned the route guard itself: deleting the `throw error(404)`
-		// left the whole suite green. Derived from the CMS rather than a hardcoded
-		// uid list, which would go stale the first time an editor fills a stub in
-		// and fail for the wrong reason.
-		test.setTimeout(120_000);
-		const docs = await artistDocs(request);
-		expect(docs.length, 'no artist documents came back from Prismic').toBeGreaterThan(10);
+	test(
+		'serve exactly the artists with a page, and 404 the rest',
+		{ tag: '@smoke' },
+		async ({ request }) => {
+			// Nothing pinned the route guard itself: deleting the `throw error(404)`
+			// left the whole suite green. Derived from the CMS rather than a hardcoded
+			// uid list, which would go stale the first time an editor fills a stub in
+			// and fail for the wrong reason.
+			test.setTimeout(120_000);
+			const docs = await artistDocs(request);
+			expect(docs.length, 'no artist documents came back from Prismic').toBeGreaterThan(10);
 
-		const wrong: string[] = [];
-		for (const doc of docs) {
-			const expected = artistHasPublicPage(doc.data) ? 200 : 404;
-			const status = (await request.get(`/artists/${doc.uid}`)).status();
-			if (status !== expected)
-				wrong.push(`/artists/${doc.uid}: expected ${expected}, got ${status}`);
+			const wrong: string[] = [];
+			for (const doc of docs) {
+				const expected = artistHasPublicPage(doc.data) ? 200 : 404;
+				const status = (await request.get(`/artists/${doc.uid}`)).status();
+				if (status !== expected)
+					wrong.push(`/artists/${doc.uid}: expected ${expected}, got ${status}`);
+			}
+			expect(
+				wrong,
+				`${wrong.length} of ${docs.length} artist routes disagree with the predicate`
+			).toEqual([]);
 		}
-		expect(
-			wrong,
-			`${wrong.length} of ${docs.length} artist routes disagree with the predicate`
-		).toEqual([]);
-	});
+	);
 
-	test('are listed in the sitemap if and only if they are served', async ({ request }) => {
-		const docs = await artistDocs(request);
-		const listed = new Set((await sitemapPaths(request)).filter((p) => p.startsWith('/artists/')));
-		const mismatched = docs
-			.filter((doc) => artistHasPublicPage(doc.data) !== listed.has(`/artists/${doc.uid}`))
-			.map((doc) => `/artists/${doc.uid}`);
-		expect(
-			mismatched,
-			`the sitemap and the route guard disagree about ${mismatched.length} artist(s)`
-		).toEqual([]);
-	});
+	test(
+		'are listed in the sitemap if and only if they are served',
+		{ tag: '@smoke' },
+		async ({ request }) => {
+			const docs = await artistDocs(request);
+			const listed = new Set(
+				(await sitemapPaths(request)).filter((p) => p.startsWith('/artists/'))
+			);
+			const mismatched = docs
+				.filter((doc) => artistHasPublicPage(doc.data) !== listed.has(`/artists/${doc.uid}`))
+				.map((doc) => `/artists/${doc.uid}`);
+			expect(
+				mismatched,
+				`the sitemap and the route guard disagree about ${mismatched.length} artist(s)`
+			).toEqual([]);
+		}
+	);
 });
 
 /** Open every artwork tile on the page and record how each credits its artist. */
@@ -268,47 +280,116 @@ async function artistCreditsFromGallery(page: Page) {
 }
 
 test.describe('gallery lightbox', () => {
-	test('never links an artwork to an artist page that 404s', async ({ page, request }) => {
-		// Opens every artwork on the page one at a time; well past the 30s default.
-		test.setTimeout(120_000);
-		// CI has no `.env`, so the consent gate is live there and would swallow the
-		// tile clicks. Answer it up front the way the other specs do.
-		await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
-		await page.goto(MIXED_EXHIBITION, { waitUntil: 'networkidle' });
+	test(
+		'never links an artwork to an artist page that 404s',
+		{ tag: '@nightly' },
+		async ({ page, request }) => {
+			// Opens every artwork on the page one at a time; well past the 30s default.
+			test.setTimeout(120_000);
+			// CI has no `.env`, so the consent gate is live there and would swallow the
+			// tile clicks. Answer it up front the way the other specs do.
+			await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
+			await page.goto(MIXED_EXHIBITION, { waitUntil: 'networkidle' });
 
-		const { tileCount, opened, linked, unlinked } = await artistCreditsFromGallery(page);
+			const { tileCount, opened, linked, unlinked } = await artistCreditsFromGallery(page);
 
-		// This test has gone vacuous on me twice — first when no lightbox opened at
-		// all, then when the gallery's Show More truncation hid every artwork whose
-		// artist gets a link. Each guard below is one of those failures; without
-		// them the dead-link assertion asserts over an empty array and passes while
-		// the page is broken.
-		expect(tileCount, `no artwork tiles on ${MIXED_EXHIBITION}`).toBeGreaterThan(0);
-		expect(opened, `no lightbox opened across ${tileCount} artwork tile(s)`).toBeGreaterThan(0);
-		expect(
-			linked.length + unlinked.length,
-			`${opened} lightbox(es) opened but none credited an artist`
-		).toBeGreaterThan(0);
-		expect(
-			linked.length,
-			`no artwork on ${MIXED_EXHIBITION} rendered a LINKED artist, so the assertion below ` +
-				`has nothing to check. Either the gallery is still truncated, or every artist on ` +
-				`this exhibition is now a roster stub — point MIXED_EXHIBITION at one that mixes both.`
-		).toBeGreaterThan(0);
-		expect(
-			unlinked.length,
-			`no artwork on ${MIXED_EXHIBITION} rendered an UNLINKED artist, so the stub branch of ` +
-				`the lightbox is not being exercised — point MIXED_EXHIBITION at one that mixes both.`
-		).toBeGreaterThan(0);
+			// This test has gone vacuous on me twice — first when no lightbox opened at
+			// all, then when the gallery's Show More truncation hid every artwork whose
+			// artist gets a link. Each guard below is one of those failures; without
+			// them the dead-link assertion asserts over an empty array and passes while
+			// the page is broken.
+			expect(tileCount, `no artwork tiles on ${MIXED_EXHIBITION}`).toBeGreaterThan(0);
+			expect(opened, `no lightbox opened across ${tileCount} artwork tile(s)`).toBeGreaterThan(0);
+			expect(
+				linked.length + unlinked.length,
+				`${opened} lightbox(es) opened but none credited an artist`
+			).toBeGreaterThan(0);
+			expect(
+				linked.length,
+				`no artwork on ${MIXED_EXHIBITION} rendered a LINKED artist, so the assertion below ` +
+					`has nothing to check. Either the gallery is still truncated, or every artist on ` +
+					`this exhibition is now a roster stub — point MIXED_EXHIBITION at one that mixes both.`
+			).toBeGreaterThan(0);
+			expect(
+				unlinked.length,
+				`no artwork on ${MIXED_EXHIBITION} rendered an UNLINKED artist, so the stub branch of ` +
+					`the lightbox is not being exercised — point MIXED_EXHIBITION at one that mixes both.`
+			).toBeGreaterThan(0);
 
-		const statuses = await Promise.all(
-			linked.map(async (href) => ({ href, status: (await request.get(href)).status() }))
-		);
-		const dead = statuses.filter((s) => s.status >= 400);
-		expect(
-			dead,
-			`the lightbox links to ${dead.length} artist page(s) that 404 ` +
-				`(${linked.length} linked, ${unlinked.length} shown as plain text, across ${opened} artwork(s))`
-		).toEqual([]);
-	});
+			const statuses = await Promise.all(
+				linked.map(async (href) => ({ href, status: (await request.get(href)).status() }))
+			);
+			const dead = statuses.filter((s) => s.status >= 400);
+			expect(
+				dead,
+				`the lightbox links to ${dead.length} artist page(s) that 404 ` +
+					`(${linked.length} linked, ${unlinked.length} shown as plain text, across ${opened} artwork(s))`
+			).toEqual([]);
+		}
+	);
+
+	// The sleep-free half of the lightbox contract. The crawl above walks every
+	// tile with scroll loops and fixed sleeps, so it stays nightly; this opens
+	// tiles one at a time, each wait on a real signal (the dialog visible, the
+	// credit attached), until it has seen one linked and one stub artist. Without
+	// it, `{#if artistHasPublicPage(...)}` in Lightbox.svelte could become
+	// `{#if true}` (stub artists linking to pages that 404) with the gate green.
+	test(
+		'links a built-out artist and leaves a roster stub as plain text',
+		{ tag: '@smoke' },
+		async ({ page, request }) => {
+			test.setTimeout(120_000);
+			await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
+			await page.goto(MIXED_EXHIBITION, { waitUntil: 'networkidle' });
+
+			const lightbox = page.getByRole('dialog', { name: 'Artwork details' });
+			const tiles = page
+				.locator('button[aria-label^="View "]')
+				.and(page.locator('button:not([aria-label="View full size"])'));
+
+			// A gallery with `show_more_button` renders only its first four tiles; the
+			// artworks whose artists get a link sit behind the button.
+			const showMore = page.getByRole('button', { name: /show more/i });
+			for (let i = 0; i < (await showMore.count()); i++) {
+				const before = await tiles.count();
+				await showMore.nth(i).click();
+				await expect.poll(() => tiles.count()).toBeGreaterThan(before);
+			}
+
+			const tileCount = await tiles.count();
+			expect(tileCount, `no artwork tiles on ${MIXED_EXHIBITION}`).toBeGreaterThan(0);
+
+			let linked: string | null = null;
+			let stub: string | null = null;
+			for (let i = 0; i < tileCount && !(linked && stub); i++) {
+				await tiles.nth(i).scrollIntoViewIfNeeded();
+				await tiles.nth(i).click();
+				await expect(lightbox).toBeVisible();
+
+				// The artwork and its artist are fetched after the modal opens: wait for
+				// the credit to be attached, then read which kind it is.
+				const credit = lightbox.locator('h5 b').first();
+				await expect(credit).toBeAttached();
+				const link = lightbox.locator('a[href^="/artists/"]');
+				if ((await link.count()) > 0) {
+					linked ??= await link.first().getAttribute('href');
+				} else {
+					stub ??= (await credit.innerText()).trim();
+				}
+
+				await lightbox.getByRole('button', { name: 'Close modal' }).click();
+				await expect(lightbox).toBeHidden();
+			}
+
+			expect(
+				linked,
+				`no artwork on ${MIXED_EXHIBITION} credited a LINKED artist — point MIXED_EXHIBITION at one that mixes both`
+			).toBeTruthy();
+			expect(
+				stub,
+				`no artwork on ${MIXED_EXHIBITION} credited an UNLINKED roster stub — point MIXED_EXHIBITION at one that mixes both`
+			).toBeTruthy();
+			expect((await request.get(linked!)).status(), `${linked} should be a live page`).toBe(200);
+		}
+	);
 });

@@ -14,6 +14,9 @@ declare global {
 	interface Window {
 		fbq?: FbqFn;
 		_fbq?: FbqFn;
+		/** NewsletterSignup's last `checkPosition`: how many have run, the scroll
+		 *  position it judged, and whether it decided to open. A test hook, see there. */
+		__newsletterCheck?: { n: number; y: number; wouldOpen: boolean };
 	}
 }
 

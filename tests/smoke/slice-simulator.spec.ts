@@ -40,14 +40,14 @@ test.describe('the built client', () => {
 		return { entries, simulatorFiles, isSimulatorNode };
 	};
 
-	test('loads the slice simulator on /slice-simulator', () => {
+	test('loads the slice simulator on /slice-simulator', { tag: '@smoke' }, () => {
 		const { entries, simulatorFiles, isSimulatorNode } = read();
 		const node = entries.find(isSimulatorNode);
 		expect(node).toBeDefined();
 		expect(simulatorFiles(node!).length).toBeGreaterThan(0);
 	});
 
-	test("keeps it out of every other entry's static imports", () => {
+	test("keeps it out of every other entry's static imports", { tag: '@smoke' }, () => {
 		const { entries, simulatorFiles, isSimulatorNode } = read();
 		const others = entries.filter((key) => !isSimulatorNode(key));
 		expect(others.length).toBeGreaterThan(2);
@@ -55,13 +55,13 @@ test.describe('the built client', () => {
 	});
 });
 
-test('the framed route id names a route that exists', () => {
+test('the framed route id names a route that exists', { tag: '@smoke' }, () => {
 	const dir = join('src/routes', ...CMS_FRAMED_ROUTE.split('/').filter(Boolean));
 	expect(readdirSync(dir).some((file) => file.startsWith('+page.'))).toBe(true);
 });
 
 for (const path of ['/slice-simulator', '/slice%2Dsimulator', '/slice%2dsimulator']) {
-	test(`${path} gets the simulator's framing`, async ({ request }) => {
+	test(`${path} gets the simulator's framing`, { tag: '@smoke' }, async ({ request }) => {
 		const response = await request.get(path, { maxRedirects: 0 });
 		expect(response.status()).toBe(200);
 		expect(response.headers()['x-frame-options']).toBeUndefined();
@@ -99,11 +99,14 @@ const SLICE = {
 	items: []
 };
 
-test('/slice-simulator renders a slice the Type Builder sends it', async ({ page, baseURL }) => {
-	await page.route(HOST, (route) =>
-		route.fulfill({
-			contentType: 'text/html',
-			body: `<!doctype html><iframe src="${baseURL}/slice-simulator" width="1280" height="800"></iframe>
+test(
+	'/slice-simulator renders a slice the Type Builder sends it',
+	{ tag: '@smoke' },
+	async ({ page, baseURL }) => {
+		await page.route(HOST, (route) =>
+			route.fulfill({
+				contentType: 'text/html',
+				body: `<!doctype html><iframe src="${baseURL}/slice-simulator" width="1280" height="800"></iframe>
 <script>
   const frame = document.querySelector("iframe");
   const ok = (requestID) => ({ requestID, status: 200, msg: "ok", data: undefined });
@@ -124,30 +127,37 @@ test('/slice-simulator renders a slice the Type Builder sends it', async ({ page
     frame.contentWindow.postMessage({ requestID: "emitter-connect", type: "connect", data: { activeSliceAPI: true, sliceZoneSizeAPI: true } }, "*", [channel.port2]);
   });
 </script>`
-		})
-	);
-	const errors: Error[] = [];
-	page.on('pageerror', (error) => errors.push(error));
-	// Chrome's Local Network Access check blocks a public origin from framing
-	// localhost unless the browser has granted that origin the permission.
-	await page.context().grantPermissions(['local-network-access'], { origin: new URL(HOST).origin });
-	await page.goto(HOST);
-	await expect
-		.poll(
-			() => page.evaluate(() => (window as { setSliceZoneStatus?: number }).setSliceZoneStatus),
-			{ timeout: 25_000 }
-		)
-		.toBe(200);
-	const slice = page
-		.frameLocator('iframe')
-		.locator('.slice-simulator--root [data-slice-type="quote_block"]');
-	await expect(slice).toContainText(QUOTE);
-	expect(errors).toEqual([]);
-});
+			})
+		);
+		const errors: Error[] = [];
+		page.on('pageerror', (error) => errors.push(error));
+		// Chrome's Local Network Access check blocks a public origin from framing
+		// localhost unless the browser has granted that origin the permission.
+		await page
+			.context()
+			.grantPermissions(['local-network-access'], { origin: new URL(HOST).origin });
+		await page.goto(HOST);
+		await expect
+			.poll(
+				() => page.evaluate(() => (window as { setSliceZoneStatus?: number }).setSliceZoneStatus),
+				{ timeout: 25_000 }
+			)
+			.toBe(200);
+		const slice = page
+			.frameLocator('iframe')
+			.locator('.slice-simulator--root [data-slice-type="quote_block"]');
+		await expect(slice).toContainText(QUOTE);
+		expect(errors).toEqual([]);
+	}
+);
 
-test("an ordinary page does not get the simulator's framing", async ({ request }) => {
-	const response = await request.get('/');
-	expect(response.status()).toBe(200);
-	const policy = response.headers()['content-security-policy'] ?? '';
-	expect(policy.match(/frame-ancestors[^;]*/)?.[0] ?? '').not.toBe(SIMULATOR_FRAME_ANCESTORS);
-});
+test(
+	"an ordinary page does not get the simulator's framing",
+	{ tag: '@smoke' },
+	async ({ request }) => {
+		const response = await request.get('/');
+		expect(response.status()).toBe(200);
+		const policy = response.headers()['content-security-policy'] ?? '';
+		expect(policy.match(/frame-ancestors[^;]*/)?.[0] ?? '').not.toBe(SIMULATOR_FRAME_ANCESTORS);
+	}
+);

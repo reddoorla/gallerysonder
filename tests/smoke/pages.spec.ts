@@ -35,23 +35,30 @@ function attachConsoleWatcher(page: Page, extraAllowed: RegExp[] = []) {
 }
 
 for (const route of smokeRoutes) {
-	test(`${route.path} (${route.name}) loads with no console errors`, async ({ page }) => {
-		const errors = attachConsoleWatcher(page);
-		const response = await page.goto(route.path, {
-			waitUntil: 'domcontentloaded'
-		});
-		expect(response?.status(), `HTTP status for ${route.path}`).toBe(route.expectStatus ?? 200);
-		if (route.hydrationMarker) {
-			await expect(
-				page.locator(route.hydrationMarker),
-				`hydration marker "${route.hydrationMarker}" on ${route.path}`
-			).toBeVisible();
+	test(
+		`${route.path} (${route.name}) loads with no console errors`,
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			const errors = attachConsoleWatcher(page);
+			const response = await page.goto(route.path, {
+				waitUntil: 'domcontentloaded'
+			});
+			expect(response?.status(), `HTTP status for ${route.path}`).toBe(route.expectStatus ?? 200);
+			if (route.hydrationMarker) {
+				await expect(
+					page.locator(route.hydrationMarker),
+					`hydration marker "${route.hydrationMarker}" on ${route.path}`
+				).toBeVisible();
+			}
+			// The marker shows render, not hydration: wait for the root layout's
+			// onMount, so an error thrown while hydrating is in `errors` (review round 4).
+			await page.locator('html[data-hydrated]').waitFor({ state: 'attached' });
+			expect(errors, `console errors on ${route.path}`).toEqual([]);
 		}
-		expect(errors, `console errors on ${route.path}`).toEqual([]);
-	});
+	);
 }
 
-test('first nav-linked page loads with no console errors', async ({ page }) => {
+test('first nav-linked page loads with no console errors', { tag: '@smoke' }, async ({ page }) => {
 	// Every non-home public page on this site is served by the [uid] catch-all
 	// (and its artists/essays/exhibitions/news siblings), so there are no static
 	// paths to hardcode. Discover a real one the way a visitor would: open the
@@ -91,7 +98,7 @@ test('first nav-linked page loads with no console errors', async ({ page }) => {
 	expect(errors, `console errors on ${firstInternalHref}`).toEqual([]);
 });
 
-test('/health reports ok', async ({ request }) => {
+test('/health reports ok', { tag: '@smoke' }, async ({ request }) => {
 	// The Report Health Gate probe endpoint — asserts the server can reach
 	// Prismic. The home-page test above already hard-depends on Prismic, so
 	// this adds no new flake surface.
@@ -101,7 +108,7 @@ test('/health reports ok', async ({ request }) => {
 	expect(body.ok, `/health body: ${JSON.stringify(body)}`).toBe(true);
 });
 
-test('404 page renders the custom error component', async ({ page }) => {
+test('404 page renders the custom error component', { tag: '@smoke' }, async ({ page }) => {
 	// The browser logs a top-level "Failed to load resource: 404" for the page
 	// itself — expected on a 404 route, not a bug. Allow it here.
 	const errors = attachConsoleWatcher(page, [/Failed to load resource.*404/i]);

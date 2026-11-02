@@ -43,64 +43,68 @@ async function settleList(page: Page, names: ReturnType<Page['locator']>, count:
 }
 
 for (const path of PAGES) {
-	test(`${path}: hovering the name list does not shift the layout`, async ({ page }) => {
-		// Pre-answer cookie consent (same approach as newsletter.spec.ts): `.env` is
-		// untracked, so in CI the modal appears 3s in, locks body scroll and would
-		// stop this test ever reaching the list. 'false' dismisses it without opting
-		// into analytics.
-		await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
-		await page.goto(path, { waitUntil: 'load' });
-		// Let the hero and lazy images settle so their loads aren't counted as
-		// hover-induced shifts.
-		await page.waitForTimeout(2500);
+	test(
+		`${path}: hovering the name list does not shift the layout`,
+		{ tag: '@nightly' },
+		async ({ page }) => {
+			// Pre-answer cookie consent (same approach as newsletter.spec.ts): `.env` is
+			// untracked, so in CI the modal appears 3s in, locks body scroll and would
+			// stop this test ever reaching the list. 'false' dismisses it without opting
+			// into analytics.
+			await page.addInitScript(() => window.localStorage.setItem('cookieConsent', 'false'));
+			await page.goto(path, { waitUntil: 'load' });
+			// Let the hero and lazy images settle so their loads aren't counted as
+			// hover-induced shifts.
+			await page.waitForTimeout(2500);
 
-		const names = page.locator(NAME);
-		const found = await names.count();
-		expect(found, `expected name images on ${path}`).toBeGreaterThanOrEqual(2);
-		const toHover = Math.min(found, 5);
-		await settleList(page, names, toHover);
+			const names = page.locator(NAME);
+			const found = await names.count();
+			expect(found, `expected name images on ${path}`).toBeGreaterThanOrEqual(2);
+			const toHover = Math.min(found, 5);
+			await settleList(page, names, toHover);
 
-		// Start observing only now — everything above is page load, not hover.
-		await page.evaluate(() => {
-			(window as Window & { __shifts?: unknown[] }).__shifts = [];
-			new PerformanceObserver((list) => {
-				for (const entry of list.getEntries() as Array<
-					PerformanceEntry & {
-						value: number;
-						hadRecentInput: boolean;
-						sources?: Array<{ node: Node | null }>;
+			// Start observing only now — everything above is page load, not hover.
+			await page.evaluate(() => {
+				(window as Window & { __shifts?: unknown[] }).__shifts = [];
+				new PerformanceObserver((list) => {
+					for (const entry of list.getEntries() as Array<
+						PerformanceEntry & {
+							value: number;
+							hadRecentInput: boolean;
+							sources?: Array<{ node: Node | null }>;
+						}
+					>) {
+						if (entry.hadRecentInput) continue;
+						(window as Window & { __shifts?: unknown[] }).__shifts!.push({
+							value: +entry.value.toFixed(4),
+							sources: (entry.sources ?? []).map((s) => {
+								const n = s.node as HTMLElement | null;
+								return n ? `${n.tagName}.${String(n.className).split(' ')[0]}` : '(detached)';
+							})
+						});
 					}
-				>) {
-					if (entry.hadRecentInput) continue;
-					(window as Window & { __shifts?: unknown[] }).__shifts!.push({
-						value: +entry.value.toFixed(4),
-						sources: (entry.sources ?? []).map((s) => {
-							const n = s.node as HTMLElement | null;
-							return n ? `${n.tagName}.${String(n.className).split(' ')[0]}` : '(detached)';
-						})
-					});
-				}
-			}).observe({ type: 'layout-shift', buffered: false });
-		});
+				}).observe({ type: 'layout-shift', buffered: false });
+			});
 
-		// locator.hover() scrolls the target into view itself — and scrolling is not a
-		// layout shift as far as the API is concerned, so it cannot pollute the result.
-		for (let i = 0; i < toHover; i++) {
-			await names.nth(i).hover();
-			await page.waitForTimeout(300);
+			// locator.hover() scrolls the target into view itself — and scrolling is not a
+			// layout shift as far as the API is concerned, so it cannot pollute the result.
+			for (let i = 0; i < toHover; i++) {
+				await names.nth(i).hover();
+				await page.waitForTimeout(300);
+			}
+			// Off the list, and past the 1s background transition.
+			await page.mouse.move(3, 3);
+			await page.waitForTimeout(1200);
+
+			const shifts = await page.evaluate(
+				() =>
+					(window as Window & { __shifts?: unknown[] }).__shifts as Array<{
+						value: number;
+						sources: string[];
+					}>
+			);
+			const total = shifts.reduce((a, s) => a + s.value, 0);
+			expect(shifts, `${path} moved while hovering names (CLS ${total.toFixed(4)})`).toEqual([]);
 		}
-		// Off the list, and past the 1s background transition.
-		await page.mouse.move(3, 3);
-		await page.waitForTimeout(1200);
-
-		const shifts = await page.evaluate(
-			() =>
-				(window as Window & { __shifts?: unknown[] }).__shifts as Array<{
-					value: number;
-					sources: string[];
-				}>
-		);
-		const total = shifts.reduce((a, s) => a + s.value, 0);
-		expect(shifts, `${path} moved while hovering names (CLS ${total.toFixed(4)})`).toEqual([]);
-	});
+	);
 }
