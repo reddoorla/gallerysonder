@@ -46,6 +46,9 @@
 	};
 
 	onMount(() => {
+		// Hydration marker for the a11y smoke scan. Children's onMount runs first, so
+		// the pages' reveal timers are armed by now.
+		document.documentElement.dataset.hydrated = '';
 		isPreviewActive = document.cookie.includes('io.prismic.preview');
 
 		const urlParams = page.url.searchParams;
@@ -122,6 +125,7 @@
 <main>
 	{#if isTransitioning}
 		<div
+			data-testid="page-transition-overlay"
 			out:fade={{ duration: 600 }}
 			class="w-screen h-screen fixed top-0 left-0 bg-black z-30"
 		></div>

@@ -55,32 +55,34 @@ async function fillRsvp(page: Page, guests = '3') {
 const rsvpSubmit = (page: Page) => page.getByRole('button', { name: 'Submit RSVP' });
 
 test.describe('form submission analytics', () => {
-	test('a successful RSVP announces rsvp_submitted with the exhibition and guest count', async ({
-		page
-	}) => {
-		await interceptForms(page);
-		await goto(page, '/rsvp/euphorbia');
-		await fillRsvp(page, '3');
+	test(
+		'a successful RSVP announces rsvp_submitted with the exhibition and guest count',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			await interceptForms(page);
+			await goto(page, '/rsvp/euphorbia');
+			await fillRsvp(page, '3');
 
-		await rsvpSubmit(page).click();
-		await expect(page.getByText('Thank you for your RSVP!')).toBeVisible();
+			await rsvpSubmit(page).click();
+			await expect(page.getByText('Thank you for your RSVP!')).toBeVisible();
 
-		await expect.poll(async () => submissionEvents(await dataLayer(page)).length).toBe(1);
-		const [pushed] = submissionEvents(await dataLayer(page));
+			await expect.poll(async () => submissionEvents(await dataLayer(page)).length).toBe(1);
+			const [pushed] = submissionEvents(await dataLayer(page));
 
-		// The literal GTM trigger name. `event` is the reserved dataLayer key, and
-		// the RSVP form's own field is also called `event` — if that ever gets
-		// copied across verbatim this reads as the exhibition title instead.
-		expect(pushed.event).toBe('rsvp_submitted');
-		expect(pushed.form_type).toBe('rsvp');
-		expect(pushed.exhibition_uid).toBe('euphorbia');
-		// A number, not "3" — so GA4 can sum expected heads rather than group them.
-		expect(pushed.guests).toBe(3);
-	});
+			// The literal GTM trigger name. `event` is the reserved dataLayer key, and
+			// the RSVP form's own field is also called `event` — if that ever gets
+			// copied across verbatim this reads as the exhibition title instead.
+			expect(pushed.event).toBe('rsvp_submitted');
+			expect(pushed.form_type).toBe('rsvp');
+			expect(pushed.exhibition_uid).toBe('euphorbia');
+			// A number, not "3" — so GA4 can sum expected heads rather than group them.
+			expect(pushed.guests).toBe(3);
+		}
+	);
 
 	// The regression this whole file exists for. A click trigger cannot tell these
 	// two tests apart; it fires in both.
-	test('a failed RSVP announces nothing', async ({ page }) => {
+	test('a failed RSVP announces nothing', { tag: '@smoke' }, async ({ page }) => {
 		await interceptForms(page, [500]);
 		await goto(page, '/rsvp/euphorbia');
 		await fillRsvp(page);
@@ -92,44 +94,52 @@ test.describe('form submission analytics', () => {
 		expect(submissionEvents(await dataLayer(page))).toHaveLength(0);
 	});
 
-	test('the announcement carries no personally identifiable information', async ({ page }) => {
-		await interceptForms(page);
-		await goto(page, '/rsvp/euphorbia');
-		await fillRsvp(page);
+	test(
+		'the announcement carries no personally identifiable information',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			await interceptForms(page);
+			await goto(page, '/rsvp/euphorbia');
+			await fillRsvp(page);
 
-		await rsvpSubmit(page).click();
-		await expect.poll(async () => submissionEvents(await dataLayer(page)).length).toBe(1);
+			await rsvpSubmit(page).click();
+			await expect.poll(async () => submissionEvents(await dataLayer(page)).length).toBe(1);
 
-		const [pushed] = submissionEvents(await dataLayer(page));
-		expect(Object.keys(pushed)).not.toContain('name');
-		expect(Object.keys(pushed)).not.toContain('email');
-		// Belt and braces: the values, not just the keys — a rename would slip past
-		// a key-only assertion and hand GA4 an email address under another label.
-		const values = JSON.stringify(Object.values(pushed));
-		expect(values).not.toContain('Ada Lovelace');
-		expect(values).not.toContain('ada@example.com');
-	});
+			const [pushed] = submissionEvents(await dataLayer(page));
+			expect(Object.keys(pushed)).not.toContain('name');
+			expect(Object.keys(pushed)).not.toContain('email');
+			// Belt and braces: the values, not just the keys — a rename would slip past
+			// a key-only assertion and hand GA4 an email address under another label.
+			const values = JSON.stringify(Object.values(pushed));
+			expect(values).not.toContain('Ada Lovelace');
+			expect(values).not.toContain('ada@example.com');
+		}
+	);
 
-	test('a successful newsletter signup announces newsletter_submitted', async ({ page }) => {
-		await interceptForms(page);
-		await goto(page, '/');
+	test(
+		'a successful newsletter signup announces newsletter_submitted',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			await interceptForms(page);
+			await goto(page, '/');
 
-		await page.locator('footer').scrollIntoViewIfNeeded();
-		await page.locator('footer').getByText('Subscribe to our newsletter').click();
-		await expect(page.locator('#newsletter-email')).toBeVisible();
+			await page.locator('footer').scrollIntoViewIfNeeded();
+			await page.locator('footer').getByText('Subscribe to our newsletter').click();
+			await expect(page.locator('#newsletter-email')).toBeVisible();
 
-		await page.locator('#newsletter-email').fill('subscriber@example.com');
-		await page
-			.locator('button')
-			.filter({ hasText: 'Subscribe' })
-			.filter({ hasNotText: /newsletter/i })
-			.click();
-		await expect(page.getByText('Thank you for joining')).toBeVisible();
+			await page.locator('#newsletter-email').fill('subscriber@example.com');
+			await page
+				.locator('button')
+				.filter({ hasText: 'Subscribe' })
+				.filter({ hasNotText: /newsletter/i })
+				.click();
+			await expect(page.getByText('Thank you for joining')).toBeVisible();
 
-		await expect.poll(async () => submissionEvents(await dataLayer(page)).length).toBe(1);
-		const [pushed] = submissionEvents(await dataLayer(page));
-		expect(pushed.event).toBe('newsletter_submitted');
-		expect(pushed.form_type).toBe('newsletter');
-		expect(JSON.stringify(Object.values(pushed))).not.toContain('subscriber@example.com');
-	});
+			await expect.poll(async () => submissionEvents(await dataLayer(page)).length).toBe(1);
+			const [pushed] = submissionEvents(await dataLayer(page));
+			expect(pushed.event).toBe('newsletter_submitted');
+			expect(pushed.form_type).toBe('newsletter');
+			expect(JSON.stringify(Object.values(pushed))).not.toContain('subscriber@example.com');
+		}
+	);
 });

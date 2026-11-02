@@ -20,16 +20,19 @@ which ones fail silently when unset.
 
 ## Scripts
 
-| script             | what it does                                                                 |
-| ------------------ | ---------------------------------------------------------------------------- |
-| `pnpm dev`         | Vite dev server                                                              |
-| `pnpm build`       | Production build (`adapter-netlify`)                                         |
-| `pnpm check`       | `svelte-check` against `tsconfig.json`                                       |
-| `pnpm lint`        | Prettier check + ESLint                                                      |
-| `pnpm format`      | Prettier write                                                               |
-| `pnpm test`        | The kit 3 config and env-declaration gate (`node --test`), then `vitest run` |
-| `pnpm test:smoke`  | Playwright smoke suite against a dev server                                  |
-| `pnpm prismic:gen` | Regenerate the Prismic types and slice index                                 |
+| script               | what it does                                                                 |
+| -------------------- | ---------------------------------------------------------------------------- |
+| `pnpm dev`           | Vite dev server                                                              |
+| `pnpm build`         | Production build (`adapter-netlify`)                                         |
+| `pnpm check`         | `svelte-check` against `tsconfig.json`                                       |
+| `pnpm lint`          | Prettier check + ESLint                                                      |
+| `pnpm format`        | Prettier write                                                               |
+| `pnpm test`          | The kit 3 config and env-declaration gate (`node --test`), then `vitest run` |
+| `pnpm test:smoke`    | Playwright `@smoke` gate (contract tests) against a dev server               |
+| `pnpm test:nightly`  | Playwright `@nightly` tier: real behaviour that waits on a clock             |
+| `pnpm test:scaffold` | Playwright tests not tagged `@smoke`: comp geometry and timing pins          |
+| `pnpm test:e2e`      | The whole Playwright suite                                                   |
+| `pnpm prismic:gen`   | Regenerate the Prismic types and slice index                                 |
 
 `pnpm test` must never run the smoke suite: the shared CI workflow runs a "Test (if
 present)" step and a separate "Smoke test (if present)" step, so aliasing the two made
