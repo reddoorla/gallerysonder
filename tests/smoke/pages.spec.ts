@@ -50,6 +50,9 @@ for (const route of smokeRoutes) {
 					`hydration marker "${route.hydrationMarker}" on ${route.path}`
 				).toBeVisible();
 			}
+			// The marker shows render, not hydration: wait for the root layout's
+			// onMount, so an error thrown while hydrating is in `errors` (review round 4).
+			await page.locator('html[data-hydrated]').waitFor({ state: 'attached' });
 			expect(errors, `console errors on ${route.path}`).toEqual([]);
 		}
 	);
