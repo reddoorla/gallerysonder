@@ -46,6 +46,9 @@
 	};
 
 	onMount(() => {
+		// Hydration marker for the a11y smoke scan. Children's onMount runs first, so
+		// the pages' reveal timers are armed by now.
+		document.documentElement.dataset.hydrated = '';
 		isPreviewActive = document.cookie.includes('io.prismic.preview');
 
 		const urlParams = page.url.searchParams;

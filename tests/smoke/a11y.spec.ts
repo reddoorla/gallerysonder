@@ -15,8 +15,13 @@ import { smokeRoutes } from './routes';
 //
 // The route pages reveal content on `setTimeout`s with no DOM marker, so a scan
 // straight after load can read mid-reveal styles. Instead of sleeping, the test
-// installs Playwright's fake clock, fires those timers in virtual time and waits
-// for the animations they start to finish. No wall-clock wait, nothing races.
+// installs Playwright's fake clock, waits for the app to mark itself hydrated
+// (`html[data-hydrated]`, set by the root layout's onMount), fires the reveal
+// timers in virtual time and waits for the animations they start to finish.
+// The hydration wait matters: CI gates on `vite dev`, where `load` fires about
+// 2 s before hydration, so without it no timer exists yet and axe would scan the
+// server-rendered page. If a scan ever times out, look for a timer that re-arms
+// itself every 0-1 ms: `runFor` then runs thousands of callbacks (about 22 s).
 //
 // Scope: axe catches roughly a third of WCAG issues, so a green run here is "no
 // machine-detectable violations", not "accessible". Notably it does NOT fail on
@@ -38,11 +43,16 @@ for (const route of smokeRoutes) {
 			await page.clock.install();
 			const res = await page.goto(route.path, { waitUntil: 'load' });
 			expect(res?.status(), `${route.path} should load`).toBe(route.expectStatus ?? 200);
+			// Hydration first: the reveal timers are armed during it.
+			await page.locator('html[data-hydrated]').waitFor({ state: 'attached' });
 			// Fire the reveal timers (500/1000 ms setTimeouts in the route pages)
-			// deterministically, then wait for whatever they started to finish.
-			// Transitions are ~0 ms under the fleet's reducedMotion. The 5000 is a bound
-			// in virtual time past the longest reveal timer, not an animation window.
-			await page.clock.runFor(5000);
+			// deterministically, then wait for whatever they started to finish. The
+			// 3000 is at least that far in virtual time (the clock also runs in real
+			// time until this call, so the true horizon is a little more). A reveal
+			// timer added later must stay well under 3 s, and under the 4 s logo
+			// rotation interval this deliberately does not reach. Svelte's WAAPI
+			// transitions are not shortened by reducedMotion; the wait below covers them.
+			await page.clock.runFor(3000);
 			await page.waitForFunction(() =>
 				document
 					.getAnimations()
