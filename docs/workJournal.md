@@ -392,3 +392,11 @@ All 46 tests in the three changed specs pass against the production build.
 **Follow-ups, not in this change.** The scroll-lock tests 1 and 3 have only `wheelDelta`'s 300ms as a fixed sleep; a poll on `scrollY` would let the release case return to the gate. The shared audit's footer `target-size` report needs a look before `reddoor.a11yRoutes` is adopted.
 
 Usage: not readable
+
+## 2026-11-04 — vitest 4 → 5 (#129, `e72208f`)
+
+Fleet majors phase 2, group B (the workspace's `briefs/2026-11-04-fleet-majors/`). The dashboard listed this site as a major behind on `vitest`. Renovate's PR landed into `staging` as Renovate opened it: v5 needed no config change. Both v4 and v5 ran 2 files and 8 tests, all passing. The PR's CI predated `staging`'s newest commits (the package.json scripts and `.nvmrc` 24.22.2), so the merge into live `staging` was tested too: `pnpm install --frozen-lockfile` passed, vitest passed 8 of 8, and `pnpm check` had 0 errors. CI's log shows `RUN v5.1.0` and 126 Playwright tests passed. The lockfile moves only the vitest family, so the built site is unchanged.
+
+Because no config changed, there was nothing to revert, so no mutation could go red. Pinning v4 with the same config stays green, as it did on ERP. The proof that v5 is in use is the `RUN v5.1.0` line, not a config difference.
+
+Before the promotion, `main` was brought into `staging` with maintenance's `staging-bring-main.mjs` (#152, `81fa39f`). `main`'s only missing commit was the previous promotion's merge commit, so the merge changed no file. `staging--gallerysonder.netlify.app` at `e72208f` matched `gallerysonder.com` on all 42 sitemap routes, `/health` and a 404, after normalising. The only difference was Netlify's injected RUM tag, which names the deploy context (`branch-deploy` against `production`).
