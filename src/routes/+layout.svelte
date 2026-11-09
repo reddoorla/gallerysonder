@@ -14,6 +14,7 @@
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
 	import Lightbox from '$lib/components/Lightbox.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
+	import { landingUtm, visitStorage } from '$lib/utils/utm';
 
 	const appState = setAppState();
 	const DISABLE_COOKIE_CONSENT = import.meta.env.VITE_DISABLE_COOKIE_CONSENT === 'true';
@@ -51,17 +52,10 @@
 		document.documentElement.dataset.hydrated = '';
 		isPreviewActive = document.cookie.includes('io.prismic.preview');
 
-		const urlParams = page.url.searchParams;
-
-		// The landing page's UTM parameters. Every form reads them from appState
-		// (UtmFields) into the hidden inputs submitForm folds into `utm`.
-		const currentUtmParams = {
-			source: urlParams.get('utm_source') || 'none',
-			medium: urlParams.get('utm_medium') || 'none',
-			campaign: urlParams.get('utm_campaign') || 'none',
-			term: urlParams.get('utm_term') || 'none',
-			content: urlParams.get('utm_content') || 'none'
-		};
+		// The landing page's UTM parameters, kept for the whole visit (utils/utm.ts).
+		// Every form reads them from appState (UtmFields) into the hidden inputs
+		// submitForm folds into `utm`.
+		const currentUtmParams = landingUtm(page.url.searchParams, visitStorage());
 
 		if (areUtmParamsEmpty()) appState.utmParams = currentUtmParams;
 	});
