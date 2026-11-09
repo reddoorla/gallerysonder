@@ -424,3 +424,13 @@ jsdom 31.0.0 was published at 4:15am PT 11-05, after the nightly. Once `@types/n
 **A belief corrected on contact.** jsdom's changelog is not at `Changelog.md` on `main` (404), and its release tag is `v31.0.0`, not `31.0.0`. Only `releases/tag/v31.0.0` answered.
 
 Usage: $4.84, 19072/37622 tokens, 12130341/261879 cache, rate limit allowed
+
+## 2026-11-09 — UTMs carry from the landing page to every form for the whole visit (branch `feat/utm-persist-visit`, PR into `staging`)
+
+Gallery Sonder's marketing is building a Salesforce intake from a webhook that will receive every form submission (the central ingest side is reddoorla/reddoor-maintenance's form webhook, landing separately). The promise made to them is that tagging a campaign link is enough: the UTMs should travel from the page someone lands on to whatever form they finally send.
+
+**Belief corrected on contact.** The brief assumed the site might read UTMs only from the form page's URL. It does not: the root layout already read them on mount into `appState.utmParams`, and every form's `UtmFields` renders those, so a visitor who lands tagged and moves around by client-side navigation was already credited. What it lost was any full page load: a reload, a link opened in a new tab, or anything that leaves the router mounts the layout again on an untagged URL, and the tags became `none`. Land on `/?utm_source=test&utm_campaign=x`, then load `/contact` directly, and the payload had no `utm` key at all.
+
+**The change.** `src/lib/utils/utm.ts` `landingUtm` reads the URL's tags and, when any are present, also writes them to `sessionStorage` (`gallerysonder:utm`). A load whose URL carries no tags reads the stored ones. A newer tagged link in the same visit replaces them (last touch within the visit). Storage that throws or is missing degrades to the old URL-only behaviour, never to an error. `sessionStorage` lasts as long as the tab and is copied into a tab opened from it, which matches "the visit".
+
+**Tests and mutations.** Five unit tests on `landingUtm`, and three `@smoke` tests that intercept `/api/forms`: land tagged, fully load an artist page untagged and send an inquiry; the same for the contact (appointment) form; and an untagged visit still sends no `utm` key. Mutation 4 from the brief (read UTMs only from the current URL, by dropping the stored fallback) turned 2 unit tests and 2 smoke tests red; restored, all green. The existing field-by-field payload tests are unchanged and still pass.
