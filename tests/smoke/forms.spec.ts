@@ -587,3 +587,60 @@ test.describe('inside a real <form>', () => {
 		);
 	}
 });
+
+// UTMs belong to the visit, not the page (2026-11-09): a campaign link lands
+// the visitor on one page, and the form they finally send is often on another,
+// reached by a full page load (a reload, a new tab, a link outside the router).
+// The landing tags must still reach that form's payload.
+test.describe('UTMs from the landing page', () => {
+	const LANDING = 'utm_source=test&utm_campaign=x';
+
+	test(
+		'land tagged, load an artist page untagged, and the inquiry carries the landing UTMs',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			const bodies = await interceptForms(page);
+			await goto(page, `/?${LANDING}`);
+			await goto(page, '/artists/theo-hirschfield');
+			expect(page.url()).not.toContain('utm_');
+			const card = page.locator('button[aria-label^="View "]').first();
+			await card.scrollIntoViewIfNeeded();
+			await card.click();
+			await page.getByRole('button', { name: 'Inquire', exact: true }).click();
+			await fillInquiry(page);
+			await inquirySubmit(page).click();
+
+			await expect.poll(() => bodies.length).toBe(1);
+			expect(bodies[0]).toMatchObject({ formType: 'inquiry', utm: LANDING });
+		}
+	);
+
+	test(
+		'land tagged, load the contact page untagged, and the appointment carries them',
+		{ tag: '@smoke' },
+		async ({ page }) => {
+			const bodies = await interceptForms(page);
+			await goto(page, `/?${LANDING}`);
+			await goto(page, '/contact');
+			await fillContact(page);
+			await pickContactTime(page, 'Afternoon');
+			await contactSubmit(page).click();
+			await expect(page.getByText('Thank you for reaching out!')).toBeVisible();
+
+			expect(bodies).toHaveLength(1);
+			expect(bodies[0]).toMatchObject({ formType: 'contact', utm: LANDING });
+		}
+	);
+
+	test('an untagged visit still sends no utm key', { tag: '@smoke' }, async ({ page }) => {
+		const bodies = await interceptForms(page);
+		await goto(page, '/contact');
+		await fillContact(page);
+		await pickContactTime(page, 'Afternoon');
+		await contactSubmit(page).click();
+		await expect(page.getByText('Thank you for reaching out!')).toBeVisible();
+
+		expect(bodies).toHaveLength(1);
+		expect(bodies[0]).not.toHaveProperty('utm');
+	});
+});
