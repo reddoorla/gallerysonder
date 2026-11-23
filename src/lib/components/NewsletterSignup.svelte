@@ -219,8 +219,9 @@
 				onclick={closeNewsletter}
 				class="absolute top-12 left-0 hover:opacity-80"
 				aria-label="Close newsletter signup"
-				><X class="size-[2em] text-black hover:opacity-80 transition" strokeWidth={1.5} /></button
 			>
+				<X class="size-[2em] text-black hover:opacity-80 transition" strokeWidth={1.5} />
+			</button>
 			<a href="/" class="absolute top-5 right-0 hover:opacity-80"><RotatingLogo class="h-6" /></a>
 			{#if !submitted}
 				<div>
@@ -258,8 +259,10 @@
 						<p class="text-xs mt-4" role="alert">
 							We're sorry, there appears to be an error. Please try again, or email <a
 								href="mailto:info@gallerysonder.com"
-								class="underline">info@gallerysonder.com</a
-							>.
+								class="underline"
+							>
+								info@gallerysonder.com
+							</a>.
 						</p>
 					{/if}
 				</form>
