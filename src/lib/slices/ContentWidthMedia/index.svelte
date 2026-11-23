@@ -243,16 +243,16 @@
 				</div>
 				<div class="flex flex-row justify-between items-center absolute bottom-6 left-6 gap-12">
 					<button class="bump" onclick={slideRight} aria-label="Previous image">
-						<ArrowLeft class="size-[2em] text-white drop-shadow-lg" strokeWidth={1.75} /></button
-					>
+						<ArrowLeft class="size-[2em] text-white drop-shadow-lg" strokeWidth={1.75} />
+					</button>
 					<button class="bump" onclick={slideLeft} aria-label="Next image">
-						<ArrowRight class="size-[2em] text-white drop-shadow-lg" strokeWidth={1.75} /></button
-					>
+						<ArrowRight class="size-[2em] text-white drop-shadow-lg" strokeWidth={1.75} />
+					</button>
 				</div>
 				<div class="flex flex-row justify-between items-end absolute bottom-6 right-6">
-					<button class="bump" onclick={openModal} aria-label="View full size"
-						><Plus class="size-[2em] text-white" strokeWidth={1.75} /></button
-					>
+					<button class="bump" onclick={openModal} aria-label="View full size">
+						<Plus class="size-[2em] text-white" strokeWidth={1.75} />
+					</button>
 				</div>
 			</div>
 		{:else if slice.variation === 'embed'}
@@ -351,16 +351,16 @@
 			</div>
 			<div class="w-36 h-12 flex flex-row justify-between items-center absolute bottom-12 left-12">
 				<button class="bump" onclick={slideRight} aria-label="Previous image">
-					<ArrowLeft class="size-[2em] text-white" strokeWidth={1.75} /></button
-				>
+					<ArrowLeft class="size-[2em] text-white" strokeWidth={1.75} />
+				</button>
 				<button class="bump" onclick={slideLeft} aria-label="Next image">
-					<ArrowRight class="size-[2em] text-white" strokeWidth={1.75} /></button
-				>
+					<ArrowRight class="size-[2em] text-white" strokeWidth={1.75} />
+				</button>
 			</div>
 			<div class="w-12 h-12 flex flex-row justify-between items-end absolute bottom-12 right-12">
-				<button class="bump" onclick={closeModal} aria-label="Close"
-					><Plus class="size-[2em] text-white rotate-45" strokeWidth={1.75} /></button
-				>
+				<button class="bump" onclick={closeModal} aria-label="Close">
+					<Plus class="size-[2em] text-white rotate-45" strokeWidth={1.75} />
+				</button>
 			</div>
 		</div>
 	</div>

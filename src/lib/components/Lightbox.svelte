@@ -85,9 +85,9 @@
 			<button class="h-6" onclick={closeModal} aria-label="Close modal">
 				<X class="size-[2em] text-black hover:opacity-80 transition" strokeWidth={1.5} />
 			</button>
-			<a href="/" class="" onclick={closeModal}
-				><RotatingLogo class="h-6 hover:opacity-80 transition" /></a
-			>
+			<a href="/" class="" onclick={closeModal}>
+				<RotatingLogo class="h-6 hover:opacity-80 transition" />
+			</a>
 		</ContentWidth>
 		<ContentWidth
 			class="min-h-screen h-screen w-full relative flex flex-col lg:flex-row justify-center items-start lg:items-center gap-6 lg:gap-0 overflow-y-scroll lg:overflow-hidden"
@@ -147,8 +147,10 @@
 								<a
 									onclick={closeModal}
 									class="cursor-pointer hover:opacity-80 transition uppercase no-underline"
-									href="/artists/{artist.uid}"><h5><b>{artist.data.full_name}</b></h5></a
+									href="/artists/{artist.uid}"
 								>
+									<h5><b>{artist.data.full_name}</b></h5>
+								</a>
 							{:else}
 								<h5 class="uppercase"><b>{artist.data.full_name}</b></h5>
 							{/if}
@@ -176,8 +178,9 @@
 							<button
 								onclick={() => (appState.showInquiryForm = true)}
 								class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer"
-								>Inquire</button
 							>
+								Inquire
+							</button>
 						{/if}
 					{/if}
 					{#if appState.showInquiryForm}
