@@ -93,8 +93,10 @@
 			class="text-white baseline-flush dates translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&
 			!isBackgroundDark
 				? ''
-				: 'opacity-0'}">{content.dates || ''}</span
+				: 'opacity-0'}"
 		>
+			{content.dates || ''}
+		</span>
 		<h5
 			role="presentation"
 			class="text-white baseline-flush translate-x-1 lg:translate-x-3 xl:translate-x-4 transition-opacity duration-500 ease-fast-slow {showEyebrow &&

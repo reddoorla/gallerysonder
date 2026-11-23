@@ -145,8 +145,9 @@
 				<button
 					onclick={rejectCookies}
 					class="uppercase bump text-primary border-b-2 border-white bg-black hover:bg-black/80 text-white p-3 font-bold border-primary bump cursor-pointer"
-					>REJECT</button
 				>
+					REJECT
+				</button>
 			</div>
 		</ContentWidth>
 	</div>

@@ -72,8 +72,8 @@
 				? 'rotate-45 scale-125'
 				: ''} {isLinkArrowActive ? '-translate-y-[1px]' : ''}"
 			strokeWidth={2}
-		/></button
-	>
+		/>
+	</button>
 {/if}
 
 <style>
