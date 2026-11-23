@@ -1,0 +1,238 @@
+{
+	"version": 1,
+	"counts": {
+		"src/lib/components/Buttons/DefaultButton.svelte": {
+			"copy\tBUTTON": 1
+		},
+		"src/lib/components/Buttons/LinkArrowButton.svelte": {
+			"alt\tlink arrow": 2,
+			"image\tsonderArrowRight.svg": 1
+		},
+		"src/lib/components/CookieConsent.svelte": {
+			"button\tAccept": 1,
+			"button\tREJECT": 1,
+			"copy\tClick 'Accept' to allow all cookies or 'Reject' to limit to necessaries.": 1,
+			"copy\tCookie consent": 1,
+			"copy\tWe use cookies to track website usage and personalize content.": 1
+		},
+		"src/lib/components/Footer.svelte": {
+			"address\t3435 E Coast Highway,": 1,
+			"alt\tGallery Sonder home": 1,
+			"copy\tCorona del Mar, CA 92625": 1,
+			"copy\tFooter": 1,
+			"copy\tSubscribe to our newsletter": 1,
+			"copy\tVisit Gallery Sonder on Instagram": 1,
+			"copy\t| All Rights Reserved": 1,
+			"email\tinfo@gallerysonder.com": 1,
+			"email\tmailto:info@gallerysonder.com": 1,
+			"heading\tWeaving Together the Stories that Define Us": 1,
+			"image\tSONDER_E.svg": 1,
+			"link\t/": 1,
+			"phone\t(949) 662-0077": 1,
+			"phone\ttel:+19496620077": 1,
+			"social\thttps://www.instagram.com/gallerysonder/": 1
+		},
+		"src/lib/components/Gallery.svelte": {
+			"copy\tShow Less": 1,
+			"copy\tShow More": 1,
+			"link\t/exhibitions/": 1,
+			"link\t/news/": 1
+		},
+		"src/lib/components/GridImage.svelte": {
+			"copy\tINQUIRE": 1,
+			"copy\tView ${…}": 1,
+			"copy\tartwork": 1,
+			"image\tsonderOnShow1.jpg": 1
+		},
+		"src/lib/components/ImageInterFadeToImage.svelte": {
+			"alt\tsonder logo": 3,
+			"image\tSONDER_O.svg": 2,
+			"image\tsonderBaseLogo.svg": 1,
+			"link\t/": 1
+		},
+		"src/lib/components/Lightbox.svelte": {
+			"button\tInquire": 1,
+			"copy\tArt Advisor": 1,
+			"copy\tArt Enthusiast": 1,
+			"copy\tArtwork details": 1,
+			"copy\tBy signing up, you agree to the Terms of Use and Privacy Policy to receive electronic communications from Gallery Sonder. You can unsubscribe or change your preferences at any time.": 1,
+			"copy\tClose image": 1,
+			"copy\tClose modal": 1,
+			"copy\tCurator": 1,
+			"copy\tDon’t fill this out if you’re human:": 1,
+			"copy\tEmail": 1,
+			"copy\tEnlarged image": 1,
+			"copy\tExperienced Collector": 1,
+			"copy\tFill out the form below to learn more about this piece.": 1,
+			"copy\tFirst Time Buyer": 1,
+			"copy\tMessage": 1,
+			"copy\tName": 1,
+			"copy\tOccasional Buyer": 1,
+			"copy\tPhone": 1,
+			"copy\tSelect one…": 1,
+			"copy\tSubmit": 1,
+			"copy\tWe couldn't load this artwork. Please email info@gallerysonder.com or try again later.": 1,
+			"copy\tWhat best describes you?": 1,
+			"copy\tfirst and last name": 1,
+			"copy\thow can we help?": 1,
+			"copy\tyou@domain.com": 1,
+			"heading\tInquire": 1,
+			"heading\tThank you for reaching out!": 1,
+			"heading\tWe're sorry, there appears to be an error. Please email info@gallerysonder.com with your inquiry.": 1,
+			"link\t/": 1
+		},
+		"src/lib/components/NameRevealOnHover.svelte": {
+			"image\tSONDER_O.svg": 1
+		},
+		"src/lib/components/NameToClipPath.svelte": {
+			"alt\tsonder logo": 2,
+			"image\tSONDER_O.svg": 2,
+			"link\t/": 1
+		},
+		"src/lib/components/Nav.svelte": {
+			"copy\tClose navigation menu": 1,
+			"copy\tMain navigation": 1,
+			"copy\tSubscribe to our newsletter": 1,
+			"copy\tToggle navigation menu": 1,
+			"copy\tVisit Gallery Sonder on Instagram": 1,
+			"link\t/": 2,
+			"social\thttps://www.instagram.com/gallerysonder/": 1
+		},
+		"src/lib/components/NewsletterSignup.svelte": {
+			"copy\tBy signing up, you agree to the Terms of Use and Privacy Policy to receive electronic": 1,
+			"copy\tClose newsletter signup": 1,
+			"copy\tEmail address": 1,
+			"copy\tEnter Your Email": 1,
+			"copy\tNewsletter signup": 1,
+			"copy\tSign up for our newsletter to receive updates": 1,
+			"copy\tSubscribe": 1,
+			"copy\tWe're sorry, there appears to be an error. Please try again, or email": 1,
+			"copy\tcommunications from Gallery Sonder. You can unsubscribe or change your preferences at any time.": 1,
+			"copy\ton exhibitions, artists, and community events.": 1,
+			"email\tinfo@gallerysonder.com": 1,
+			"email\tmailto:info@gallerysonder.com": 1,
+			"heading\tJoin Our Community": 1,
+			"heading\tThank you for joining our email list": 1,
+			"link\t/": 1
+		},
+		"src/lib/components/RotatingLogo.svelte": {
+			"alt\tsonder logo": 2,
+			"image\tS.svg": 1,
+			"image\tSONDER_D.svg": 1,
+			"image\tSONDER_E.svg": 1,
+			"image\tSONDER_N.svg": 1,
+			"image\tSONDER_O.svg": 1,
+			"image\tSONDER_R.svg": 1
+		},
+		"src/lib/components/Slideshow.svelte": {
+			"copy\tNext image": 1,
+			"copy\tNo images available": 1,
+			"copy\tPrevious image": 1
+		},
+		"src/lib/site.ts": {
+			"address\t3435 E Coast Highway": 1,
+			"copy\tGallery Sonder": 1,
+			"copy\tHome": 1,
+			"email\tinfo@gallerysonder.com": 1,
+			"heading\t${…} | Gallery Sonder": 1,
+			"heading\tGallery Sonder": 1,
+			"phone\t+1-949-662-0077": 1,
+			"social\thttps://www.instagram.com/gallerysonder/": 1
+		},
+		"src/lib/slices/ContentWidthMedia/index.svelte": {
+			"alt\tvideo thumbnail placeholder": 2,
+			"copy\tClose": 3,
+			"copy\tNext image": 2,
+			"copy\tPlay video": 2,
+			"copy\tPrevious image": 2,
+			"copy\tToggle sound": 1,
+			"copy\tView full size": 1,
+			"copy\tbackground video": 1,
+			"copy\tgoogle map": 1
+		},
+		"src/lib/slices/NameList/index.svelte": {
+			"copy\tLoading artists...": 1,
+			"link\t/artists/": 1
+		},
+		"src/lib/slices/QuoteBlock/index.svelte": {
+			"alt\tquote signature": 1
+		},
+		"src/lib/slices/TitleBlock/index.svelte": {
+			"button\tConnect": 1,
+			"copy\t(optional)": 2,
+			"copy\tAfternoon": 1,
+			"copy\tCompany Name": 1,
+			"copy\tCompany name": 1,
+			"copy\tDon’t fill this out if you’re human:": 1,
+			"copy\tEmail": 1,
+			"copy\tEvening": 1,
+			"copy\tFirst and last name": 1,
+			"copy\tHow can we help?": 1,
+			"copy\tMessage": 1,
+			"copy\tMorning": 1,
+			"copy\tName": 1,
+			"copy\tNo preference": 1,
+			"copy\tPhone": 1,
+			"copy\tPreferred appointment date": 2,
+			"copy\tPreferred time of day": 2,
+			"copy\tRead More": 1,
+			"copy\tSelect a date": 1,
+			"copy\tShow Less": 1,
+			"copy\tVisit Gallery Sonder on Instagram": 1,
+			"copy\tyou@domain.com": 1,
+			"heading\tThank you for reaching out!": 1,
+			"heading\tWe're sorry, there appears to be an error. Please email info@gallerysonder.com with your inquiry.": 1
+		},
+		"src/lib/utils/gallery.ts": {
+			"link\t/artists/": 1,
+			"link\t/exhibitions/": 1,
+			"link\t/news/": 1
+		},
+		"src/routes/+error.svelte": {
+			"copy\tBack to home": 1,
+			"copy\tThe page you're looking for doesn't exist or has moved.": 1,
+			"heading\tError": 1,
+			"heading\tPage not found": 1,
+			"heading\tSomething went wrong": 1,
+			"link\t/": 1
+		},
+		"src/routes/+layout.svelte": {
+			"copy\tSkip to content": 1
+		},
+		"src/routes/[[preview=preview]]/[uid]/+page.server.js": {
+			"copy\tPage not found": 1
+		},
+		"src/routes/[[preview=preview]]/artists/[uid]/+page.server.js": {
+			"copy\tArtist not found": 2
+		},
+		"src/routes/[[preview=preview]]/artists/[uid]/+page.svelte": {
+			"copy\tGallery Sonder": 1
+		},
+		"src/routes/[[preview=preview]]/essays/[uid]/+page.server.js": {
+			"copy\tEssay not found": 1
+		},
+		"src/routes/[[preview=preview]]/exhibitions/[uid]/+page.server.js": {
+			"copy\tExhibition not found": 1
+		},
+		"src/routes/[[preview=preview]]/news/[uid]/+page.server.js": {
+			"copy\tArticle not found": 1
+		},
+		"src/routes/[[preview=preview]]/rsvp/+page.server.ts": {
+			"copy\tNo RSVP events found": 1
+		},
+		"src/routes/[[preview=preview]]/rsvp/[uid]/+page.server.ts": {
+			"copy\tRSVP not found": 1
+		},
+		"src/routes/[[preview=preview]]/rsvp/[uid]/+page.svelte": {
+			"button\tSubmit RSVP": 1,
+			"copy\tBy clicking submit you agree to receive emails under the terms of our privacy policy.": 1,
+			"copy\tEmail": 1,
+			"copy\tFirst and Last Name": 1,
+			"copy\tName": 1,
+			"copy\tNumber of Guests": 1,
+			"copy\tyou@domain.com": 1,
+			"heading\tThank you for your RSVP!": 1,
+			"heading\tWe're sorry, there appears to be an error. Please email info@gallerysonder.com with your RSVP.": 1
+		}
+	}
+}
